@@ -1,0 +1,298 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e3e6e9;
+}
+
+/* Encabezado */
+.nav {
+    background-color: #013775;
+    color: #ffb300;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    padding: 0 20px;
+}
+
+.navSuperior h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.usuario {
+    color: white;
+    background-color: #12a9c2;
+    width: 150px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+/* Contenedor principal */
+.contenedor {
+    display: flex;
+}
+
+/* Menú lateral */
+.main-contenedor {
+    width: 250px;
+    background-color: rgb(242, 243, 243);
+    padding: 15px;
+    height: 100vh;
+}
+
+.panel-title {
+    color: #fcb814;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ffb300;
+}
+
+.menu-title {
+    color: gray;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.main-contenedor ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-contenedor ul li {
+    padding: 10px;
+    color: black;
+    background-color: gainsboro;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.main-contenedor ul li:hover {
+    background-color: #7fc1dc;
+    color: white;
+}
+
+/* Contenido de matrícula */
+.contenedor2 {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: white;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.contenido h3 {
+    color: #013775;
+    margin-bottom: 20px;
+}
+
+/* Formulario de matrícula */
+.formulario-matricula {
+    margin-bottom: 20px;
+}
+
+.formulario-matricula label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.formulario-matricula select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Tabla de secciones disponibles */
+.secciones-disponibles table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.secciones-disponibles th,
+.secciones-disponibles td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.secciones-disponibles th {
+    background-color: #013775;
+    color: white;
+}
+
+.secciones-disponibles tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.secciones-disponibles tr:hover {
+    background-color: #e3e6e9;
+}
+
+.secciones-disponibles tr.seleccionada {
+    background-color: #b1def0;
+    color: black;
+}
+
+/* Botón de matricular */
+.btn-matricular {
+    background-color: #013775;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-matricular:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-matricular:hover:not(:disabled) {
+    background-color: #012a5e;
+}
+
+/* Encabezado de clases matriculadas */
+.clases-matriculadas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    border-top: 1px solid gray;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.clases-matriculadas-header h4 {
+    margin: 0;
+    /* Elimina el margen predeterminado del h4 */
+}
+
+/* Botón para cancelar clases */
+.btn-cancelar {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #cc0000;
+}
+
+/* Lista de clases matriculadas */
+.clases-matriculadas ul {
+    list-style: none;
+    padding: 0;
+}
+
+.clases-matriculadas ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.clases-matriculadas ul li span {
+    flex-grow: 1;
+}
+
+.clases-matriculadas ul li small {
+    display: block;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.clases-matriculadas ul li button {
+    background-color: #013775;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clases-matriculadas ul li button:hover {
+    background-color: #012a5e;
+}
+
+
+/* Footer */
+.footer {
+    background-color: #013775;
+    color: white;
+    padding: 20px 0;
+    margin-top: auto;
+    /* Para que el footer se quede abajo */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.footer-section {
+    min-width: 200px;
+    margin: 10px 20px;
+}
+
+.footer-section h4 {
+    margin-bottom: 15px;
+    color: #ffb300;
+}
+
+.footer-section p,
+.footer-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #ffb300;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #ffb300;
+}
+
+.footer-bottom p {
+    margin: 0;
+    font-size: 0.9rem;
+}
