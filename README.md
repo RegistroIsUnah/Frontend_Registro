@@ -1,2 +1,2 @@
-# Frontend_Registro
+# Frontend Registro
 Frontend Registro UNAH
