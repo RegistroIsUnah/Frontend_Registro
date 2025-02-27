@@ -1,0 +1,214 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #e3e6e9;
+}
+
+/* Encabezado */
+.nav {
+  background-color: #013775;
+  color: #ffb300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 20px;
+}
+
+.navSuperior h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.usuario {
+  color: white;
+  background-color: #12a9c2;
+  width: 150px;
+  text-align: center;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/* Contenedor principal */
+.contenedor {
+  display: flex;
+}
+
+/* Menú lateral */
+.main-contenedor {
+  width: 250px;
+  background-color: rgb(242, 243, 243);
+  padding: 15px;
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+}
+
+.panel-title {
+  color: #fcb814;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ffb300;
+}
+
+.menu-title {
+  color: gray;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.main-contenedor ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.main-contenedor ul li {
+  padding: 10px;
+  color: black;
+  background-color: gainsboro;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.main-contenedor ul li:hover {
+  background-color: #7fc1dc;
+  color: white;
+}
+
+/* Contenido principal */
+.contenedor2 {
+  flex-grow: 1;
+  padding: 20px;
+  background-color: white;
+  margin: 20px;
+  border-radius: 10px;
+}
+
+/* Contenedor de card */
+.contenido {
+  display: flex;
+  flex-wrap: wrap; /* Permite que las tarjetas se ajusten automáticamente */
+  gap: 10px; /* Espacio entre las tarjetas */
+}
+
+.card {
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 250px; 
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card small {
+  display: block; /* Hace que el small ocupe su propia línea */
+  margin: 0 0 10px 0; 
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.card-status {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Colores para cada card */
+.card-1 {
+  background-color: #d4d4fc; 
+  border: 1px solid #013775;
+
+}
+
+.card-1 .card-title {
+  color: #013775; 
+}
+
+.card-2 {
+  background-color: #cffacf; 
+  border: 1px solid #8bc63e;
+
+}
+.card-2 .card-title {
+  color: #8bc63e; 
+}
+
+.card-3 {
+  background-color: #f1eaab; 
+  border: 1px solid #fcb814;
+}
+.card-3 .card-title {
+  color: #fcb814; 
+}
+
+.card-4 {
+  background-color: #fbccff; 
+  border: 1px solid #620175;
+}
+.card-4 .card-title {
+  color: #620175; 
+}
+
+/* Estilos para el footer */
+.footer {
+  background-color:#013775; 
+  color: white; 
+  padding: 20px 0;
+  margin-top: auto; /* Para que el footer se quede abajo */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-section {
+  min-width: 200px;
+  margin: 10px 20px;
+}
+
+.footer-section h4 {
+  margin-bottom: 15px;
+  color: #ffb300; 
+}
+
+.footer-section p,
+.footer-section ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-section ul li {
+  margin-bottom: 10px;
+}
+
+.footer-section ul li a {
+  color: white; 
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+  color: #ffb300;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid #ffb300;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 0.9rem;
+}
