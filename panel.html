@@ -9,17 +9,93 @@
 </head>
 
 <body>
-  <!-- Encabezado -->
+  
   <header class="nav">
-    <div class="navSuperior">
+    <div class="nav-izq">
       <h1>Sistema de Registro</h1>
     </div>
-    <div class="usuario">
-      <small>Estudiante</small>
-      <br>
-      <small>Usuario@unah.hn</small>
+  
+    <div class="nav-der">
+      
+      <div class="chat-icon" onclick="toggleChatPanel()">
+        <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
+        
+      </div>
+
+      <div class="usuario">
+        <small>Estudiante</small>
+        <br>
+        <small>Usuario@unah.hn</small>
+      </div>
     </div>
   </header>
+
+  <div id="chatPanel" class="chat-panel">
+    <div class="chat-header">
+      <h3>Chats</h3>
+      <button onclick="toggleChatPanel()">&times;</button>
+    </div>
+
+    <div class="chat-tabs">
+      <button class="tab-button active" onclick="openTab('individual')">Individuales</button>
+      <button class="tab-button" onclick="openTab('group')">Grupales</button>
+    </div>
+
+    <div class="chat-buscar">
+      <input type="text" id="chatSearch" placeholder="Buscar chats..." oninput="filterChats()">
+    </div>
+
+    <!-- Chats individuales -->
+    <div id="individual" class="chat-tab-content active">
+      <div class="chat-item">
+        <img src="" alt="Usuario 1">
+        <div class="chat-info">
+          <p>Juan Perez</p>
+          <small>Hola, ¿cómo estás?</small>
+        </div>
+        <span class="chat-time">10:30 AM</span>
+      </div>
+      <div class="chat-item">
+        <img src="" alt="Usuario 2">
+        <div class="chat-info">
+          <p>Maria Lopez</p>
+          <small>¿Vas a la clase hoy?</small>
+        </div>
+        <span class="chat-time">Ayer</span>
+      </div>
+    </div>
+
+    <!-- Chats grupales -->
+    <div id="group" class="chat-tab-content">
+      <div class="chat-item">
+        <img src="" alt="Grupo 1">
+        <div class="chat-info">
+          <p>Grupo Matemáticas</p>
+          <small>Ana: Revisen el ejercicio 5</small>
+        </div>
+        <span class="chat-time">12:45 PM</span>
+      </div>
+      <div class="chat-item">
+        <img src="" alt="Grupo 2">
+        <div class="chat-info">
+          <p>Grupo Programacion</p>
+          <small>Maria: Hola</small>
+        </div>
+        <span class="chat-time">10:40 PM</span>
+      </div>
+    </div>
+
+    <!-- Botones de acciones -->
+    <div class="chat-actions">
+      
+      <button onclick="openContactList()">Contactos</button>
+      
+      <button>Crear Grupo</button>
+      <button onclick="openContactRequest()">Enviar Solicitud</button>
+
+    </div>
+  </div>
+  
 
   <!-- Contenido principal -->
   <main class="contenedor">
@@ -41,7 +117,7 @@
 
     <!-- Contenido principal -->
     <section class="contenedor2">
-        <h2>Bienvenid@ Juan Perez</h2>
+      <h2>Bienvenid@ Juan Perez</h2>
       <div class="contenido">
         <div class="card card-1">
           <p class="card-title">Estado de Matricula</p>
@@ -59,11 +135,12 @@
           <p class="card-status">2 Solicitudes</p>
         </div>
         <div class="card card-4">
-            <p class="card-title">Porcentaje Aprobado</p>
-            <small>Información</small>
-            <p class="card-status">85% completo
-            </p>
-          </div>
+          <p class="card-title">Porcentaje Aprobado</p>
+          <small>Información</small>
+          <p class="card-status">85% completo
+          </p>
+        </div>
+
       </div>
     </section>
   </main>
@@ -95,6 +172,54 @@
       <p>&copy; 2025 Universidad Nacional Autonoma de Honduras. Todos los derechos reservados.</p>
     </div>
   </footer>
+
+  <script>
+    function toggleChatPanel() {
+      const chatPanel = document.getElementById('chatPanel');
+      chatPanel.classList.toggle('active');
+    }
+
+    function openTab(tabName) {
+      // Ocultar todas las pestañas
+      document.querySelectorAll('.chat-tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Mostrar la pestaña seleccionada
+      document.getElementById(tabName).classList.add('active');
+
+      // Actualizar botones de pestañas
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+      });
+      document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
+    }
+
+    function openContactList() {
+      alert('Aquí se abriría la lista de contactos.');
+    }
+
+    function openContactRequest() {
+      alert('Aquí se abriría el formulario para enviar solicitudes.');
+    }
+
+    function filterChats() {
+      const searchText = document.getElementById('chatSearch').value.toLowerCase();
+      const chatItems = document.querySelectorAll('.chat-item');
+
+      chatItems.forEach(chat => {
+        const chatName = chat.querySelector('.chat-info p').textContent.toLowerCase();
+        if (chatName.includes(searchText)) {
+          chat.style.display = 'flex'; // Mostrar el chat
+        } else {
+          chat.style.display = 'none'; // Ocultar el chat
+        }
+      });
+    }
+
+  </script>
+
+
 </body>
 
 </html>
