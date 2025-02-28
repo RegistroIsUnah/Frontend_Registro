@@ -1,3 +1,7 @@
+<?php
+include 'includes/chat.php'; // Incluye el chat
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -30,72 +34,6 @@
         </div>
     </header>
 
-    <div id="chatPanel" class="chat-panel">
-        <div class="chat-header">
-            <h3>Chats</h3>
-            <button onclick="toggleChatPanel()">&times;</button>
-        </div>
-
-        <div class="chat-tabs">
-            <button class="tab-button active" onclick="openTab('individual')">Individuales</button>
-            <button class="tab-button" onclick="openTab('group')">Grupales</button>
-        </div>
-
-        <div class="chat-buscar">
-            <input type="text" id="chatSearch" placeholder="Buscar chats..." oninput="filtrarChat()">
-        </div>
-
-        <!-- Chats individuales -->
-        <div id="individual" class="chat-tab-content active">
-            <div class="chat-item">
-                <img src="" alt="Usuario 1">
-                <div class="chat-info">
-                    <p>Juan Perez</p>
-                    <small>Hola, ¿cómo estás?</small>
-                </div>
-                <span class="chat-time">10:30 AM</span>
-            </div>
-            <div class="chat-item">
-                <img src="" alt="Usuario 2">
-                <div class="chat-info">
-                    <p>Maria Lopez</p>
-                    <small>¿Vas a la clase hoy?</small>
-                </div>
-                <span class="chat-time">Ayer</span>
-            </div>
-        </div>
-
-        <!-- Chats grupales -->
-        <div id="group" class="chat-tab-content">
-            <div class="chat-item">
-                <img src="" alt="Grupo 1">
-                <div class="chat-info">
-                    <p>Grupo Matemáticas</p>
-                    <small>Ana: Revisen el ejercicio 5</small>
-                </div>
-                <span class="chat-time">12:45 PM</span>
-            </div>
-            <div class="chat-item">
-                <img src="" alt="Grupo 2">
-                <div class="chat-info">
-                    <p>Grupo Programacion</p>
-                    <small>Maria: Hola</small>
-                </div>
-                <span class="chat-time">10:40 PM</span>
-            </div>
-        </div>
-
-        <!-- Botones de acciones -->
-        <div class="chat-actions">
-
-            <button onclick="listaContactos()">Contactos</button>
-
-            <button>Crear Grupo</button>
-            <button onclick="solicitudContacto()">Enviar Solicitud</button>
-
-        </div>
-    </div>
-
     <!-- Contenido principal -->
     <main class="contenedor">
         <!-- Menú lateral -->
@@ -103,12 +41,20 @@
             <div>
                 <h3 class="panel-title">Panel Estudiantil</h3>
                 <nav>
-                    <a href="panel.html"><small class="menu-title">MENU PRINCIPAL</small></a>
+                    <a href="panel.php"><small class="menu-title">MENU PRINCIPAL</small></a>
                     <ul>
-                        <a href="perfil.html"><li>Perfil</li></a>
-                        <a href="calificaciones.html"><li>Calificaciones</li></a>
-                        <a href="matricula.html"><li>Matricula</li></a>
-                        <a href="solicitudes.html"><li>Solicitudes</li></a>
+                        <a href="perfil.php">
+                            <li>Perfil</li>
+                        </a>
+                        <a href="calificaciones.php">
+                            <li>Calificaciones</li>
+                        </a>
+                        <a href="matricula.php">
+                            <li>Matricula</li>
+                        </a>
+                        <a href="solicitudes.php">
+                            <li>Solicitudes</li>
+                        </a>
                     </ul>
                 </nav>
             </div>
@@ -183,34 +129,9 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p>Dirección: Bulevar Suapa, Tegucigalpa, M.D.C, Honduras</p>
-                <p>Teléfono: 2216-6100</p>
-                <p>Email: info@unah.edu.hn</p>
-            </div>
-            <div class="footer-section">
-                <h4>Redes Sociales</h4>
-                <ul>
-                    <li><a href="#" target="_blank">Facebook</a></li>
-                    <li><a href="#" target="_blank">Twitter</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Enlaces Rápidos</h4>
-                <ul>
-                    <li><a href="#">Admisiones</a></li>
-                    <li><a href="#">Biblioteca</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Universidad Nacional Autonoma de Honduras. Todos los derechos reservados.</p>
-        </div>
-    </footer>
+    <?php
+    include 'includes/footer.php'; // Incluye el header
+    ?>
 
     <script>
         function toggleChatPanel() {
@@ -294,7 +215,6 @@
 
             closeModal();
         }
-
     </script>
 
 
