@@ -5,6 +5,11 @@
   gap: 10px; /* Espacio entre las tarjetas */
 }
 
+.contenedor2{
+  color: #013775;
+  margin-bottom: 20px;
+}
+
 .card {
   border-radius: 10px;
   padding: 15px;

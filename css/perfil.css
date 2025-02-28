@@ -1,4 +1,7 @@
-
+.contenido h2 {
+    color: #013775;
+    margin-bottom: 20px;
+}
 
 .perfil-container {
     display: flex;

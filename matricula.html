@@ -42,7 +42,7 @@
         </div>
 
         <div class="chat-buscar">
-            <input type="text" id="chatSearch" placeholder="Buscar chats..." oninput="filterChats()">
+            <input type="text" id="chatSearch" placeholder="Buscar chats..." oninput="filtrarChat()">
         </div>
 
         <!-- Chats individuales -->
@@ -88,10 +88,10 @@
         <!-- Botones de acciones -->
         <div class="chat-actions">
 
-            <button onclick="openContactList()">Contactos</button>
+            <button onclick="listaContactos()">Contactos</button>
 
             <button>Crear Grupo</button>
-            <button onclick="openContactRequest()">Enviar Solicitud</button>
+            <button onclick="solicitudContacto()">Enviar Solicitud</button>
 
         </div>
     </div>
@@ -106,9 +106,9 @@
                     <a href="panel.html"><small class="menu-title">MENU PRINCIPAL</small></a>
                     <ul>
                         <a href="perfil.html"><li>Perfil</li></a>
-                        <li>Calificaciones</li>
+                        <a href="calificaciones.html"><li>Calificaciones</li></a>
                         <a href="matricula.html"><li>Matricula</li></a>
-                        <li>Solicitudes</li>
+                        <a href="solicitudes.html"><li>Solicitudes</li></a>
                     </ul>
                 </nav>
             </div>
@@ -117,7 +117,7 @@
         <!-- Contenido de matrícula -->
         <section class="contenedor2">
             <div class="contenido">
-                <h3>Matrícula de Clases</h3>
+                <h2>Matrícula de Clases</h2>
 
                 <!-- Formulario para seleccionar clase -->
                 <div class="formulario-matricula" style="margin-bottom: 20px;">
@@ -245,15 +245,15 @@
             document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
         }
 
-        function openContactList() {
+        function listaContactos() {
             alert('Aquí se abriría la lista de contactos.');
         }
 
-        function openContactRequest() {
+        function solicitudContacto() {
             alert('Aquí se abriría el formulario para enviar solicitudes.');
         }
 
-        function filterChats() {
+        function filtrarChat() {
             const searchText = document.getElementById('chatSearch').value.toLowerCase();
             const chatItems = document.querySelectorAll('.chat-item');
 
