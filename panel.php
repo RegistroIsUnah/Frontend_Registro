@@ -8,7 +8,7 @@ include 'includes/chat.php'; // Incluye el chat
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel del Estudiante</title>
+  <title>Panel de Estudiante</title>
   <link rel="stylesheet" href="css/plantilla.css">
   <link rel="stylesheet" href="css/panel.css">
 </head>
@@ -40,28 +40,9 @@ include 'includes/chat.php'; // Incluye el chat
   <!-- Contenido principal -->
   <main class="contenedor">
     <!-- Menú lateral -->
-    <section class="main-contenedor">
-      <div>
-        <h3 class="panel-title">Panel Estudiantil</h3>
-        <nav>
-          <a href="panel.php"><small class="menu-title">MENU PRINCIPAL</small></a>
-          <ul>
-            <a href="perfil.php">
-              <li>Perfil</li>
-            </a>
-            <a href="calificaciones.php">
-              <li>Calificaciones</li>
-            </a>
-            <a href="matricula.php">
-              <li>Matricula</li>
-            </a>
-            <a href="solicitudes.php">
-              <li>Solicitudes</li>
-            </a>
-          </ul>
-        </nav>
-      </div>
-    </section>
+    <?php
+    include "includes/menu.php"
+    ?>
 
     <!-- Contenido principal -->
     <section class="contenedor2">

@@ -116,3 +116,50 @@
     background-color: #ff1a1a;
 }
 
+/* Estilos para la tabla de historial académico */
+.historial-container {
+    overflow-x: auto; /* Permite desplazamiento horizontal en pantallas pequeñas */
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.historial-table th,
+.historial-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.historial-table th {
+    background-color: #013775;
+    color: white;
+    font-weight: bold;
+}
+
+.historial-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.historial-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.historial-table td {
+    color: #333;
+}
+
+/* Estilos para las observaciones */
+.historial-table td[data-observacion="Aprobó"] {
+    color: green;
+    font-weight: bold;
+}
+
+.historial-table td[data-observacion="Reprobó"] {
+    color: red;
+    font-weight: bold;
+}
+

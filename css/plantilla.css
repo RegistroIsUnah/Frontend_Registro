@@ -13,6 +13,10 @@ body {
     align-items: center;
     height: 60px;
     padding: 0 20px;
+
+    position: sticky;
+    top: 0;
+    z-index: 1020;
 }
 
 .nav-izq {
@@ -47,10 +51,17 @@ body {
 
 /* Menú lateral */
 .main-contenedor {
-    width: 250px;
+    min-width: 250px;
     background-color: rgb(242, 243, 243);
-    padding: 15px;
+    padding: 20px;
     height: 100vh;
+
+    position: sticky;
+    top: 0;
+}
+
+.main-contenedor a{
+  text-decoration: none;
 }
 
 .panel-title {

@@ -37,28 +37,9 @@ include 'includes/chat.php'; // Incluye el chat
     <!-- Contenido principal -->
     <main class="contenedor">
         <!-- Menú lateral -->
-        <section class="main-contenedor">
-            <div>
-                <h3 class="panel-title">Panel Estudiantil</h3>
-                <nav>
-                    <a href="panel.php"><small class="menu-title">MENU PRINCIPAL</small></a>
-                    <ul>
-                        <a href="perfil.php">
-                            <li>Perfil</li>
-                        </a>
-                        <a href="calificaciones.php">
-                            <li>Calificaciones</li>
-                        </a>
-                        <a href="matricula.php">
-                            <li>Matricula</li>
-                        </a>
-                        <a href="solicitudes.php">
-                            <li>Solicitudes</li>
-                        </a>
-                    </ul>
-                </nav>
-            </div>
-        </section>
+        <?php
+    include "includes/menu.php"
+    ?>
 
         <section class="contenedor2">
             <div class="contenido">
@@ -75,7 +56,6 @@ include 'includes/chat.php'; // Incluye el chat
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Clase 1 -->
                         <tr class="clase-item" data-clase-id="1">
                             <td>Matemáticas</td>
                             <td>Juan Perez</td>
@@ -84,7 +64,6 @@ include 'includes/chat.php'; // Incluye el chat
                             <td class="nota" style="display: none;">85</td>
                         </tr>
 
-                        <!-- Clase 2 -->
                         <tr class="clase-item" data-clase-id="2">
                             <td>Programación</td>
                             <td>Maria Lopez</td>
@@ -130,7 +109,7 @@ include 'includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include 'includes/footer.php'; // Incluye el header
+    include 'includes/footer.php'; 
     ?>
 
     <script>
