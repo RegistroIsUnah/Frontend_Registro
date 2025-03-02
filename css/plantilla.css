@@ -49,6 +49,11 @@ body {
     display: flex;
 }
 
+.contenido h2 {
+  color: #013775;
+  margin-bottom: 20px;
+}
+
 /* Menú lateral */
 .main-contenedor {
     min-width: 250px;

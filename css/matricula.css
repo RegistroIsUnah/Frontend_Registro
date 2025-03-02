@@ -1,16 +1,10 @@
-
-.contenido h2 {
-    color: #013775;
-    margin-bottom: 20px;
-}
-
-.formulario-matricula label {
+.matricula label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
 }
 
-.formulario-matricula select {
+.matricula select {
     display: block;
     width: 100%;
     padding: 10px;

@@ -38,27 +38,27 @@ include 'includes/chat.php'; // Incluye el chat
     <main class="contenedor">
         <!-- Menú lateral -->
         <?php
-    include "includes/menu.php"
-    ?>
+        include "includes/menu.php"
+        ?>
 
         <!-- Contenido de matrícula -->
         <section class="contenedor2">
             <div class="contenido">
                 <h2>Matrícula de Clases</h2>
 
-                <!-- Formulario para seleccionar clase -->
-                <div class="formulario-matricula" style="margin-bottom: 20px;">
+                
+                <div class="matricula" style="margin-bottom: 20px;">
                     <h4>Seleccionar Clase y Departamento</h4>
-                    <label for="clase">Departamento:</label>
-                    <select id="clase">
+                    <label>Departamento:</label>
+                    <select>
                         <option value="">Selecciona un departamento</option>
                         <option value="IS">Ingenieria en Sistemas</option>
                         <option value="CS">Ciencias Sociales</option>
                         <option value="MM">Matematica</option>
                         <option value="CN">Ciencias Naturales</option>
                     </select>
-                    <label for="clase">Clase:</label>
-                    <select id="clase">
+                    <label>Clase:</label>
+                    <select>
                         <option value="">Selecciona una clase</option>
                         <option value="MAT101">MAT110 - Matemáticas I</option>
                         <option value="FIS101">FIS100 - Física I</option>
@@ -131,7 +131,7 @@ include 'includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include 'includes/footer.php'; 
+    include 'includes/footer.php';
     ?>
 
     <script>

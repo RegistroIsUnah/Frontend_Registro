@@ -43,14 +43,68 @@ include 'includes/chat.php'; // Incluye el chat
 
         <section class="contenedor2">
             <div class="contenido">
+                <h2>Realizar Solicitudes</h2>
+                <div class="solicitudes-contenedor">
+                    <!-- Tarjetas de solicitud -->
+                    <div class="solicitud-card" onclick="abrirModal('cambio-carrera')">
+                        <h3>Cambio de Carrera</h3>
+                        <p>Solicitar un cambio de carrera académica.</p>
+                    </div>
+                    <div class="solicitud-card" onclick="abrirModal('cancelaciones-excepcionales')">
+                        <h3>Cancelaciones Excepcionales</h3>
+                        <p>Solicitar la cancelación de materias.</p>
+                    </div>
+                    <div class="solicitud-card" onclick="abrirModal('cambio-centro')">
+                        <h3>Cambio de Centro</h3>
+                        <p>Solicitar un cambio de centro universitario.</p>
+                    </div>
+                    <div class="solicitud-card" onclick="abrirModal('pago-reposicion')">
+                        <h3>Pago de Reposición</h3>
+                        <p>Realizar pago de reposición.</p>
+                    </div>
+                </div>
 
+                <!-- Modal -->
+                <div id="modal" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
+
+                        <!-- Contenido del modal cambio de carrera -->
+                        <div class="cambio-carrera">
+                            <h3>Solicitud de Cambio de Carrera</h3>
+                            <hr style="color: #ffb300;">
+                            <div class="info-estudiante">
+                                <p><strong>Centro de Estudio:</strong> Ciudad Universitaria</p>
+                                <p><strong>Carrera Actual:</strong> Ingeniería en Sistemas</p>
+                                <p><strong>Índice Académico:</strong> 85.5</p>
+                            </div>
+                            <br>
+                            <div class="seleccionar-carrera">
+                                <label><strong>Seleccione la carrera a la cual desea hacer el cambio</strong></label>
+                                <select>
+                                    <option value="">Seleccione una carrea</option>
+                                    <option value="">Informática Administrativa</option>
+                                    <option value="">Economia</option>
+                                    <option value="">Psiccologia</option>
+                                </select>
+                            </div>
+
+                            <div class="razon-cambio">
+                                <label><strong>Razón del Cambio:</strong></label>
+                                <textarea rows="4" placeholder="Explique la razón del cambio de carrera..."></textarea>
+                            </div>
+<br>
+                            <button class="btn-enviar">Enviar Solicitud</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
     <?php
-    include 'includes/footer.php'; 
+    include 'includes/footer.php';
     ?>
 
     <script>
@@ -95,6 +149,19 @@ include 'includes/chat.php'; // Incluye el chat
                     chat.style.display = 'none'; // Ocultar el chat
                 }
             });
+        }
+
+
+        // Función para abrir el modal
+        function abrirModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'block';
+        }
+
+        // Función para cerrar el modal
+        function cerrarModal() {
+            const modal = document.getElementById('modal');
+            modal.style.display = 'none';
         }
     </script>
 

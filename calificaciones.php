@@ -38,8 +38,8 @@ include 'includes/chat.php'; // Incluye el chat
     <main class="contenedor">
         <!-- Menú lateral -->
         <?php
-    include "includes/menu.php"
-    ?>
+        include "includes/menu.php"
+        ?>
 
         <section class="contenedor2">
             <div class="contenido">
@@ -78,8 +78,8 @@ include 'includes/chat.php'; // Incluye el chat
 
         <!-- Modal de Evaluación -->
         <div id="evaluacionModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
+            <div class="modal-contenido">
+                <span class="close" onclick="cerrarModeal()">&times;</span>
                 <h3>Evaluación del Docente</h3>
                 <form id="evaluacionForm" onsubmit="evaluacion(event)">
                     <div class="pregunta">
@@ -109,7 +109,7 @@ include 'includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include 'includes/footer.php'; 
+    include 'includes/footer.php';
     ?>
 
     <script>
@@ -164,7 +164,7 @@ include 'includes/chat.php'; // Incluye el chat
             document.getElementById('evaluacionModal').style.display = 'block';
         }
 
-        function closeModal() {
+        function cerrarModeal() {
             document.getElementById('evaluacionModal').style.display = 'none';
             document.getElementById('evaluacionForm').reset();
         }
@@ -172,27 +172,12 @@ include 'includes/chat.php'; // Incluye el chat
         function evaluacion(event) {
             event.preventDefault();
 
-            // Validar todas las preguntas
-            const selects = event.target.querySelectorAll('select');
-            let allAnswered = true;
-
-            selects.forEach(select => {
-                if (select.value === "") {
-                    allAnswered = false;
-                }
-            });
-
-            if (!allAnswered) {
-                alert('Por favor complete todas las preguntas');
-                return;
-            }
-
             // Ocultar botón y mostrar nota
             const fila = document.querySelector(`tr[data-clase-id="${currentClaseId}"]`);
             fila.querySelector('.btn-evaluar').style.display = 'none';
             fila.querySelector('.nota').style.display = 'table-cell';
 
-            closeModal();
+            cerrarModeal();
         }
     </script>
 

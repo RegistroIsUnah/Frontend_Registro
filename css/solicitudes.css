@@ -1,0 +1,167 @@
+.solicitud-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.solicitud-card:hover {
+    background-color: #e9e9e9;
+}
+
+.solicitud-card h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.solicitud-card p {
+    color: #666;
+    margin: 0;
+}
+
+/* Estilos para el modal */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    overflow: auto;
+}
+
+.modal-contenido {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.cerrar-modal {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #333;
+}
+
+.cerrar-modal:hover {
+    color: #ffb300;
+}
+
+/* Estilos para el contenido del modal */
+.modal-cambio-carrera h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.btn-enviar{
+    background-color: #013775;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-enviar:hover {
+    background-color: #ffb300;
+}
+
+.info-estudiante p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.seleccionar-carrera select{
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.seleccionar-carrera label{
+    display: block;
+    margin-bottom: 5px;
+}
+
+.razon-cambio label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.razon-cambio textarea {
+    width: 100%;
+    height: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
+
+.boton-enviar {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.boton-enviar:hover {
+    background-color: #013775;
+}
+
+
+
+materias-cancelar label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.materias-cancelar select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.materias-cancelar small {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #777;
+}
+
+.razon-cancelacion label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.razon-cancelacion textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical; /* Permite redimensionar verticalmente */
+}
