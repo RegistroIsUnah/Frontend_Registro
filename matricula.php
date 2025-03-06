@@ -48,7 +48,7 @@ include 'includes/chat.php'; // Incluye el chat
 
                 
                 <div class="matricula" style="margin-bottom: 20px;">
-                    <h4>Seleccionar Clase y Departamento</h4>
+                    <h4>Seleccionar Departamento</h4>
                     <label>Departamento:</label>
                     <select>
                         <option value="">Selecciona un departamento</option>
@@ -57,6 +57,7 @@ include 'includes/chat.php'; // Incluye el chat
                         <option value="MM">Matematica</option>
                         <option value="CN">Ciencias Naturales</option>
                     </select>
+                    <h4>Seleccionar Clase</h4>
                     <label>Clase:</label>
                     <select>
                         <option value="">Selecciona una clase</option>
@@ -73,7 +74,8 @@ include 'includes/chat.php'; // Incluye el chat
                         <thead>
                             <tr>
                                 <th>Sección</th>
-                                <th>Hora</th>
+                                <th>Hora Inicio</th>
+                                <th>Hora Final</th>
                                 <th>Docente</th>
                                 <th>Días</th>
                             </tr>
@@ -81,19 +83,22 @@ include 'includes/chat.php'; // Incluye el chat
                         <tbody>
                             <tr>
                                 <td>Sección 1</td>
-                                <td>8:00 AM - 10:00 AM</td>
+                                <td>8:00 </td>
+                                <td>9:00 </td>
                                 <td>Juan Figueroa</td>
                                 <td>Lun,mar,mie,jue,vie</td>
                             </tr>
                             <tr>
                                 <td>Sección 2</td>
-                                <td>10:00 AM - 12:00 PM</td>
+                                <td>10:00 </td>
+                                <td>11:00 </td>
                                 <td>Ana Lopez</td>
                                 <td>Lun,mar,mie</td>
                             </tr>
                             <tr>
                                 <td>Sección 3</td>
-                                <td>1:00 PM - 3:00 PM</td>
+                                <td>14:00 </td>
+                                <td>15:00 </td>
                                 <td>Juan Martínez</td>
                                 <td>Sab</td>
                             </tr>
@@ -108,19 +113,19 @@ include 'includes/chat.php'; // Incluye el chat
                 <!-- Lista de clases matriculadas -->
                 <div class="clases-matriculadas">
                     <div class="clases-matriculadas-header">
-                        <h4>Clases Matriculadas</h4>
+                        <h4>Asignaturas Matriculadas</h4>
                         <button id="btnCancelarClases" class="btn-cancelar" onclick="abrirModal()">Cancelar Clases
                             Matriculadas</button>
                     </div>
                     <ul id="listaClases">
                         <li>
                             <span>MAT110 - Sección 1</span>
-                            <small>Hora: 8:00 AM - 10:00 AM, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
+                            <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
                             <button style="margin-left: 10px;">Perfil del Docente</button>
                         </li>
                         <li>
                             <span>FIS100 - Sección 2</span>
-                            <small>Hora: 10:00 AM - 12:00 PM, Docente: Ana Lopez, Días: Lun,mar,mie</small>
+                            <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
                             <button style="margin-left: 10px;">Perfil del Docente</button>
                         </li>
                     </ul>
