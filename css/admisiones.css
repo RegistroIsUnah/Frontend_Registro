@@ -1,0 +1,45 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e3e6e9; 
+    color: #013775; 
+}
+
+.container {
+    background-color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+h1, h2 {
+    color: #013775;
+}
+
+/* Estilos para los formularios */
+form {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #013775;
+}
+
+/* Botón de Confirmar */
+.btn-primary {
+    background-color: #12a9c2; 
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff; 
+}
+
+.btn-primary:hover {
+    background-color: #0f8fa5;
+}
+
+
+
