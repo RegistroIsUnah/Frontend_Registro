@@ -44,28 +44,30 @@ include 'includes/chat.php'; // Incluye el chat
         <!-- Contenido de matrícula -->
         <section class="contenedor2">
             <div class="contenido">
-                <h2>Matrícula de Clases</h2>
+                <h2>Matrícula de Asignaturas</h2>
 
-                
-                <div class="matricula" style="margin-bottom: 20px;">
-                    <h4>Seleccionar Departamento</h4>
-                    <label>Departamento:</label>
-                    <select>
-                        <option value="">Selecciona un departamento</option>
-                        <option value="IS">Ingenieria en Sistemas</option>
-                        <option value="CS">Ciencias Sociales</option>
-                        <option value="MM">Matematica</option>
-                        <option value="CN">Ciencias Naturales</option>
-                    </select>
-                    <h4>Seleccionar Clase</h4>
-                    <label>Clase:</label>
-                    <select>
-                        <option value="">Selecciona una clase</option>
-                        <option value="MAT101">MAT110 - Matemáticas I</option>
-                        <option value="FIS101">FIS100 - Física I</option>
-                        <option value="PRO101">MM314 - Programación I</option>
-                        <option value="HIS101">IS501 - Bases de Datos I</option>
-                    </select>
+
+                <div class="matricula">
+                    <div>
+                        <label>Departamento:</label>
+                        <select>
+                            <option value="">Seleccionar departamento</option>
+                            <option value="">Ingenieria en Sistemas</option>
+                            <option value="">Ciencias Sociales</option>
+                            <option value="">Matematica</option>
+                            <option value="">Ciencias Naturales</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Asignaturas:</label>
+                        <select>
+                            <option value="">Seleccionar asignatura</option>
+                            <option value="">MAT110 - Matemáticas I</option>
+                            <option value="">FIS100 - Física I</option>
+                            <option value="">MM314 - Programación I</option>
+                            <option value="">IS501 - Bases de Datos I</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Tabla de secciones disponibles -->
@@ -114,7 +116,7 @@ include 'includes/chat.php'; // Incluye el chat
                 <div class="clases-matriculadas">
                     <div class="clases-matriculadas-header">
                         <h4>Asignaturas Matriculadas</h4>
-                        <button id="btnCancelarClases" class="btn-cancelar" onclick="abrirModal()">Cancelar Clases
+                        <button id="btnCancelarClases" class="btn-cancelar" onclick="abrirModal()">Cancelar Asignaturas
                             Matriculadas</button>
                     </div>
                     <ul id="listaClases">
