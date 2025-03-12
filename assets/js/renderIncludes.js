@@ -1,4 +1,4 @@
-const actualPage = (window.location.pathname).split('/').pop();
+import { admissionsForm } from "./components/admissions/admissions-form.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -31,7 +31,34 @@ export function renderHead(){
     document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
     document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
     document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-
-
 }
+
+export function renderBodyPage(namePage) {
+    if (namePage === "admisiones.php") {
+        
+        let body = document.getElementsByTagName("body")[0];
+        const formularioContainer = document.createElement('div');
+        formularioContainer.innerHTML = admissionsForm;
+        body.insertBefore(formularioContainer, body.firstChild);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

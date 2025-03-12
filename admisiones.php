@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<?php
-  require_once("./includes/head.php");
-?>
+  <?php
+    require_once("./includes/head.php");
+  ?>
 
-<body>
+  <body>
 
     <?php
     require_once("./includes/scripts.php");
     ?>
-
-</body>
+  </body>
 </html>

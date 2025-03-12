@@ -1,8 +1,11 @@
 import { SendForm } from './sendForms.js'
-import { renderHead } from './renderIncludes.js';
+import { renderHead, renderBodyPage } from './renderIncludes.js';
 import { validateForm } from './validateForm.js';
 
+const actualPage = (window.location.pathname).split('/').pop();
+
 renderHead();
+renderBodyPage(actualPage);
 document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
 
 /**
