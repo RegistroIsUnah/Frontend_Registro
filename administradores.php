@@ -87,9 +87,65 @@
           <!-- Contenido para planificación académica -->
         </div>
 
+
+
+
+
         <div id="matricula-module" class="d-none">
           <h2>Proceso de Matrícula</h2>
           <!-- Contenido para proceso de matrícula -->
+
+          <!-- Activar/Desactivar Proceso de Matrícula -->
+          <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+              <h5>Activación de matricula</h5>
+            </div>
+            <div class="card-body">
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="activarMatricula">
+                <label class="form-check-label" for="activarMatricula">
+                  Activar proceso de matrícula
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendario de Matrícula -->
+          <div class="card mb-4">
+            <div class="card-header bg-info text-white">
+              <h5>Calendario de Matrícula</h5>
+            </div>
+            <div class="card-body">
+              <form id="formCalendarioMatricula">
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="fechaInicio" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label for="fechaFin" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" id="fechaFin" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  <i class="bi bi-calendar-plus"></i> Generar Calendario
+                </button>
+              </form>
+
+              <!-- Calendario Generado (Estático) -->
+              <div class="mt-4">
+                <h6>Calendario Programado</h6>
+                <ul class="list-group">
+                  <li class="list-group-item">Matrícula Primer Periodo 2025: 10/01/2025 - 07/04/2025</li>
+                  <li class="list-group-item">Matrícula Segundo Periodo 2025: 20/04/2025 - 21/08/2025</li>
+                  <li class="list-group-item">Matrícula Tercer Periodo 2025: 11/09/2025 - 15/12/2025</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+
+
         </div>
       </div>
     </div>
@@ -144,16 +200,6 @@
               </div>
             </div>
 
-            <div class="mb-3">
-              <label class="form-label">Correo institucional</label>
-              <input type="email" class="form-control" required>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Contraseña temporal</label>
-              <input type="password" class="form-control" required>
-            </div>
-
           </div>
 
           <div class="modal-footer">
@@ -168,7 +214,7 @@
 
 
 
-  
+
 
   <!-- Bootstrap JS + Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
