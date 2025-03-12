@@ -87,6 +87,7 @@
           <!-- Contenido para planificación académica -->
         </div>
 
+<<<<<<< HEAD
 
 
 
@@ -146,6 +147,11 @@
 
 
 
+=======
+        <div id="matricula-module" class="d-none">
+          <h2>Proceso de Matrícula</h2>
+          <!-- Contenido para proceso de matrícula -->
+>>>>>>> b5d75082bf11033875756ba0325df5afac6617d4
         </div>
       </div>
     </div>
@@ -200,6 +206,19 @@
               </div>
             </div>
 
+<<<<<<< HEAD
+=======
+            <div class="mb-3">
+              <label class="form-label">Correo institucional</label>
+              <input type="email" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contraseña temporal</label>
+              <input type="password" class="form-control" required>
+            </div>
+
+>>>>>>> b5d75082bf11033875756ba0325df5afac6617d4
           </div>
 
           <div class="modal-footer">
@@ -214,7 +233,11 @@
 
 
 
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> b5d75082bf11033875756ba0325df5afac6617d4
 
   <!-- Bootstrap JS + Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
