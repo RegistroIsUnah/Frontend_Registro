@@ -1,9 +1,3 @@
-.matricula{
-    margin-bottom: 20px; 
-    display: flex; 
-    gap: 20px;
-}
-
 .matricula label {
     display: block;
     margin-bottom: 5px;
