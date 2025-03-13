@@ -1,5 +1,5 @@
 <?php
-include './components/includes/chat.php'; // Incluye el chat
+include 'includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +9,8 @@ include './components/includes/chat.php'; // Incluye el chat
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Estudiante</title>
-  <link rel="stylesheet" href="./assets/css/plantilla.css">
-  <link rel="stylesheet" href="./assets/css/panel.css">
+  <link rel="stylesheet" href="assets/css/plantilla.css">
+  <link rel="stylesheet" href="assets/css/panel.css">
 </head>
 
 <body>
@@ -41,7 +41,7 @@ include './components/includes/chat.php'; // Incluye el chat
   <main class="contenedor">
     <!-- Menú lateral -->
     <?php
-    include "./components/includes/menu.php"
+    include "includes/menu.php"
     ?>
 
     <!-- Contenido principal -->
@@ -75,7 +75,7 @@ include './components/includes/chat.php'; // Incluye el chat
   </main>
 
   <?php
-  include './components/includes/footer.php'; // Incluye el header
+  include 'includes/footer.php'; // Incluye el header
   ?>
 
   <script>
