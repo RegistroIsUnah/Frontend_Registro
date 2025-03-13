@@ -1,5 +1,5 @@
 <?php
-include './components/includes/chat.php'; // Incluye el chat
+include 'includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +9,8 @@ include './components/includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial</title>
-    <link rel="stylesheet" href="./assets/css/plantilla.css">
-    <link rel="stylesheet" href="./assets/css/historial.css">
+    <link rel="stylesheet" href="assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/historial.css">
 </head>
 
 <body>
@@ -38,7 +38,7 @@ include './components/includes/chat.php'; // Incluye el chat
     <main class="contenedor">
         <!-- Menú lateral -->
         <?php
-        include "./components/includes/menu.php"
+        include "includes/menu.php"
         ?>
 
         <section class="contenedor2">
@@ -124,7 +124,7 @@ include './components/includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include './components/includes/footer.php';
+    include 'includes/footer.php';
     ?>
 
     <script>
