@@ -1,5 +1,5 @@
 <?php
-include './components/includes/chat.php'; // Incluye el chat
+include 'includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>
@@ -9,8 +9,8 @@ include './components/includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
-    <link rel="stylesheet" href="./assets/css/perfil.css">
-    <link rel="stylesheet" href="./assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/perfil.css">
+    <link rel="stylesheet" href="assets/css/plantilla.css">
 </head>
 
 <body>
@@ -38,7 +38,7 @@ include './components/includes/chat.php'; // Incluye el chat
     <main class="contenedor">
 
     <?php
-    include "./components/includes/menu.php"
+    include "includes/menu.php"
     ?>
 
         <!-- Contenido de matrícula -->
@@ -116,7 +116,7 @@ include './components/includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include './components/includes/footer.php'; // Incluye el header
+    include 'includes/footer.php'; // Incluye el header
     ?>
 
     <script>
