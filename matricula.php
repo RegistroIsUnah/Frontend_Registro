@@ -44,7 +44,7 @@ include 'includes/chat.php'; // Incluye el chat
         <!-- Contenido de matrícula -->
         <section class="contenedor2">
             <div class="contenido">
-                h2>Matrícula de Asignaturas</h2>
+                <h2>Matrícula de Asignaturas</h2>
 
 
 <div class="matricula">
