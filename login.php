@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./assets/css/loginStyle.css">
+    <link rel="stylesheet" href="assets/css/loginStyle.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Login</title>
 </head>
@@ -12,34 +12,34 @@
   <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <img class="d-block w-100" src="./assets/img/B1.jpg" alt="First slide">
+        <img class="d-block w-100" src="assets/img/B1.jpg" alt="First slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/B2.jpg" alt="Second slide">
+        <img class="d-block w-100" src="assets/img/B2.jpg" alt="Second slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/1847.jpg" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/1847.jpg" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/K1K2.jpg" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/K1K2.jpg" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/C3.jpg" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/C3.jpg" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/I1.jpg" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/I1.jpg" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/CentroAcuatico.jpg" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/CentroAcuatico.jpg" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/F1D1" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/F1D1" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/Biblioteca" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/Biblioteca" alt="Third slide">
       </div>
       <div class="carousel-item">
-        <img class="d-block w-100" src="./assets/img/Polideportivo" alt="Third slide">
+        <img class="d-block w-100" src="assets/img/Polideportivo" alt="Third slide">
       </div>
     </div>
   </div>
