@@ -9,8 +9,8 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrícula</title>
-    <link rel="stylesheet" href="css/plantilla.css">
-    <link rel="stylesheet" href="css/matricula.css">
+    <link rel="stylesheet" href="assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/matricula.css">
 </head>
 
 <body>
@@ -47,28 +47,29 @@ include 'includes/chat.php'; // Incluye el chat
                 <h2>Matrícula de Asignaturas</h2>
 
 
-                <div class="matricula">
-                    <div>
-                        <label>Departamento:</label>
-                        <select>
-                            <option value="">Seleccionar departamento</option>
-                            <option value="">Ingenieria en Sistemas</option>
-                            <option value="">Ciencias Sociales</option>
-                            <option value="">Matematica</option>
-                            <option value="">Ciencias Naturales</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label>Asignaturas:</label>
-                        <select>
-                            <option value="">Seleccionar asignatura</option>
-                            <option value="">MAT110 - Matemáticas I</option>
-                            <option value="">FIS100 - Física I</option>
-                            <option value="">MM314 - Programación I</option>
-                            <option value="">IS501 - Bases de Datos I</option>
-                        </select>
-                    </div>
-                </div>
+<div class="matricula">
+    <div>
+        <label>Departamento:</label>
+        <select>
+            <option value="">Seleccionar departamento</option>
+            <option value="">Ingenieria en Sistemas</option>
+            <option value="">Ciencias Sociales</option>
+            <option value="">Matematica</option>
+            <option value="">Ciencias Naturales</option>
+        </select>
+    </div>
+    <div>
+        <label>Asignaturas:</label>
+        <select>
+            <option value="">Seleccionar asignatura</option>
+            <option value="">MAT110 - Matemáticas I</option>
+            <option value="">FIS100 - Física I</option>
+            <option value="">MM314 - Programación I</option>
+            <option value="">IS501 - Bases de Datos I</option>
+        </select>
+    </div>
+</div>
+                
 
                 <!-- Tabla de secciones disponibles -->
                 <div id="seccionesDisponibles" class="secciones-disponibles">
@@ -116,8 +117,8 @@ include 'includes/chat.php'; // Incluye el chat
                 <div class="clases-matriculadas">
                     <div class="clases-matriculadas-header">
                         <h4>Asignaturas Matriculadas</h4>
-                        <button id="btnCancelarClases" class="btn-cancelar" onclick="abrirModal()">Cancelar Asignaturas
-                            Matriculadas</button>
+                        <button id="btnCancelarClases" class="btn-cancelar" onclick="abrirModal()">Cancelar Asignatura
+                            Matriculada</button>
                     </div>
                     <ul id="listaClases">
                         <li>

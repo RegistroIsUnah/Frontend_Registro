@@ -9,9 +9,8 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitudes</title>
-    <link rel="stylesheet" href="css/plantilla.css">
-    <link rel="stylesheet" href="css/solicitudes.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  
+    <link rel="stylesheet" href="assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/solicitudes.css">
 </head>
 
 <body>
@@ -138,8 +137,7 @@ include 'includes/chat.php'; // Incluye el chat
                                 </table>
                             </div>
 
-
-                            <!-- Opciones de Justificación -->
+                 <!-- Opciones de Justificación -->
             <div class="opciones-justificacion">
                 <h4>Seleccione la justificación:</h4>
                 <select id="justificacion">
@@ -150,6 +148,7 @@ include 'includes/chat.php'; // Incluye el chat
                     <option value="">Problemas o cambios laborales</option>
                 </select>
             </div>
+
 
                             <!-- Área para subir archivos -->
                             <div class="subir-archivo">

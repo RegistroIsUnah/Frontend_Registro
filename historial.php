@@ -9,8 +9,8 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial</title>
-    <link rel="stylesheet" href="css/plantilla.css">
-    <link rel="stylesheet" href="css/historial.css">
+    <link rel="stylesheet" href="assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/historial.css">
 </head>
 
 <body>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/landingPage.css">
+    <link rel="stylesheet" href="assets/css/landingPage.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,7 +18,7 @@
     <!-- Abrimos el header correctamente -->
     <div class="header">
         <div class="logoContainer">
-        <img class="logoUNAH" src="img/logoAmarillo.png" alt="Logo UNAH">
+        <img class="logoUNAH" src="assets/img/logoAmarillo.png" alt="Logo UNAH">
         </div>
         <h1 class="registro">SISTEMA DE REGISTRO</h1>
         <div class="menu">
@@ -67,16 +67,16 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                <img src="img/avisoNo1.jpg" class="d-block w-100" alt="...">
+                <img src="assets/img/avisoNo1.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                <img src="img/avisoNo2.jpg" class="d-block w-100" alt="...">
+                <img src="assets/img/avisoNo2.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                <img src="img/avisoNo3.jpg" class="d-block w-100" alt="...">
+                <img src="assets/img/avisoNo3.jpg" class="d-block w-100" alt="...">
                 </div>
                 <div class="carousel-item">
-                <img src="img/avisoNo4.jpg" class="d-block w-100" alt="...">
+                <img src="assets/img/avisoNo4.jpg" class="d-block w-100" alt="...">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -109,6 +109,11 @@
             </div>
         </div>
     </section>
+
+    <div class="accessDynamicContainer mb-3">
+            <span class="message">Inscripciones II PAC 2025</span>
+            <a href="./admisiones.php" type="button" class="btn btn-primary">¡Inscribase ahora!</a>
+        </div>
    
     <?php
     include 'includes/footer.php';

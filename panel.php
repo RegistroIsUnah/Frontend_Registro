@@ -9,8 +9,8 @@ include 'includes/chat.php'; // Incluye el chat
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Estudiante</title>
-  <link rel="stylesheet" href="css/plantilla.css">
-  <link rel="stylesheet" href="css/panel.css">
+  <link rel="stylesheet" href="assets/css/plantilla.css">
+  <link rel="stylesheet" href="assets/css/panel.css">
 </head>
 
 <body>

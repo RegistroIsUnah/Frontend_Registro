@@ -8,9 +8,9 @@ include 'includes/chat.php'; // Incluye el chat
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matrícula</title>
-    <link rel="stylesheet" href="css/plantilla.css">
-    <link rel="stylesheet" href="css/calificaciones.css">
+    <title>Calificaciones</title>
+    <link rel="stylesheet" href="assets/css/plantilla.css">
+    <link rel="stylesheet" href="assets/css/calificaciones.css">
 </head>
 
 <body>
