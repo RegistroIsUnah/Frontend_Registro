@@ -152,7 +152,7 @@ include 'includes/chat.php'; // Incluye el chat
 
                             <!-- Área para subir archivos -->
                             <div class="subir-archivo">
-                                <label><strong>Subir Justificación (PDF):</strong></label>
+                                <h4>Subir Justificación (PDF):</h4>
                                 <input type="file" accept=".pdf">
                             </div>
 
