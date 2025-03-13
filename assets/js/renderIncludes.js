@@ -35,6 +35,16 @@ export function renderHead(){
 
 export function renderBodyPage(namePage) {
     if (namePage === "admisiones.php") {
+
+        const url = window.location.href;
+        const urlSegments = url.split('/'); 
+        const lastSegment = urlSegments.pop();
+
+        if (lastSegment && lastSegment !== "") {
+            console.log('Último parámetro:', lastSegment);
+        } else {
+            console.log('No hay un parámetro al final de la URL');
+        }
         
         let body = document.getElementsByTagName("body")[0];
         const formularioContainer = document.createElement('div');

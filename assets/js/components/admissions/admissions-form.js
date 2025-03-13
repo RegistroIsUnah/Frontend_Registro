@@ -93,6 +93,7 @@ export let admissionsForm = `
                     <label for="dni_file" class="form-label">Documento de Identificación (DNI)</label>
                     <input type="file" class="form-control" id="dni_file" name="dni_file" required>
                         <span class="invalid-feedback"></span>
+                        <a href="admisiones.php/principal">hola<a>
                 </div>
             </div>
 

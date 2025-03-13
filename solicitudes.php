@@ -1,5 +1,5 @@
 <?php
-include 'includes/chat.php'; // Incluye el chat
+include './components/includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>
@@ -9,9 +9,8 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitudes</title>
-    <link rel="stylesheet" href="css/plantilla.css">
-    <link rel="stylesheet" href="css/solicitudes.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">  
+    <link rel="stylesheet" href="./assets/css/plantilla.css">
+    <link rel="stylesheet" href="./assets/css/solicitudes.css">
 </head>
 
 <body>
@@ -36,7 +35,7 @@ include 'includes/chat.php'; // Incluye el chat
     <main class="contenedor">
         <!-- Menú lateral -->
         <?php
-        include "includes/menu.php";
+        include "./components/includes/menu.php";
         ?>
 
         <section class="contenedor2">
@@ -138,22 +137,9 @@ include 'includes/chat.php'; // Incluye el chat
                                 </table>
                             </div>
 
-
-                            <!-- Opciones de Justificación -->
-            <div class="opciones-justificacion">
-                <h4>Seleccione la justificación:</h4>
-                <select id="justificacion">
-                    <option value="">Seleccione una opción</option>
-                    <option value="">Enfermedad o problema de salud</option>
-                    <option value="">Calamidad Familiar</option>
-                    <option value=""> Separación o muerte del cónyuge, enfermedad grave de padres, hijos o cónyuge</option>
-                    <option value="">Problemas o cambios laborales</option>
-                </select>
-            </div>
-
                             <!-- Área para subir archivos -->
                             <div class="subir-archivo">
-                                <h4>Subir Justificación (PDF):</h4>
+                                <label><strong>Subir Justificación (PDF):</strong></label>
                                 <input type="file" accept=".pdf">
                             </div>
 
@@ -200,7 +186,7 @@ include 'includes/chat.php'; // Incluye el chat
     </main>
 
     <?php
-    include 'includes/footer.php';
+    include './components/includes/footer.php';
     ?>
 
     <script>
