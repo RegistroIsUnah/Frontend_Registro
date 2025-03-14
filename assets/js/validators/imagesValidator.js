@@ -6,6 +6,9 @@
  * @param {*} formId
  * 
  * Class used to validate every imagen that is sended by a form.
+ * Can use this method to validate all the images.
+ * 
+ * Falta agregar que acepte otros tipos de datos.
  */
 class ValidateImage {
     

@@ -1,4 +1,4 @@
-export let admissionsForm = `
+export let admissionsForm =  (centerOptions, careerOptions) => `
     <div class="container my-5">
         <!-- Formulario de Inscripción -->
         <h1 style="font-weight: bold;" class="text-center mb-4">Inscripción para el Examen de Admisión</h1>
@@ -23,22 +23,14 @@ export let admissionsForm = `
                 <div class="col-md-6">
                     <label for="carrera_principal" class="form-label">Carrera Principal</label>
                     <select class="form-select" id="carrera_principal" name="carrera_principal" required>
-                        <option value="">Seleccione una carrera</option>
-                        <option value="Ingeniería">Ingeniería</option>
-                        <option value="Medicina">Medicina</option>
-                        <option value="Derecho">Derecho</option>
-                        <option value="Administración">Administración</option>
+                        ${careerOptions}
                     </select>
                         <span class="invalid-feedback"></span>
                 </div>
                 <div class="col-md-6">
                     <label for="carrera_secundaria" class="form-label">Carrera Secundaria</label>
                     <select class="form-select" id="carrera_secundaria" name="carrera_secundaria" required>
-                        <option value="">Seleccione una carrera</option>
-                        <option value="Ingeniería">Ingeniería</option>
-                        <option value="Medicina">Medicina</option>
-                        <option value="Derecho">Derecho</option>
-                        <option value="Administración">Administración</option>
+                        ${careerOptions}
                     </select>
                         <span class="invalid-feedback"></span>
                 </div>
@@ -66,10 +58,7 @@ export let admissionsForm = `
                 <div class="col-md-6">
                     <label for="centro_regional" class="form-label">Centro Regional</label>
                     <select class="form-select" id="centro_regional" name="centro_regional" required>
-                        <option value="">Seleccione un centro regional</option>
-                        <option value="Centro 1">Centro 1</option>
-                        <option value="Centro 2">Centro 2</option>
-                        <option value="Centro 3">Centro 3</option>
+                        ${centerOptions}
                     </select>
                         <span class="invalid-feedback"></span>
                 </div>
@@ -93,11 +82,9 @@ export let admissionsForm = `
                     <label for="dni_file" class="form-label">Documento de Identificación (DNI)</label>
                     <input type="file" class="form-control" id="dni_file" name="dni_file" required>
                         <span class="invalid-feedback"></span>
-                        <a href="admisiones.php/principal">hola<a>
                 </div>
             </div>
 
-            <!-- Botón de Confirmar -->
             <div class="row mb-3">
                 <div class="col-md-12 text-center">
                     <button type="submit" class="btn btn-primary">Confirmar</button>

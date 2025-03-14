@@ -1,4 +1,7 @@
 import { admissionsForm } from "./components/admissions/admissions-form.js";
+import { SendForm } from "./sendForms.js";
+import { validateForm } from './validators/formValidator.js';
+import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -23,36 +26,123 @@ let linkLabel = (href) => {
  * @version 0.0.1
  * @since 2025/03/10
  * 
- * Puts link label in head labels to add css in the code.
+ * Se añadira la referencia al estilo CSS que corresponde a cada página.
+ * Debido a que el header se comparte, no se pueden agregar todos los estilos en el mismo encabezado (se evita el choque de estilos).
  */
-export function renderHead(){
-    
-    document.getElementsByTagName('title')[0].textContent = "Admisiones Universitarias";
-    document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-    document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
-    document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-}
+export function renderHead(actualPage){
 
-export function renderBodyPage(namePage) {
-    if (namePage === "admisiones.php") {
-
-        const url = window.location.href;
-        const urlSegments = url.split('/'); 
-        const lastSegment = urlSegments.pop();
-
-        if (lastSegment && lastSegment !== "") {
-            console.log('Último parámetro:', lastSegment);
-        } else {
-            console.log('No hay un parámetro al final de la URL');
-        }
+    switch (actualPage){
         
-        let body = document.getElementsByTagName("body")[0];
-        const formularioContainer = document.createElement('div');
-        formularioContainer.innerHTML = admissionsForm;
-        body.insertBefore(formularioContainer, body.firstChild);
+        case "administradores.php":
+            document.getElementsByTagName('title')[0].textContent = "Administración UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/administradores.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));    
+        break;
+
+        case "admisiones.php":
+            document.getElementsByTagName('title')[0].textContent = "Admisiones UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "calificaciones.php":
+            document.getElementsByTagName('title')[0].textContent = "Calificaciones UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "historial.php":
+            document.getElementsByTagName('title')[0].textContent = "Historial Académico UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "landingPage.php":
+            document.getElementsByTagName('title')[0].textContent = "Página Principal UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "login.php":
+            document.getElementsByTagName('title')[0].textContent = "login";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "matricula.php":
+            document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "panel.php":
+            document.getElementsByTagName('title')[0].textContent = "Panel de Estudiante";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "perfil.php":
+            document.getElementsByTagName('title')[0].textContent = "Perfil UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        case "solicitudes.php":
+            document.getElementsByTagName('title')[0].textContent = "Solicitudes UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
+        default:
+
+        break;
+
     }
 }
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ * 
+ * @param {*} namePage 
+ * 
+ * Este método renderiza los componentes o vistas de la página a la que se ha accedido.
+ * En las próximas actualizaciones se tiene que renderizar los componentes y vistas, dependiendo del rol de usuario que ingresará.
+ * 
+ * Una página puede compartir varias vistas (e.g admisiones.php renderiza la página principal del admisiones, 
+ * formulario y vista de revisores.). Para hacer que el navegador recuerde que componentes tenía, se tiene que almacenar su estado
+ * en la memoria del navegador antes de actualizar la página.
+ */
+export function renderBodyPage(namePage) {
+
+    if (namePage === "admisiones.php") {
+        let admissionsFetch = new AdmissionFetch();
+        
+        admissionsFetch.getAdmissionsDataForm().then(([centerOptions, careerOptions]) => {
+
+            let body = document.getElementsByTagName("body")[0];
+            const formularioContainer = document.createElement('div');
+            formularioContainer.innerHTML = admissionsForm(centerOptions, careerOptions);
+            body.insertBefore(formularioContainer, body.firstChild);
+
+            document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
+            const form = document.querySelector("form");
+            if (form) {
+                validateForm(form.id);
+            }
+
+        }).catch(error => {
+            console.error("Error al obtener datos del formulario:", error);
+        });
+    }
+}
 
 
 

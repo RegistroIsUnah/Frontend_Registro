@@ -2,6 +2,8 @@
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/03/11
+ * 
+ * Regular expressions to use in all the Frontend project.
  */
 export class RegularExpressions{
 

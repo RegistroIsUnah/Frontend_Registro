@@ -1,12 +1,13 @@
-import { RegularExpressions } from "./regularExpressions.js";
-import { ValidateImage } from "./validateImage.js";
+import { RegularExpressions } from "../utils/regularExpressions.js";
+import { ValidateImage } from "./imagesValidator.js";
 
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/02/12
  * 
- * Class used to validate every form of the system.
+ * Esta clase contiene objetos que se encargan de validar cada uno de los campos en los formularios del sistema.
+ * Haga un objeto por cada formulario.
  */
 export class DataFormValidations {
 
@@ -24,19 +25,4 @@ export class DataFormValidations {
         dni_file: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
         foto_perfil: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
     };
-
-    static errorMessageFormValidation(fieldName, errorImage = '') {
-        const messages = {
-            nombre: "Solo letras y espacios (máx. 4 nombres)",
-            apellidos: "Ingrese exactamente dos apellidos",
-            correo: "Correo electrónico inválido",
-            telefono: "Formato: +504 9999-9999",
-            identidad: "Debe tener 13 dígitos",
-            certificado: errorImage,
-            dni_file: errorImage,
-            foto_perfil: errorImage
-        };
-        return messages[fieldName] || "Campo requerido";
-    }
-
 }
