@@ -6,7 +6,8 @@ import { ValidateImage } from "./imagesValidator.js";
  * @version 0.0.1
  * @since 2025/02/12
  * 
- * Class used to validate every form of the system.
+ * Esta clase contiene objetos que se encargan de validar cada uno de los campos en los formularios del sistema.
+ * Haga un objeto por cada formulario.
  */
 export class DataFormValidations {
 

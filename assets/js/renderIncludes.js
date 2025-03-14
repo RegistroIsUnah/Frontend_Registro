@@ -26,7 +26,8 @@ let linkLabel = (href) => {
  * @version 0.0.1
  * @since 2025/03/10
  * 
- * Puts link label in head labels to add css in the code.
+ * Se añadira la referencia al estilo CSS que corresponde a cada página.
+ * Debido a que el header se comparte, no se pueden agregar todos los estilos en el mismo encabezado (se evita el choque de estilos).
  */
 export function renderHead(actualPage){
 
@@ -105,6 +106,20 @@ export function renderHead(actualPage){
     }
 }
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ * 
+ * @param {*} namePage 
+ * 
+ * Este método renderiza los componentes o vistas de la página a la que se ha accedido.
+ * En las próximas actualizaciones se tiene que renderizar los componentes y vistas, dependiendo del rol de usuario que ingresará.
+ * 
+ * Una página puede compartir varias vistas (e.g admisiones.php renderiza la página principal del admisiones, 
+ * formulario y vista de revisores.). Para hacer que el navegador recuerde que componentes tenía, se tiene que almacenar su estado
+ * en la memoria del navegador antes de actualizar la página.
+ */
 export function renderBodyPage(namePage) {
 
     if (namePage === "admisiones.php") {

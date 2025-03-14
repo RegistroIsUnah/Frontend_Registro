@@ -9,7 +9,7 @@ export class SendForm{
      * 
      * @param {*} event 
      * 
-     * Sending admission form data and waiting for a response.
+     * Este método toma la información del formulario de admisión y envía su contenido al método encargado de enviar la data al servidor.
      */
     static validateAdmissionForm = (event) => {
         
@@ -35,7 +35,7 @@ export class SendForm{
         if (fotodni) formData.append("fotodni", fotodni);
         if (certificado) formData.append("certificado", certificado);
 
-        admissionFetch.postadmissionsData(formData);
+        admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     
         /*
         for (let data of formData.entries()) {

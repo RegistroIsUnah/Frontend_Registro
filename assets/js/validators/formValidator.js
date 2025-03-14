@@ -8,7 +8,11 @@ import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
  * 
  * @param {*} formId
  * 
- * Method created to validate form fields. 
+ * Esté método toma el formulario y valida sus campos. 
+ * Cuando todos los campos están validados, habilita el botón de envío.
+ * 
+ * Se propone que este método funcione para todos los formularios del sistema, pero aún no está adaptado.
+ * Si usted no encuentra la forma de adaptar este método para varios formularios, haga otro método que valide su formulario.
  */
 export async function validateForm(formId) {
     const form = document.querySelector(`#${formId}`);

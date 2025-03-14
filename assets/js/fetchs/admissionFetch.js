@@ -5,7 +5,7 @@ import { ConstValues } from "../utils/constValues.js";
  * @version 0.1.1
  * @since 2025/03/14
  * 
- * Class that contains methods to consume API endpoints to get and send admissions data.
+ * Class that contains methods to consume API endpoints specifically for the Admissions module.
  */
 export class AdmissionFetch{
 
