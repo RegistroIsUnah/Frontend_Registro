@@ -18,6 +18,7 @@ include 'includes/chat.php'; // Incluye el chat
         <div class="nav-izq">
             <h1>Sistema de Registro</h1>
         </div>
+        </div>
 
         <div class="nav-der">
 

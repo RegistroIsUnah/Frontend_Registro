@@ -1,5 +1,5 @@
-import { RegularExpressions } from "./regularExpressions.js";
-import { ValidateImage } from "./validateImage.js";
+import { RegularExpressions } from "../utils/regularExpressions.js";
+import { ValidateImage } from "./imagesValidator.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -24,19 +24,4 @@ export class DataFormValidations {
         dni_file: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
         foto_perfil: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
     };
-
-    static errorMessageFormValidation(fieldName, errorImage = '') {
-        const messages = {
-            nombre: "Solo letras y espacios (máx. 4 nombres)",
-            apellidos: "Ingrese exactamente dos apellidos",
-            correo: "Correo electrónico inválido",
-            telefono: "Formato: +504 9999-9999",
-            identidad: "Debe tener 13 dígitos",
-            certificado: errorImage,
-            dni_file: errorImage,
-            foto_perfil: errorImage
-        };
-        return messages[fieldName] || "Campo requerido";
-    }
-
 }

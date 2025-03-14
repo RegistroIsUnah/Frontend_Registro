@@ -1,4 +1,5 @@
-import { DataFormValidations } from "./dataFormValidations.js";
+import { DataFormValidations } from "./formFieldsValidations.js";
+import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -40,7 +41,7 @@ export async function validateForm(formId) {
 
         const feedback = field.nextElementSibling;
         if (feedback && feedback.classList.contains('invalid-feedback')) {
-            feedback.textContent = !isValid ? DataFormValidations.errorMessageFormValidation(field.name, errorImage) : '';
+            feedback.textContent = !isValid ? FormFieldsErrorMessage.errorMessagesAdmissionsForm(field.name, errorImage) : '';
         }
 
         toggleSubmitButton();

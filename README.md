@@ -1,4 +1,4 @@
 # Frontend Registro
 Frontend Registro UNAH
 
-pruebadkdsfdsfñlkdsjafñlksajflñkdsajflkñsd
+Las imágenes no se subieron en el proyecto que se ha enviado al campus.
