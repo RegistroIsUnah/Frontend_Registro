@@ -3,6 +3,9 @@ import { SendForm } from "./sendForms.js";
 import { validateForm } from './validators/formValidator.js';
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 
+import { loginForm } from "./components/login/login-form.js";
+import { handleLogin } from "./fetchs/loginFetch.js";
+
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -66,9 +69,7 @@ export function renderHead(actualPage){
 
         case "login.php":
             document.getElementsByTagName('title')[0].textContent = "login";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
         break;
 
         case "matricula.php":
@@ -147,6 +148,20 @@ export function renderBodyPage(namePage) {
 
 
 
+//
+export function renderLoginPage() {
+    
+    let body = document.getElementsByTagName("body")[0];
+
+    const loginContainer = document.createElement('div');
+    loginContainer.innerHTML = loginForm;
+
+    // Insertar el formulario al principio del cuerpo
+    body.insertBefore(loginContainer, body.firstChild);
+
+    // Manejar el evento de envío del formulario
+    handleLogin();
+}
 
 
 
