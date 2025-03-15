@@ -13,7 +13,7 @@ export class FormFieldsErrorMessage{
             apellidos: "Ingrese exactamente dos apellidos",
             correo: "Correo electrónico inválido",
             telefono: "Formato: +504 9999-9999",
-            identidad: "Debe tener 13 dígitos",
+            identidad: "El DNI no es correcto",
             certificado: errorImage,
             dni_file: errorImage,
             foto_perfil: errorImage

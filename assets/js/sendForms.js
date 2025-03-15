@@ -36,13 +36,6 @@ export class SendForm{
         if (certificado) formData.append("certificado", certificado);
 
         admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
-    
-        /*
-        for (let data of formData.entries()) {
-            console.log(`${data[0]}:`, data[1]);
-        }
-        */
-        
     };
         
 }

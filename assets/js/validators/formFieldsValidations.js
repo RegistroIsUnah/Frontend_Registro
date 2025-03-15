@@ -11,7 +11,7 @@ import { ValidateImage } from "./imagesValidator.js";
  */
 export class DataFormValidations {
 
-    static imageFormats = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+    static imageFormats = ["image/png", "image/jpg", "image/jpeg", "image/webp", "image/tiff", "image/tif", "image/avif", "application/pdf"];
     static imageDimensions = 2 * 1024 * 1024;
 
     static validationsFormAdmissions = {

@@ -67,12 +67,12 @@ export let admissionsForm =  (centerOptions, careerOptions) => `
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="certificado" class="form-label">Foto de Certificado de Secundaria</label>
-                    <input type="file" class="form-control" id="certificado" name="certificado" required>
+                    <input type="file" accept=".png, .jpg, .jpeg, .webp, .tiff, .tif, .avif, application/pdf" class="form-control" id="certificado" name="certificado" required>
                         <span class="invalid-feedback"></span>
                 </div>
                 <div class="col-md-6">
                     <label for="foto_perfil" class="form-label">Foto de Perfil</label>
-                    <input type="file" class="form-control" id="foto_perfil" name="foto_perfil" required>
+                    <input type="file" accept=".png, .jpg, .jpeg, .webp, .tiff, .tif, .avif, application/pdf" class="form-control" id="foto_perfil" name="foto_perfil" required>
                         <span class="invalid-feedback"></span>
                 </div>
             </div>
@@ -80,7 +80,7 @@ export let admissionsForm =  (centerOptions, careerOptions) => `
             <div class="row mb-3">
                 <div class="col-md-12">
                     <label for="dni_file" class="form-label">Documento de Identificación (DNI)</label>
-                    <input type="file" class="form-control" id="dni_file" name="dni_file" required>
+                    <input type="file" accept=".png, .jpg, .jpeg, .webp, .tiff, .tif, .avif, application/pdf" class="form-control" id="dni_file" name="dni_file" required>
                         <span class="invalid-feedback"></span>
                 </div>
             </div>

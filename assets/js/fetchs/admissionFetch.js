@@ -38,7 +38,7 @@ export class AdmissionFetch{
     }
 
     postadmissionsData(formData){
-                
+
         fetch(`${ConstValues.DOMAIN_NAME}/api/post/aspirante.php`, {
             method: "POST",
             body: formData
@@ -53,8 +53,8 @@ export class AdmissionFetch{
         .then(data => {
             console.log("Respuesta del servidor:", data);
             if (data.message === "Aspirante ingresado exitosamente") {
-                alert("Formulario enviado con éxito");
-                form.reset();
+                alert(data.message);
+                //form.reset();
                 window.location.href = "landingPage.php";
             } else {
                 alert("Error al enviar el formulario: " + (data.message || "Error desconocido"));
