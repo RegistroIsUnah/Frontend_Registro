@@ -1,4 +1,6 @@
 import { renderHead, renderBodyPage} from './renderIncludes.js';
+//import { LibraryFetch } from './fetchs/libraryFetch.js';
+
 
 const actualPage = (window.location.pathname).split('/').pop();
 
@@ -9,3 +11,4 @@ document.addEventListener("DOMContentLoaded", function () {
     renderBodyPage(actualPage, body);  // Renderiza las vistas y componentes de la página, de acuerdo a solicitud de información a visualizar.
 });     
 
+//LibraryFetch.getBooksTags();

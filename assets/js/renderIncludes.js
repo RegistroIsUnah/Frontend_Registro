@@ -2,6 +2,8 @@ import { loadAdmissionsForm, loadAdmissionsPage} from './components/admissions/l
 import { loginForm } from "./components/login/login-form.js";
 import { handleLogin } from "./fetchs/loginFetch.js";
 
+import { registerBook } from './components/library/register-book.js';
+
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -92,7 +94,7 @@ export function renderHead(actualPage){
         break;
 
         default:
-
+        
         break;
 
     }
@@ -162,7 +164,8 @@ export function renderBodyPage(namePage, body) {
 
         case "login.php":
 
-            const loginContainer = document.createElement('div');
+            let loginContainer = document.createElement('div');
+            loginContainer.className = "container my-5";
             loginContainer.innerHTML = loginForm;
             body.insertBefore(loginContainer, body.firstChild);
             handleLogin();
@@ -184,12 +187,23 @@ export function renderBodyPage(namePage, body) {
         case "solicitudes.php":
 
         break;
+
+        case "biblioteca.php":
+
+            let libraryContainer = document.createElement('div');
+            libraryContainer.className = "container my-5";
+            libraryContainer.innerHTML = registerBook;
+            body.insertBefore(libraryContainer, body.firstChild);
+
+        break;
     }
 
     if (namePage == "admisiones.php") {
 
     }
 }
+
+
 
 
 

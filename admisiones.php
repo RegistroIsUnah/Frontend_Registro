@@ -1,3 +1,10 @@
+<?php
+
+  if(!isset($_SESSION)){
+    echo "hola";
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -12,11 +12,13 @@ export class AdmissionFetch{
     //admissionGet(){};
     //admissionPatch();
 
+
     async getAdmissionsDataForm() {
+        
         try {
             const [centrosData, carrerasData] = await Promise.all([
-                fetch(`${ConstValues.DOMAIN_NAME}/api/get/centros.php`).then(response => response.json()),
-                fetch(`${ConstValues.DOMAIN_NAME}/api/get/carreras.php`).then(response => response.json())
+                fetch(`${ConstValues.DOMAIN_NAME}/get/centros.php`).then(response => response.json()),
+                fetch(`${ConstValues.DOMAIN_NAME}/get/carreras.php`).then(response => response.json())
             ]);
 
             let centerOptions = ['<option value="0">-- Seleccione un centro --</option>']
@@ -39,7 +41,7 @@ export class AdmissionFetch{
 
     postadmissionsData(formData){
 
-        fetch(`${ConstValues.DOMAIN_NAME}/api/post/aspirante.php`, {
+        fetch(`${ConstValues.DOMAIN_NAME}/post/aspirante.php`, {
             method: "POST",
             body: formData
         })

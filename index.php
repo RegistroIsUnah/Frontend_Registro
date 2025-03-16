@@ -92,7 +92,7 @@
 
         <div class="accessDynamicContainer">
             <span class="message">Bienvenido(a) al Sistema de Registro</span>
-            <button type="button" class="btn btn-primary">Ingresa a tu cuenta</button>
+            <a href="login.php" type="button" class="btn btn-primary">Ingresa a tu cuenta</a>
         </div>
 
         <div class="dynamicContainers">

@@ -15,7 +15,7 @@ export function handleLogin() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        fetch(`${ConstValues.DOMAIN_NAME}/api/post/login.php`, {
+        fetch(`${ConstValues.DOMAIN_NAME}/post/login.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
