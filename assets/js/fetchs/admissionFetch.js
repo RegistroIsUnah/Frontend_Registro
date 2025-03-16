@@ -44,14 +44,13 @@ export class AdmissionFetch{
             body: formData
         })
         .then(response => {
-            console.log(response);
+            //console.log(response);
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
-            console.log("Respuesta del servidor:", data);
             if (data.message === "Aspirante ingresado exitosamente") {
                 alert(data.message);
                 //form.reset();

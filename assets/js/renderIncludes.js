@@ -1,8 +1,4 @@
-import { admissionsForm } from "./components/admissions/admissions-form.js";
-import { SendForm } from "./sendForms.js";
-import { validateForm } from './validators/formValidator.js';
-import { AdmissionFetch } from "./fetchs/admissionFetch.js";
-
+import { loadAdmissionsForm, loadAdmissionsPage} from './components/admissions/loadAdmissionsView.js'
 import { loginForm } from "./components/login/login-form.js";
 import { handleLogin } from "./fetchs/loginFetch.js";
 
@@ -50,14 +46,13 @@ export function renderHead(actualPage){
 
         case "calificaciones.php":
             document.getElementsByTagName('title')[0].textContent = "Calificaciones UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/calificaciones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
         case "historial.php":
             document.getElementsByTagName('title')[0].textContent = "Historial Académico UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/historial.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
@@ -74,29 +69,25 @@ export function renderHead(actualPage){
 
         case "matricula.php":
             document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
         case "panel.php":
             document.getElementsByTagName('title')[0].textContent = "Panel de Estudiante";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/panel.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
         case "perfil.php":
             document.getElementsByTagName('title')[0].textContent = "Perfil UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
         case "solicitudes.php":
             document.getElementsByTagName('title')[0].textContent = "Solicitudes UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
@@ -121,47 +112,86 @@ export function renderHead(actualPage){
  * formulario y vista de revisores.). Para hacer que el navegador recuerde que componentes tenía, se tiene que almacenar su estado
  * en la memoria del navegador antes de actualizar la página.
  */
-export function renderBodyPage(namePage) {
+export function renderBodyPage(namePage, body) {
+    
+    switch (namePage){
 
-    if (namePage === "admisiones.php") {
-        let admissionsFetch = new AdmissionFetch();
+        case "administradores.php":
+
+        break;
+
+        case "admisiones.php":
         
-        admissionsFetch.getAdmissionsDataForm().then(([centerOptions, careerOptions]) => {
+            let actualAdmissionView = (history.state == null) ? "admissionsPage" : history.state.view;
 
-            let body = document.getElementsByTagName("body")[0];
-            const formularioContainer = document.createElement('div');
-            formularioContainer.innerHTML = admissionsForm(centerOptions, careerOptions);
-            body.insertBefore(formularioContainer, body.firstChild);
-
-            document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
-            const form = document.querySelector("form");
-            if (form) {
-                validateForm(form.id);
+            switch (actualAdmissionView) {
+        
+                case "admissionsForm":
+        
+                    loadAdmissionsForm();
+                break;
+        
+                case "admissionReviewers":
+        
+                    console.log("Cargando vista de revisores...");
+                break;
+        
+                case "admissionsPage": case null: case "":
+        
+                    loadAdmissionsPage();
+                break;
+        
+                default:
+                    console.warn("Vista no reconocida:", actualAdmissionView);
+                break;
             }
+            
+        break;
 
-        }).catch(error => {
-            console.error("Error al obtener datos del formulario:", error);
-        });
+        case "calificaciones.php":
+
+        break;
+
+        case "historial.php":
+
+        break;
+
+        case "landingPage.php":
+
+        break;
+
+        case "login.php":
+
+            const loginContainer = document.createElement('div');
+            loginContainer.innerHTML = loginForm;
+            body.insertBefore(loginContainer, body.firstChild);
+            handleLogin();
+
+        break;
+
+        case "matricula.php":
+
+        break;
+
+        case "panel.php":
+
+        break;
+
+        case "perfil.php":
+
+        break;
+
+        case "solicitudes.php":
+
+        break;
+    }
+
+    if (namePage == "admisiones.php") {
+
     }
 }
 
 
-
-
-//
-export function renderLoginPage() {
-    
-    let body = document.getElementsByTagName("body")[0];
-
-    const loginContainer = document.createElement('div');
-    loginContainer.innerHTML = loginForm;
-
-    // Insertar el formulario al principio del cuerpo
-    body.insertBefore(loginContainer, body.firstChild);
-
-    // Manejar el evento de envío del formulario
-    handleLogin();
-}
 
 
 
