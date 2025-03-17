@@ -62,10 +62,10 @@
                 </div>
                 <div class="modal-body">
                     <!-- Campo de búsqueda de página -->
-                    <div class="page-search">
-                        <label for="pageNumber">Página:</label>
-                        <input type="number" id="pageNumber" min="1" value="1" class="form-control">
-                        <button onclick="goToPage()" class="btn btn-primary mt-2">Ir</button>
+                    <div class="d-flex align-items-center mb-3">
+                        <label for="pageNumber" class="me-2">Página:</label>
+                        <input type="number" id="pageNumber" min="1" value="1" class="form-control me-2" style="width: 100px;">
+                        <button onclick="goToPage()" class="btn btn-primary">Ir</button>
                     </div>
                     <!-- Iframe para mostrar el PDF -->
                     <iframe id="pdfViewer" src=""></iframe>
@@ -78,7 +78,7 @@
     </div>
 
 
-        <script src="biblioteca-usos.js"></script>
+        <script src="assets/js/biblioteca-usos.js"></script>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

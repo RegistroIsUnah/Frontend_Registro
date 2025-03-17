@@ -29,7 +29,7 @@ export function handleLogin() {
                 return response.json();
             })
             .then(data => {
-                console.log('Respuesta del backend:', data); // Verifica la respuesta
+                console.log('Respuesta del backend:'); // Verifica la respuesta
                 if (data.token) {
                     // Guardar el token en localStorage 
                     localStorage.setItem('token', data.token);
@@ -44,7 +44,7 @@ export function handleLogin() {
                         window.location.href = 'coordinador.php'; // Redirigir a la página de coordinadores
                     } else {
                         // Si no tiene un rol específico, redirigir a una página por defecto
-                        window.location.href = 'perfil.php'; //Solo por prueba ya que no tenemos vista de docente
+                        window.location.href = 'perfil.php'; //Solo por prueba ya que no tenemos vista de docente ni coordinador
                     }
                 } else {
                     document.getElementById('loginMessage').textContent = data.error || 'Se produjo un error';
