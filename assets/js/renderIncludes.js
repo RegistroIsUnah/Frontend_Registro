@@ -2,8 +2,7 @@ import { loadAdmissionsForm, loadAdmissionsPage} from './components/admissions/l
 import { loginForm } from "./components/login/login-form.js";
 import { handleLogin } from "./fetchs/loginFetch.js";
 
-import { registerBook } from './components/library/register-book.js';
-
+import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -93,6 +92,11 @@ export function renderHead(actualPage){
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
+        case "biblioteca.php":
+            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
+
         default:
         
         break;
@@ -114,7 +118,7 @@ export function renderHead(actualPage){
  * formulario y vista de revisores.). Para hacer que el navegador recuerde que componentes tenía, se tiene que almacenar su estado
  * en la memoria del navegador antes de actualizar la página.
  */
-export function renderBodyPage(namePage, body) {
+export function renderBodyPage(namePage) {
     
     switch (namePage){
 
@@ -190,11 +194,8 @@ export function renderBodyPage(namePage, body) {
 
         case "biblioteca.php":
 
-            let libraryContainer = document.createElement('div');
-            libraryContainer.className = "container my-5";
-            libraryContainer.innerHTML = registerBook;
-            body.insertBefore(libraryContainer, body.firstChild);
-
+            loadRegisterBookForm();
+            
         break;
     }
 

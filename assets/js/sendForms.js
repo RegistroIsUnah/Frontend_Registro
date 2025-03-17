@@ -37,6 +37,32 @@ export class SendForm{
 
         admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
+
+    static validateRegisterBookForm = (event) => {
+
+        event.preventDefault();
+        let form = event.target;
+        let admissionFetch = new AdmissionFetch();
+        let formData = new FormData();
+
+        formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(/\D/g, ''));
+        //formData.append("tags", form.querySelector("[name='tags']").value.trim().replace(/\D/g, ''));
+        formData.append("autores", form.querySelector("[name='autores']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
+        //formData.append("clase_id", form.querySelector("[name='clase_id']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        //formData.append("libro", form.querySelector("[name='libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+
+        let tags = form.querySelector("[name='tags']").files[0];
+        let clase_id = form.querySelector("[name='clase_id']").files[0];
+        let libro = form.querySelector("[name='libro']").files[0];
+
+        if (tags) formData.append("tags", tags);
+        if (clase_id) formData.append("clase_id", clase_id);
+        if (libro) formData.append("libro", libro);
+
+        admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
+    }
         
 }
 

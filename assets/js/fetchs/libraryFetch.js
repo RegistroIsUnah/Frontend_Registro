@@ -76,7 +76,7 @@ export class LibraryFetch{
 
     static getBooksTags() {
 
-        fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags.php`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags.php`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
@@ -85,8 +85,14 @@ export class LibraryFetch{
         })
         .then(data => {
             if (data && (Array.isArray(data) || typeof data === 'object')) {
-                console.log("Datos recibidos:", data);
-                return data;
+
+                let tagsOptions = ['<option value="0">-- Seleccione las categorías del libro --</option>']
+                .concat(data.map(tag => 
+                    `<option value="${tag.tag_id}">${tag.tag_nombre}</option>`
+                )).join('');
+
+                return tagsOptions;
+
             } else {
                 throw new Error("La respuesta no contiene datos válidos");
             }

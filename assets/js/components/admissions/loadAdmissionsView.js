@@ -5,6 +5,8 @@ import { AdmissionFetch } from "../../fetchs/admissionFetch.js";
 
 import { admissionsPage } from './admissions-page.js';
 
+import { DataFormValidations } from "../../validators/formFieldsValidations.js";
+
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.1.1
@@ -33,6 +35,7 @@ export let loadAdmissionsPage = () => {
         if (divAdmissionsPage) {
             document.body.removeChild(divAdmissionsPage);
         }
+        history.go(1);
         loadAdmissionsForm();
     });
 };
@@ -60,13 +63,14 @@ export function loadAdmissionsForm(){
         document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
         const form = document.querySelector("form");
         if (form) {
-            validateForm(form.id);
+            validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
         }
         
     }).catch(error => {
         console.error("Error al obtener datos del formulario:", error);
     });   
 }
+
 
 window.addEventListener("popstate", function (event) {
 
@@ -76,11 +80,10 @@ window.addEventListener("popstate", function (event) {
         const formularioContainer = document.getElementById("divAdmissionsForm");
         if (formularioContainer) {
             document.body.removeChild(formularioContainer);
-        }
-
-        if (event.state && event.state.view === "admissionsForm") {
+            this.history.go(-1);
             loadAdmissionsPage();
         }
+
     } else {
         history.pushState({ view: "admissionsForm" }, "", window.location.href);
     }

@@ -1,4 +1,3 @@
-import { DataFormValidations } from "./formFieldsValidations.js";
 import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
 
 /**
@@ -14,13 +13,13 @@ import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
  * Se propone que este método funcione para todos los formularios del sistema, pero aún no está adaptado.
  * Si usted no encuentra la forma de adaptar este método para varios formularios, haga otro método que valide su formulario.
  */
-export async function validateForm(formId) {
+export async function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
 
     async function validateField(event) {
         const field = event.target;
-        const validator = DataFormValidations.validationsFormAdmissions[field.name];
+        const validator =  validationsForm[field.name];//DataFormValidations.validationsFormAdmissions[field.name];
 
         let isValid = false;
         if (validator) {
@@ -45,7 +44,7 @@ export async function validateForm(formId) {
 
         const feedback = field.nextElementSibling;
         if (feedback && feedback.classList.contains('invalid-feedback')) {
-            feedback.textContent = !isValid ? FormFieldsErrorMessage.errorMessagesAdmissionsForm(field.name, errorImage) : '';
+            feedback.textContent = !isValid ? FormFieldsErrorMessage.errorMessagesAdmissionsForm(field.name, errorImage, actualForm) : '';
         }
 
         toggleSubmitButton();
