@@ -5,6 +5,8 @@ import { SendForm } from "../../sendForms.js";
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
 import { validateForm } from "../../validators/formValidator.js";
 
+import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
+
 export function loadRegisterBookForm(){
 
     let libraryContainer = document.createElement('div');
@@ -14,7 +16,6 @@ export function loadRegisterBookForm(){
     let body = document.getElementsByTagName("body")[0];
     body.insertBefore(libraryContainer, body.firstChild);
     
-    // Cargando las opciones de tags en el formulario
     LibraryFetch.getBooksTags()
     .then(data => {
 
@@ -28,8 +29,6 @@ export function loadRegisterBookForm(){
     })
     .catch(error => console.log(error));
 
-
-
-       
-
 }
+
+tagsBelowInput();

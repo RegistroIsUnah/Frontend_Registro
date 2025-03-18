@@ -19,7 +19,7 @@ export async function validateForm(formId, validationsForm, actualForm) {
 
     async function validateField(event) {
         const field = event.target;
-        const validator =  validationsForm[field.name];//DataFormValidations.validationsFormAdmissions[field.name];
+        const validator =  validationsForm[field.name];
 
         let isValid = false;
         if (validator) {
@@ -30,11 +30,13 @@ export async function validateForm(formId, validationsForm, actualForm) {
                     var errorImage = error;
                     isValid = false;
                 }
+            }else if(field.type === "date"){
+                isValid = field.value !== "";
             } else {
                 isValid = validator(field.value.trim());
             }
         } else if (field.tagName === 'SELECT') {
-            isValid = field.value !== "";
+            isValid = field.value !== "" || field.value != 0;
         } else {
             isValid = field.value.trim() !== "";
         }

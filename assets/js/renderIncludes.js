@@ -168,10 +168,10 @@ export function renderBodyPage(namePage) {
 
         case "login.php":
 
+            let body = document.getElementsByTagName("body")[0];
             let loginContainer = document.createElement('div');
-            loginContainer.className = "container my-5";
             loginContainer.innerHTML = loginForm;
-            body.insertBefore(loginContainer, body.firstChild);
+            body.insertBefore(loginContainer, body.lastChild);
             handleLogin();
 
         break;
@@ -195,7 +195,7 @@ export function renderBodyPage(namePage) {
         case "biblioteca.php":
 
             loadRegisterBookForm();
-            
+
         break;
     }
 
@@ -203,22 +203,3 @@ export function renderBodyPage(namePage) {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

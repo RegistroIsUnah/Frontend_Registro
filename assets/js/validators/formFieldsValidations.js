@@ -1,5 +1,6 @@
 import { RegularExpressions } from "../utils/regularExpressions.js";
 import { ValidateImage } from "./imagesValidator.js";
+import { PDFValidator } from "./pdfValidator.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -27,16 +28,12 @@ export class DataFormValidations {
         foto_perfil: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
     };
 
-    // FALTA
     static validationsRegisterBooksForm = {
+        
+        titulo: value => RegularExpressions.BOOK_TITLE.test(value),
+        fecha_publicacion: value => RegularExpressions.DATE.test(value),
+        descripcion: value => RegularExpressions.DESCRIPTION.test(value),
 
-        titulo: value => RegularExpressions.F_NAME.test(value),
-        fecha_publicacion: value => RegularExpressions.L_NAME.test(value),
-        descripcion: value => RegularExpressions.EMAIL.test(value),
-        autores: value => RegularExpressions.PHONE_NUMBER.test(value),
-
-        tags: values => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
-        clase_id: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
-        libro: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
+        libro: files => PDFValidator.validatePdfFile(files[0], 10)
     };
 }

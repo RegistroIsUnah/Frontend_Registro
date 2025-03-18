@@ -9,10 +9,12 @@ export class FormFieldsErrorMessage{
 
     static errorMessagesAdmissionsForm(fieldName, errorImage = '', actualForm) {
 
+        let messages;
+
         switch (actualForm){
 
             case "admissionsForm":
-                const messages = {
+                messages = {
                     nombre: "Solo letras y espacios (máx. 4 nombres)",
                     apellidos: "Ingrese exactamente dos apellidos",
                     correo: "Correo electrónico inválido",
@@ -27,8 +29,19 @@ export class FormFieldsErrorMessage{
 
             case "registerBookForm":
 
-            break;
+                messages = {
+                    nombre: "Solo letras y espacios (máx. 4 nombres)",
+                    apellidos: "Ingrese exactamente dos apellidos",
+                    correo: "Correo electrónico inválido",
+                    telefono: "Formato: +504 9999-9999",
+                    identidad: "El DNI no es correcto",
+                    certificado: errorImage,
+                    dni_file: errorImage,
+                    foto_perfil: errorImage
+                };
 
+            return messages[fieldName] || "Campo requerido";
+    
             default:
 
             break;
