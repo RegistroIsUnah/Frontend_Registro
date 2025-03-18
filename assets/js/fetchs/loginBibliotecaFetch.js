@@ -1,13 +1,13 @@
-import { ConstValues } from "../utils/constValues.js";
+import { ConstValues } from "../utils/constValues";
 
 /**
  * @author kency.oseguera@unah.hn
- * @version 0.0.2
- * @since 2025/03/15
+ * @version 0.1.0
+ * @since 2025/03/17
  * 
  */
 
-export function handleLogin() {
+export function handleLoginBiblioteca() {
 
     document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault();
@@ -15,7 +15,7 @@ export function handleLogin() {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        fetch(`${ConstValues.DOMAIN_NAME}/post/login.php`, {
+        fetch(`${ConstValues.DOMAIN_NAME}/api/post/login.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,22 +29,20 @@ export function handleLogin() {
                 return response.json();
             })
             .then(data => {
-                //console.log('Respuesta del backend:'); // Verifica la respuesta
+                //console.log('Respuesta del backend:', data); // Verifica la respuesta
                 if (data.token) {
                     // Guardar el token en localStorage 
                     localStorage.setItem('token', data.token);
 
                     // Redirigir según el rol del usuario
                     const roles = data.user.roles;
-                    if (roles.includes('estudiante')) {
-                        window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
-                    } else if (roles.includes('docente')) {
-                        window.location.href = 'docente.php'; // Redirigir a la página de docentes
-                    } else if (roles.includes('coordinador')) {
-                        window.location.href = 'coordinador.php'; // Redirigir a la página de coordinadores
+                    if (roles.includes('Biblioteca_Estudiante')) {
+                        window.location.href = 'bibliotecaKency.php';  
+                    } else if (roles.includes('Biblioteca_Coordinador')) {
+                        window.location.href = 'bibliotecaEncargado.php'; 
                     } else {
                         // Si no tiene un rol específico, redirigir a una página por defecto
-                        window.location.href = 'perfil.php'; //Solo por prueba ya que no tenemos vista de docente ni coordinador
+                        window.location.href = 'index.php'; 
                     }
                 } else {
                     document.getElementById('loginMessage').textContent = data.error || 'Se produjo un error';
