@@ -74,6 +74,33 @@ export class LibraryFetch{
     }
 
 
+    async getRegisterBookDataForm(deptId = 2) {
+        
+        try {
+            const [tagsData, classesData] = await Promise.all([
+                fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags.php`).then(response => response.json()),
+                fetch(`${ConstValues.DOMAIN_NAME}/get/clases_depto.php?dept_id=${deptId}`).then(response => response.json())
+            ]);
+
+            let tagsOptions = ['<option value="">-- Seleccione una categoría --</option>']
+                .concat(tagsData.map(tag => 
+                    `<option value="${tag.tag_id}">${tag.tag_nombre}</option>`
+                )).join('');
+
+            let classesOptions = ['<option value="">-- Seleccione una clase --</option>']
+                .concat(classesData.map(clase => 
+                    `<option value="${clase.clase_id}">${clase.nombre}</option>`
+                )).join('');
+
+            return [tagsOptions, classesOptions];
+
+        } catch (error) {
+            console.error("Error en las solicitudes:", error);
+            return [[], []]; 
+        }
+    }
+
+/*
     static getBooksTags() {
 
         return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags.php`)
@@ -86,7 +113,7 @@ export class LibraryFetch{
         .then(data => {
             if (data && (Array.isArray(data) || typeof data === 'object')) {
 
-                let tagsOptions = ['<option value="0">-- Seleccione las categorías del libro --</option>']
+                let tagsOptions = ['<option value="">-- Seleccione la categoría del libro --</option>']
                 .concat(data.map(tag => 
                     `<option value="${tag.tag_id}">${tag.tag_nombre}</option>`
                 )).join('');
@@ -101,9 +128,12 @@ export class LibraryFetch{
             console.error("Error en la solicitud:", error.message);
             throw error;
         });
-    }
+    }*/
 
-    static postBookRegister(){
+
+    static postRegisterBook(formData){
+
+        //console.log(formData);
 
         fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro.php`, {
             method: "POST",

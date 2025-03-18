@@ -201,6 +201,7 @@ export function renderBodyPage(namePage) {
             let loginContainer = document.createElement('div');
             loginContainer.innerHTML = loginForm;
             body.insertBefore(loginContainer, body.lastChild);
+            body.insertBefore(loginContainer, body.lastChild);
             handleLogin();
 
             break;
@@ -234,6 +235,8 @@ export function renderBodyPage(namePage) {
 
             loadRegisterBookForm();
 
+        break;
+
             break;
         
         case "bibliotecaKency.php":
@@ -264,22 +267,3 @@ export function renderBodyPage(namePage) {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

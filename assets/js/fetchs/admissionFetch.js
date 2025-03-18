@@ -12,7 +12,6 @@ export class AdmissionFetch{
     //admissionGet(){};
     //admissionPatch();
 
-
     async getAdmissionsDataForm() {
         
         try {
@@ -21,12 +20,12 @@ export class AdmissionFetch{
                 fetch(`${ConstValues.DOMAIN_NAME}/get/carreras.php`).then(response => response.json())
             ]);
 
-            let centerOptions = ['<option value="0">-- Seleccione un centro --</option>']
+            let centerOptions = ['<option value="">-- Seleccione un centro --</option>']
                 .concat(centrosData.map(centro => 
                     `<option value="${centro.centro_id}">${centro.nombre}</option>`
                 )).join('');
 
-            let careerOptions = ['<option value="0">-- Seleccione una carrera --</option>']
+            let careerOptions = ['<option value="">-- Seleccione una carrera --</option>']
                 .concat(carrerasData.map(carrera => 
                     `<option value="${carrera.carrera_id}">${carrera.nombre}</option>`
                 )).join('');

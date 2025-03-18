@@ -19,24 +19,26 @@ export async function validateForm(formId, validationsForm, actualForm) {
 
     async function validateField(event) {
         const field = event.target;
-        const validator =  validationsForm[field.name];//DataFormValidations.validationsFormAdmissions[field.name];
+        const validator =  validationsForm[field.name];
+        var errorField;
 
         let isValid = false;
         if (validator) {
-            if (field.type === 'file') {
+            if (field.type === 'file' || field.accept === 'application/pdf') {
                 try {
                     isValid = await validator(field.files);
                 } catch (error) {
-                    var errorImage = error;
+                    errorField = error;
                     isValid = false;
                 }
-            } else {
+            }else if(field.type === "date" || field.tagName === 'SELECT'){
+            
+                isValid = field.value !== "";
+            }else {
                 isValid = validator(field.value.trim());
             }
-        } else if (field.tagName === 'SELECT') {
-            isValid = field.value !== "";
         } else {
-            isValid = field.value.trim() !== "";
+            isValid = field.required ? field.value.trim() !== "" : true;
         }
 
         field.classList.toggle('is-valid', isValid);
@@ -44,16 +46,19 @@ export async function validateForm(formId, validationsForm, actualForm) {
 
         const feedback = field.nextElementSibling;
         if (feedback && feedback.classList.contains('invalid-feedback')) {
-            feedback.textContent = !isValid ? FormFieldsErrorMessage.errorMessagesAdmissionsForm(field.name, errorImage, actualForm) : '';
+            feedback.textContent = !isValid ? FormFieldsErrorMessage.getErrorMessages(field.name, errorField, actualForm) : '';
         }
 
         toggleSubmitButton();
     }
 
     function toggleSubmitButton() {
-        const allValid = [...form.querySelectorAll('input, select, textarea')].every(input => 
-            input.classList.contains('is-valid')
+        const requiredFields = [...form.querySelectorAll('input:required, select:required, textarea:required')];
+        
+        const allValid = requiredFields.every(field => 
+            field.classList.contains('is-valid')
         );
+        
         submitButton.disabled = !allValid;
     }
 

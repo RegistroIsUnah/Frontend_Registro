@@ -1,5 +1,6 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
+import { LibraryFetch } from "./fetchs/libraryFetch.js";
 
 export class SendForm{
     /**
@@ -42,26 +43,54 @@ export class SendForm{
 
         event.preventDefault();
         let form = event.target;
-        let admissionFetch = new AdmissionFetch();
         let formData = new FormData();
 
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(/\D/g, ''));
-        //formData.append("tags", form.querySelector("[name='tags']").value.trim().replace(/\D/g, ''));
-        formData.append("autores", form.querySelector("[name='autores']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
-        //formData.append("clase_id", form.querySelector("[name='clase_id']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        //formData.append("libro", form.querySelector("[name='libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim());
+        formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
+      
+        const autoresSelect = form.querySelector("[name='autores_lista']");
+        const autores = Array.from(autoresSelect.options).map(option => {
+            const nombreCompleto = option.value.trim();
+            const primerEspacio = nombreCompleto.indexOf(' ');
+            
+            if (primerEspacio === -1) {
+                return { nombre: nombreCompleto, apellido: '' };
+            }
+            
+            const nombre = nombreCompleto.substring(0, primerEspacio);
+            const apellido = nombreCompleto.substring(primerEspacio + 1);
+            
+            return { nombre, apellido };
+        });
+        formData.append("autores", JSON.stringify(autores));
+        
 
-        let tags = form.querySelector("[name='tags']").files[0];
-        let clase_id = form.querySelector("[name='clase_id']").files[0];
-        let libro = form.querySelector("[name='libro']").files[0];
+        const claseId = form.querySelector("[name='clase_id']").value;
+        if (claseId) {
+            formData.append("clase_id", parseInt(claseId, 10));
+        }
 
-        if (tags) formData.append("tags", tags);
-        if (clase_id) formData.append("clase_id", clase_id);
-        if (libro) formData.append("libro", libro);
+        const libroInput = form.querySelector("[name='libro']");
+        if (libroInput.files[0]) {
+            formData.append("libro", libroInput.files[0]);
+        }
+        
+        formData.append("rol", form.querySelector("[name='rol']").value); 
+        
+        const registerBookData = {
+            titulo: formData.get('titulo'),
+            fecha_publicacion: formData.get('fecha_publicacion'),
+            descripcion: formData.get('descripcion'),
+            tags: JSON.parse(formData.get('tags')),
+            autores: JSON.parse(formData.get('autores')),
+            clase_id: formData.get('clase_id') || null,
+            libro: formData.get('libro'),
+            rol: formData.get('rol')
+        };
 
-        admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
+        LibraryFetch.postRegisterBook(registerBookData);
     }
         
 }
