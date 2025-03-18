@@ -33,7 +33,12 @@ export class DataFormValidations {
         titulo: value => RegularExpressions.BOOK_TITLE.test(value),
         fecha_publicacion: value => RegularExpressions.DATE.test(value),
         descripcion: value => RegularExpressions.DESCRIPTION.test(value),
-
+        autores: () => {
+            const autoresLista = document.getElementById("autores_lista");
+            return autoresLista && autoresLista.options.length > 0 ? true: false},
+        autorsContainer: value => true,
+        autores_lista: value => true,
+        rol: value => true,
         libro: files => PDFValidator.validatePdfFile(files[0], 10)
     };
 }
