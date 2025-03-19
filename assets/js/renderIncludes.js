@@ -3,6 +3,11 @@ import { loginForm } from "./components/login/login-form.js";
 import { handleLogin } from "./fetchs/loginFetch.js";
 
 import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
+
+import { bibliotecaView } from './components/library/biblioteca-View.js';
+import { loadBooks } from './fetchs/bibliotecaFetch.js';
+import { loadBooksEncargado } from './fetchs/bibliotecaEncargadoFetch.js';
+import { handleLoginBiblioteca } from './fetchs/loginBibliotecaFetch.js';
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -63,7 +68,7 @@ export function renderHead(actualPage){
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
-        case "login.php":
+        case "login.php": case "loginBiblioteca.php":
             document.getElementsByTagName('title')[0].textContent = "login";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
         break;
@@ -92,7 +97,7 @@ export function renderHead(actualPage){
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
 
-        case "biblioteca.php":
+        case "biblioteca.php": case "bibliotecaKency.php": case "bibliotecaEncargado.php":
             document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
         break;
@@ -119,87 +124,116 @@ export function renderHead(actualPage){
  * en la memoria del navegador antes de actualizar la página.
  */
 export function renderBodyPage(namePage) {
-    
-    switch (namePage){
+    const body = document.getElementsByTagName("body")[0];
+
+
+    switch (namePage) {
 
         case "administradores.php":
 
-        break;
+            break;
 
         case "admisiones.php":
-        
+
             let actualAdmissionView = (history.state == null) ? "admissionsPage" : history.state.view;
 
             switch (actualAdmissionView) {
-        
+
                 case "admissionsForm":
-        
+
                     loadAdmissionsForm();
-                break;
-        
+                    break;
+
                 case "admissionReviewers":
-        
+
                     console.log("Cargando vista de revisores...");
-                break;
-        
+                    break;
+
                 case "admissionsPage": case null: case "":
-        
+
                     loadAdmissionsPage();
-                break;
-        
+                    break;
+
                 default:
                     console.warn("Vista no reconocida:", actualAdmissionView);
-                break;
+                    break;
             }
-            
-        break;
+
+            break;
 
         case "calificaciones.php":
 
-        break;
+            break;
 
         case "historial.php":
 
-        break;
+            break;
 
         case "landingPage.php":
 
-        break;
+            break;
 
         case "login.php":
 
-            let body = document.getElementsByTagName("body")[0];
+           
             let loginContainer = document.createElement('div');
             loginContainer.innerHTML = loginForm;
             body.insertBefore(loginContainer, body.lastChild);
             handleLogin();
 
-        break;
+            break;
+
+        case "loginBiblioteca.php":
+           
+            let loginContainer2 = document.createElement('div');
+            loginContainer2.innerHTML = loginForm;
+            body.insertBefore(loginContainer2, body.lastChild);
+            handleLoginBiblioteca();
+
+            break;
+
+        case "bibliotecaKency.php":
+            
+            let bibliotecaContainer = document.createElement('div');
+            bibliotecaContainer.innerHTML = bibliotecaView;
+            body.insertBefore(bibliotecaContainer, body.firstChild);
+
+            loadBooks();
+            break;
+
+            case "bibliotecaEncargado.php":
+            let bibliotecaEncargadoContainer = document.createElement('div');
+            bibliotecaEncargadoContainer.innerHTML = bibliotecaView;
+            body.insertBefore(bibliotecaEncargadoContainer, body.firstChild);
+
+            loadBooksEncargado(); 
+            break;
 
         case "matricula.php":
 
-        break;
+            break;
 
         case "panel.php":
 
-        break;
+            break;
 
         case "perfil.php":
 
-        break;
+            break;
 
         case "solicitudes.php":
 
-        break;
+            break;
 
         case "biblioteca.php":
 
             loadRegisterBookForm();
 
-        break;
+            break;
     }
 
     if (namePage == "admisiones.php") {
 
     }
 }
+
