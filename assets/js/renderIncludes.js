@@ -1,9 +1,15 @@
 import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
 import { loginForm } from "./components/login/login-form.js";
-import { handleLogin } from "./fetchs/loginFetch.js";
+import { login } from "./fetchs/loginFetch.js";
 
 import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
+
+import { bibliotecaView } from './components/library/biblioteca-View.js'; 
+import { loadBooks} from './fetchs/bibliotecaFetch.js';
+
+
 /**
+ * 
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
@@ -97,6 +103,12 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             break;
 
+        case "bibliotecaKency.php":
+            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            break;
+
         default:
 
             break;
@@ -120,7 +132,7 @@ export function renderHead(actualPage) {
  */
 export function renderBodyPage(namePage) {
 
-    let body = document.body; // Obtener el elemento body del documento
+    const body = document.getElementsByTagName("body")[0];
 
     switch (namePage) {
 
@@ -173,8 +185,17 @@ export function renderBodyPage(namePage) {
             let loginContainer = document.createElement('div');
             loginContainer.innerHTML = loginForm;
             body.appendChild(loginContainer);
-            handleLogin();
+            login();
 
+            break;
+
+        case "bibliotecaKency.php":
+            
+            let bibliotecaContainer = document.createElement('div');
+            bibliotecaContainer.innerHTML = bibliotecaView;
+            body.insertBefore(bibliotecaContainer, body.firstChild);
+
+            loadBooks();
             break;
 
         case "matricula.php":
