@@ -30,13 +30,17 @@ export function handleLogin() {
             })
             .then(data => {
                 console.log('Respuesta del backend:', data); // Verifica la respuesta
+                //Guardar Nombre
                 if (data.token) {
                     // Guardar el token en localStorage 
-                    localStorage.setItem('token', data.token);
+                    sessionStorage.setItem('token', data.token);
+                    sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
 
                     // Redirigir según el rol del usuario
                     const roles = data.user.roles;
                     if (roles.includes('estudiante')) {
+                        sessionStorage.setItem("userId",data.user.id);
+
                         window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
                     } else if (roles.includes('docente')) {
                         window.location.href = 'docente.php'; // Redirigir a la página de docentes

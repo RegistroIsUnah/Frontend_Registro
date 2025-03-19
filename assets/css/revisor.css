@@ -1,0 +1,20 @@
+.card small {
+    display: block; /* Hace que el small ocupe su propia línea */
+    margin: 0 0 10px 0; 
+    color: gray;
+    font-size: 0.9rem;
+  }
+
+  .bodyContainer
+  {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contentContainer
+  {
+    display: flex;
+    flex-direction: column;
+  }
+  

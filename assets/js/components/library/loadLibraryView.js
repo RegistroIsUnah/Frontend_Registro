@@ -31,4 +31,4 @@ export function loadRegisterBookForm(){
 
 }
 
-tagsBelowInput();
+//tagsBelowInput();

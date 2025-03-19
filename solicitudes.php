@@ -59,6 +59,12 @@ include 'includes/chat.php'; // Incluye el chat
                         <h3>Pago de Reposición</h3>
                         <p>Realizar pago de reposición.</p>
                     </div>
+
+                    <div class="solicitud-card" onclick="abrirModal('modal-solicitud-revisor')">
+                        <h3>Solicitud de Revisor</h3>
+                        <p>Realizar una solicitud para revisar a los nuevos aspirantes.</p>
+                    </div>
+
                 </div>
 
                 <!-- Modal de Cambio de Carrera -->
@@ -194,6 +200,22 @@ include 'includes/chat.php'; // Incluye el chat
                 </div>
 
 
+                        <!-- Modal de Solicitud de Revisor -->
+                <div id="modal-solicitud-revisor" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal" onclick="cerrarModal('modal-solicitud-revisor')">&times;</span>
+                        <div class="cambio-centro">
+                            <h3>Solicitud para Revisor</h3>
+                            <hr style="color: #ffb300;">
+                            <div class="info-estudiante">
+                                <p><strong>Estudiante: Juan Lopez</strong></p>
+                                <button class="btn-enviar" id="proofreaderRequest">Enviar Solicitud</button>
+                                 <!-- <button class="btn-enviar" onclick="cerrarModal('modal-solicitud-revisor')">Cancelar</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
@@ -257,6 +279,7 @@ include 'includes/chat.php'; // Incluye el chat
             });
         }
     </script>
+    <script type="module" src="./assets/js/components/requests/proofreaderFetch.js"></script>
 </body>
 
 </html>
