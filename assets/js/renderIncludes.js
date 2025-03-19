@@ -3,13 +3,6 @@ import { loginForm } from "./components/login/login-form.js";
 import { handleLogin } from "./fetchs/loginFetch.js";
 
 import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
-
-import { handleLoginBiblioteca } from './fetchs/loginBibliotecaFetch.js';
-
-import { bibliotecaView } from './components/library/biblioteca-view.js';
-import { loadBooks} from './fetchs/bibliotecaFetch.js';
-import { loadBooksEncargado } from './fetchs/bibliotecaEncargadoFetch.js';
-
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -74,11 +67,6 @@ export function renderHead(actualPage) {
             document.getElementsByTagName('title')[0].textContent = "login";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
             break;
-        
-        case "loginBiblioteca.php":
-            document.getElementsByTagName('title')[0].textContent = "login";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
-            break;
 
         case "matricula.php":
             document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
@@ -107,22 +95,6 @@ export function renderHead(actualPage) {
         case "biblioteca.php":
             document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
-
-            break;
-        
-        case "bibliotecaKency.php":
-            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
-    
-            break;
-
-        case "bibliotecaEncargado.php":
-            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
-        
             break;
 
         default:
@@ -148,8 +120,7 @@ export function renderHead(actualPage) {
  */
 export function renderBodyPage(namePage) {
 
-    const body = document.getElementsByTagName("body")[0];
-    
+    let body = document.body; // Obtener el elemento body del documento
 
     switch (namePage) {
 
@@ -198,20 +169,11 @@ export function renderBodyPage(namePage) {
             break;
 
         case "login.php":
+
             let loginContainer = document.createElement('div');
             loginContainer.innerHTML = loginForm;
-            body.insertBefore(loginContainer, body.lastChild);
-            body.insertBefore(loginContainer, body.lastChild);
+            body.appendChild(loginContainer);
             handleLogin();
-
-            break;
-
-        case "loginBiblioteca.php":
-           
-            let loginContainer2 = document.createElement('div');
-            loginContainer2.innerHTML = loginForm;
-            body.insertBefore(loginContainer2, body.lastChild);
-            handleLoginBiblioteca();
 
             break;
 
@@ -234,31 +196,6 @@ export function renderBodyPage(namePage) {
         case "biblioteca.php":
 
             loadRegisterBookForm();
-
-        break;
-
-            break;
-        
-        case "bibliotecaKency.php":
-            
-            let bibliotecaContainer = document.createElement('div');
-            bibliotecaContainer.innerHTML = bibliotecaView;
-            body.insertBefore(bibliotecaContainer, body.firstChild);
-
-            loadBooks(); 
-            break;
-
-        case "bibliotecaEncargado.php":
-            
-            let bibliotecaEncargadoContainer = document.createElement('div');
-            bibliotecaEncargadoContainer.innerHTML = bibliotecaView;
-            body.insertBefore(bibliotecaEncargadoContainer, body.firstChild);
-
-            loadBooksEncargado();
-            break;
-
-
-        default:
 
             break;
     }

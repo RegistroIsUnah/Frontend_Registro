@@ -29,7 +29,7 @@ export function handleLogin() {
                 return response.json();
             })
             .then(data => {
-                //console.log('Respuesta del backend:'); // Verifica la respuesta
+                console.log('Respuesta del backend:'); // Verifica la respuesta
                 if (data.token) {
                     // Guardar el token en localStorage 
                     localStorage.setItem('token', data.token);
