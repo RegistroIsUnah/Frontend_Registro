@@ -31,19 +31,3 @@
     z-index: 1; 
 }
 
-
-.imagen {
-    justify-content: center;
-    display: flex;
-}
-
-.modal label {
-    font-weight: bold;
-    padding: 10px 0px;
-}
-
-.mensaje {
-    color: rgb(87, 21, 21)!important;
-    background-color: rgb(241, 187, 187);
-    border-radius: 5px;
-}
