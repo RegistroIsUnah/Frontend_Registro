@@ -1,3 +1,10 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/16
+ * 
+ * Esta clase contiene un método encargado de validar PDFs.
+ */
 export class PDFValidator {
     static allowedTypes = ["application/pdf"];
     

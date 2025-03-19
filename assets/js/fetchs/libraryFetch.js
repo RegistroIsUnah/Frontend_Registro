@@ -73,7 +73,16 @@ export class LibraryFetch{
         })
     }
 
-
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/10
+     * 
+     * @param {*} deptId 
+     * @returns 
+     *     
+     * Este método obtiene todo el contenido que se tiene que carga dinámicamente en el formulario de registro de libros
+     */
     async getRegisterBookDataForm(deptId = 2) {
         
         try {
@@ -131,13 +140,25 @@ export class LibraryFetch{
     }*/
 
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/10
+     * 
+     * @param {*} formData 
+     * 
+     * Este método envía los datos del formulario de registro de libros a una API vía HTTP
+     */
     static postRegisterBook(formData){
 
-        //console.log(formData);
+        console.log(formData);
 
         fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro.php`, {
             method: "POST",
-            body: formData
+            body: formData,
+            headers: {
+                "Accept": "application/json"
+            }
         })
         .then(response => {
             //console.log(response);

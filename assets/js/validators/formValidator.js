@@ -2,16 +2,23 @@ import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
 
 /**
  * @author estiven.mejia@unah.hn
- * @version 0.0.1
+ * @version 0.0.3
  * @since 2025/03/11
  * 
- * @param {*} formId
+ * @param {*} formId 
+ * @param {*} validationsForm 
+ * @param {*} actualForm 
  * 
  * Esté método toma el formulario y valida sus campos. 
  * Cuando todos los campos están validados, habilita el botón de envío.
  * 
+ * 2025/03/11
  * Se propone que este método funcione para todos los formularios del sistema, pero aún no está adaptado.
  * Si usted no encuentra la forma de adaptar este método para varios formularios, haga otro método que valide su formulario.
+ * 
+ * 2025/03/18
+ * TODO // Este método actualmente está adaptado para el formulario de admisiones y registro de libros.
+ * TODO // El creador de este método considera que ya está generalizado, pero aún puede haber excepciones.
  */
 export async function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
@@ -52,6 +59,13 @@ export async function validateForm(formId, validationsForm, actualForm) {
         toggleSubmitButton();
     }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.2
+     * @since 2025/03/11
+     * 
+     * Esté metodo habilita el botón submit del formulario cuando todos los campos ya están validados y aceptados.
+     */
     function toggleSubmitButton() {
         const requiredFields = [...form.querySelectorAll('input:required, select:required, textarea:required')];
         

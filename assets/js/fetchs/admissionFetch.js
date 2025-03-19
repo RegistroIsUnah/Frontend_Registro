@@ -12,6 +12,13 @@ export class AdmissionFetch{
     //admissionGet(){};
     //admissionPatch();
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/10
+     *  
+     * Este método hace petición para toda la información que se necesita cargar dinámicamente en el formulario de admisiones
+     */
     async getAdmissionsDataForm() {
         
         try {
@@ -38,6 +45,15 @@ export class AdmissionFetch{
         }
     }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/10
+     * 
+     * @param {*} event 
+     * 
+     * Este método envía los datos del formulario de admisiones al servidor vía HTTP
+     */
     postadmissionsData(formData){
 
         fetch(`${ConstValues.DOMAIN_NAME}/post/aspirante.php`, {
