@@ -10,6 +10,7 @@ import { ConstValues } from "../utils/constValues";
 export function loadBooks() {
     const token = sessionStorage.getItem('token');
     const rolActivo = sessionStorage.getItem('rol_activo'); // Obtener el rol activo
+    const docenteId = sessionStorage.getItem('docente_id');
 
     if (!token || !rolActivo) {
         console.error('Usuario no autenticado o rol no definido');
@@ -18,7 +19,7 @@ export function loadBooks() {
 
     if (rolActivo === 'jefe de departamento') {
         // Obtener el departamento asociado al docente
-        obtenerDepartamento(token)
+        obtenerDepartamento(docenteId)
             .then(departamento => {
                 if (!departamento) {
                     console.error('No se encontró un departamento para este docente');
@@ -47,12 +48,12 @@ export function loadBooks() {
 }
 
 // Función para obtener el departamento asociado al docente
-function obtenerDepartamento(token) {
+function obtenerDepartamento(docenteId) {
     const url = `${ConstValues.DOMAIN_NAME}/get/departamentos`;
 
     return fetch(url, {
         headers: {
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${docenteId}`
         }
     })
     .then(response => {
@@ -62,18 +63,18 @@ function obtenerDepartamento(token) {
         return response.json();
     })
     .then(data => {
-        return data[0]; // Retornar el primer (y único) departamento
+        return data; 
     });
 }
 
 // Función para obtener los libros por departamento
-function obtenerLibrosPorDepartamento(token, departamentoId) {
+function obtenerLibrosPorDepartamento(docenteId, departamentoId) {
 
     const url = `${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamento_id=${departamentoId}`;
 
     // Depurar la solicitud
     console.log('URL de la solicitud:', url);
-    console.log('Token de autenticación:', token);
+    console.log('Autenticación:', docenteId);
     console.log('ID del departamento:', departamentoId);
 
 
@@ -137,7 +138,7 @@ function fetchBooks(url, rol) {
                         <select style="width: 100%; padding: 10px;">
                             <option value="">Seleccionar estado</option>
                             <option value="ACTIVO">ACTIVO</option>
-                            <option value="NO ACTIVO">INACTIVO</option>
+                            <option value="INACTIVO">INACTIVO</option>
                         </select>
                     </div>
                     <div>

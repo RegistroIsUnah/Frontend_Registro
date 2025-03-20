@@ -30,18 +30,24 @@ export function login() {
             return response.json();
         })
         .then(data => {
+            console.log(data);
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
-            sessionStorage.setItem('token', data.token);
             sessionStorage.setItem('roles', JSON.stringify(roles)); // Almacenar todos los roles
 
             // Priorizar el rol de "estudiante" si está presente
             if (roles.includes('estudiante')) {
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                sessionStorage.setItem('token', data.token);
+
                 sessionStorage.setItem('rol_activo', 'estudiante'); // Almacenar el rol activo
                 window.location.href = 'bibliotecaKency.php'; 
             } else if (roles.includes('jefe de departamento')) {
                 sessionStorage.setItem('rol_activo', 'jefe de departamento');
+                sessionStorage.setItem('token', data.token);
+                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+
+
                 window.location.href = 'bibliotecaKency.php'; 
             } else {
                 document.getElementById('loginMessage').textContent = data.error || 'Se produjo un error';
