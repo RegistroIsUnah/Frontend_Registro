@@ -34,15 +34,29 @@ export function handleLogin() {
                 if (data.token) {
                     // Guardar el token en localStorage 
                     sessionStorage.setItem('token', data.token);
-                    sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                    
+
+                    sessionStorage.setItem("userId",data.user.id);
+                    sessionStorage.setItem("roles",data.user.roles);
 
                     // Redirigir según el rol del usuario
                     const roles = data.user.roles;
+                    console.log(roles);
                     if (roles.includes('estudiante')) {
-                        sessionStorage.setItem("userId",data.user.id);
+                        
+                        sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                        sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
+                        sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                        
+                        console.log(sessionStorage.getItem("roles"));
 
                         window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
                     } else if (roles.includes('docente')) {
+
+                        sessionStorage.setItem('nombre', data.user.details.docente.nombre);
+                        sessionStorage.setItem('apellido', data.user.details.docente.apellido);
+                        sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                        window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
                         window.location.href = 'docente.php'; // Redirigir a la página de docentes
                     } else if (roles.includes('coordinador')) {
                         window.location.href = 'coordinador.php'; // Redirigir a la página de coordinadores

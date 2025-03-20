@@ -60,7 +60,7 @@ include 'includes/chat.php'; // Incluye el chat
                         <p>Realizar pago de reposición.</p>
                     </div>
 
-                    <div class="solicitud-card" onclick="abrirModal('modal-solicitud-revisor')">
+                    <div class="solicitud-card" id="proofreaderOption" onclick="abrirModal('modal-solicitud-revisor')">
                         <h3>Solicitud de Revisor</h3>
                         <p>Realizar una solicitud para revisar a los nuevos aspirantes.</p>
                     </div>
@@ -277,6 +277,7 @@ include 'includes/chat.php'; // Incluye el chat
                     chat.style.display = 'none';
                 }
             });
+
         }
     </script>
     <script type="module" src="./assets/js/components/requests/proofreaderFetch.js"></script>

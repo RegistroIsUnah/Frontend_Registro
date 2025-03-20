@@ -181,7 +181,6 @@ export function renderBodyPage(namePage) {
         break;
 
         case "panel.php":
-
         break;
 
         case "perfil.php":
