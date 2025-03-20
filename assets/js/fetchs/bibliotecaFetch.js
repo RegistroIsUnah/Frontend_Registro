@@ -63,7 +63,7 @@ function obtenerDepartamento(docenteId) {
         return response.json();
     })
     .then(data => {
-        return data; 
+        return data.depto_id; 
     });
 }
 
