@@ -1,9 +1,7 @@
 import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
-import { loadRegisterBookForm, loadLibraryStudentsView } from './components/library/loadLibraryView.js';
+import { loadLibraryView } from './components/library/loadLibraryView.js';
 
-import { bibliotecaView } from './components/library/biblioteca-View.js'; 
-import { loadBooks} from './fetchs/bibliotecaFetch.js';
-import { loadLoginView,  } from './components/login/loadLoginView.js';
+import { loadLoginView } from './components/login/loadLoginView.js';
 
 
 /**
@@ -103,7 +101,7 @@ export function renderHead(actualPage) {
 
         default:
 
-        break;
+            break;
 
     }
 }
@@ -168,37 +166,51 @@ export function renderBodyPage(namePage) {
 
             break;
 
+        case "landingPage.php":
+
+            break;
+
         case "login.php":
 
             loadLoginView();
-
         break;
-        
+
         case "matricula.php":
-        
-        break;
-        
-        case "panel.php":
-                
-        break;
-                
-        case "perfil.php":
-                    
-        break;
-                    
-        case "solicitudes.php":
-                        
-        break;
-                        
-        case "biblioteca.php":
-                            
-            let rolesArray = JSON.parse(sessionStorage.getItem("rol"));
 
-            if(rolesArray){
+            break;
+
+        case "panel.php":
+
+            break;
+
+        case "perfil.php":
+
+            break;
+
+        case "solicitudes.php":
+
+            break;
+
+        case "biblioteca.php":
                 
-                if (rolesArray.includes("estudiante") || rolesArray.includes("revisor")) {
+            let rol = sessionStorage.getItem("rol_activo");
+            
+            if(rol){              
+
+                loadLibraryView();
+            }else{
+                loadLoginView();
+            }
+
+        /*
+            let rol = sessionStorage.getItem("rol_activo");
+
+            if(rol){
+                
+                if (rol == "estudiante") {
                     loadLibraryStudentsView();
-                } else if (rolesArray.includes("docente") || rolesArray.includes("jefe_departamento") || rolesArray.includes("coordinador")) {
+                //} else if (rolesArray.includes("docente") || rolesArray.includes("jefe de departamento") || rolesArray.includes("coordinador")) {
+                }else  if(rol == "jefe de departamento" || rol == "coordinador"){
                     loadRegisterBookForm();
                 } else if (rolesArray.includes("administrador")) {
                 } 
@@ -206,8 +218,8 @@ export function renderBodyPage(namePage) {
 
                 loadLoginView();
             }
-
-        break;
+*/
+            break;
     }
 
     if (namePage == "admisiones.php") {

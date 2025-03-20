@@ -26,6 +26,7 @@ export function loadRegisterBookForm() {
         formularioContainer.innerHTML = registerBook(tagsOptions, classesOptions);
 
         let body = document.getElementsByTagName("body")[0];
+        body.removeChild(body.firstChild);
         body.insertBefore(formularioContainer, body.firstChild);
 
         tagsBelowInput();
@@ -42,8 +43,9 @@ export function loadRegisterBookForm() {
 
 }
 
-export function loadLibraryStudentsView(){
+window.loadRegisterBookForm = loadRegisterBookForm;
 
+export function loadLibraryView() {
     let body = document.getElementsByTagName("body")[0];
     let bibliotecaContainer = document.createElement('div');
     bibliotecaContainer.innerHTML = bibliotecaView;
