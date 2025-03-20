@@ -30,28 +30,51 @@ export function login() {
             return response.json();
         })
         .then(data => {
+
             console.log(data);
+            
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
             sessionStorage.setItem('roles', JSON.stringify(roles)); // Almacenar todos los roles
+            sessionStorage.setItem('token', data.token);
+            sessionStorage.setItem("userId",data.user.id);
 
             // Priorizar el rol de "estudiante" si está presente
             if (roles.includes('estudiante')) {
+                sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
-                sessionStorage.setItem('token', data.token);
-                sessionStorage.setItem('rol_activo', 'estudiante'); // Almacenar el rol activo
+                sessionStorage.setItem('rol_activo', 'estudiante'); 
+
+                const ruta = window.location.pathname.split('/').pop();
+                if(ruta == "biblioteca.php"){
+
+                    window.location.href = 'biblioteca.php'; 
+                }else{
+                    console.log(data);
+                    window.location.href = 'panel.php'; 
+                }
+
+            } else if (roles.includes('docente')) {
+
+                sessionStorage.setItem('nombre', data.user.details.docente.nombre);
+                sessionStorage.setItem('apellido', data.user.details.docente.apellido);
+                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
+                window.location.href = 'docente.php'; // Redirigir a la página de docentes
+
             } else if (roles.includes('jefe de departamento')) {
                 sessionStorage.setItem('rol_activo', 'jefe de departamento');
-                sessionStorage.setItem('token', data.token);
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                
             } else {
                 document.getElementById('loginMessage').textContent = data.error || 'Se produjo un error';
                 console.error('Rol no reconocido:', roles);
             }
-            window.location.href = 'biblioteca.php'; 
+            //window.location.href = 'biblioteca.php'; 
         })
         .catch(error => {
             console.error('Error:', error);
-        });
+        });              
     });
 }
