@@ -42,35 +42,3 @@ form {
 }
 
 
-    .navbar-brand img {
-        height: 70px;
-    }
-    
-    .page-title {
-        background: #253A69;
-        border-bottom: 2px solid #ffcc00;
-        padding: 30px 0;
-        color: white;
-    }
-    
-    .promo-card {
-        background: #f8f9fa;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        margin: 20px 0;
-    }
-    
-    .portfolio-item {
-        margin-bottom: 30px;
-    }
-    
-    .portfolio-item img {
-        border-radius: 8px;
-        transition: transform 0.3s;
-    }
-    
-    .portfolio-item:hover img {
-        transform: scale(1.05);
-    }
-    

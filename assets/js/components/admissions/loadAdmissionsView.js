@@ -71,15 +71,7 @@ export function loadAdmissionsForm(){
     });   
 }
 
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/03/15
- *  * 
- * Este evento detecta cuando una persona sale de la vista del formulario y quiere volver atrás.
- * Carga la página anterior si presiona el botón de volver del navegador.
- * TODO // Esta lógica es necesaria, ya que la página de admisiones funciona con vistas cargadas dinámicamente en el archivo .php
- */
+
 window.addEventListener("popstate", function (event) {
 
     const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
@@ -96,6 +88,8 @@ window.addEventListener("popstate", function (event) {
         history.pushState({ view: "admissionsForm" }, "", window.location.href);
     }
 });
+
+
 
 /**
  * @author estiven.mejia@unah.hn

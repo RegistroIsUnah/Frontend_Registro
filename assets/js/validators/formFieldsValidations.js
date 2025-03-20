@@ -8,9 +8,7 @@ import { PDFValidator } from "./pdfValidator.js";
  * @since 2025/02/12
  * 
  * Esta clase contiene objetos que se encargan de validar cada uno de los campos en los formularios del sistema.
- * Se debe retornar true si el campo ha cumplido con las retricciones.
- *
- * TODO // Haga un objeto por cada formulario.
+ * Haga un objeto por cada formulario.
  */
 export class DataFormValidations {
 

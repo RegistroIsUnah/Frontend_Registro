@@ -1,14 +1,3 @@
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/03/10
- * 
- * @param {*} centerOptions 
- * @param {*} careerOptions 
- * @returns 
- *  
- * Formulario de admisiones al cual se le carga contenido dinámico para mostrarlo en sus campos.
- */
 export let admissionsForm =  (centerOptions, careerOptions) => `
     <div class="container my-5">
         <!-- Formulario de Inscripción -->

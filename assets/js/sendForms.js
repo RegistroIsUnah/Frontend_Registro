@@ -39,16 +39,6 @@ export class SendForm{
         admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
 
-    /**
-     * @author estiven.mejia@unah.hn
-     * @version 0.0.2
-     * @since 2025/03/17
-     * 
-     * @param {*} event 
-     * 
-     * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
-     */
-
     static validateRegisterBookForm = (event) => {
 
         event.preventDefault();
@@ -56,7 +46,7 @@ export class SendForm{
         let formData = new FormData();
 
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim());
+        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
       
@@ -92,6 +82,5 @@ export class SendForm{
 
         LibraryFetch.postRegisterBook(formData);
     }
-        
 }
 

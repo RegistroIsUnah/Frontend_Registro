@@ -6,6 +6,8 @@ import { DataFormValidations } from "../../validators/formFieldsValidations.js";
 import { validateForm } from "../../validators/formValidator.js";
 
 import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
+import { loadBooks } from "../../fetchs/bibliotecaFetch.js";
+import { bibliotecaView } from "./biblioteca-View.js";
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.2
@@ -40,3 +42,12 @@ export function loadRegisterBookForm() {
 
 }
 
+export function loadLibraryStudentsView(){
+
+    let body = document.getElementsByTagName("body")[0];
+    let bibliotecaContainer = document.createElement('div');
+    bibliotecaContainer.innerHTML = bibliotecaView;
+    body.insertBefore(bibliotecaContainer, body.firstChild);
+
+    loadBooks();
+}

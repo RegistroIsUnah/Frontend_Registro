@@ -1,14 +1,13 @@
-import { loadAdmissionsForm, loadAdmissionsPage} from './components/admissions/loadAdmissionsView.js'
-import { loginForm } from "./components/login/login-form.js";
-import { handleLogin } from "./fetchs/loginFetch.js";
+import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
+import { loadRegisterBookForm, loadLibraryStudentsView } from './components/library/loadLibraryView.js';
 
-import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
+import { bibliotecaView } from './components/library/biblioteca-View.js'; 
+import { loadBooks} from './fetchs/bibliotecaFetch.js';
+import { loadLoginView,  } from './components/login/loadLoginView.js';
 
-import { bibliotecaView } from './components/library/biblioteca-View.js';
-import { loadBooks } from './fetchs/bibliotecaFetch.js';
-import { loadBooksEncargado } from './fetchs/bibliotecaEncargadoFetch.js';
-import { handleLoginBiblioteca } from './fetchs/loginBibliotecaFetch.js';
+
 /**
+ * 
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
@@ -19,7 +18,7 @@ import { handleLoginBiblioteca } from './fetchs/loginBibliotecaFetch.js';
  * Create link labels.
 */
 let linkLabel = (href) => {
-    
+
     let linkElement = document.createElement('link');
     linkElement.rel = 'stylesheet';
     linkElement.href = href;
@@ -34,76 +33,76 @@ let linkLabel = (href) => {
  * Se añadira la referencia al estilo CSS que corresponde a cada página.
  * Debido a que el header se comparte, no se pueden agregar todos los estilos en el mismo encabezado (se evita el choque de estilos).
  */
-export function renderHead(actualPage){
+export function renderHead(actualPage) {
 
-    switch (actualPage){
-        
+    switch (actualPage) {
+
         case "administradores.php":
             document.getElementsByTagName('title')[0].textContent = "Administración UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/administradores.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));    
-        break;
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            break;
 
         case "admisiones.php":
             document.getElementsByTagName('title')[0].textContent = "Admisiones UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "calificaciones.php":
             document.getElementsByTagName('title')[0].textContent = "Calificaciones UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/calificaciones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "historial.php":
             document.getElementsByTagName('title')[0].textContent = "Historial Académico UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/historial.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "landingPage.php":
             document.getElementsByTagName('title')[0].textContent = "Página Principal UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
-        case "login.php": case "loginBiblioteca.php":
+        case "login.php":
             document.getElementsByTagName('title')[0].textContent = "login";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
-        break;
+            break;
 
         case "matricula.php":
             document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "panel.php":
             document.getElementsByTagName('title')[0].textContent = "Panel de Estudiante";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/panel.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "perfil.php":
             document.getElementsByTagName('title')[0].textContent = "Perfil UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "solicitudes.php":
             document.getElementsByTagName('title')[0].textContent = "Solicitudes UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
-        case "biblioteca.php": case "bibliotecaKency.php": case "bibliotecaEncargado.php":
+        case "biblioteca.php":
             document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         default:
-        
+
         break;
 
     }
@@ -124,8 +123,8 @@ export function renderHead(actualPage){
  * en la memoria del navegador antes de actualizar la página.
  */
 export function renderBodyPage(namePage) {
-    const body = document.getElementsByTagName("body")[0];
 
+    const body = document.getElementsByTagName("body")[0];
 
     switch (namePage) {
 
@@ -169,71 +168,49 @@ export function renderBodyPage(namePage) {
 
             break;
 
-        case "landingPage.php":
-
-            break;
-
         case "login.php":
 
-           
-            let loginContainer = document.createElement('div');
-            loginContainer.innerHTML = loginForm;
-            body.insertBefore(loginContainer, body.lastChild);
-            handleLogin();
+            loadLoginView();
 
-            break;
-
-        case "loginBiblioteca.php":
-           
-            let loginContainer2 = document.createElement('div');
-            loginContainer2.innerHTML = loginForm;
-            body.insertBefore(loginContainer2, body.lastChild);
-            handleLoginBiblioteca();
-
-            break;
-
-        case "bibliotecaKency.php":
-            
-            let bibliotecaContainer = document.createElement('div');
-            bibliotecaContainer.innerHTML = bibliotecaView;
-            body.insertBefore(bibliotecaContainer, body.firstChild);
-
-            loadBooks();
-            break;
-
-            case "bibliotecaEncargado.php":
-            let bibliotecaEncargadoContainer = document.createElement('div');
-            bibliotecaEncargadoContainer.innerHTML = bibliotecaView;
-            body.insertBefore(bibliotecaEncargadoContainer, body.firstChild);
-
-            loadBooksEncargado(); 
-            break;
-
+        break;
+        
         case "matricula.php":
-
-            break;
-
+        
+        break;
+        
         case "panel.php":
-
-            break;
-
+                
+        break;
+                
         case "perfil.php":
-
-            break;
-
+                    
+        break;
+                    
         case "solicitudes.php":
-
-            break;
-
+                        
+        break;
+                        
         case "biblioteca.php":
+                            
+            let rolesArray = JSON.parse(sessionStorage.getItem("rol"));
 
-            loadRegisterBookForm();
+            if(rolesArray){
+                
+                if (rolesArray.includes("estudiante") || rolesArray.includes("revisor")) {
+                    loadLibraryStudentsView();
+                } else if (rolesArray.includes("docente") || rolesArray.includes("jefe_departamento") || rolesArray.includes("coordinador")) {
+                    loadRegisterBookForm();
+                } else if (rolesArray.includes("administrador")) {
+                } 
+            }else{
 
-            break;
+                loadLoginView();
+            }
+
+        break;
     }
 
     if (namePage == "admisiones.php") {
 
     }
 }
-

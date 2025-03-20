@@ -97,24 +97,19 @@
 
         <div class="dynamicContainers">
             <div class="leftDynamicContainer" id="dynamics">
-            <span class="dynamicRightMessage">Creacion de Expediente I PAC 2025</span>
-            <span id="dynamicSpan">Pertenece a nuestra familia universitaria, del 8 al 17 de Enero.</span>
-            <button type="button" class="btn btn-primary" id="dynamicLeftButton">Acceder</button>    
+            <span class="dynamicRightMessage">Creacion de Expediente II PAC 2025</span>
+            <span id="dynamicSpan">Pertenece a nuestra familia universitaria, del 22 al 29 de abril.</span>
+            <a href="./admisiones.php" type="button" class="btn btn-primary">Acceder</a>
             
             </div>
             <div class="rightDynamicContainer" id="dynamics">
                 <span class="dynamicRightMessage">¡Hecha un vistazo a la Biblioteca!</span>
                 <span id="dynamicSpan">Accede a miles de libros, revistas y artículos en línea, disponibles 24/7 desde cualquier dispositivo.</span>
-                <button type="button" class="btn btn-primary" id="dynamicRightButton">Acceder</button>
+                <a href="./biblioteca.php" type="button" class="btn btn-primary" id="dynamicRightButton">Acceder</a>
             </div>
         </div>
     </section>
 
-    <div class="accessDynamicContainer mb-3">
-            <span class="message">Inscripciones II PAC 2025</span>
-            <a href="./admisiones.php" type="button" class="btn btn-primary">¡Inscribase ahora!</a>
-        </div>
-   
     <?php
     include 'includes/footer.php';
     include 'includes/scripts.php';

@@ -3,7 +3,7 @@
  * @version 0.0.2
  * @since 2025/03/14
  * 
- * Esta clase contiene objectos que regresan los mensajes de error especializados para cada campo de formularios del sistema.
+ * Esta clase contiene métodos que regresan los mensajes de error especializados para cada formulario del sistema.
  */
 export class FormFieldsErrorMessage{
 
