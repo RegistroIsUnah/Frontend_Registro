@@ -4,10 +4,7 @@ import { login } from "./fetchs/loginFetch.js";
 
 import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
 
-import { bibliotecaView } from './components/library/biblioteca-View.js'; 
-import { loadBooks} from './fetchs/bibliotecaFetch.js';
-
-
+import { loadLibraryView } from './components/library/loadLibraryView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -190,12 +187,9 @@ export function renderBodyPage(namePage) {
             break;
 
         case "bibliotecaKency.php":
-            
-            let bibliotecaContainer = document.createElement('div');
-            bibliotecaContainer.innerHTML = bibliotecaView;
-            body.insertBefore(bibliotecaContainer, body.firstChild);
+          
 
-            loadBooks();
+        loadLibraryView();
             break;
 
         case "matricula.php":
