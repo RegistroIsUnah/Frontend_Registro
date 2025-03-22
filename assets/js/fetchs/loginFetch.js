@@ -2,17 +2,17 @@ import { ConstValues } from "../utils/constValues";
 
 /**
  * @author kency.oseguera@unah.hn
- * @version 0.1.3
+ * @version 0.1.1
  * @since 2025/03/19
  */
 
-// Función para iniciar sesión
 export function login() {
     document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
+        const loginMessage = document.getElementById('loginMessage');
 
         const url = `${ConstValues.DOMAIN_NAME}/post/login`;
 
@@ -25,7 +25,7 @@ export function login() {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al iniciar sesión');
+                throw new Error('Error al iniciar sesión. Por favor, inténtelo otra vez.');
             }
             return response.json();
         })
@@ -39,22 +39,22 @@ export function login() {
             if (roles.includes('estudiante')) {
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('token', data.token);
-
                 sessionStorage.setItem('rol_activo', 'estudiante'); // Almacenar el rol activo
-                window.location.href = 'bibliotecaKency.php'; 
+                window.location.href = 'bibliotecaKency.php';
+            
             } else if (roles.includes('jefe de departamento')) {
                 sessionStorage.setItem('rol_activo', 'jefe de departamento');
                 sessionStorage.setItem('token', data.token);
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
-
-
                 window.location.href = 'bibliotecaKency.php'; 
+
             } else {
-                document.getElementById('loginMessage').textContent = data.error || 'Se produjo un error';
                 console.error('Rol no reconocido:', roles);
             }
         })
         .catch(error => {
+            // Mostrar el mensaje al usuario
+            loginMessage.textContent = error.message;
             console.error('Error:', error);
         });
     });

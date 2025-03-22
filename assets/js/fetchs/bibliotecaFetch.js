@@ -16,11 +16,13 @@ export class BibliotecaFetch {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
             }
             const data = await response.json();
-            console.log(data)
-            return data; // Retorna los datos
+            //console.log(data)
+            return data;
         } catch (error) {
             console.error("Error en la solicitud:", error);
-            return []; // Retorna un array vacío en caso de error
+            return []; 
         }
     }
+
+
 }

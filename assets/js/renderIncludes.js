@@ -4,7 +4,7 @@ import { login } from "./fetchs/loginFetch.js";
 
 import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
 
-import { loadLibraryView } from './components/library/loadLibraryView.js';
+import { loadLibraryPage } from './components/library/loadLibraryView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -189,7 +189,7 @@ export function renderBodyPage(namePage) {
         case "bibliotecaKency.php":
           
 
-        loadLibraryView();
+        loadLibraryPage();
             break;
 
         case "matricula.php":

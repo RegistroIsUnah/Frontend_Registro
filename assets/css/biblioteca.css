@@ -25,6 +25,10 @@ h1{
     color: #12a9c2;
 }
 
+h3{
+    color: #013775!important;
+}
+
 .book-card {
     cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
