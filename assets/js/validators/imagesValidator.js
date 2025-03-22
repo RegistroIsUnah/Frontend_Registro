@@ -3,14 +3,12 @@
  * @version 0.0.1
  * @since 2025/03/12
  * 
- * @param {*} formId
- * 
  * Class used to validate every imagen that is sended by a form.
  * Can use this method to validate all the images.
  * 
  * Falta agregar que acepte otros tipos de datos.
  */
-class ValidateImage {
+export class ValidateImage {
     static async validateImageFile(file, allowedTypes, maxSize, minWidth, minHeight) {
         return new Promise((resolve, reject) => {
             if (!file) {
@@ -50,4 +48,3 @@ class ValidateImage {
         });
     }
 }
-export {ValidateImage};

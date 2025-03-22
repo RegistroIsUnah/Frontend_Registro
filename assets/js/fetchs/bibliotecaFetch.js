@@ -1,4 +1,6 @@
 import { ConstValues } from "../utils/constValues.js";
+import { ConstValues } from "../utils/constValues.js";
+import { loadRegisterBookForm } from "../components/library/loadLibraryView.js";
 
 /**
  * @author kency.oseguera@unah.hn

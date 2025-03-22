@@ -22,6 +22,7 @@ export class FormFieldsErrorMessage{
                     tags: "No ha seleccionados categorías para el libro",
                     clase_id: "Asigne el libro a una clase",
                     autores: "Campo vacío",
+                    editorial: "Nombre inválido",
                     libro: errorFile
                 };
 
@@ -34,9 +35,9 @@ export class FormFieldsErrorMessage{
                     correo: "Correo electrónico inválido",
                     telefono: "Formato: +504 9999-9999",
                     identidad: "El DNI no es correcto",
-                    certificado: errorImage,
-                    dni_file: errorImage,
-                    foto_perfil: errorImage
+                    certificado: errorFile,
+                    dni_file: errorFile,
+                    foto_perfil: errorFile
                 };
             
             return messages[fieldName] || "Campo requerido";

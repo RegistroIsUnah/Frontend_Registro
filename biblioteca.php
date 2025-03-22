@@ -1,8 +1,8 @@
 <?php
 
-  if(!isset($_SESSION)){
-    echo "hola";
-  }
+  // if(!isset($_SESSION)){
+  //   echo "hola";
+  // }
 ?>
 
 <!DOCTYPE html>

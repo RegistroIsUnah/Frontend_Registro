@@ -35,6 +35,7 @@ export function loadRegisterBookForm() {
         formularioContainer.innerHTML = registerBook(tagsOptions, clasesOptions);
 
         let body = document.getElementsByTagName("body")[0];
+        body.removeChild(body.firstChild);
         body.insertBefore(formularioContainer, body.firstChild);
 
         tagsBelowInput();

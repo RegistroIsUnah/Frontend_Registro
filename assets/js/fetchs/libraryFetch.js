@@ -131,28 +131,27 @@ export class LibraryFetch{
     }*/
 
 
-    static postRegisterBook(formData){
-
-        //console.log(formData);
-
+    static postRegisterBook(formData) {
+        console.log("Datos a enviar:", formData);
+    
         fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro.php`, {
             method: "POST",
-            body: formData
+            body: formData, // No necesitas headers para FormData
         })
         .then(response => {
-            //console.log(response);
+            console.log("Respuesta del servidor:", response);
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
             }
             return response.json();
         })
         .then(data => {
-            if (data.message === "Libro registrado correctamente") {
-                alert(data.message);
-                
-                //window.location.href = "landingPage.php";
+            if (data.mensaje == "Libro registrado correctamente") {
+                alert(data.mensaje);
+                // Redirigir o recargar la página
+                // window.location.href = "landingPage.php";
             } else {
-                alert("Error al enviar el formulario: " + (data.message || "Error desconocido"));
+                alert("Error al enviar el formulario: " + (data.mensaje || "Error desconocido"));
             }
         })
         .catch(error => {

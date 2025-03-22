@@ -1,3 +1,15 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ * 
+ * @param {*} tagsOptions 
+ * @param {*} classesOptions 
+ * @returns 
+ *   
+ * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos.
+ * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
+ */
 export let registerBook = (tagsOptions, classesOptions) => `
 
 <div class="position-absolute top-50 start-50 translate-middle bg-white rounded-3 shadow p-5 w-75" style="transform: translate(-50%, -50%)!important;">
@@ -47,7 +59,7 @@ export let registerBook = (tagsOptions, classesOptions) => `
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-md-6">
             <div class="mb-3">
                 <label for="autores" class="form-label fw-bold" style="color: #2B3A55;">Autores del libro</label>
                 <div class="input-group">
@@ -61,6 +73,14 @@ export let registerBook = (tagsOptions, classesOptions) => `
                 <select name="autores_lista" id="autores_lista" class="form-select d-none" multiple>
                     <!-- Las opciones se generarán aquí -->
                 </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="editorial" class="form-label fw-bold" style="color: #2B3A55;">Editorial</label>
+                <input type="text" name="editorial" id="editorial" maxlength="50" class="form-control" style="border-color: #DEE2E6;" required>
+                <span class="invalid-feedback"></span>
             </div>
         </div>
 

@@ -38,7 +38,8 @@ export class DataFormValidations {
             return autoresLista && autoresLista.options.length > 0 ? true: false},
         autorsContainer: value => true,
         autores_lista: value => true,
+        editorial: value => RegularExpressions.DESCRIPTION.test(value),
         rol: value => true,
-        libro: files => PDFValidator.validatePdfFile(files[0], 10)
+        libro: files => PDFValidator.validatePdfFile(files[0], 12)
     };
 }

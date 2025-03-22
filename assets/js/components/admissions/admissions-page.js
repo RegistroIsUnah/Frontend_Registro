@@ -1,7 +1,13 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ *  
+ * Página de admisiones, la cuál tiene acceso todas las personas que ingresen desde internet.
+ */
 export let admissionsPage = () => `
-    <div class="container">
 
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+<div id="carouselExampleControls" class="carousel slide m-lg-5 m-md-4 m-sm-3" data-bs-ride="carousel">
             <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="./assets/img/admissions/banner-2025-08-PAC.jpg" class="d-block w-100" alt="...">
@@ -26,10 +32,11 @@ export let admissionsPage = () => `
             </button>
         </div>
 
-        <div class="accessDynamicContainer mb-3">
-                <span class="message">Inscripciones II PAC 2025</span>
-                <button id="admissionsFormButton" type="button" class="btn btn-primary">¡Inscribase ahora!</button>
-            </div>
+        <div class="accessDynamicContainer container mb-3 d-flex flex-column align-items-center">
+            <h1 class="message mb-3">Inscripciones II PAC 2025</h1>
+            <button id="admissionsFormButton" type="button" class="btn btn-primary btn-lg w-50">
+                ¡Inscríbase ahora!
+            </button>
+        </div>
 
-
-    </div>`;
+`;

@@ -46,7 +46,7 @@ export class SendForm{
         let formData = new FormData();
 
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim());
+        formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
       
@@ -66,6 +66,7 @@ export class SendForm{
         });
         formData.append("autores", JSON.stringify(autores));
         
+        formData.append("editorial", form.querySelector("[name='editorial']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
         const claseId = form.querySelector("[name='clase_id']").value;
         if (claseId) {
@@ -78,20 +79,8 @@ export class SendForm{
         }
         
         formData.append("rol", form.querySelector("[name='rol']").value); 
-        
-        const registerBookData = {
-            titulo: formData.get('titulo'),
-            fecha_publicacion: formData.get('fecha_publicacion'),
-            descripcion: formData.get('descripcion'),
-            tags: JSON.parse(formData.get('tags')),
-            autores: JSON.parse(formData.get('autores')),
-            clase_id: formData.get('clase_id') || null,
-            libro: formData.get('libro'),
-            rol: formData.get('rol')
-        };
 
-        LibraryFetch.postRegisterBook(registerBookData);
+        LibraryFetch.postRegisterBook(formData);
     }
-        
 }
 

@@ -1,10 +1,9 @@
 import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
-import { loginForm } from "./components/login/login-form.js";
-import { login } from "./fetchs/loginFetch.js";
+import { loadLibraryView } from './components/library/loadLibraryView.js';
 
-import { loadRegisterBookForm } from './components/library/loadLibraryView.js';
+import { loadLoginView } from './components/login/loadLoginView.js';
 
-import { loadLibraryPage } from './components/library/loadLibraryView.js';
+
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -100,12 +99,6 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             break;
 
-        case "bibliotecaKency.php":
-            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-            break;
-
         default:
 
             break;
@@ -179,18 +172,8 @@ export function renderBodyPage(namePage) {
 
         case "login.php":
 
-            let loginContainer = document.createElement('div');
-            loginContainer.innerHTML = loginForm;
-            body.appendChild(loginContainer);
-            login();
-
-            break;
-
-        case "bibliotecaKency.php":
-          
-
-        loadLibraryPage();
-            break;
+            loadLoginView();
+        break;
 
         case "matricula.php":
 
@@ -209,9 +192,33 @@ export function renderBodyPage(namePage) {
             break;
 
         case "biblioteca.php":
+                
+            let rol = sessionStorage.getItem("rol_activo");
+            
+            if(rol){              
 
-            loadRegisterBookForm();
+                loadLibraryView();
+            }else{
+                loadLoginView();
+            }
 
+        /*
+            let rol = sessionStorage.getItem("rol_activo");
+
+            if(rol){
+                
+                if (rol == "estudiante") {
+                    loadLibraryStudentsView();
+                //} else if (rolesArray.includes("docente") || rolesArray.includes("jefe de departamento") || rolesArray.includes("coordinador")) {
+                }else  if(rol == "jefe de departamento" || rol == "coordinador"){
+                    loadRegisterBookForm();
+                } else if (rolesArray.includes("administrador")) {
+                } 
+            }else{
+
+                loadLoginView();
+            }
+*/
             break;
     }
 
