@@ -12,6 +12,8 @@ import { bibliotecaView } from './library-page.js';
 import { BibliotecaFetch } from "../../fetchs/bibliotecaFetch.js";
 import { filtrarLibros } from "./filtrarLibros.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
+import { renderLibros } from "./renderBookView.js";
+
 
 
 /**
