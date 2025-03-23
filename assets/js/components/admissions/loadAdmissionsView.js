@@ -1,12 +1,14 @@
-import { admissionsForm } from "./admissions-form.js";
-import { SendForm } from "../../sendForms.js";
-import { validateForm } from '../../validators/formValidator.js';
-import { AdmissionFetch } from "../../fetchs/admissionFetch.js";
-
 import { admissionsPage } from './admissions-page.js';
-
+import { admissionsForm } from "./admissions-form.js";
+import { showAdmissionApplication } from "./show-admission-application.js";
+import { validateForm } from '../../validators/formValidator.js';
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
+import { SendForm } from "../../sendForms.js";
 
+import { CenterFetch } from "../../fetchs/centerFetch.js";
+import { AdmissionFetch } from '../../fetchs/admissionFetch.js';
+
+import { informationModal } from '../modals/modals.js';
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.1.1
@@ -19,84 +21,247 @@ export let loadAdmissionsPage = () => {
     history.pushState({ view: "admissionsPage" }, "", window.location.href);
 
     const existingPage = document.getElementById("divAdmissionsForm");
-    if (existingPage) {
-        document.body.removeChild(existingPage);
-    }
+    existingPage && document.body.removeChild(existingPage);
 
     const bodyAdmissionsPage = document.createElement('div');
     bodyAdmissionsPage.id = "divAdmissionsPage";
     bodyAdmissionsPage.innerHTML = admissionsPage();
-    document.body.insertBefore(bodyAdmissionsPage, document.body.firstChild);
 
+    document.getElementById("navbar").insertAdjacentElement("afterend", bodyAdmissionsPage);
+    //document.body.insertBefore(bodyAdmissionsPage, document.body.firstChild);
     
     document.getElementById("admissionsFormButton").addEventListener("click", function () {
 
         const divAdmissionsPage = document.getElementById("divAdmissionsPage");
         if (divAdmissionsPage) {
             document.body.removeChild(divAdmissionsPage);
+            history.go(1);
+            loadAdmissionsForm();
         }
-        history.go(1);
-        loadAdmissionsForm();
+    });
+
+    document.getElementById("showAdmissionApplicationButton").addEventListener("click", () => {
+
+        const divAdmissionsPage = document.getElementById("divAdmissionsPage");
+        if (divAdmissionsPage) {
+            document.body.removeChild(divAdmissionsPage);
+            history.go(1);
+            loadAdmissionApplicationView();
+        }
     });
 };
 
 /**
  * @author estiven.mejia@unah.hn
- * @version 0.1.1
+ * @version 0.0.3
  * @since 2025/03/15
  * 
- * Función que carga la vista del formulario de admisiones
+ * Función que carga la vista del formulario de admisiones.
  */
-export function loadAdmissionsForm(){
+export async function loadAdmissionsForm(){
+
+    history.pushState({ view: "admissionsForm" }, "", window.location.href); // Indicando la vista actual en el historial de navegador
     
-    history.pushState({ view: "admissionsForm" }, "", window.location.href);
+    // El siguiente código construye las etiquetas que se cargarán dinámicamente en el formulario 
+    let centersData = await CenterFetch.getCenters();
+    
+    let centerOptions = ['<option value="">-- Seleccione un centro --</option>']
+    .concat(centersData.map(centro => 
+        `<option value="${centro.centro_id}">${centro.nombre}</option>`
+    )).join('');
 
-    let admissionsFetch = new AdmissionFetch();
-    admissionsFetch.getAdmissionsDataForm().then(([centerOptions, careerOptions]) => {
+    let careerOptions1 = "<option value='' selected> -- Seleccione primero un centro --</option>";
+    let careerOptions2 = "<option value='' selected> -- Seleccione antes una carrera principal --</option>";
+    
+    // El siguiente código carga el formulario en la vista, listo con su contenido dinámico.
+    const formularioContainer = document.createElement('div');
+    formularioContainer.id = "divAdmissionsForm";
+    formularioContainer.innerHTML = admissionsForm(centerOptions, careerOptions1, careerOptions2);
+    document.getElementById("navbar").insertAdjacentElement("afterend", formularioContainer);
+    //let body = document.getElementsByTagName("body")[0];
+    //body.insertBefore(formularioContainer, body.firstChild);
+    
+    document.getElementById("centro_regional").addEventListener("change", loadPrimaryCareersToAdmissionsForm);
 
-        let body = document.getElementsByTagName("body")[0];
-        const formularioContainer = document.createElement('div');
-        formularioContainer.id = "divAdmissionsForm";
-        formularioContainer.innerHTML = admissionsForm(centerOptions, careerOptions);
-        body.insertBefore(formularioContainer, body.firstChild);
-
-        document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
-        const form = document.querySelector("form");
-        if (form) {
-            validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
-        }
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/22
+     * 
+     *  El siguiente código carga en el formulario las carreras del centro que se ha elegido.
+     */
+    async function loadPrimaryCareersToAdmissionsForm(event) {
         
-    }).catch(error => {
-        console.error("Error al obtener datos del formulario:", error);
-    });   
-}
-
-
-window.addEventListener("popstate", function (event) {
-
-    const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
-
-    if (confirmarSalida) {
-        const formularioContainer = document.getElementById("divAdmissionsForm");
-        if (formularioContainer) {
-            document.body.removeChild(formularioContainer);
-            this.history.go(-1);
-            loadAdmissionsPage();
+        if(!event.target.value){
+            document.getElementById("carrera_principal").disabled = true; 
+            document.getElementById("carrera_secundaria").disabled = true;
+            return;
         }
+        let careersCenterData = await CenterFetch.getCareersByCenter(event.target.value);
+        let careerOptions = ['<option value="">-- Seleccione su carrera primaria --</option>']
+        .concat(Object.values(careersCenterData).map(career => 
+            `<option class="${career.examenes[0].nota_minima}" value="${career.carrera_id}">${career.carrera_nombre}</option>`
+        )).join('');
 
-    } else {
-        history.pushState({ view: "admissionsForm" }, "", window.location.href);
+        document.getElementById("carrera_principal").disabled = false;
+        document.getElementById("carrera_principal").innerHTML = careerOptions;
+        document.getElementById("carrera_principal").addEventListener("change", loadSecondCareersToAdmissionsForm);
+
+        /**
+         * @author estiven.mejia@unah.hn
+         * @version 0.0.1
+         * @since 2025/03/22
+         * 
+         *  El siguiente código carga las carreras de menor o igual puntaje que la carrera principal en la sección de carreras secundarias.
+         */
+        function loadSecondCareersToAdmissionsForm(event){
+
+            if(!event.target.value){document.getElementById("carrera_secundaria").disabled = true; return;}
+
+            let primaryCareerSelected = Object.values(careersCenterData).filter((career) => career.carrera_id == event.target.value);
+            let secondCareers = Object.values(careersCenterData).filter((career) => 
+                career.examenes[0].nota_minima <= primaryCareerSelected[0].examenes[0].nota_minima
+                && career.carrera_id !== primaryCareerSelected[0].carrera_id );
+
+            let careerOptions = ['<option value="">-- Seleccione su carrera secundaria --</option>']
+            .concat(Object.values(secondCareers).map(career => 
+                `<option class="${career.examenes[0].nota_minima}" value="${career.carrera_id}">${career.carrera_nombre}</option>`
+            )).join('');
+    
+            document.getElementById("carrera_secundaria").disabled = false;
+            document.getElementById("carrera_secundaria").innerHTML = careerOptions;            
+        }        
     }
-});
-
-
+    
+    const form = document.querySelector("#applicants-admission-form");
+    if (form) {
+        validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
+    }
+    document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
+}
 
 /**
  * @author estiven.mejia@unah.hn
- * @version 0.1.1
- * @since 2025/03/15
+ * @version 0.0.1
+ * @since 2025/03/23
  * 
- * Función que carga la vista de admisiones para los revisores
+ * Esta función renderiza la vista utilizada para visualizar el estado de la solicitud de admisión en el archivo admisiones.php
  */
-export function loadAdmissionsReviewersPage(){}
+export function loadAdmissionApplicationView(){
 
+    history.pushState({ view: "admissionApplicationView" }, "", window.location.href); // Indicando la vista actual en el historial de navegador
+    
+    let admissionApplicationDiv = document.createElement("div");
+    admissionApplicationDiv.innerHTML = showAdmissionApplication();
+    
+    document.getElementById("navbar").insertAdjacentElement("afterend", admissionApplicationDiv);
+    
+    // Muestra la información de la solicitud si se ha ingresado el número de solicitud.
+    document.getElementById("showAdmissionApplicationButton").addEventListener("click", async (event) => {
+        
+        let applicacionNumber = (event.target.previousElementSibling.value).trim();
+        let admissionData = await AdmissionFetch.getAdmissionDataByApplicationNumber(applicacionNumber);
+
+        console.log(admissionData);
+        let admissionDataDiv = document.createElement("div");
+        admissionDataDiv.className = "container container-form mt-5";
+        admissionDataDiv.innerText = admissionData;
+        document.getElementById("admissionApplicationContent").insertAdjacentElement("afterend", admissionDataDiv);
+    });
+
+    // Muestra información personal y el número de solicitud si se ingresa el DNI para recuperar el número.
+    document.getElementById("recoverAdmissionNumberButton").addEventListener("click", async () => {
+       
+        // Lógica para creación de la modal donde se ingresará la identificación del aspirante para mostrar el número de solicitud.
+        let modalBody = `<div class="input-group flex-column"> 
+                            <p class="mb-2 text-center">Ingrese su número de solicitud</p> 
+                            <div class="d-flex align-items-center">
+                                <input class="form-control me-2" type="text" maxlength="13" placeholder="Número de solicitud">
+                                <button type="submit" id="recoverAdmissionNumberButtonModal" style="background-color: #013775;" class="btn btn-primary">Ver</button> 
+                            </div>
+                        </div>`;
+
+        let modal = informationModal("Recupere su número de solicitud", modalBody, "Enviar No. solicitud por correo", "hidden");
+        
+        let divModal = document.createElement("div");
+        divModal.innerHTML = modal;
+        document.body.appendChild(divModal);
+
+        let successModalInstance = new bootstrap.Modal(document.getElementById('informationModal'));
+        successModalInstance.show();
+
+        // Lógica para mostrar en la modal información y número de solicitud del aspirante.
+        document.getElementById("recoverAdmissionNumberButtonModal").addEventListener("click", async (event) => {
+
+            let identificationNumber = (event.target.previousElementSibling.value).trim();
+            let admissionData = await AdmissionFetch.getApplicationNumberByIdentification(identificationNumber);
+            let dataAdmissionTable = "";
+
+            if(!admissionData.error){
+                dataAdmissionTable = `
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Datos</th>
+                            <th scope="col">Datos solicitud</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th scope="row">Nombres</th>
+                            <td>${admissionData.nombre}</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Apellidos</th>
+                            <td>${admissionData.apellido}</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Carrera primaria</th>
+                            <td>${admissionData.carrera_principal}</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Carrera secundaria</th>
+                            <td>${admissionData.carrera_secundaria}</td>
+                            </tr>
+                            <tr>
+                            <th scope="row">Fecha solicitud</th>
+                            <td>${admissionData.fecha_solicitud}</td>               
+                            </tr>
+                            <tr>
+                            <th scope="row" style="color:red;">Número de solicitud</th>
+                            <td><strong style="color:red;">${admissionData.numSolicitud}</strong></td>                
+                            </tr>
+                        </tbody>
+                    </table>
+                    `;
+                document.getElementById("successButtomModal").hidden = false;
+            }else{
+                dataAdmissionTable = `
+                <h5 style="color:red">Hubo un problema al intentar encontrar una solicitud de admisión con el número de identificación ${identificationNumber}</h5>`
+            }
+
+            let admissionDataDiv = document.createElement("div");
+            admissionDataDiv.className = "container mt-5";
+            admissionDataDiv.innerHTML = dataAdmissionTable;
+            document.getElementsByClassName("modal-body")[0].replaceChild(admissionDataDiv, document.getElementsByClassName("modal-body")[0].lastChild);
+        });
+    });
+
+}
+
+window.addEventListener("popstate", () => {
+
+    if(history.state.view == "admissionsForm"){
+
+        const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
+        const formularioContainer = document.getElementById("divAdmissionsForm");
+
+        if (confirmarSalida && formularioContainer) {
+            document.body.removeChild(formularioContainer);
+            history.back();
+            loadAdmissionsPage();
+        } else {
+            history.pushState({ view: "admissionsForm" }, "", window.location.href);
+        }
+    }
+});

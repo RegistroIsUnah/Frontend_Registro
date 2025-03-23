@@ -16,7 +16,6 @@ export class SendForm{
         
         event.preventDefault();
         let form = event.target;
-        let admissionFetch = new AdmissionFetch();
         let formData = new FormData();
 
         formData.append("nombre", form.querySelector("[name='nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
@@ -32,13 +31,22 @@ export class SendForm{
         let fotodni = form.querySelector("[name='dni_file']").files[0];
         let certificado = form.querySelector("[name='certificado']").files[0];
 
-        if (foto) formData.append("foto", foto);
-        if (fotodni) formData.append("fotodni", fotodni);
-        if (certificado) formData.append("certificado", certificado);
+        foto && formData.append("foto", foto);
+        fotodni && formData.append("fotodni", fotodni);
+        certificado && formData.append("certificado", certificado);
 
-        admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
+        AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/16
+     * 
+     * @param {*} event 
+     * 
+     * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
+     */
     static validateRegisterBookForm = (event) => {
 
         event.preventDefault();

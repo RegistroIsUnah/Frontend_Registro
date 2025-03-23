@@ -20,29 +20,28 @@ import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
  * TODO // Este método actualmente está adaptado para el formulario de admisiones y registro de libros.
  * TODO // El creador de este método considera que ya está generalizado, pero aún puede haber excepciones.
  */
-export async function validateForm(formId, validationsForm, actualForm) {
+export function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
 
     async function validateField(event) {
-        const field = event.target;
-        const validator =  validationsForm[field.name];
-        var errorField;
+        let field = event.target;
+        let validator = validationsForm[field.name];
+        let errorField;
 
         let isValid = false;
         if (validator) {
-            if (field.type === 'file' || field.accept === 'application/pdf') {
+            if (field.type == 'file' || field.accept == 'application/pdf') {
                 try {
                     isValid = await validator(field.files);
                 } catch (error) {
                     errorField = error;
                     isValid = false;
                 }
-            }else if(field.type === "date" || field.tagName === 'SELECT'){
-            
+            }else if(field.type === "date" || field.tagName === 'select'){
                 isValid = field.value !== "";
             }else {
-                isValid = validator(field.value.trim());
+                isValid = await validator(field.value.trim());
             }
         } else {
             isValid = field.required ? field.value.trim() !== "" : true;

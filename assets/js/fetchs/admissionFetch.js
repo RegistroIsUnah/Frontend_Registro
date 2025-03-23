@@ -2,7 +2,7 @@ import { ConstValues } from "../utils/constValues.js";
 
 /**
  * @author estiven.mejia@unah.hn
- * @version 0.1.1
+ * @version 0.0.1
  * @since 2025/03/14
  * 
  * Class that contains methods to consume API endpoints specifically for the Admissions module.
@@ -12,40 +12,24 @@ export class AdmissionFetch{
     //admissionGet(){};
     //admissionPatch();
 
-    async getAdmissionsDataForm() {
-        
-        try {
-            const [centrosData, carrerasData] = await Promise.all([
-                fetch(`${ConstValues.DOMAIN_NAME}/get/centros.php`).then(response => response.json()),
-                fetch(`${ConstValues.DOMAIN_NAME}/get/carreras.php`).then(response => response.json())
-            ]);
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.3
+     * @since 2025/03/14
+     * 
+     * Esta función envía los datos del formulario de admisión para registrar a un aspirante.
+     */
+    static postadmissionsData(formData){
 
-            let centerOptions = ['<option value="">-- Seleccione un centro --</option>']
-                .concat(centrosData.map(centro => 
-                    `<option value="${centro.centro_id}">${centro.nombre}</option>`
-                )).join('');
+        console.log(formData);
 
-            let careerOptions = ['<option value="">-- Seleccione una carrera --</option>']
-                .concat(carrerasData.map(carrera => 
-                    `<option value="${carrera.carrera_id}">${carrera.nombre}</option>`
-                )).join('');
-
-            return [centerOptions, careerOptions];
-
-        } catch (error) {
-            console.error("Error en las solicitudes:", error);
-            return [[], []]; 
-        }
-    }
-
-    postadmissionsData(formData){
-
-        fetch(`${ConstValues.DOMAIN_NAME}/post/aspirante.php`, {
+        /*
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/aspirante.php`, {
             method: "POST",
             body: formData
         })
         .then(response => {
-            //console.log(response);
+            console.log(response);
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
             }
@@ -64,7 +48,46 @@ export class AdmissionFetch{
             console.error("Error en la solicitud:", error);
             alert("Error en la solicitud: " + error.message);
         });
+        */
+    }
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/23
+     * 
+     * Obtener número de solicitud por número de identificación.
+     */
+    static getApplicationNumberByIdentification(idetificationNumber){
 
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/recuperar_datos_aspirante.php?documento=${idetificationNumber}`)
+        .then(response => { return response.json(); })
+        .then(data => { return data; })
+        .catch(error => { console.error("Error en la solicitud:", error.message); });    
+    }
+
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/03/23
+     * 
+     * Obtener datos de la solicitud de admisión por el número de solicitud.
+     */
+    static getAdmissionDataByApplicationNumber(applicacionNumber){
+
+        return "hola que tal"+applicacionNumber;
+
+        /*
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/recuperar_datos_aspirante?documento=${applicacionNumber}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        })
+        /* Devuelve los datos de la solicitud del aspirante y su estado. *//*
+        .then(data => { return data; })
+        .catch(error => { console.error("Error en la solicitud:", error.message); });
+        */
     }
 }
 
@@ -143,6 +166,5 @@ function getAdmissionsDataRequest() {
 } 
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("admissionFetch.js está funcionando");
     getAdmissionsDataRequest();
     });

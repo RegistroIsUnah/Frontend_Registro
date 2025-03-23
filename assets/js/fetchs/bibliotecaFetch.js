@@ -22,14 +22,11 @@ export function loadBooks() {
         // Obtener el departamento asociado al docente
         obtenerDepartamento(docenteId)
             .then(departamento => {
-                if (!departamento) {
-                    console.error('No se encontró un departamento para este docente');
-                    return;
-                }
+                console.log(departamento);
 
                 // Obtener los libros del departamento
-                //const departamentoId = departamento.dept_id;
-                obtenerLibrosPorDepartamento(token, departamento);
+                const departamentoId = departamento.dept_id;
+                obtenerLibrosPorDepartamento(docenteId, departamentoId);
             })
             .catch(error => {
                 console.error('Error al obtener el departamento:', error);
@@ -65,11 +62,8 @@ function obtenerDepartamento(docenteId) {
         return response.json();
     })
     .then(data => {
-
         // Buscar el departamento asociado al docente
         const departamento = data.find(dept => dept.jefe_docente_id === docenteId);
-
-        console.log(departamento);
 
         if (!departamento) {
             throw new Error('No se encontró un departamento para este docente');
@@ -84,13 +78,14 @@ function obtenerDepartamento(docenteId) {
 
 // Función para obtener los libros por departamento
 function obtenerLibrosPorDepartamento(docenteId, departamentoId) {
+    const deptoId = sessionStorage.getItem('depto');
 
     const url = `${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento.php?departamentoId=${departamentoId}`;
 
     // Depurar la solicitud
     console.log('URL de la solicitud:', url);
     console.log('Autenticación:', docenteId);
-    console.log('ID del departamento:', departamentoId);
+    console.log('ID del departamento:', deptoId);
 
 
     fetchBooks(url, 'jefe de departamento');
@@ -101,7 +96,8 @@ function fetchBooks(url, rol) {
     const token = sessionStorage.getItem('token');
 
     fetch(url, {
-       headers: {
+        headers: {
+            method: 'GET',
             'Authorization': `Bearer ${token}`
         }
     })
@@ -145,7 +141,7 @@ function fetchBooks(url, rol) {
                     bookContainer.innerHTML += bookCard;
                 });
             });
-        } else if (rol === 'jefe de departamento') {
+        } else if (rol === 'Jefe de departamento') {
             // Renderizar libros para jefe de departamento
             data.forEach(clase => {
                 console.log(data);
