@@ -1,7 +1,7 @@
 import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
-import { loadLibraryView } from './components/library/loadLibraryView.js';
 
 import { loadLoginView } from './components/login/loadLoginView.js';
+import { loadLibraryPage } from './components/library/loadLibraryView.js';
 
 
 /**
@@ -97,6 +97,10 @@ export function renderHead(actualPage) {
         case "biblioteca.php":
             document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+
+
             break;
 
         default:
@@ -196,8 +200,7 @@ export function renderBodyPage(namePage) {
             let rol = sessionStorage.getItem("rol_activo");
             
             if(rol){              
-
-                loadLibraryView();
+                loadLibraryPage();
             }else{
                 loadLoginView();
             }

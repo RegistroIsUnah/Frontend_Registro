@@ -6,21 +6,24 @@
  * funcion para filtrar los libros
  */
 
+// En filtrarLibros.js
 export function filtrarLibros(searchTerm, data) {
-    return data.map(clase => {
-         // Si el nombre de la clase coincide, incluir todos sus libros
-         const claseCoincide = clase.clase_nombre.toLowerCase().includes(searchTerm);
-
-         // Filtrar libros que coincidan con el término (solo si la clase no coincide)
-         const librosFiltrados = claseCoincide 
-             ? clase.libros 
-             : clase.libros.filter(libro => {
-                 const titulo = libro.titulo.toLowerCase();
-                 const editorial = libro.editorial.toLowerCase();
-                 return titulo.includes(searchTerm) || editorial.includes(searchTerm);
-             });
- 
-         // Retorna la clase solo si tiene libros o coincide con el nombre de la clase
-         return librosFiltrados.length > 0 ? { ...clase, libros: librosFiltrados } : null;
-    }).filter(clase => clase !== null);
+    return data
+        .map(clase => {
+            // Filtrar libros dentro de cada clase
+            const librosFiltrados = clase.libros.filter(libro => {
+                const titulo = libro.titulo.toLowerCase();
+                const editorial = libro.editorial.toLowerCase();
+                const claseNombre = clase.clase_nombre.toLowerCase();
+                return (
+                    titulo.includes(searchTerm) ||
+                    editorial.includes(searchTerm) ||
+                    claseNombre.includes(searchTerm)
+                );
+            });
+            // Conservar la estructura de la clase con los libros filtrados
+            return { ...clase, libros: librosFiltrados };
+        })
+        // Eliminar clases sin libros después del filtrado
+        .filter(clase => clase.libros.length > 0);
 }

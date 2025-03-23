@@ -31,7 +31,7 @@ export function login() {
         })
         .then(data => {
 
-            console.log(data);
+            //console.log(data);
             
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
@@ -55,17 +55,17 @@ export function login() {
                     window.location.href = 'panel.php'; 
                 }
 
-            } else if (roles.includes('docente')) {
-
-                sessionStorage.setItem('nombre', data.user.details.docente.nombre);
-                sessionStorage.setItem('apellido', data.user.details.docente.apellido);
-                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
-                window.location.href = 'panel.php'; // Redirigir a la página de estudiantes
-                window.location.href = 'docente.php'; // Redirigir a la página de docentes
-
             } else if (roles.includes('jefe de departamento')) {
                 sessionStorage.setItem('rol_activo', 'jefe de departamento');
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                const ruta = window.location.pathname.split('/').pop();
+                if(ruta == "biblioteca.php"){
+
+                    window.location.href = 'biblioteca.php'; 
+                }else{
+                    console.log(data);
+                    window.location.href = 'docente.php'; 
+                }
                 
             } else {
                 console.error('Rol no reconocido:', roles);

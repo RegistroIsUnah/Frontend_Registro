@@ -67,32 +67,68 @@ let originalData = []; //Para poder filtrar
 
 export function loadLibraryPage() {
 
-    const estudianteId = sessionStorage.getItem('estudiante_id');//Tomando el id del sessionStorage
+    const rol = sessionStorage.getItem('rol_activo');
 
     const body = document.getElementsByTagName("body")[0];
     const bibliotecaContainer = document.createElement('div');
     bibliotecaContainer.innerHTML = bibliotecaView;
     body.insertBefore(bibliotecaContainer, body.firstChild);
 
-    // Obtener y mostrar los libros
-    BibliotecaFetch.getLibrosEstudiante(estudianteId)
-        .then(clases => {
-            //console.log(clases);
-            originalData = clases;
-            renderLibros(originalData);
-        })
-        .catch(error => {
-            console.error("Error al cargar los libros:", error);
-        });
+    // Cargar datos según rol
+    if (rol === 'estudiante') {
+        const estudianteId = sessionStorage.getItem('estudiante_id');
+        loadLibrosEstudiante(estudianteId);
+    } else if (rol === 'jefe de departamento') {
+        const docenteId = sessionStorage.getItem('docente_id');  
+        loadLibrosDepartamento(docenteId);
+    }
 
     // Filtrado dinámico
     document.getElementById("searchInput").addEventListener("input", function (event) {
         const searchTerm = event.target.value.toLowerCase();
         const filtrarData = filtrarLibros(searchTerm, originalData);
-        renderLibros(filtrarData);
+        const isDocente = sessionStorage.getItem('rol_activo') === 'jefe de departamento';
+        renderLibros(filtrarData, isDocente);
     });
 
 }
 
 window.openPDFModal = openPDFModal;
 window.goToPage = goToPage;
+
+
+async function loadLibrosEstudiante(estudianteId) {
+    try {
+        const clases = await BibliotecaFetch.getLibrosEstudiante(estudianteId);
+        originalData = clases;
+        renderLibros(clases);
+    } catch (error) {
+        handleError("Error al cargar libros del estudiante:", error);
+    }
+}
+
+async function loadLibrosDepartamento(docenteId) {
+    try {
+        // Obtener departamento del jefe
+        const departamentoId = await BibliotecaFetch.getDepartamentoPorJefe(docenteId);
+        
+        if (!departamentoId) {
+            alert("No pertenece a ningún departamento.");
+            return;
+        }
+
+        // Obtener libros del departamento
+        const clases = await BibliotecaFetch.getLibrosPorDepartamento(departamentoId);
+        originalData = clases;
+        renderLibros(clases, true); // Renderizar con botones
+
+    } catch (error) {
+        console.error("Error al cargar libros del departamento:", error);
+    }
+}
+
+
+window.handleEditBook = (libroId) => {
+    console.log("Editar libro con ID:", libroId);
+    // Lógica para abrir formulario de edición
+};
