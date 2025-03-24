@@ -3,6 +3,10 @@ export function renderLibros(clases, isDocente = false) {
     if (!bookContainer) return;
 
     let container = '';
+
+    if (isDocente) {
+        container += generateNewBook();
+    }
     
     if (!clases || !Array.isArray(clases)) {
         bookContainer.innerHTML = "<p>No se encontraron libros.</p>";
@@ -47,4 +51,14 @@ function generateAdminControls(libroId) {
 
         </div>
     `;
+}
+
+function generateNewBook(){
+    return `
+        <div class="text-end mb-3">
+            <button class="btn btn-primary" onclick="loadRegisterBookForm()">
+                <i class="fas fa-plus"></i> Agregar Libro
+            </button>
+        </div>
+        `;
 }

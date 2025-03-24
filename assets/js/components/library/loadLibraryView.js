@@ -59,9 +59,7 @@ export function loadRegisterBookForm() {
  * @since 2025/03/21
  * 
  * Función encargada de cargar la vista de biblioteca.
-
  */
-
 
 let originalData = []; //Para poder filtrar
 
@@ -78,16 +76,17 @@ export function loadLibraryPage() {
     if (rol === 'estudiante') {
         const estudianteId = sessionStorage.getItem('estudiante_id');
         loadLibrosEstudiante(estudianteId);
-    } else if (rol === 'jefe de departamento') {
+    } else if (rol === 'jefe de departamento'|| rol =='coordinador') {
         const docenteId = sessionStorage.getItem('docente_id');  
-        loadLibrosDepartamento(docenteId);
+        loadLibrosDepartamento(docenteId, rol);
     }
 
     // Filtrado dinámico
     document.getElementById("searchInput").addEventListener("input", function (event) {
         const searchTerm = event.target.value.toLowerCase();
         const filtrarData = filtrarLibros(searchTerm, originalData);
-        const isDocente = sessionStorage.getItem('rol_activo') === 'jefe de departamento';
+        const rol = sessionStorage.getItem('rol_activo');
+        const isDocente = rol === 'jefe de departamento' || rol === 'coordinador';
         renderLibros(filtrarData, isDocente);
     });
 
@@ -107,18 +106,18 @@ async function loadLibrosEstudiante(estudianteId) {
     }
 }
 
-async function loadLibrosDepartamento(docenteId) {
+async function loadLibrosDepartamento(docenteId, rol) {
     try {
-        // Obtener departamento del jefe
-        const departamentoId = await BibliotecaFetch.getDepartamentoPorJefe(docenteId);
-        
-        if (!departamentoId) {
-            alert("No pertenece a ningún departamento.");
-            return;
+        let departamentoId;
+
+        if (rol === 'jefe de departamento') {
+            departamentoId = await BibliotecaFetch.getDeptoJefe(docenteId);
+        } else if (rol === 'coordinador') {
+            departamentoId = await BibliotecaFetch.getDeptoCoordinador(docenteId);
         }
 
         // Obtener libros del departamento
-        const clases = await BibliotecaFetch.getLibrosPorDepartamento(departamentoId);
+        const clases = await BibliotecaFetch.getLibrosDepto(departamentoId);
         originalData = clases;
         renderLibros(clases, true); // Renderizar con botones
 

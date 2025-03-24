@@ -2,7 +2,7 @@ import { ConstValues } from "../utils/constValues.js";
 
 /**
  * @author kency.oseguera@unah.hn
- * @version 0.1.1
+ * @version 0.1.2
  * @since 2025/03/19
  */
 
@@ -39,7 +39,6 @@ export function login() {
             sessionStorage.setItem('token', data.token);
             sessionStorage.setItem("userId",data.user.id);
 
-            // Priorizar el rol de "estudiante" si está presente
             if (roles.includes('estudiante')) {
                 sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
                 sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
@@ -55,15 +54,20 @@ export function login() {
                     window.location.href = 'panel.php'; 
                 }
 
-            } else if (roles.includes('jefe de departamento')) {
-                sessionStorage.setItem('rol_activo', 'jefe de departamento');
+                //Caso jefe o coordinador
+            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
+                const rolActivo = roles.includes('jefe de departamento') 
+                    ? 'jefe de departamento' 
+                    : 'coordinador';
+                
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                sessionStorage.setItem('rol_activo', rolActivo);
+
                 const ruta = window.location.pathname.split('/').pop();
                 if(ruta == "biblioteca.php"){
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    console.log(data);
                     window.location.href = 'docente.php'; 
                 }
                 

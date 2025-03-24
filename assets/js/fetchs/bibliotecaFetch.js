@@ -25,41 +25,67 @@ export class BibliotecaFetch {
         }
     }
 
-    static async getDepartamentoPorJefe(docenteId) {
+    static async getDeptoJefe(docenteId) {
         try {
             const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/departamentos`);
             if (!response.ok) throw new Error(`Error: ${response.status}`);
             
-            const departamentos = await response.json();
+            const data = await response.json();
 
-            const departamentoDelJefe = departamentos.find(dept => dept.jefe_docente_id === docenteId);
-            console.log(departamentoDelJefe);
-            return departamentoDelJefe.dept_id;
+            const depto = data.find(dept => dept.jefe_docente_id === docenteId);
+            //console.log(depto);
+            return depto.dept_id;
 
         } catch (error) {
             console.error("Error al obtener departamentos:", error);
             
-            return null;
+            return [];
         }
     }
 
+    static async getDeptoCoordinador(docenteId) {
+        try {
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_detalles_carrera`);
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+            
+            const data = await response.json();
+            const depto = data.find(dept => dept.coordinador_docente_id === docenteId);
 
-    static async getLibrosPorDepartamento(departamentoId) {
+            return depto.dept_id;
+
+        } catch (error) {
+            console.error("Error al obtener carreras:", error);
+            return [];
+        }
+    }
+
+    static async getLibrosDepto(departamentoId) {
         try {
 
             const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}`);
-            console.log(response);
+            //console.log(response);
 
             if (!response.ok) throw new Error(`Error: ${response.status}`);
             return await response.json();
-            
-
-            
+      
         } catch (error) {
             console.error("Error al obtener libros del departamento:", error);
             return [];
         }
     }
 
+
+    static async getLibroCompleto(libroId) {
+        try {
+            const response = await fetch(
+                `${ConstValues.DOMAIN_NAME}/get/obtener_libro?libro_id=${libroId}`
+            );
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error(`Error obteniendo detalles del libro ${libroId}:`, error);
+            return null;
+        }
+    }
 
 }
