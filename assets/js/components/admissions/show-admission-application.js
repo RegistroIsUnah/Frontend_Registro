@@ -10,7 +10,7 @@ export let showAdmissionApplication = () => `
             <div class="input-group flex-column"> 
                 <p class="mb-2 text-center">Ingrese su número de solicitud</p> 
                 <div class="d-flex align-items-center">
-                    <input class="form-control me-2" type="text" maxlength="13" placeholder="Número de solicitud">
+                    <input id="showAdmissionApplicationInput" class="form-control me-2" type="text" maxlength="13" placeholder="Número de solicitud">
                     <button type="submit" id="showAdmissionApplicationButton" style="background-color: #013775;" class="btn btn-primary">Ver</button> 
                 </div>
                 <a  id="recoverAdmissionNumberButton" class="custom-link text-secondary text-decoration-none mt-2">Recupere su número de solicitud</a>

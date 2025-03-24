@@ -11,7 +11,7 @@ import { AdmissionFetch } from '../../fetchs/admissionFetch.js';
 import { informationModal } from '../modals/modals.js';
 /**
  * @author estiven.mejia@unah.hn
- * @version 0.1.1
+ * @version 0.0.1
  * @since 2025/03/15
  * 
  * Función que carga la vista principal de admisiones
@@ -134,9 +134,7 @@ export async function loadAdmissionsForm(){
     }
     
     const form = document.querySelector("#applicants-admission-form");
-    if (form) {
-        validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
-    }
+    form && validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
     document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
 }
 
@@ -156,17 +154,84 @@ export function loadAdmissionApplicationView(){
     
     document.getElementById("navbar").insertAdjacentElement("afterend", admissionApplicationDiv);
     
+    // Habilita el botón hasta que el patrón del número de solicitud sea correcto.
+    document.getElementById("showAdmissionApplicationInput").addEventListener("input", (event) => {
+        const APPLICATION_NUMBER = /^SOL-?\d{3,16}$/;
+        let isDisabled = (APPLICATION_NUMBER.test(event.target.value) && event.target.value) ? false : true;
+        event.target.nextElementSibling.disabled = isDisabled;
+    });
+
     // Muestra la información de la solicitud si se ha ingresado el número de solicitud.
     document.getElementById("showAdmissionApplicationButton").addEventListener("click", async (event) => {
         
         let applicacionNumber = (event.target.previousElementSibling.value).trim();
         let admissionData = await AdmissionFetch.getAdmissionDataByApplicationNumber(applicacionNumber);
+        let admissionDataContent = "";
 
-        console.log(admissionData);
-        let admissionDataDiv = document.createElement("div");
-        admissionDataDiv.className = "container container-form mt-5";
-        admissionDataDiv.innerText = admissionData;
-        document.getElementById("admissionApplicationContent").insertAdjacentElement("afterend", admissionDataDiv);
+        if(admissionData.error){       
+            admissionDataContent = `<h5 style="color:red">La solicitud de admisión con el código "${applicacionNumber}" no se ha encontrado."</h5>`
+        }else{
+
+            let resendAdmissionButton = (admissionData.estado_aspirante == "RECHAZADO") 
+            ? `<button id="resendAdmissionButton" class="btn btn-outline-danger">Reenviar solicitud</button>` : "";
+            let statusColor = (admissionData.estado_aspirante == "ADMITIDO") ? "GREEN" 
+            : ((admissionData.estado_aspirante == "RECHAZADO" || admissionData.estado_aspirante == "CANCELADO") ? "red" : "#013775");
+            let identificationType = (admissionData.tipo_documento == "PASAPORTE") ? "pasaporte" : "cédula";
+ 
+            admissionDataContent = `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th colspan="2" style="text-align: center; background-color: white;">
+                            Estado de solicitud: <span class="fs-4" style="color: ${statusColor} !important">${admissionData.estado_aspirante}</span>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Nombre</th>
+                            <td>${admissionData.aspirante_nombre} ${admissionData.aspirante_apellido}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Correo</th>
+                            <td>${admissionData.correo}</td>               
+                        </tr>
+                        <tr>
+                            <th scope="row">Teléfono</th>
+                            <td>${admissionData.telefono}</td>               
+                        </tr>
+                        <tr>
+                            <th scope="row">Carrera primaria</th>
+                            <td>${admissionData.carrera_principal}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Carrera secundaria</th>
+                            <td>${admissionData.carrera_secundaria}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Número de ${identificationType}</th>
+                            <td>${admissionData.documento}</td>               
+                        </tr>
+                        <tr>
+                            <th scope="row">Número de solicitud</th>
+                            <td>${admissionData.numSolicitud}</td>               
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de solicitud</th>
+                            <td>${admissionData.fecha_solicitud}</td>               
+                        </tr>
+                        ${resendAdmissionButton}
+                    </tbody>
+                </table>
+            `;
+            let admissionDataDiv = document.createElement("div");
+            admissionDataDiv.className = "container container-form my-5";
+            admissionDataDiv.innerHTML = admissionDataContent;
+            
+            document.getElementsByClassName("container-form")[0] && document.getElementsByClassName("container-form")[0].remove();
+            document.getElementById("admissionApplicationContent").insertAdjacentElement("afterend", admissionDataDiv);
+            admissionData.estado_aspirante == "RECHAZADO" && document.getElementById("resendAdmissionButton").addEventListener("click", () => console.log(admissionData));
+        }
     });
 
     // Muestra información personal y el número de solicitud si se ingresa el DNI para recuperar el número.
@@ -174,9 +239,9 @@ export function loadAdmissionApplicationView(){
        
         // Lógica para creación de la modal donde se ingresará la identificación del aspirante para mostrar el número de solicitud.
         let modalBody = `<div class="input-group flex-column"> 
-                            <p class="mb-2 text-center">Ingrese su número de solicitud</p> 
+                            <p class="mb-2 text-center">Ingrese su identificación</p> 
                             <div class="d-flex align-items-center">
-                                <input class="form-control me-2" type="text" maxlength="13" placeholder="Número de solicitud">
+                                <input id="recoverAdmissionNumberInputModal" class="form-control me-2" type="text" maxlength="13" placeholder="DNI o pasaporte">
                                 <button type="submit" id="recoverAdmissionNumberButtonModal" style="background-color: #013775;" class="btn btn-primary">Ver</button> 
                             </div>
                         </div>`;
@@ -189,6 +254,14 @@ export function loadAdmissionApplicationView(){
 
         let successModalInstance = new bootstrap.Modal(document.getElementById('informationModal'));
         successModalInstance.show();
+
+        // Habilita el botón hasta que el patrón de la identifiación sea correcto.
+        /*
+        document.getElementById("recoverAdmissionNumberInputModal").addEventListener("input", (event) => {
+            const DNI_PASSPORT = /^(0[1-9]|[1][0-8])(0[1-9]|[12][0-9])(19[4-9][0-9]|2[01][0-9]{2})\d{5}$/;
+            let isDisabled = (DNI_PASSPORT.test(event.target.value) && event.target.value) ? false : true;
+            event.target.nextElementSibling.disabled = isDisabled;
+        });*/
 
         // Lógica para mostrar en la modal información y número de solicitud del aspirante.
         document.getElementById("recoverAdmissionNumberButtonModal").addEventListener("click", async (event) => {
@@ -208,20 +281,12 @@ export function loadAdmissionApplicationView(){
                         </thead>
                         <tbody>
                             <tr>
-                            <th scope="row">Nombres</th>
-                            <td>${admissionData.nombre}</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">Apellidos</th>
-                            <td>${admissionData.apellido}</td>
+                            <th scope="row">Nombre</th>
+                            <td>${admissionData.nombre} ${admissionData.apellido}</td>
                             </tr>
                             <tr>
                             <th scope="row">Carrera primaria</th>
                             <td>${admissionData.carrera_principal}</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">Carrera secundaria</th>
-                            <td>${admissionData.carrera_secundaria}</td>
                             </tr>
                             <tr>
                             <th scope="row">Fecha solicitud</th>

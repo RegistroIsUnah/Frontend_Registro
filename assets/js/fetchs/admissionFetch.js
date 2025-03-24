@@ -60,9 +60,8 @@ export class AdmissionFetch{
     static getApplicationNumberByIdentification(idetificationNumber){
 
         return fetch(`${ConstValues.DOMAIN_NAME}/get/recuperar_datos_aspirante.php?documento=${idetificationNumber}`)
-        .then(response => { return response.json(); })
-        .then(data => { return data; })
-        .catch(error => { console.error("Error en la solicitud:", error.message); });    
+        .then(response => response.json())
+        .catch(error => console.error("Error en la solicitud:", error.message));    
     }
 
     /**
@@ -74,20 +73,9 @@ export class AdmissionFetch{
      */
     static getAdmissionDataByApplicationNumber(applicacionNumber){
 
-        return "hola que tal"+applicacionNumber;
-
-        /*
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/recuperar_datos_aspirante?documento=${applicacionNumber}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        /* Devuelve los datos de la solicitud del aspirante y su estado. *//*
-        .then(data => { return data; })
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_aspirante_por_solicitud.php?numSolicitud=${applicacionNumber}`)
+        .then(response => response.json())
         .catch(error => { console.error("Error en la solicitud:", error.message); });
-        */
     }
 }
 
