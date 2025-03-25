@@ -12,7 +12,14 @@
  */
 export let registerBook = (tagsOptions, classesOptions) => `
 
-<div class="position-absolute top-50 start-50 translate-middle bg-white rounded-3 shadow p-5 w-75" style="transform: translate(-50%, -50%)!important;">
+
+
+<div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">Registro de Libro</a></h5>
+</div>
+
+
+<div class="container-form container my-5" >
     <h2 class="fw-bold mb-4 border-bottom pb-2 text-center" style="color: #2B3A55; border-color: #DEE2E6 !important;">Registrar libro</h2>
     <form method="POST" class="row g-4" id="register-book-form">
         <div class="col-md-6">
@@ -91,8 +98,6 @@ export let registerBook = (tagsOptions, classesOptions) => `
                 <span class="invalid-feedback"></span>
             </div>
         </div>
-
-        <input type="text" value="COORDINADOR" name="rol" id="rol" hidden>
 
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold">Confirmar</button>

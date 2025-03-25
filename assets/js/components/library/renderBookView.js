@@ -1,4 +1,12 @@
-export function renderLibros(clases, isDocente = false) {
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.1.1
+ * @since 2025/03/20
+ * 
+ * funion para renderizar los libros segun rol ya sea estudiante, jefe o coordinador
+ */
+
+export function renderLibros(clasesCompletas, isDocente = false) {
     const bookContainer = document.getElementById("bookContainer");
     if (!bookContainer) return;
 
@@ -8,45 +16,63 @@ export function renderLibros(clases, isDocente = false) {
         container += generateNewBook();
     }
     
-    if (!clases || !Array.isArray(clases)) {
+    if (!clasesCompletas || !Array.isArray(clasesCompletas)) {
         bookContainer.innerHTML = "<p>No se encontraron libros.</p>";
         return;
     }
-
-    clases.forEach(clase => {
-        container += `<h3 class="mt-4">${clase.clase_nombre}</h3><hr><div class="row">`;
+    
+    
+    container += clasesCompletas.map(clase => `
         
-        clase.libros.forEach(libro => {
-            container += generateBookCard(libro, isDocente);
-        });
-
-        container += `</div>`;
-    });
-
-    bookContainer.innerHTML = container || "<p>No se encontraron libros.</p>";
+            <h3 class="class="mt-4">${clase.clase_nombre}</h3><hr>
+            <div class="row">
+                ${clase.libros.map(libro => libro.detalles 
+                    ? generateBookCard(libro.detalles, isDocente)
+                    : '<div class="text-danger">Error cargando libro</div>'
+                ).join('')}
+            </div>
+        
+    `).join('') || '<p class="text-muted">No se encontraron libros</p>';
+    bookContainer.innerHTML = container;
 }
 
 function generateBookCard(libro, isDocente) {
-    return `
-        <div class="col-md-4 mb-4">
-            <div class="card book-card">
-                <div class="card-body">
-                    <div onclick="openPDFModal('${libro.libro_url}')">
-                        <h5 class="card-title">${libro.titulo}</h5>
-                        <p class="card-text">Editorial: ${libro.editorial}</p>
-                        <p class="card-text">${libro.descripcion}</p>
-                    </div>
-                    ${isDocente ? generateAdminControls(libro.libro_id) : ''}
+
+    return ` 
+    <div class="col-md-4 mb-4">
+        <div class="card book-card">
+            <div class="card-body">
+                <div onclick="openPDFModal('${libro.libro_url}')">
+                    <h5 class="card-title">${libro.titulo}</h5>
+                    <p class="card-subtitle mb-2 text-muted">${libro.editorial}</p>
+                    <p class="card-text">${libro.descripcion}</p>
                 </div>
+                
+                <div class="autor-section mt-3">
+                    <h6>Autor(es):</h6>
+                    <ul class="list-unstyled">
+                        ${libro.autores.map(autor => `
+                            <li>${autor.nombre} ${autor.apellido}</li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <div class="tags-section">
+                    ${libro.tags.map(tag => `
+                        <span class="badge bg-secondary me-1">${tag.tag_nombre}</span>
+                    `).join('')}
+                </div>
+                ${isDocente ? generateAdminControls(libro.libro_id) : ''}
             </div>
         </div>
-    `;
+    </div>
+`;
 }
 
 function generateAdminControls(libroId) {
     return `
         <div class="admin-controls mt-3">
-            <button type="button" class="btn btn-success" onclick="handleEditBook(${libroId})"> Editar </button>
+            <button type="button" id="editButton" class="btn btn-success"> Editar </button>
             <button type="button" class="btn btn-danger" onclick="handleDeleteBook(${libroId})"> Eliminar </button>
 
         </div>
@@ -56,7 +82,7 @@ function generateAdminControls(libroId) {
 function generateNewBook(){
     return `
         <div class="text-end mb-3">
-            <button class="btn btn-primary" onclick="loadRegisterBookForm()">
+            <button type="button" id="registerButton" class="btn btn-primary" ">
                 <i class="fas fa-plus"></i> Agregar Libro
             </button>
         </div>

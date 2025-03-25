@@ -1,6 +1,7 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
-import { LibraryFetch } from "./fetchs/libraryFetch.js";
+//import { LibraryFetch } from "./fetchs/libraryFetch.js";
+import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
 
 export class SendForm{
     /**
@@ -78,9 +79,9 @@ export class SendForm{
             formData.append("libro", libroInput.files[0]);
         }
         
-        formData.append("rol", form.querySelector("[name='rol']").value); 
+        //formData.append("rol", form.querySelector("[name='rol']").value); 
 
-        LibraryFetch.postRegisterBook(formData);
+        BibliotecaFetch.postRegisterBook(formData);
     }
 }
 

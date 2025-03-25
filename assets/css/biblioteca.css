@@ -49,3 +49,40 @@ h3{
 .page-search {
     margin-bottom: 10px;
 }
+
+.color-text{
+    color: #091c5a!important;
+    text-decoration: none; 
+    color: inherit; 
+    font-size: 24px!important;
+    transition: text-shadow 0.3s ease;
+
+}
+
+.color-text:hover{
+    text-shadow: 
+        0 0 10px #091c5a
+}
+
+.color-text-navbar{
+    color: white;
+    text-decoration: none; 
+    color: inherit; 
+    font-size: 18px;
+    transition: text-shadow 0.3s ease;
+
+}
+
+.color-text-navbar:hover{
+    text-shadow: 
+        0 0 10px white
+}
+
+.container-form {
+    background-color: #ffffff; 
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+

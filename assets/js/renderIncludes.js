@@ -1,7 +1,8 @@
 import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
 
 import { loadLoginView } from './components/login/loadLoginView.js';
-import { loadLibraryPage } from './components/library/loadLibraryView.js';
+import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
+
 
 
 /**
@@ -177,7 +178,7 @@ export function renderBodyPage(namePage) {
         case "login.php":
 
             loadLoginView();
-        break;
+            break;
 
         case "matricula.php":
 
@@ -196,32 +197,45 @@ export function renderBodyPage(namePage) {
             break;
 
         case "biblioteca.php":
-                
-            let rol = sessionStorage.getItem("rol_activo");
+
+            let actualLibraryView = (history.state == null) ? "libraryView" : history.state.view;
+
+            /*let rol = sessionStorage.getItem("rol_activo");
             
             if(rol){              
                 loadLibraryPage();
             }else{
                 loadLoginView();
-            }
+            }*/
 
-        /*
-            let rol = sessionStorage.getItem("rol_activo");
+            const rol = sessionStorage.getItem("rol_activo");
 
-            if(rol){
-                
-                if (rol == "estudiante") {
-                    loadLibraryStudentsView();
-                //} else if (rolesArray.includes("docente") || rolesArray.includes("jefe de departamento") || rolesArray.includes("coordinador")) {
-                }else  if(rol == "jefe de departamento" || rol == "coordinador"){
-                    loadRegisterBookForm();
-                } else if (rolesArray.includes("administrador")) {
-                } 
-            }else{
-
+            if (!rol) {
+                // Redirigir a login si no hay sesión
                 loadLoginView();
+                history.replaceState(null, "biblioteca.php");
+                break;
             }
-*/
+
+
+            switch (actualLibraryView) {
+
+                case "registerBook":
+
+                    loadRegisterBookForm();
+                    break;
+
+                case "libraryView": case null: case "":
+
+                    loadLibraryPage();
+                    break;
+
+                default:
+                    console.warn("Vista no reconocida:", actualLibraryView);
+                    loadLibraryPage(); // Vista por defecto
+                    history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
+                    break;
+            }
             break;
     }
 
