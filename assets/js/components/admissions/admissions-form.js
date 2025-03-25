@@ -30,13 +30,13 @@ export let admissionsForm =  (centerOptions, careerOptions1, careerOptions2) => 
                     <input type="text" class="form-control" id="identidad" name="identidad" required placeholder="Si es extranjero ingrese su pasaporte">
                         <span class="invalid-feedback"></span>
                 </div>
+
                 <div class="col-md-6">
                     <label for="telefono" class="form-label">Teléfono</label>
                     <input type="tel" class="form-control" id="telefono" name="telefono" required placeholder="Teléfono celular o residencial">
                         <span class="invalid-feedback"></span>
                 </div>
             </div>
-
 
             <div class="row mb-3">
                 <div class="col-md-6">
@@ -52,7 +52,6 @@ export let admissionsForm =  (centerOptions, careerOptions1, careerOptions2) => 
                         <span class="invalid-feedback"></span>
                 </div>
             </div>
-
 
             <div class="row mb-3">
                 <div class="col-md-6">

@@ -5,22 +5,23 @@ import { LibraryFetch } from "./fetchs/libraryFetch.js";
 export class SendForm{
     /**
      * @author estiven.mejia@unah.hn
-     * @version 0.0.1
+     * @version 0.0.2
      * @since 2025/03/10
      * 
      * @param {*} event 
      * 
      * Este método toma la información del formulario de admisión y envía su contenido al método encargado de enviar la data al servidor.
      */
-    static validateAdmissionForm = (event) => {
+    static validateAdmissionForm = (form) => {
         
-        event.preventDefault();
-        let form = event.target;
         let formData = new FormData();
 
         formData.append("nombre", form.querySelector("[name='nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("apellido", form.querySelector("[name='apellidos']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("identidad", form.querySelector("[name='identidad']").value.trim().replace(/\D/g, ''));
+        
+        let identification = form.querySelector("[name='identidad']").value.trim().replace(/\D/g, '');
+        formData.append("identidad", identification);
+        formData.append("tipo_documento_id", (RegularExpressions.DNI.test(identification)) ? 1 : ((RegularExpressions.PASSPORT.test(identification)) ? 2 : ""));
         formData.append("telefono", form.querySelector("[name='telefono']").value.trim().replace(/\D/g, ''));
         formData.append("correo", form.querySelector("[name='correo']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
         formData.append("carrera_principal_id", form.querySelector("[name='carrera_principal']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
@@ -34,8 +35,8 @@ export class SendForm{
         foto && formData.append("foto", foto);
         fotodni && formData.append("fotodni", fotodni);
         certificado && formData.append("certificado", certificado);
-
-        AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
+        
+        return AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
 
     /**

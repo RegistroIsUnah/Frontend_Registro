@@ -21,34 +21,28 @@ export class AdmissionFetch{
      */
     static postadmissionsData(formData){
 
-        console.log(formData);
-
-        /*
         return fetch(`${ConstValues.DOMAIN_NAME}/post/aspirante.php`, {
             method: "POST",
             body: formData
         })
-        .then(response => {
-            console.log(response);
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
+
+            return data;
+            /*
             if (data.message === "Aspirante ingresado exitosamente") {
-                alert(data.message);
+
+                return data;
+                //alert(data.message);
                 //form.reset();
                 //window.location.href = "landingPage.php";
             } else {
-                alert("Error al enviar el formulario: " + (data.message || "Error desconocido"));
-            }
+                alert("Error al enviar el formulario: " + (data.error || "Error desconocido"));
+            }*/
         })
         .catch(error => {
-            console.error("Error en la solicitud:", error);
             alert("Error en la solicitud: " + error.message);
         });
-        */
     }
     /**
      * @author estiven.mejia@unah.hn

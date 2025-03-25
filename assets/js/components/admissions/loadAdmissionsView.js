@@ -8,7 +8,7 @@ import { SendForm } from "../../sendForms.js";
 import { CenterFetch } from "../../fetchs/centerFetch.js";
 import { AdmissionFetch } from '../../fetchs/admissionFetch.js';
 
-import { informationModal } from '../modals/modals.js';
+import { informationModal, sendFormConfirmationModal, formResponseModal } from '../modals/modals.js';
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -135,7 +135,74 @@ export async function loadAdmissionsForm(){
     
     const form = document.querySelector("#applicants-admission-form");
     form && validateForm(form.id, DataFormValidations.validationsFormAdmissions, "admissionsForm");
-    document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
+    //document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
+
+    // Modal para confirmar el envío del formulario de admisión.
+    /*
+    let modal = sendFormConfirmationModal("¿Desea enviar la solicitud de admisión?");        
+    let divModal = document.createElement("div");
+    divModal.innerHTML = modal;
+    document.body.appendChild(divModal);
+    let successModalInstance = new bootstrap.Modal(document.getElementById('sendFormConfirmationModal'));
+    */
+        
+    // Lógica para enviar el formulario y recibir su respuesta.
+    document.getElementById("applicants-admission-form").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        
+        // Limpiar modales anteriores
+        const existingModal = document.getElementById('formResponseModalDiv');
+        if (existingModal) {
+            bootstrap.Modal.getInstance(document.getElementById('formResponseModal'))?.dispose();
+            existingModal.remove();
+        }
+    
+        // Crear nueva modal
+        const repsonseModal = formResponseModal();
+    
+        const divModal = document.createElement('div');
+        divModal.id = "formResponseModalDiv";
+        divModal.innerHTML = repsonseModal;
+        document.body.appendChild(divModal);
+    
+        const responseModalInstance = new bootstrap.Modal(document.getElementById('formResponseModal'));
+        const formSendedResponse = await SendForm.validateAdmissionForm(form);
+    
+        // Configurar contenido
+        if(formSendedResponse.message) {
+            document.getElementById("formResponseModalTitle").textContent = "Enviado correctamente ✅";
+            document.getElementById("formResponseModalBody").innerHTML = `<h5 style="color:green;">${formSendedResponse.message}</h5>`;
+            document.getElementById("viewFormDataButton").hidden = true;
+        } else if(formSendedResponse.error) {
+            document.getElementById("formResponseModalTitle").textContent = "Ha ocurrido un problema...";
+            document.getElementById("formResponseModalBody").innerHTML = `<h5 style="color:red;">${formSendedResponse.error}</h5>`;
+            document.getElementById("viewFormDataButton").hidden = false;
+        }
+    
+        // Manejar cierre completo
+        document.getElementById('formResponseModal').addEventListener('hidden.bs.modal', () => {
+            // Eliminar estilos residuales de Bootstrap
+            document.body.classList.remove('modal-open');
+            document.body.style.paddingRight = '';
+            
+            // Eliminar backdrop
+            const backdrops = document.getElementsByClassName('modal-backdrop');
+            while(backdrops.length > 0) {
+                backdrops[0].remove();
+            }
+            
+            // Eliminar modal del DOM
+            divModal.remove();
+        });
+    
+        // Manejar botón "Revisar formulario"
+        document.getElementById('viewFormDataButton').addEventListener('click', () => {
+            responseModalInstance.hide(); // Cerrar modal correctamente
+            // Aquí tu lógica adicional para revisar el formulario
+        });
+    
+        responseModalInstance.show();
+    });
 }
 
 /**
@@ -150,6 +217,7 @@ export function loadAdmissionApplicationView(){
     history.pushState({ view: "admissionApplicationView" }, "", window.location.href); // Indicando la vista actual en el historial de navegador
     
     let admissionApplicationDiv = document.createElement("div");
+    admissionApplicationDiv.id = "admissionApplicacionViewContainer";
     admissionApplicationDiv.innerHTML = showAdmissionApplication();
     
     document.getElementById("navbar").insertAdjacentElement("afterend", admissionApplicationDiv);
@@ -316,17 +384,35 @@ export function loadAdmissionApplicationView(){
 
 window.addEventListener("popstate", () => {
 
-    if(history.state.view == "admissionsForm"){
+    switch(history.state.view){
 
-        const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
-        const formularioContainer = document.getElementById("divAdmissionsForm");
+        case "admissionsForm":
 
-        if (confirmarSalida && formularioContainer) {
-            document.body.removeChild(formularioContainer);
-            history.back();
-            loadAdmissionsPage();
-        } else {
-            history.pushState({ view: "admissionsForm" }, "", window.location.href);
-        }
+            const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
+            const formularioContainer = document.getElementById("divAdmissionsForm");
+        
+            if (confirmarSalida && formularioContainer) {
+                document.body.removeChild(formularioContainer);
+                history.back();
+                loadAdmissionsPage();
+            } else {
+                history.pushState({ view: "admissionsForm" }, "", window.location.href);
+            }
+
+        break;
+
+        case "admissionApplicationView":
+
+            const admissionDataContainer = document.getElementById("admissionApplicacionViewContainer");
+            
+            if (admissionDataContainer) {
+                document.body.removeChild(admissionDataContainer);
+                history.back();
+                loadAdmissionsPage();
+            } else {
+                history.pushState({ view: "admissionApplicationView" }, "", window.location.href);
+            }
+
+        break;
     }
 });
