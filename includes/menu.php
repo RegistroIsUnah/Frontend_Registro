@@ -20,7 +20,15 @@
                 <a href="solicitudes.php">
                     <li>Solicitudes</li>
                 </a>
+                <a id="revisorComponent"></a>
             </ul>
         </nav>
     </div>
+
+    <script>
+         if(sessionStorage.getItem("roles").includes("revisor"))
+            {
+                    document.getElementById("revisorComponent").innerHTML += '<a href="revisores.php"><li> Revisar Aspirantes</li> </a>';  
+            }
+    </script>
 </section>

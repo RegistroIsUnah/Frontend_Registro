@@ -122,7 +122,10 @@ include 'includes/chat.php'; // Incluye el chat
       });
     }
   </script>
-
+  
+  <?php
+    require_once("./includes/scripts.php");
+    ?>
 
 </body>
 

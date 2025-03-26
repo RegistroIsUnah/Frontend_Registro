@@ -1,9 +1,9 @@
-import { admissionsForm } from "./components/admissions/admissions-form.js";
-import { SendForm } from "./sendForms.js";
-import { validateForm } from './validators/formValidator.js';
-import { AdmissionFetch } from "./fetchs/admissionFetch.js";
+import { loadAdmissionsForm, loadAdmissionsPage, loadAdmissionApplicationView, loadResendAdmissionsForm } from './components/admissions/loadAdmissionsView.js'
+import { loadLibraryView } from './components/library/loadLibraryView.js';
+import { loadLoginView } from './components/login/loadLoginView.js';
 
 /**
+ * 
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
@@ -14,7 +14,7 @@ import { AdmissionFetch } from "./fetchs/admissionFetch.js";
  * Create link labels.
 */
 let linkLabel = (href) => {
-    
+
     let linkElement = document.createElement('link');
     linkElement.rel = 'stylesheet';
     linkElement.href = href;
@@ -29,79 +29,79 @@ let linkLabel = (href) => {
  * Se añadira la referencia al estilo CSS que corresponde a cada página.
  * Debido a que el header se comparte, no se pueden agregar todos los estilos en el mismo encabezado (se evita el choque de estilos).
  */
-export function renderHead(actualPage){
+export function renderHead(actualPage) {
 
-    switch (actualPage){
-        
+    switch (actualPage) {
+
         case "administradores.php":
             document.getElementsByTagName('title')[0].textContent = "Administración UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/administradores.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));    
-        break;
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            break;
 
         case "admisiones.php":
             document.getElementsByTagName('title')[0].textContent = "Admisiones UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/footer.css"));
+
+            break;
 
         case "calificaciones.php":
             document.getElementsByTagName('title')[0].textContent = "Calificaciones UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/calificaciones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "historial.php":
             document.getElementsByTagName('title')[0].textContent = "Historial Académico UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/historial.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
-        case "landingPage.php":
+        case "index.php":
             document.getElementsByTagName('title')[0].textContent = "Página Principal UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "login.php":
             document.getElementsByTagName('title')[0].textContent = "login";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+            break;
 
         case "matricula.php":
             document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "panel.php":
             document.getElementsByTagName('title')[0].textContent = "Panel de Estudiante";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/panel.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "perfil.php":
             document.getElementsByTagName('title')[0].textContent = "Perfil UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
 
         case "solicitudes.php":
             document.getElementsByTagName('title')[0].textContent = "Solicitudes UNAH";
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
-            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-        break;
+            break;
+
+        case "biblioteca.php":
+            document.getElementsByTagName('title')[0].textContent = "Biblioteca UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            break;
 
         default:
 
-        break;
+            break;
 
     }
 }
@@ -122,43 +122,108 @@ export function renderHead(actualPage){
  */
 export function renderBodyPage(namePage) {
 
-    if (namePage === "admisiones.php") {
-        let admissionsFetch = new AdmissionFetch();
-        
-        admissionsFetch.getAdmissionsDataForm().then(([centerOptions, careerOptions]) => {
+    const body = document.getElementsByTagName("body")[0];
 
-            let body = document.getElementsByTagName("body")[0];
-            const formularioContainer = document.createElement('div');
-            formularioContainer.innerHTML = admissionsForm(centerOptions, careerOptions);
-            body.insertBefore(formularioContainer, body.firstChild);
+    switch (namePage) {
 
-            document.getElementById("applicants-admission-form").addEventListener("submit", SendForm.validateAdmissionForm);
-            const form = document.querySelector("form");
-            if (form) {
-                validateForm(form.id);
+        case "administradores.php":
+
+            break;
+
+        case "admisiones.php":
+
+            let actualAdmissionView = (history.state == null) ? "admissionsPage" : history.state.view;
+
+            switch (actualAdmissionView) {
+
+                case "admissionsForm":
+                    loadAdmissionsForm();
+                break;
+
+                case "admissionApplicationView":
+                    loadAdmissionApplicationView();
+                break;
+
+                case "resendAdmissionsForm":
+                    loadResendAdmissionsForm();
+                break;
+                
+                case "admissionsPage": case null: case "":
+                    loadAdmissionsPage();
+                break;
+
+                default:
+                    console.warn("Vista no reconocida:", actualAdmissionView);
+                    break;
             }
 
-        }).catch(error => {
-            console.error("Error al obtener datos del formulario:", error);
-        });
+            break;
+
+        case "calificaciones.php":
+
+            break;
+
+        case "historial.php":
+
+            break;
+
+        case "landingPage.php":
+
+            break;
+
+        case "login.php":
+
+            loadLoginView();
+        break;
+
+        case "matricula.php":
+
+            break;
+
+        case "panel.php":
+
+            break;
+
+        case "perfil.php":
+
+            break;
+
+        case "solicitudes.php":
+
+            break;
+
+        case "biblioteca.php":
+                
+            let rol = sessionStorage.getItem("rol_activo");
+            
+            if(rol){              
+
+                loadLibraryView();
+            }else{
+                loadLoginView();
+            }
+
+        /*
+            let rol = sessionStorage.getItem("rol_activo");
+
+            if(rol){
+                
+                if (rol == "estudiante") {
+                    loadLibraryStudentsView();
+                //} else if (rolesArray.includes("docente") || rolesArray.includes("jefe de departamento") || rolesArray.includes("coordinador")) {
+                }else  if(rol == "jefe de departamento" || rol == "coordinador"){
+                    loadRegisterBookForm();
+                } else if (rolesArray.includes("administrador")) {
+                } 
+            }else{
+
+                loadLoginView();
+            }
+*/
+            break;
+    }
+
+    if (namePage == "admisiones.php") {
+
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

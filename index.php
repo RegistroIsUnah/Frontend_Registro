@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/css/landingPage.css">
+    <link rel="stylesheet" href="assets/css/footer.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -92,29 +93,24 @@
 
         <div class="accessDynamicContainer">
             <span class="message">Bienvenido(a) al Sistema de Registro</span>
-            <button type="button" class="btn btn-primary">Ingresa a tu cuenta</button>
+            <a href="login.php" type="button" class="btn btn-primary">Ingresa a tu cuenta</a>
         </div>
 
         <div class="dynamicContainers">
             <div class="leftDynamicContainer" id="dynamics">
-            <span class="dynamicRightMessage">Creacion de Expediente I PAC 2025</span>
-            <span id="dynamicSpan">Pertenece a nuestra familia universitaria, del 8 al 17 de Enero.</span>
-            <button type="button" class="btn btn-primary" id="dynamicLeftButton">Acceder</button>    
+            <span class="dynamicRightMessage">Creacion de Expediente II PAC 2025</span>
+            <span id="dynamicSpan">Pertenece a nuestra familia universitaria, del 22 al 29 de abril.</span>
+            <a href="./admisiones.php" type="button" class="btn btn-primary">Acceder</a>
             
             </div>
             <div class="rightDynamicContainer" id="dynamics">
                 <span class="dynamicRightMessage">¡Hecha un vistazo a la Biblioteca!</span>
                 <span id="dynamicSpan">Accede a miles de libros, revistas y artículos en línea, disponibles 24/7 desde cualquier dispositivo.</span>
-                <button type="button" class="btn btn-primary" id="dynamicRightButton">Acceder</button>
+                <a href="./biblioteca.php" type="button" class="btn btn-primary" id="dynamicRightButton">Acceder</a>
             </div>
         </div>
     </section>
 
-    <div class="accessDynamicContainer mb-3">
-            <span class="message">Inscripciones II PAC 2025</span>
-            <a href="./admisiones.php" type="button" class="btn btn-primary">¡Inscribase ahora!</a>
-        </div>
-   
     <?php
     include 'includes/footer.php';
     include 'includes/scripts.php';
