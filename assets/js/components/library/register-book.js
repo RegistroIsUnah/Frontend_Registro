@@ -10,7 +10,7 @@
  * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos.
  * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
  */
-export let registerBook = (tagsOptions, classesOptions) => `
+export let registerBook = (tagsData, classesOptions) => `
 
 
 
@@ -33,7 +33,7 @@ export let registerBook = (tagsOptions, classesOptions) => `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="fecha_publicacion" class="form-label fw-bold" style="color: #2B3A55;">Fecha de publicación</label>
-                <input type="text" name="fecha_publicacion" id="fecha_publicacion" class="form-control" style="border-color: #DEE2E6;" placeholder="Formato: yyyy/mm/dd" required>
+                <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control" style="border-color: #DEE2E6;" placeholder="Formato: yyyy/mm/dd" required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
@@ -46,42 +46,47 @@ export let registerBook = (tagsOptions, classesOptions) => `
             </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="tags" class="form-label fw-bold" style="color: #2B3A55;">Categoría del libro</label>
-                <select name="tags" id="tags" class="form-select" style="border-color: #DEE2E6;" required>
-                    ${tagsOptions}
-                </select>
-                <span class="invalid-feedback"></span>
+
+        <label for="tags" class="form-label fw-bold" style="color: #2B3A55;">Categorias</label>
+        <div class="tags-container d-flex flex-wrap gap-3">
+        ${tagsData.map(tag => `
+            <div class="form-check">
+                <input type="checkbox" name="tags" value="${tag.tag_id}" id="tag-${tag.tag_id}" class="form-check-input">
+                <label class="form-check-label" for="tag-${tag.tag_id}">
+                    ${tag.tag_nombre}
+                </label>
             </div>
-        </div>
+        `).join('')}
+    </div>
 
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="clase_id" class="form-label fw-bold" style="color: #2B3A55;">Clase asignada al libro</label>
-                <select name="clase_id" id="clase_id" class="form-select" style="border-color: #DEE2E6;">
+                <select name="clase_id" id="clase_id" class="form-select" style="border-color: #DEE2E6;" required>
                     ${classesOptions}
                 </select>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
+        
+
 
         <div class="col-md-6">
             <div class="mb-3">
-                <label for="autores" class="form-label fw-bold" style="color: #2B3A55;">Autores del libro</label>
-                <div class="input-group">
-                    <button type="button" class="input-group-text bg-light" style="border-color: #DEE2E6;" id="addAuthor">+</button>
-                    <input type="text" name="autores" id="autores" class="form-control" placeholder="Escriba y presione Enter" style="border-color: #DEE2E6;">
-                    <span class="invalid-feedback"></span>
+                <label for="autores" class="form-label fw-bold" style="color: #2B3A55;">Autores</label>
+                
+                <div class="input-group mb-2">
+                    <input type="text" id="nombre" name="nombre"  class="form-control" placeholder="Nombre">
+                    <input type="text" id="apellido" class="form-control" placeholder="Apellido">
+                    <button type="button" class="btn btn-outline-dark" id="addAuthor">Agregar</button>
                 </div>
-                
-                <section id="autorsContainer" class="mt-2 d-flex flex-wrap gap-2"></section>
-                
-                <select name="autores_lista" id="autores_lista" class="form-select d-none" multiple>
-                    <!-- Las opciones se generarán aquí -->
-                </select>
-            </div>
+
+                <div id="listaAutores" class="mt-2 d-flex flex-wrap gap-2"></div>
+                <input type="hidden" name="autores" id="autoresHidden">
+                <span class="invalid-feedback">Debe agregar al menos un autor</span> <!-- Mensaje de error -->
+                </div>
         </div>
+
 
         <div class="col-md-6">
             <div class="mb-3">

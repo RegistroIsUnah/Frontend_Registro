@@ -8,6 +8,8 @@
 
 export function renderLibros(clasesCompletas, isDocente = false) {
     const bookContainer = document.getElementById("bookContainer");
+    bookContainer.innerHTML = "";
+
     if (!bookContainer) return;
 
     let container = '';
@@ -20,7 +22,6 @@ export function renderLibros(clasesCompletas, isDocente = false) {
         bookContainer.innerHTML = "<p>No se encontraron libros.</p>";
         return;
     }
-    
     
     container += clasesCompletas.map(clase => `
         
@@ -72,9 +73,11 @@ function generateBookCard(libro, isDocente) {
 function generateAdminControls(libroId) {
     return `
         <div class="admin-controls mt-3">
-            <button type="button" id="editButton" class="btn btn-success"> Editar </button>
-            <button type="button" class="btn btn-danger" onclick="handleDeleteBook(${libroId})"> Eliminar </button>
+                    <button type="button" id="editButton" class="btn btn-success"> Editar </button>
 
+            /*<button type="button" class="btn btn-success" onclick="handleEditBook(${libroId})">
+                Editar
+            </button>*/
         </div>
     `;
 }

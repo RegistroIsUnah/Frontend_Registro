@@ -13,7 +13,7 @@ import { filtrarLibros } from "./filtrarLibros.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
 import { renderLibros } from "./renderBookView.js";
 import { libraryView } from "./library-page.js";
-
+import { setupAuthorHandling } from "./authorHandling.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -47,18 +47,19 @@ export function loadRegisterBookForm() {
     obtenerIdUnidad().then(departamentoId => {
 
         let bibliotecaFetch = new BibliotecaFetch();
-        bibliotecaFetch.getRegisterBookDataForm(departamentoId).then(([tagsOptions, clasesOptions]) => {
+        bibliotecaFetch.getRegisterBookDataForm(departamentoId).then(([tagsData, clasesOptions]) => {
 
             const formularioContainer = document.createElement('div');
             formularioContainer.className = "container my-5";
             formularioContainer.id = "divBookRegisterForm";
-            formularioContainer.innerHTML = registerBook(tagsOptions, clasesOptions);
+            formularioContainer.innerHTML = registerBook(tagsData, clasesOptions);
 
             let body = document.getElementsByTagName("body")[0];
             body.removeChild(body.firstChild);
             body.insertBefore(formularioContainer, body.firstChild);
-
-            tagsBelowInput();
+            //tagsBelowInput();
+            
+            setupAuthorHandling();
 
             const form = document.querySelector("form");
             if (form) {
@@ -108,15 +109,20 @@ export function loadLibraryPage() {
         loadLibrosDepartamento(docenteId, rol);
     }
 
+
+// Reemplaza el event listener existente para mejorar performance
+    let searchTimeout;
     // Filtrado dinámico
     document.getElementById("searchInput").addEventListener("input", function (event) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
         const searchTerm = event.target.value.toLowerCase();
         const filtrarData = filtrarLibros(searchTerm, originalData);
         const rol = sessionStorage.getItem('rol_activo');
         const isDocente = rol === 'jefe de departamento' || rol === 'coordinador';
         renderLibros(filtrarData, isDocente);
+        }, 300); // Espera 300ms después de escribir
     });
-
 
 }
 
@@ -197,15 +203,6 @@ async function loadLibrosDepartamento(docenteId, rol) {
             }
         });
 
-        //Boton para editar libro
-        document.getElementById("editButton").addEventListener("click", function () {
-
-            const divLibraryPage = document.getElementById("editButton");
-            if (divLibraryPage) {
-                history.go(1);
-                loadRegisterBookForm();
-            }
-        });
 
     } catch (error) {
         console.error("Error al cargar libros del departamento:", error);
@@ -213,7 +210,7 @@ async function loadLibrosDepartamento(docenteId, rol) {
 }
 
 
-addEventListener("popstate", (event) => {
+/*addEventListener("popstate", (event) => {
     const currentView = event.state?.view;
     const formularioContainer = document.getElementById("divBookRegisterForm");
 
@@ -230,6 +227,6 @@ addEventListener("popstate", (event) => {
         }
     }
     
-});
+});*/
 
 

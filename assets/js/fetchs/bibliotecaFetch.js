@@ -1,7 +1,7 @@
 import { ConstValues } from "../utils/constValues.js";
 /**
  * @author kency.oseguera@unah.hn
- * @version 0.1.3
+ * @version 0.1.4
  * @since 2025/03/20
  * 
  * Clase que contiene métodos para consumir endpoints relacionados con la biblioteca.
@@ -10,7 +10,7 @@ export class BibliotecaFetch {
 
     static async getLibrosEstudiante(estudianteId) {
         try {
-            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_estudiante?estudiante_id=${estudianteId}`);
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_estudiante?estudiante_id=${estudianteId}&page=1&limit=10`);
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
             }
@@ -74,8 +74,8 @@ export class BibliotecaFetch {
     static async getLibrosDepto(departamentoId) {
         try {
 
-            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}`);
-            console.log(response);
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}&page=1&limit=10`);
+            //console.log(response);
 
             if (!response.ok) throw new Error(`Error: ${response.status}`);
 
@@ -106,22 +106,25 @@ export class BibliotecaFetch {
     async getRegisterBookDataForm(departamentoId) {
 
         try {
-            const [tagsData, classesData] = await Promise.all([
-                fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags`).then(response => response.json()),
+            const [tagsResponse, classesData] = await Promise.all([
+                fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags`),
                 fetch(`${ConstValues.DOMAIN_NAME}/get/clases_depto?dept_id=${departamentoId}`).then(response => response.json())
             ]);
 
-            let tagsOptions = ['<option value="">-- Seleccione una categoría --</option>']
+           /* let tagsOptions = ['<option value="">-- Seleccione una categoría --</option>']
                 .concat(tagsData.map(tag =>
                     `<option value="${tag.tag_id}">${tag.tag_nombre}</option>`
-                )).join('');
+                )).join('');*/
+
+            const tagsData = await tagsResponse.json(); 
+                
 
             let classesOptions = ['<option value="">-- Seleccione una clase --</option>']
                 .concat(classesData.map(clase =>
                     `<option value="${clase.clase_id}">${clase.nombre}</option>`
                 )).join('');
 
-            return [tagsOptions, classesOptions];
+            return [tagsData, classesOptions];
 
         } catch (error) {
             console.error("Error en las solicitudes:", error);
@@ -129,33 +132,41 @@ export class BibliotecaFetch {
         }
     }
 
-    static postRegisterBook(formData) {
-        console.log("Datos a enviar:", formData);
-
-        fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro`, {
-            method: "POST",
-            body: formData, // No necesitas headers para FormData
-        })
-            .then(response => {
-                console.log("Respuesta del servidor:", response);
-                if (!response.ok) {
-                    throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.mensaje == "Libro registrado correctamente") {
-                    alert(data.mensaje);
-                    // Redirigir o recargar la página
-                    // window.location.href = "landingPage.php";
-                } else {
-                    alert("Error al enviar el formulario: " + (data.mensaje || "Error desconocido"));
-                }
-            })
-            .catch(error => {
-                console.error("Error en la solicitud:", error);
-                alert(error.message);
+    static async postRegisterBook(formData) { 
+        try {
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro`, {
+                method: "POST",
+                body: formData,
             });
+    
+            const data = await response.json();
+            //console.log(data);
+    
+            if (!response.ok) {
+                throw new Error(data.mensaje || "Error desconocido");
+            }
+            alert(data.mensaje);
+            window.location.reload(); // Recargar para ver cambios
+    
+        } catch (error) {
+            console.error("Error completo:", error);
+            alert(`Error: ${error.message}`);
+        }
+    }
+
+    static async updateLibro(formData) {
+        try {
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
+                method: "PUT",
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
+            return data;
+            
+        } catch (error) {
+            throw new Error("Error en la solicitud: " + error.message);
+        }
     }
 
 
