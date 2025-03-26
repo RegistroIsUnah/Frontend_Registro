@@ -24,8 +24,35 @@ export function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
 
+    function validateInitialFields() {
+        if (formId === 'resend-admission-form') {
+            const fields = form.elements;
+            
+            Array.from(fields).forEach(field => {
+                if (field.disabled || (field.value && field.value.trim() !== '')) {
+                    const fakeEvent = {
+                        target: field,
+                        preventDefault: () => {}
+                    };
+                    validateField(fakeEvent);
+                }
+            });
+        }
+    }
+
     async function validateField(event) {
         let field = event.target;
+        if (field.disabled) {
+            field.classList.add('is-valid');
+            field.classList.remove('is-invalid');
+            const feedback = field.nextElementSibling;
+            if (feedback && feedback.classList.contains('invalid-feedback')) {
+                feedback.textContent = '';
+            }
+            toggleSubmitButton();
+            return;
+        }
+
         let validator = validationsForm[field.name];
         let errorField;
 
@@ -38,9 +65,9 @@ export function validateForm(formId, validationsForm, actualForm) {
                     errorField = error;
                     isValid = false;
                 }
-            }else if(field.type === "date" || field.tagName === 'select'){
+            } else if (field.type === "date" || field.tagName === 'select') {
                 isValid = field.value !== "";
-            }else {
+            } else {
                 isValid = await validator(field.value.trim());
             }
         } else {
@@ -57,6 +84,25 @@ export function validateForm(formId, validationsForm, actualForm) {
 
         toggleSubmitButton();
     }
+
+    Array.from(form.elements).forEach(field => {
+        if (field.tagName === 'INPUT' || field.tagName === 'SELECT' || field.tagName === 'TEXTAREA') {
+            field.addEventListener('input', validateField);
+            field.addEventListener('change', validateField);
+            field.addEventListener('blur', validateField);
+        }
+    });
+
+    validateInitialFields();
+
+    function toggleSubmitButton() {
+        const invalidFields = form.querySelectorAll('.is-invalid').length;
+        submitButton.disabled = invalidFields > 0;
+    }
+
+
+
+
 
     /**
      * @author estiven.mejia@unah.hn

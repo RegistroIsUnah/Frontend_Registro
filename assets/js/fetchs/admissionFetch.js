@@ -9,9 +9,6 @@ import { ConstValues } from "../utils/constValues.js";
  */
 export class AdmissionFetch{
 
-    //admissionGet(){};
-    //admissionPatch();
-
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.3
@@ -26,24 +23,32 @@ export class AdmissionFetch{
             body: formData
         })
         .then(response => response.json())
-        .then(data => {
-
-            return data;
-            /*
-            if (data.message === "Aspirante ingresado exitosamente") {
-
-                return data;
-                //alert(data.message);
-                //form.reset();
-                //window.location.href = "landingPage.php";
-            } else {
-                alert("Error al enviar el formulario: " + (data.error || "Error desconocido"));
-            }*/
-        })
+        .then(data => data )
         .catch(error => {
             alert("Error en la solicitud: " + error.message);
         });
     }
+
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.3
+     * @since 2025/03/14
+     * 
+     * Esta función envía los datos del formulario de admisión para registrar a un aspirante.
+     */
+        static putadmissionsData(formData){
+
+            return fetch(`${ConstValues.DOMAIN_NAME}/put/actualizar_aspirante.php`, {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => data )
+            .catch(error => {
+                alert("Error en la solicitud: " + error.message);
+            });
+        }
+
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.1
@@ -71,6 +76,27 @@ export class AdmissionFetch{
         .then(response => response.json())
         .catch(error => { console.error("Error en la solicitud:", error.message); });
     }
+
+        /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.3
+     * @since 2025/03/26
+     * 
+     * Esta función envía el número de solicitud del aspirante hacia su correo.
+     */
+    static putadmissionsData(numSolicitud){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/reenviar_correo.php`, {
+            method: "POST",
+            body: JSON.stringify({"numSolicitud" : numSolicitud})
+        })
+        .then(response => response.json())
+        .then(data => data )
+        .catch(error => {
+            alert("Error en la solicitud: " + error.message);
+        });
+    }
+
 }
 
  /**
@@ -107,13 +133,13 @@ function getAdmissionsDataRequest() {
 
             let baseUrl = ConstValues.DOMAIN_NAME;
             let nombreCompleto = `${data.nombre} ${data.apellido}`;
-            let dni = data.identidad;
+            let dni = data.documento;
             let fotoIdentidad = `${baseUrl}${data.fotodni}`;
             let fotoAspirante = `${baseUrl}${data.foto}`;
             let curriculum = `${baseUrl}${data.certificado_url}`;
 
             const nombreInput = document.getElementById("nombre");
-            const identidadInput = document.getElementById("identidad");
+            const identidadInput = document.getElementById("documento");
 
             if (nombreInput && identidadInput) {
                 nombreInput.value = nombreCompleto;

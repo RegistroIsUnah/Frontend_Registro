@@ -21,11 +21,24 @@ export class DataFormValidations {
         apellidos: value => RegularExpressions.L_NAME.test(value),
         correo: value => RegularExpressions.EMAIL.test(value),
         telefono: value => RegularExpressions.PHONE_NUMBER.test(value),
-        identidad: value => RegularExpressions.DNI_PASSPORT.test(value),
+        documento: value => RegularExpressions.DNI_PASSPORT.test(value),
 
         certificado: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
         dni_file: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
         foto_perfil: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
+    };
+
+    static validationsResendAdmissionsForm = {
+
+        aspirante_nombre: value => RegularExpressions.F_NAME.test(value),
+        aspirante_apellido: value => RegularExpressions.L_NAME.test(value),
+        // correo: value => RegularExpressions.EMAIL.test(value),
+        // telefono: value => RegularExpressions.PHONE_NUMBER.test(value),
+        documento: value => RegularExpressions.DNI_PASSPORT.test(value),
+
+        certificado_url: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
+        fotodni: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024),
+        foto: files => ValidateImage.validateImageFile(files[0], DataFormValidations.imageFormats, DataFormValidations.imageDimensions, 1024, 1024)
     };
 
     static validationsRegisterBooksForm = {

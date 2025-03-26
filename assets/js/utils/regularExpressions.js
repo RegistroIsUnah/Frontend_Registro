@@ -19,6 +19,7 @@ export class RegularExpressions{
     static DNI_PASSPORT = /^(((0[1-9]|[1][0-8])(0[1-9]|[12][0-9])(19[4-9][0-9]|2[01][0-9]{2})\d{5})|(?:[A-Za-z]{1,2}\d{6,8}|\d{7,10}|[A-Za-z]{1,3}\d{6,7}|P[A-Za-z]?\d{7,8}))$/;
     static DNI = /^(0[1-9]|[1][0-8])(0[1-9]|[12][0-9])(19[4-9][0-9]|2[01][0-9]{2})\d{5}$/;
     static PASSPORT = /^(?:[A-Za-z]{1,2}\d{6,8}|\d{7,10}|[A-Za-z]{1,3}\d{6,7}|P[A-Za-z]?\d{7,8})$/;
+    static APPLICATION_NUMBER = /^SOL-([a-zA-Z0-9-]{10})$/;
 
     static PHONE_NUMBER = /^(\(?\+?504\)?)?\s*[2983]\d{3}[- ]?\d{4}$/;
 

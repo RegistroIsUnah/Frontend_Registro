@@ -26,8 +26,8 @@ export let admissionsForm =  (centerOptions, careerOptions1, careerOptions2) => 
 
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <label for="identidad" class="form-label">Identificación (DNI o pasaporte)</label>
-                    <input type="text" class="form-control" id="identidad" name="identidad" required placeholder="Si es extranjero ingrese su pasaporte">
+                    <label for="documento" class="form-label">Identificación (DNI o pasaporte)</label>
+                    <input type="text" class="form-control" id="documento" name="documento" required placeholder="Si es extranjero ingrese su pasaporte">
                         <span class="invalid-feedback"></span>
                 </div>
 

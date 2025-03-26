@@ -19,8 +19,8 @@ export class SendForm{
         formData.append("nombre", form.querySelector("[name='nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("apellido", form.querySelector("[name='apellidos']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         
-        let identification = form.querySelector("[name='identidad']").value.trim().replace(/\D/g, '');
-        formData.append("identidad", identification);
+        let identification = form.querySelector("[name='documento']").value.trim().replace(/\D/g, '');
+        formData.append("documento", identification);
         formData.append("tipo_documento_id", (RegularExpressions.DNI.test(identification)) ? 1 : ((RegularExpressions.PASSPORT.test(identification)) ? 2 : ""));
         formData.append("telefono", form.querySelector("[name='telefono']").value.trim().replace(/\D/g, ''));
         formData.append("correo", form.querySelector("[name='correo']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
@@ -38,6 +38,45 @@ export class SendForm{
         
         return AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
+
+
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.2
+     * @since 2025/03/26
+     * 
+     * @param {*} event 
+     * 
+     * Este método toma la información del formulario de reenvío de solicitud de admisión para actualizar en la base de datos los datos que se pedían corregir.
+     */
+    static validateResendAdmissionForm = (form) => {
+        
+        let formData = new FormData();
+
+        formData.append("numSolicitud", form.querySelector("[name='numSolicitud']").value);
+        formData.append("aspirante_nombre", form.querySelector("[name='aspirante_nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("aspirante_apellido", form.querySelector("[name='aspirante_apellido']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        
+        let identification = form.querySelector("[name='documento']").value.trim().replace(/\D/g, '');
+        formData.append("documento", identification);
+        //formData.append("tipo_documento_id", (RegularExpressions.DNI.test(identification)) ? 1 : ((RegularExpressions.PASSPORT.test(identification)) ? 2 : ""));
+        formData.append("telefono", form.querySelector("[name='telefono']").value.trim().replace(/\D/g, ''));
+        formData.append("correo", form.querySelector("[name='correo']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
+        //formData.append("carrera_principal_id", form.querySelector("[name='carrera_principal']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        //formData.append("carrera_secundaria_id", form.querySelector("[name='carrera_secundaria']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        //formData.append("centro_id", form.querySelector("[name='centro_regional']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+
+        let foto = form.querySelector("[name='foto']").files[0];
+        let fotodni = form.querySelector("[name='fotodni']").files[0];
+        let certificado = form.querySelector("[name='certificado_url']").files[0];
+
+        foto && formData.append("foto", foto);
+        fotodni && formData.append("fotodni", fotodni);
+        certificado && formData.append("certificado_url", certificado);
+        
+        return AdmissionFetch.putadmissionsData(formData);
+    };
+
 
     /**
      * @author estiven.mejia@unah.hn

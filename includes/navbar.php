@@ -8,13 +8,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 mx-5">
                 <li class="nav-item">
-                    <a class="nav-link active color-text-navbar border-end" aria-current="page" href="#">Biblioteca</a>
+                    <a class="nav-link active color-text-navbar border-end" aria-current="page" href="biblioteca.php">Biblioteca</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active color-text-navbar border-end" aria-current="page" href="#">Admisiones</a>
+                    <a class="nav-link active color-text-navbar border-end" aria-current="page" href="admisiones.php">Admisiones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active color-text-navbar" aria-current="page" href="#">Iniciar Sesión</a>
+                    <a class="nav-link active color-text-navbar" aria-current="page" href="login.php">Iniciar Sesión</a>
                 </li>
 
                 <!--                 

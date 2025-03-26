@@ -1,4 +1,4 @@
-import { loadAdmissionsForm, loadAdmissionsPage, loadAdmissionApplicationView } from './components/admissions/loadAdmissionsView.js'
+import { loadAdmissionsForm, loadAdmissionsPage, loadAdmissionApplicationView, loadResendAdmissionsForm } from './components/admissions/loadAdmissionsView.js'
 import { loadLibraryView } from './components/library/loadLibraryView.js';
 import { loadLoginView } from './components/login/loadLoginView.js';
 
@@ -137,19 +137,20 @@ export function renderBodyPage(namePage) {
             switch (actualAdmissionView) {
 
                 case "admissionsForm":
-
                     loadAdmissionsForm();
                 break;
 
                 case "admissionApplicationView":
-
                     loadAdmissionApplicationView();
                 break;
-                    
-                case "admissionsPage": case null: case "":
 
+                case "resendAdmissionsForm":
+                    loadResendAdmissionsForm();
+                break;
+                
+                case "admissionsPage": case null: case "":
                     loadAdmissionsPage();
-                    break;
+                break;
 
                 default:
                     console.warn("Vista no reconocida:", actualAdmissionView);
