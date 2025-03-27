@@ -44,7 +44,7 @@ window.handleEditBook = async (libroId) => {
 };
 
 export function loadRegisterBookForm(libroData = null) {
-    history.replaceState({ view: "registerBook", libroId: libroData?.libro_id || null }, "", window.location.href);
+    history.pushState({ view: "registerBook", libroId: libroData?.libro_id || null }, "", window.location.href);
 
     const rol = sessionStorage.getItem('rol_activo');
     const docenteId = sessionStorage.getItem('docente_id');

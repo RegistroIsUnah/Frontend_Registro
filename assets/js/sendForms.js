@@ -68,10 +68,13 @@ export class SendForm {
             formData.append("libro", libroInput.files[0]);
         }
 
-        const claseId = form.querySelector("[name='clase_id']").value;
+        // Solo procesar clase_id si existe el campo (no en edición)
+    if (!isEditMode) {
+        const claseId = form.querySelector("[name='clase_id']")?.value;
         if (claseId) {
             formData.append("clase_id", parseInt(claseId, 10));
         }
+    }
 
 
         // Validación condicional del archivo
