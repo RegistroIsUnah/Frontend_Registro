@@ -2,6 +2,7 @@ import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 //import { LibraryFetch } from "./fetchs/libraryFetch.js";
 import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
+import { loadLibraryPage } from "./components/library/loadLibraryView.js";
 
 export class SendForm {
     /**
@@ -40,32 +41,17 @@ export class SendForm {
         admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
 
-    static validateRegisterBookForm = async (event, isEdit = false) => {
+    static validateRegisterBookForm = async (event) => {
 
         event.preventDefault();
         let form = event.target;
         let formData = new FormData();
+        const isEditMode = form.hasAttribute('data-edit-mode');
 
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
-
-        /*const autoresSelect = form.querySelector("[name='autores_lista']");
-        const autores = Array.from(autoresSelect.options).map(option => {
-            const nombreCompleto = option.value.trim();
-            const primerEspacio = nombreCompleto.indexOf(' ');
-            
-            if (primerEspacio === -1) {
-                return { nombre: nombreCompleto, apellido: '' };
-            }
-            
-            const nombre = nombreCompleto.substring(0, primerEspacio);
-            const apellido = nombreCompleto.substring(primerEspacio + 1);
-            
-            return { nombre, apellido };
-        });*/
-
 
         // Obtener tags seleccionados
         const selectedTags = Array.from(form.querySelectorAll('[name="tags"]:checked')).map(checkbox => checkbox.value);
@@ -75,39 +61,47 @@ export class SendForm {
         const autores = JSON.parse(form.autoresHidden.value || "[]");
         formData.append("autores", JSON.stringify(autores));
 
-        //formData.append("autores", JSON.stringify(autores));
-
         formData.append("editorial", form.querySelector("[name='editorial']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-
-        const claseId = form.querySelector("[name='clase_id']").value;
-        if (claseId) {
-            formData.append("clase_id", parseInt(claseId, 10));
-        }
 
         const libroInput = form.querySelector("[name='libro']");
         if (libroInput.files[0]) {
             formData.append("libro", libroInput.files[0]);
         }
 
+
+        // Validación condicional del archivo
+        if (isEditMode) {
+            const libroId = document.getElementById('libro_id')?.value;
+            if (libroId && !formData.has('libro_id')) {
+                formData.append('libro_id', libroId);
+            }
+        }
+
         //formData.append("rol", form.querySelector("[name='rol']").value); 
 
         //BibliotecaFetch.postRegisterBook(formData);
-
-
-        // Determinar si es edición o creación
-    const libroId = formData.get('libro_id');
-    //const isEdit = !!libroId;
-
-    try {
-        if (isEdit) {
-            const response = await BibliotecaFetch.updateLibro(formData);
-            alert("Libro actualizado correctamente");
-        } else {
-            const response = await BibliotecaFetch.postRegisterBook(formData);
+        if (isEditMode && !formData.has('libro_id')) {
+            const libroId = document.getElementById('libro_id')?.value;
+            if (libroId) formData.append('libro_id', libroId);
         }
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-    }
+
+
+        try {
+            if (isEditMode) {
+                await BibliotecaFetch.updateLibro(formData);
+            } else {
+                await BibliotecaFetch.postRegisterBook(formData);
+            }
+            loadLibraryPage();
+        } catch (error) {
+            alert(`Error: ${error.message}`);
+        }
+
+
+        for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+    };
 }
 

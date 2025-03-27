@@ -21,7 +21,10 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
 <div class="container-form container my-5" >
     <h2 class="fw-bold mb-4 border-bottom pb-2 text-center" style="color: #2B3A55; border-color: #DEE2E6 !important;">Registrar libro</h2>
-    <form method="POST" class="row g-4" id="register-book-form">${libroData ? `<input type="hidden" name="libro_id" value="${libroData.libro_id}">` : ''}
+    <form method="POST" class="row g-4" id="register-book-form"${libroData ? 'data-edit-mode="true"' : ''} >${libroData ? `
+        <!-- Campo oculto para el ID del libro -->
+        <input type="hidden" name="libro_id" id="libro_id" value="${libroData.libro_id}">
+    ` : ''}
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="titulo" class="form-label fw-bold" style="color: #2B3A55;">Título del libro</label>
@@ -80,8 +83,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="clase_id" class="form-label fw-bold" style="color: #2B3A55;">Clase</label>
-                    <select name="clase_id" id="clase_id" class="form-select">
-                        <option value="">-- Seleccione una clase --</option>
+                    <select name="clase_id" id="clase_id" class="form-select" required>
                         ${classesOptions}
                     </select>
                 </div>
@@ -133,7 +135,11 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
     </div>
 
         <div class="col-12 text-center">
-            <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold">Confirmar</button>
+                    <button 
+                type="submit" 
+                class="btn btn-dark btn-lg px-5 fw-bold">
+                ${libroData ? 'Confirmar cambios' : 'Registrar libro'}
+            </button>
         </div>
     </form>
 </div>

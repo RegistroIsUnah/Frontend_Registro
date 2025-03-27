@@ -28,8 +28,11 @@ import { setupAuthorHandling } from "./authorHandling.js";
 // Agrega esto al inicio del archivo, después de los imports
 window.handleEditBook = async (libroId) => {
     try {
+        
+        
         // Obtener los datos completos del libro
         const libro = await BibliotecaFetch.getLibroCompleto(libroId);
+        
         
         // Cargar el formulario de registro en modo edición
         loadRegisterBookForm(libro);
@@ -95,6 +98,8 @@ export function loadRegisterBookForm(libroData = null) {
                     form.editorial.value = libroData.editorial || "";
                     form.fecha_publicacion.value = libroData.fecha_publicacion || "";
                     form.descripcion.value = libroData.descripcion || "";
+
+                    console.log(libroData.libro_id);
                     
                     // Manejo de tags
                     if (libroData.tags && Array.isArray(libroData.tags)) {

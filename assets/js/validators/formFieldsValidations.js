@@ -40,6 +40,10 @@ export class DataFormValidations {
         autores_lista: value => true,
         editorial: value => RegularExpressions.DESCRIPTION.test(value),
         rol: value => true,
-        libro: files => PDFValidator.validatePdfFile(files[0], 12)
+        libro: (files, isEditMode = false) => {
+            // Validación condicional para edición
+            if (isEditMode && (!files || files.length === 0)) return true;
+            return PDFValidator.validatePdfFile(files?.[0], 12);
+        }
     };
 }

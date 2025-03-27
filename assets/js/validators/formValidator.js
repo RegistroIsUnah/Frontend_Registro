@@ -24,6 +24,9 @@ export async function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
 
+    let isEditMode = form.querySelector('[data-edit-mode]') !== null;
+
+
     async function validateField(event) {
         const field = event.target;
         const validator =  validationsForm[field.name];
@@ -33,7 +36,7 @@ export async function validateForm(formId, validationsForm, actualForm) {
         if (validator) {
             if (field.type === 'file' || field.accept === 'application/pdf') {
                 try {
-                    isValid = await validator(field.files);
+                    isValid = await validator(field.files, isEditMode);
                 } catch (error) {
                     errorField = error;
                     isValid = false;
@@ -82,6 +85,13 @@ export async function validateForm(formId, validationsForm, actualForm) {
             input.addEventListener('change', validateField);
         }
     });
+
+    // Manejar modo edición
+    if (isEditMode) {
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', () => toggleSubmitButton());
+        });
+    }
 
     toggleSubmitButton();
 }

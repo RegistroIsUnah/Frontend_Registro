@@ -57,13 +57,17 @@ export class BibliotecaFetch {
 
     static async getDeptoCoordinador(docenteId) {
         try {
-            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_detalles_carrera`);
-            if (!response.ok) throw new Error(`Error: ${response.status}`);
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/carreras`);
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
 
-            const data = await response.json();
-            const depto = data.find(dept => dept.coordinador_docente_id === docenteId);
+        const data = await response.json();
+        const carrerasArray = Object.values(data); // Convertir objeto a array
+        
+        const depto = carrerasArray.find(dept => 
+            dept.coordinador_docente_id === docenteId 
+        );
 
-            return depto.dept_id;
+        return depto ? depto.dept_id : null;
 
         } catch (error) {
             console.error("Error al obtener carreras:", error);
@@ -160,9 +164,24 @@ export class BibliotecaFetch {
                 method: "POST",
                 body: formData
             });
-            const data = await response.json();
-            console.log(data);
+
+            const responseText = await response.text();
+            // Intentar parsear como JSON
+        try {
+            const data = JSON.parse(responseText);
+            
+            if (!response.ok) {
+                throw new Error(data.mensaje || "Error en la solicitud");
+            }
+            
             return data;
+            
+        } catch (jsonError) {
+            // Si falla el parseo, mostrar la respuesta cruda
+            console.error("Respuesta no JSON:", responseText);
+            throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 100)}...`);
+        }
+
             
         } catch (error) {
             throw new Error("Error en la solicitud: " + error.message);
