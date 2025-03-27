@@ -36,22 +36,18 @@ export class AdmissionFetch{
      * 
      * Esta función envía los datos del formulario de admisión para registrar a un aspirante.
      */
-        static putadmissionsData(formData){
+    static putadmissionsData(formData){
 
-
-            console.log("xd"+formData);
-            /*
-            return fetch(`${ConstValues.DOMAIN_NAME}/put/actualizar_aspirante.php`, {
-                method: "POST",
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => data )
-            .catch(error => {
-                alert("Error en la solicitud: " + error.message);
-            });
-            */
-        }
+        return fetch(`${ConstValues.DOMAIN_NAME}/put/actualizar_aspirante.php`, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => data )
+        .catch(error => {
+            alert("Error en la solicitud: " + error.message);
+        });
+    }
 
     /**
      * @author estiven.mejia@unah.hn
@@ -88,7 +84,7 @@ export class AdmissionFetch{
      * 
      * Esta función envía el número de solicitud del aspirante hacia su correo.
      */
-    static putadmissionsData(numSolicitud){
+    static sendEmail(numSolicitud){
 
         return fetch(`${ConstValues.DOMAIN_NAME}/post/reenviar_correo.php`, {
             method: "POST",

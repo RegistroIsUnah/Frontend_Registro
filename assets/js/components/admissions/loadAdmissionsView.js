@@ -452,7 +452,7 @@ export function loadAdmissionApplicationView(){
 
             document.getElementById("successButtomModal").addEventListener("click", async (event) => {
 
-                let emailSendedResponse = await AdmissionFetch.putadmissionsData(document.getElementById("numSolicitud").textContent);    
+                let emailSendedResponse = await AdmissionFetch.sendEmail(document.getElementById("numSolicitud").textContent);    
                 let modal = emailSendedResponse.message == "Correo reenviado exitosamente" ? 
                 messageAlert("bg-primary", emailSendedResponse.message) : messageAlert("bg-danger", emailSendedResponse.error);
 

@@ -27,13 +27,13 @@
       <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
         <ul class="navbar-nav mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id="navbar-element-1">Link 1</a>
+            <a class="nav-link active" aria-current="page" href="admisiones.php" id="navbar-element-1">Admisiones</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id="navbar-element-2">Link 2</a>
+            <a class="nav-link active" aria-current="page" href="biblioteca.php" id="navbar-element-2">Biblioteca</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#" id="navbar-element-3">Link 3</a>
+            <a class="nav-link active" aria-current="page" href="login.php" id="navbar-element-3">Iniciar sesión</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="#" id="btnLogout">Salir</a>
