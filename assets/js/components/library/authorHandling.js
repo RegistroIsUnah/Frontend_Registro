@@ -40,7 +40,14 @@ export function setupAuthorHandling() {
 
         lista.appendChild(autorItem);
         actualizarAutoresHidden();
-
         
+    });
+
+    // Eliminar autores
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('btn-close')) {
+            e.target.closest('.autor-item').remove();
+            actualizarAutoresHidden();
+        }
     });
 }

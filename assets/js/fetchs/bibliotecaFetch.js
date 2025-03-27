@@ -158,35 +158,30 @@ export class BibliotecaFetch {
         }
     }
 
+
     static async updateLibro(formData) {
         try {
             const response = await fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
                 method: "POST",
                 body: formData
             });
-
+    
+            // Leer la respuesta como texto primero
             const responseText = await response.text();
-            // Intentar parsear como JSON
-        try {
-            const data = JSON.parse(responseText);
             
-            if (!response.ok) {
-                throw new Error(data.mensaje || "Error en la solicitud");
+            // Intentar parsear a JSON
+            try {
+                const data = JSON.parse(responseText);
+                
+                return data;
+            } catch (jsonError) {
+                throw new Error(responseText || "Error en la solicitud");
             }
-            
-            return data;
-            
-        } catch (jsonError) {
-            // Si falla el parseo, mostrar la respuesta cruda
-            console.error("Respuesta no JSON:", responseText);
-            throw new Error(`Respuesta inválida del servidor: ${responseText.substring(0, 100)}...`);
-        }
-
-            
         } catch (error) {
-            throw new Error("Error en la solicitud: " + error.message);
+            throw new Error(error.message);
         }
     }
+
 
 
 }

@@ -75,6 +75,18 @@ export class SendForm {
             if (libroId && !formData.has('libro_id')) {
                 formData.append('libro_id', libroId);
             }
+
+            const autoresHidden = document.getElementById('autoresHidden');
+            if (autoresHidden) {
+                try {
+                    const autores = JSON.parse(autoresHidden.value);
+                    // Eliminar autor_id si existe (solo para edición)
+                    const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
+                    formData.set('autores', JSON.stringify(autoresLimpios));
+                } catch (error) {
+                    console.error("Error procesando autores:", error);
+                }
+            }
         }
 
         //formData.append("rol", form.querySelector("[name='rol']").value); 

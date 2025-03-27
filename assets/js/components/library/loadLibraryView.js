@@ -110,18 +110,29 @@ export function loadRegisterBookForm(libroData = null) {
                         });
                     }
     
-                    // Manejo de autores 
+                   
                     if (libroData.autores && Array.isArray(libroData.autores)) {
-                        const autoresContainer = document.getElementById("listaAutores");
-                        autoresContainer.innerHTML = libroData.autores.map(autor => `
-                            <div class="autor-item badge bg-light text-dark p-2">
+                        const autoresContainer = document.getElementById('listaAutores');
+                        const autoresHidden = document.getElementById('autoresHidden');
+                        
+                        // Limpiar contenedor primero
+                        autoresContainer.innerHTML = '';
+                        
+                        // Agregar cada autor al contenedor visual
+                        libroData.autores.forEach(autor => {
+                            const autorItem = document.createElement('div');
+                            autorItem.className = 'autor-item badge bg-light text-dark p-2 me-2 mb-2';
+                            autorItem.innerHTML = `
                                 ${autor.nombre} ${autor.apellido}
                                 <button type="button" class="ms-2 btn-close btn-sm"></button>
-                            </div>
-                        `).join('');
-                        document.getElementById("autoresHidden").value = JSON.stringify(libroData.autores);
+                            `;
+                            autoresContainer.appendChild(autorItem);
+                        });
+                        
+                        // Guardar en campo oculto (sin autor_id)
+                        const autoresSimplificados = libroData.autores.map(({ nombre, apellido }) => ({ nombre, apellido }));
+                        autoresHidden.value = JSON.stringify(autoresSimplificados);
                     }
-                    
                     
                     // Cambiar el título del formulario
                     const tituloForm = document.querySelector(".container-form h2");
