@@ -201,7 +201,7 @@ export async function loadAdmissionsForm(){
  */
 export async function loadResendAdmissionsForm(){
 
-    let numSolicitud = localStorage.getItem("numSolicitud");
+    const numSolicitud = localStorage.getItem("numSolicitud");
     let admissionData = JSON.parse(localStorage.getItem("admissionData"));
     document.getElementById("admissionApplicacionViewContainer")?.remove();    
     history.pushState({ view: "resendAdmissionsForm" }, "", window.location.href);
@@ -365,7 +365,6 @@ export function loadAdmissionApplicationView(){
             `;
         }
         
-        console.log(admissionData);
         let admissionDataDiv = document.createElement("div");
         admissionDataDiv.className = "container container-form my-5";
         admissionDataDiv.innerHTML = admissionDataContent;

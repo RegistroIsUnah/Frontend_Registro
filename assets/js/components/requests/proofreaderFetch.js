@@ -27,7 +27,7 @@ export function handleProofreaderRequest() {
 
                 const usuario_id = sessionStorage.getItem('userId');
                 console.log(usuario_id);
-                const roles = JSON.stringify([6]);
+                const roles = JSON.stringify([5]);
 
                 const formData = new FormData();
                 formData.append('usuario_id', usuario_id);
