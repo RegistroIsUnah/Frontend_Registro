@@ -15,46 +15,8 @@
     <title>landingPage</title>
 </head>
 <body>
-    <section class="headerContent">
-    <!-- Abrimos el header correctamente -->
-    <div class="header">
-        <div class="logoContainer">
-        <img class="logoUNAH" src="assets/img/logoAmarillo.png" alt="Logo UNAH">
-        </div>
-        <h1 class="registro">SISTEMA DE REGISTRO</h1>
-        <div class="menu">
-        <input type="checkbox" id="menu-toggle">
-        <label for="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </label>
-        <!-- Menú hamburguesa -->
-        <nav>
-            <a href="#">Inicio</a>
-            <a href="#">Servicios</a>
-            <a href="#">Nosotros</a>
-            <a href="#">Contacto</a>
-        </nav>
-        </div>
-    </div>
-    <div class="navBar">
-        <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Oferta Academica</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Servicios</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Transparencia</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">UNAH Virtual</a>
-        </li>
-        </ul>
-    </div>
-    </section>
+
+    <?php include 'includes/navbarUNAH.php'; ?>
 
     <section class="bodyContent">
 
@@ -115,7 +77,6 @@
     include 'includes/footer.php';
     include 'includes/scripts.php';
     ?>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
