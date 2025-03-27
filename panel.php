@@ -4,7 +4,7 @@ include 'includes/chat.php'; // Incluye el chat
 
 <!DOCTYPE html>
 <html lang="es">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,6 +31,11 @@ include 'includes/chat.php'; // Incluye el chat
         <small>Estudiante</small>
         <br>
         <small>Usuario@unah.hn</small>
+      </div>
+
+      <div class="sesion">
+        <button class="btn btn-danger" id="btnLogout">Cerrar Sesion</button>
+        <br>
       </div>
     </div>
   </header>
