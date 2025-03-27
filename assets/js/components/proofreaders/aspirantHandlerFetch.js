@@ -27,9 +27,13 @@ export function aspirantHandler(aspiranteId) {
   // Limpia eventos anteriores (opcional si haces una sola carga del DOM base)
   validarBtn.onclick = () => {
     accion = "aceptar";
+    console.log(accion);
     motivosSeleccionados = [];
     enviarBtn.disabled = false;
-
+  
+    // Limpia la selección visual de los motivos
+    corregirMenu.forEach(item => item.classList.remove("active"));
+  
     validarBtn.classList.replace("btn-outline-success", "btn-success");
     denegarBtn.classList.replace("btn-danger", "btn-outline-danger");
   };
@@ -48,6 +52,7 @@ export function aspirantHandler(aspiranteId) {
 
       if (motivosSeleccionados.length > 0) {
         accion = "rechazar";
+        console.log(accion);
         enviarBtn.disabled = false;
 
         denegarBtn.classList.replace("btn-outline-danger", "btn-danger");

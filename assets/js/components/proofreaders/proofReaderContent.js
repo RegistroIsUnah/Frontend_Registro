@@ -37,7 +37,6 @@ export function getAdmissionsDataRequest() {
                 console.warn("No hay solicitudes pendientes.");
                 return;
             }
-
             console.log("Datos del aspirante:", data);
             let nombreCompleto = `${data.nombre} ${data.apellido}`;
             let dni = data.documento;
