@@ -78,7 +78,7 @@ export class BibliotecaFetch {
     static async getLibrosDepto(departamentoId) {
         try {
 
-            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}&page=1&limit=10`);
+            const response = await fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}`);
             //console.log(response);
 
             if (!response.ok) throw new Error(`Error: ${response.status}`);
@@ -159,7 +159,7 @@ export class BibliotecaFetch {
     }
 
 
-    static async updateLibro(formData) {
+    /*static async updateLibro(formData) {
         try {
             const response = await fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
                 method: "POST",
@@ -180,8 +180,38 @@ export class BibliotecaFetch {
         } catch (error) {
             throw new Error(error.message);
         }
-    }
+    }*/
 
+        static async updateLibro(formData) {
+            try {
+                const response = await fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
+                    method: "POST",
+                    body: formData
+                });
+        
+                // Leer la respuesta como texto primero
+                const responseText = await response.text();
+                
+                // Intentar parsear a JSON
+                try {
+                    const data = JSON.parse(responseText);
+                    
+                    if (!response.ok) {
+                        throw new Error(data.mensaje || "Error en la solicitud");
+                    }
+                    
+                    return data;
+                } catch (jsonError) {
+                    // Si no es JSON válido, pero la respuesta fue OK, devolver el texto
+                    if (response.ok) {
+                        return { mensaje: responseText };
+                    }
+                    throw new Error(responseText || "Error en la solicitud");
+                }
+            } catch (error) {
+                throw new Error("Error en la solicitud: " + error.message);
+            }
+        }
 
 
 }
