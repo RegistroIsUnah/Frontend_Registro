@@ -116,65 +116,7 @@ export class BibliotecaFetch {
                     `<option value="${tag.tag_id}">${tag.tag_nombre}</option>`
                 )).join('');*/
 
-                clase.libros.forEach(libro => {
-                    const bookCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card book-card" data-bs-toggle="modal" data-bs-target="#pdfModal" onclick="loadPDF('${libro.libro_url}')">
-                                <div class="card-body">
-                                    <h5 class="card-title">${libro.titulo}</h5>
-                                    <p class="card-text">Editorial: ${libro.editorial}</p>
-                                    <p class="card-text">${libro.descripcion}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    bookContainer.innerHTML += bookCard;
-                });
-            });
-        } else if (rol === 'Jefe de departamento') {
-            // Renderizar libros para jefe de departamento
-            data.forEach(clase => {
-                console.log(data);
-
-                const estado = `
-                <div class="estado" style="display: flex; gap: 20px; margin-bottom: 20px;">
-                    <div>
-                        <select style="width: 100%; padding: 10px;">
-                            <option value="">Seleccionar estado</option>
-                            <option value="ACTIVO">ACTIVO</option>
-                            <option value="INACTIVO">INACTIVO</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button id="addBook" onclick="loadRegisterBookForm()" type="button" class="btn btn-success">Agregar Libro</button>
-                    </div>
-                </div>
-            `;
-
-            bookContainer.innerHTML += estado;
-
-                const claseTitle = `<h2 class="mt-4">${clase.clase_nombre}</h2>`;
-                bookContainer.innerHTML += claseTitle;
-
-                let bookCards = ''; 
-
-                clase.libros.forEach(libro => {
-                    const bookCard = `
-                        <div class="col-md-4 mb-4">
-                            <div class="card book-card">
-                                <div class="card-body" onclick="openModal('${libro.libro_url}')">
-                                    <h5 class="card-title">${libro.titulo}</h5>
-                                    <p class="card-text">Editorial: ${libro.editorial}</p>
-                                    <p class="card-text">${libro.descripcion}</p>
-                                    <div>
-                                        <button type="button" class="btn btn-success" onclick="handleEdit(event)">Editar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    bookCards += bookCard; 
-                });
+            const tagsData = await tagsResponse.json(); 
                 
 
             let classesOptions = ['<option value="">-- Seleccione una clase --</option>']
