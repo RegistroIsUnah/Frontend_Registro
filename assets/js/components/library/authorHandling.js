@@ -40,6 +40,7 @@ export function setupAuthorHandling() {
 
         lista.appendChild(autorItem);
         actualizarAutoresHidden();
+
         
     });
 }

@@ -10,7 +10,7 @@
  * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos.
  * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
  */
-export let registerBook = (tagsData, classesOptions) => `
+export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
 
 
@@ -21,7 +21,7 @@ export let registerBook = (tagsData, classesOptions) => `
 
 <div class="container-form container my-5" >
     <h2 class="fw-bold mb-4 border-bottom pb-2 text-center" style="color: #2B3A55; border-color: #DEE2E6 !important;">Registrar libro</h2>
-    <form method="POST" class="row g-4" id="register-book-form">
+    <form method="POST" class="row g-4" id="register-book-form">${libroData ? `<input type="hidden" name="libro_id" value="${libroData.libro_id}">` : ''}
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="titulo" class="form-label fw-bold" style="color: #2B3A55;">Título del libro</label>
@@ -47,27 +47,46 @@ export let registerBook = (tagsData, classesOptions) => `
         </div>
 
 
-        <label for="tags" class="form-label fw-bold" style="color: #2B3A55;">Categorias</label>
+       <label for="tags" class="form-label fw-bold" style="color: #2B3A55;">Categorías</label>
         <div class="tags-container d-flex flex-wrap gap-3">
-        ${tagsData.map(tag => `
-            <div class="form-check">
-                <input type="checkbox" name="tags" value="${tag.tag_id}" id="tag-${tag.tag_id}" class="form-check-input">
-                <label class="form-check-label" for="tag-${tag.tag_id}">
-                    ${tag.tag_nombre}
-                </label>
-            </div>
-        `).join('')}
-    </div>
-
-        <div class="col-md-6">
-            <div class="mb-3">
-                <label for="clase_id" class="form-label fw-bold" style="color: #2B3A55;">Clase asignada al libro</label>
-                <select name="clase_id" id="clase_id" class="form-select" style="border-color: #DEE2E6;" required>
-                    ${classesOptions}
-                </select>
-                <span class="invalid-feedback"></span>
-            </div>
+            ${tagsData.map(tag => {
+                // Normalizar los tags del libro a array de IDs (como números)
+                const libroTags = Array.isArray(libroData?.tags) 
+                    ? libroData.tags.map(t => Number(t.tag_id || t))
+                    : [];
+                
+                // Verificar si el tag está seleccionado
+                const isChecked = libroTags.includes(Number(tag.tag_id));
+                
+                return `
+                <div class="form-check">
+                    <input 
+                        type="checkbox" 
+                        name="tags" 
+                        value="${tag.tag_id}" 
+                        id="tag-${tag.tag_id}" 
+                        class="form-check-input" 
+                        ${isChecked ? 'checked' : ''}
+                    >
+                    <label class="form-check-label" for="tag-${tag.tag_id}">
+                        ${tag.tag_nombre}
+                    </label>
+                </div>
+                `;
+            }).join('')}
         </div>
+
+        ${!libroData ? `  <!-- Solo mostrar campo clase si NO estamos editando -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="clase_id" class="form-label fw-bold" style="color: #2B3A55;">Clase</label>
+                    <select name="clase_id" id="clase_id" class="form-select">
+                        <option value="">-- Seleccione una clase --</option>
+                        ${classesOptions}
+                    </select>
+                </div>
+            </div>
+        ` : ''}
         
 
 
@@ -97,12 +116,21 @@ export let registerBook = (tagsData, classesOptions) => `
         </div>
 
         <div class="col-12">
-            <div class="mb-3">
-                <label for="libro" class="form-label fw-bold" style="color: #2B3A55;">Subir libro (PDF)</label>
-                <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control" style="border-color: #DEE2E6;" required>
-                <span class="invalid-feedback"></span>
-            </div>
+        <div class="mb-3">
+            <label for="libro" class="form-label fw-bold" style="color: #2B3A55;">
+                ${libroData ? 'Actualizar PDF (opcional)' : 'Subir libro (PDF)'}
+            </label>
+            <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control">
+            ${libroData?.libro_url ? `
+                <div class="mt-2">
+                    <small>PDF actual: </small>
+                    <a href="${libroData.libro_url}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-file-pdf"></i> Ver PDF actual
+                    </a>
+                </div>
+            ` : ''}
         </div>
+    </div>
 
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold">Confirmar</button>

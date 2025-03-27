@@ -72,7 +72,7 @@ export function loadAdmissionsForm(){
 }
 
 
-window.addEventListener("popstate", function (event) {
+/*window.addEventListener("popstate", function (event) {
 
     const confirmarSalida = confirm("¿Estás seguro de que quieres salir de este formulario?");
 
@@ -87,7 +87,7 @@ window.addEventListener("popstate", function (event) {
     } else {
         history.pushState({ view: "admissionsForm" }, "", window.location.href);
     }
-});
+});*/
 
 
 

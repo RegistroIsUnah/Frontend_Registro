@@ -40,7 +40,7 @@ export class SendForm {
         admissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
 
-    static validateRegisterBookForm = (event) => {
+    static validateRegisterBookForm = async (event, isEdit = false) => {
 
         event.preventDefault();
         let form = event.target;
@@ -91,7 +91,23 @@ export class SendForm {
 
         //formData.append("rol", form.querySelector("[name='rol']").value); 
 
-        BibliotecaFetch.postRegisterBook(formData);
+        //BibliotecaFetch.postRegisterBook(formData);
+
+
+        // Determinar si es edición o creación
+    const libroId = formData.get('libro_id');
+    //const isEdit = !!libroId;
+
+    try {
+        if (isEdit) {
+            const response = await BibliotecaFetch.updateLibro(formData);
+            alert("Libro actualizado correctamente");
+        } else {
+            const response = await BibliotecaFetch.postRegisterBook(formData);
+        }
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+    }
     }
 }
 

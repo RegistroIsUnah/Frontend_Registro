@@ -157,7 +157,7 @@ export class BibliotecaFetch {
     static async updateLibro(formData) {
         try {
             const response = await fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
-                method: "PUT",
+                method: "POST",
                 body: formData
             });
             const data = await response.json();

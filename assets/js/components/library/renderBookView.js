@@ -60,7 +60,7 @@ function generateBookCard(libro, isDocente) {
 
                 <div class="tags-section">
                     ${libro.tags.map(tag => `
-                        <span class="badge bg-secondary me-1">${tag.tag_nombre}</span>
+                        <span class="badge bg-secondary me-1">${typeof tag === 'object' ? tag.tag_nombre : tag}</span>
                     `).join('')}
                 </div>
                 ${isDocente ? generateAdminControls(libro.libro_id) : ''}
@@ -73,11 +73,10 @@ function generateBookCard(libro, isDocente) {
 function generateAdminControls(libroId) {
     return `
         <div class="admin-controls mt-3">
-                    <button type="button" id="editButton" class="btn btn-success"> Editar </button>
 
-            /*<button type="button" class="btn btn-success" onclick="handleEditBook(${libroId})">
+            <button type="button" class="btn btn-success" onclick="handleEditBook(${libroId})">
                 Editar
-            </button>*/
+            </button>
         </div>
     `;
 }
