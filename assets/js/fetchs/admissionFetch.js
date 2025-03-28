@@ -79,16 +79,16 @@ export class AdmissionFetch{
 
         /**
      * @author estiven.mejia@unah.hn
-     * @version 0.0.3
+     * @version 0.0.2
      * @since 2025/03/26
      * 
-     * Esta función envía el número de solicitud del aspirante hacia su correo.
+     * Esta función envía un correo con el número de solicitud al aspirante.
      */
-    static sendEmail(numSolicitud){
+    static sendEmail(email){
 
         return fetch(`${ConstValues.DOMAIN_NAME}/post/reenviar_correo.php`, {
             method: "POST",
-            body: JSON.stringify({"numSolicitud" : numSolicitud})
+            body: JSON.stringify({"correo" : email})
         })
         .then(response => response.json())
         .then(data => data )
