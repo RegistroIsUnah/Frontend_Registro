@@ -74,7 +74,7 @@ export class LibraryFetch{
     }
 
 
-    async getRegisterBookDataForm(deptId = 2) {
+    async getRegisterBookDataForms(deptId = 2) {
         
         try {
             const [tagsData, classesData] = await Promise.all([
@@ -131,7 +131,7 @@ export class LibraryFetch{
     }*/
 
 
-    static postRegisterBook(formData) {
+    static postRegisterBooks(formData) {
         console.log("Datos a enviar:", formData);
     
         fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro.php`, {

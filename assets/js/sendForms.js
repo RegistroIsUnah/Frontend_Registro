@@ -1,8 +1,8 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
-import { LibraryFetch } from "./fetchs/libraryFetch.js";
+import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
 
-export class SendForm{
+export class SendForm {
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.2
@@ -12,10 +12,9 @@ export class SendForm{
      * 
      * Este método toma la información del formulario de admisión y envía su contenido al método encargado de enviar la data al servidor.
      */
-    static validateAdmissionForm = (form) => {
-        
-        let formData = new FormData();
+    static validateAdmissionForm = async (form) => {
 
+        let formData = new FormData();
         formData.append("nombre", form.querySelector("[name='nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("apellido", form.querySelector("[name='apellidos']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         
@@ -36,9 +35,8 @@ export class SendForm{
         fotodni && formData.append("fotodni", fotodni);
         certificado && formData.append("certificado", certificado);
         
-        return AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
+        return await AdmissionFetch.postadmissionsData(formData); // enviando los datos al método que consume el endpoint de la API.
     };
-
 
     /**
      * @author estiven.mejia@unah.hn
@@ -59,13 +57,9 @@ export class SendForm{
         
         let identification = form.querySelector("[name='documento']").value.trim().replace(/\D/g, '');
         formData.append("documento", identification);
-        //formData.append("tipo_documento_id", (RegularExpressions.DNI.test(identification)) ? 1 : ((RegularExpressions.PASSPORT.test(identification)) ? 2 : ""));
         formData.append("telefono", form.querySelector("[name='telefono']").value.trim().replace(/\D/g, ''));
         formData.append("correo", form.querySelector("[name='correo']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
-        //formData.append("carrera_principal_id", form.querySelector("[name='carrera_principal']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        //formData.append("carrera_secundaria_id", form.querySelector("[name='carrera_secundaria']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        //formData.append("centro_id", form.querySelector("[name='centro_regional']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-
+        
         let foto = form.querySelector("[name='foto']").files[0];
         let fotodni = form.querySelector("[name='fotodni']").files[0];
         let certificado = form.querySelector("[name='certificado_url']").files[0];
@@ -87,7 +81,8 @@ export class SendForm{
      * 
      * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
      */
-    static validateRegisterBookForm = (event) => {
+
+    static validateRegisterBookForm = async (event, isEdit = false) => {
 
         event.preventDefault();
         let form = event.target;
@@ -96,9 +91,9 @@ export class SendForm{
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
-      
-        const autoresSelect = form.querySelector("[name='autores_lista']");
+        //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
+
+        /*const autoresSelect = form.querySelector("[name='autores_lista']");
         const autores = Array.from(autoresSelect.options).map(option => {
             const nombreCompleto = option.value.trim();
             const primerEspacio = nombreCompleto.indexOf(' ');
@@ -111,9 +106,19 @@ export class SendForm{
             const apellido = nombreCompleto.substring(primerEspacio + 1);
             
             return { nombre, apellido };
-        });
+        });*/
+
+
+        // Obtener tags seleccionados
+        const selectedTags = Array.from(form.querySelectorAll('[name="tags"]:checked')).map(checkbox => checkbox.value);
+        formData.append("tags", JSON.stringify(selectedTags));
+
+        // Autores (array de objetos)
+        const autores = JSON.parse(form.autoresHidden.value || "[]");
         formData.append("autores", JSON.stringify(autores));
-        
+
+        //formData.append("autores", JSON.stringify(autores));
+
         formData.append("editorial", form.querySelector("[name='editorial']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
         const claseId = form.querySelector("[name='clase_id']").value;
@@ -125,10 +130,26 @@ export class SendForm{
         if (libroInput.files[0]) {
             formData.append("libro", libroInput.files[0]);
         }
-        
-        formData.append("rol", form.querySelector("[name='rol']").value); 
 
-        LibraryFetch.postRegisterBook(formData);
+        //formData.append("rol", form.querySelector("[name='rol']").value); 
+
+        //BibliotecaFetch.postRegisterBook(formData);
+
+
+        // Determinar si es edición o creación
+    const libroId = formData.get('libro_id');
+    //const isEdit = !!libroId;
+
+    try {
+        if (isEdit) {
+            const response = await BibliotecaFetch.updateLibro(formData);
+            alert("Libro actualizado correctamente");
+        } else {
+            const response = await BibliotecaFetch.postRegisterBook(formData);
+        }
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+    }
     }
 }
 

@@ -147,7 +147,7 @@ export async function loadAdmissionsForm(){
         if(formSendedResponse.message) {
             document.getElementById("formResponseModalTitle").textContent = formSendedResponse.message;
             document.getElementById("formResponseModalBody").innerHTML = `<h4">Su número de solicitud es: <br>
-                                                                            <span style="color:red;">${formSendedResponse.numSolicitud}</span> <br><br>
+                                                                            <span id="applicationNumber" style="color:red;">${formSendedResponse.numSolicitud}</span> <br><br>
                                                                             Se ha enviado un mensaje con el número de solicitud a su correo electrónico.</h4>`;
             document.getElementById("viewFormDataButton").hidden = true;
         } else if(formSendedResponse.error) {
@@ -174,12 +174,11 @@ export async function loadAdmissionsForm(){
 
         document.getElementById("acceptFormDataButton").addEventListener("click", function () {
 
-            let formularioContainer = document.getElementById("divAdmissionsForm");
-        
+            let formularioContainer = document.getElementById("divAdmissionsForm");        
             if (formularioContainer) {
                 document.body.removeChild(formularioContainer);
                 history.back();
-                loadAdmissionsPage();
+                loadAdmissionApplicationView(formSendedResponse.numSolicitud);
             } else {
                 history.pushState({ view: "admissionsForm" }, "", window.location.href);
             }
@@ -201,7 +200,7 @@ export async function loadAdmissionsForm(){
  */
 export async function loadResendAdmissionsForm(){
 
-    let numSolicitud = localStorage.getItem("numSolicitud");
+    const numSolicitud = localStorage.getItem("numSolicitud");
     let admissionData = JSON.parse(localStorage.getItem("admissionData"));
     document.getElementById("admissionApplicacionViewContainer")?.remove();    
     history.pushState({ view: "resendAdmissionsForm" }, "", window.location.href);
@@ -285,7 +284,7 @@ export async function loadResendAdmissionsForm(){
  * 
  * Esta función renderiza la vista utilizada para visualizar el estado de la solicitud de admisión en el archivo admisiones.php
  */
-export function loadAdmissionApplicationView(){
+export function loadAdmissionApplicationView(numSolicitud=""){
 
     history.pushState({ view: "admissionApplicationView" }, "", window.location.href);
     
@@ -294,6 +293,10 @@ export function loadAdmissionApplicationView(){
     admissionApplicationDiv.innerHTML = showAdmissionApplication();    
     document.getElementById("navbar").insertAdjacentElement("afterend", admissionApplicationDiv);
     
+    if (typeof numSolicitud !== 'undefined' && numSolicitud !== null) {
+        document.getElementById("showAdmissionApplicationButton").disabled = false;    
+        document.getElementById("showAdmissionApplicationInput").value = numSolicitud;
+    }
     // Habilita el botón hasta que el patrón del número de solicitud sea correcto.
     document.getElementById("showAdmissionApplicationInput").addEventListener("input", (event) => {
         let isDisabled = (RegularExpressions.APPLICATION_NUMBER.test(event.target.value) && event.target.value) ? false : true;
@@ -365,7 +368,6 @@ export function loadAdmissionApplicationView(){
             `;
         }
         
-        console.log(admissionData);
         let admissionDataDiv = document.createElement("div");
         admissionDataDiv.className = "container container-form my-5";
         admissionDataDiv.innerHTML = admissionDataContent;
@@ -381,14 +383,13 @@ export function loadAdmissionApplicationView(){
        
         // Lógica para creación de la modal donde se ingresará la identificación del aspirante para mostrar el número de solicitud.
         let modalBody = `<div class="input-group flex-column"> 
-                            <p class="mb-2 text-center">Ingrese su identificación</p> 
+                            <p class="mb-2 text-center">Ingrese su correo</p> 
                             <div class="d-flex align-items-center">
-                                <input id="recoverAdmissionNumberInputModal" class="form-control me-2" type="text" maxlength="13" placeholder="DNI o pasaporte">
-                                <button disabled type="submit" id="recoverAdmissionNumberButtonModal" style="background-color: #013775;" class="btn btn-primary">Ver</button> 
+                                <input id="recoverAdmissionNumberInputModal" class="form-control me-2" type="text" placeholder="e.g. correo@example.com">
                             </div>
                         </div>`;
 
-        let modal = informationModal("Recupere su número de solicitud", modalBody, "Enviar No. solicitud por correo", "hidden");
+        let modal = informationModal("Recupere su número de solicitud", modalBody, "Enviar No. solicitud por correo", "disabled");
         
         let divModal = document.createElement("div");
         divModal.id = "divModalGetApplicationNumber"
@@ -400,70 +401,26 @@ export function loadAdmissionApplicationView(){
 
         // Habilita el botón hasta que el patrón de la identifiación sea correcto.
         document.getElementById("recoverAdmissionNumberInputModal").addEventListener("input", (event) => {
-            let isDisabled = (RegularExpressions.DNI_PASSPORT.test(event.target.value) && event.target.value) ? false : true;
-            event.target.nextElementSibling.disabled = isDisabled;
+            let isDisabled = (RegularExpressions.EMAIL.test(event.target.value) && event.target.value) ? false : true;
+            document.getElementById("successButtomModal").disabled = isDisabled;
         });
 
         // Lógica para mostrar en la modal información y número de solicitud del aspirante.
-        document.getElementById("recoverAdmissionNumberButtonModal").addEventListener("click", async (event) => {
+        document.getElementById("successButtomModal").addEventListener("click", async (event) => {
 
-            let identificationNumber = (event.target.previousElementSibling.value).trim();
-            let admissionData = await AdmissionFetch.getApplicationNumberByIdentification(identificationNumber);
-            let dataAdmissionTable = "";
+            let applicantEmail = (document.getElementById("recoverAdmissionNumberInputModal").value).trim();
+            let emailSendedResponse = await AdmissionFetch.sendEmail(applicantEmail);
+            
+            let modal = emailSendedResponse.message == "Correo reenviado exitosamente" ? 
+            messageAlert("bg-primary", emailSendedResponse.message) : messageAlert("bg-danger", emailSendedResponse.error);
 
-            if(!admissionData.error){
-                dataAdmissionTable = `
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Datos</th>
-                            <th scope="col">Datos solicitud</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                            <th scope="row">Nombre</th>
-                            <td>${admissionData.nombre} ${admissionData.apellido}</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">Carrera primaria</th>
-                            <td>${admissionData.carrera_principal}</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">Fecha solicitud</th>
-                            <td>${admissionData.fecha_solicitud}</td>               
-                            </tr>
-                            <tr>
-                            <th scope="row" style="color:red;">Número de solicitud</th>
-                            <td><strong id="numSolicitud" style="color:red;">${admissionData.numSolicitud}</strong></td>                
-                            </tr>
-                        </tbody>
-                    </table>
-                    `;
-                document.getElementById("successButtomModal").hidden = false;
-            }else{
-                dataAdmissionTable = `
-                <h5 style="color:red">Hubo un problema al intentar encontrar una solicitud de admisión con el número de identificación ${identificationNumber}</h5>`
-            }
-
-            let admissionDataDiv = document.createElement("div");
-            admissionDataDiv.className = "container mt-5";
-            admissionDataDiv.innerHTML = dataAdmissionTable;
-            document.getElementsByClassName("modal-body")[0].replaceChild(admissionDataDiv, document.getElementsByClassName("modal-body")[0].lastChild);
-
-            document.getElementById("successButtomModal").addEventListener("click", async (event) => {
-
-                let emailSendedResponse = await AdmissionFetch.putadmissionsData(document.getElementById("numSolicitud").textContent);    
-                let modal = emailSendedResponse.message == "Correo reenviado exitosamente" ? 
-                messageAlert("bg-primary", emailSendedResponse.message) : messageAlert("bg-danger", emailSendedResponse.error);
-
-                let divModal = document.createElement("div");
-                divModal.innerHTML = modal;
-                document.body.appendChild(divModal);
-                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
-                successModalInstance.show();
-            });
+            let divModal = document.createElement("div");
+            divModal.innerHTML = modal;
+            document.body.appendChild(divModal);
+            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+            successModalInstance.show(); 
         });
+
     });
 }
 
