@@ -147,7 +147,7 @@ export async function loadAdmissionsForm(){
         if(formSendedResponse.message) {
             document.getElementById("formResponseModalTitle").textContent = formSendedResponse.message;
             document.getElementById("formResponseModalBody").innerHTML = `<h4">Su número de solicitud es: <br>
-                                                                            <span style="color:red;">${formSendedResponse.numSolicitud}</span> <br><br>
+                                                                            <span id="applicationNumber" style="color:red;">${formSendedResponse.numSolicitud}</span> <br><br>
                                                                             Se ha enviado un mensaje con el número de solicitud a su correo electrónico.</h4>`;
             document.getElementById("viewFormDataButton").hidden = true;
         } else if(formSendedResponse.error) {
@@ -174,12 +174,11 @@ export async function loadAdmissionsForm(){
 
         document.getElementById("acceptFormDataButton").addEventListener("click", function () {
 
-            let formularioContainer = document.getElementById("divAdmissionsForm");
-        
+            let formularioContainer = document.getElementById("divAdmissionsForm");        
             if (formularioContainer) {
                 document.body.removeChild(formularioContainer);
                 history.back();
-                loadAdmissionsPage();
+                loadAdmissionApplicationView(formSendedResponse.numSolicitud);
             } else {
                 history.pushState({ view: "admissionsForm" }, "", window.location.href);
             }
@@ -285,7 +284,7 @@ export async function loadResendAdmissionsForm(){
  * 
  * Esta función renderiza la vista utilizada para visualizar el estado de la solicitud de admisión en el archivo admisiones.php
  */
-export function loadAdmissionApplicationView(){
+export function loadAdmissionApplicationView(numSolicitud=""){
 
     history.pushState({ view: "admissionApplicationView" }, "", window.location.href);
     
@@ -294,6 +293,10 @@ export function loadAdmissionApplicationView(){
     admissionApplicationDiv.innerHTML = showAdmissionApplication();    
     document.getElementById("navbar").insertAdjacentElement("afterend", admissionApplicationDiv);
     
+    if (typeof numSolicitud !== 'undefined' && numSolicitud !== null) {
+        document.getElementById("showAdmissionApplicationButton").disabled = false;    
+        document.getElementById("showAdmissionApplicationInput").value = numSolicitud;
+    }
     // Habilita el botón hasta que el patrón del número de solicitud sea correcto.
     document.getElementById("showAdmissionApplicationInput").addEventListener("input", (event) => {
         let isDisabled = (RegularExpressions.APPLICATION_NUMBER.test(event.target.value) && event.target.value) ? false : true;
