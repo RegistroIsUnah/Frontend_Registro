@@ -149,7 +149,6 @@ export function loadRegisterBookForm(libroData = null) {
                     enableEditBtn.addEventListener("click", () => {
                         form.querySelectorAll("input, select, textarea").forEach(field => {
                             field.readOnly = false;
-                            field.classList.remove("is-valid");
                         });
                         enableEditBtn.remove();
                     });

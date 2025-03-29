@@ -8,22 +8,32 @@
 
 // En filtrarLibros.js
 export function filtrarLibros(searchTerm, data) {
+    // Normaliza texto removiendo acentos y convirtiendo a minúsculas
+    const normalizeText = (text = '') => {
+        return text
+            .toLowerCase()
+            .normalize("NFD")  // Separa caracteres base de sus acentos (ej: "México" → "M" + "é" + "xico")
+            .replace(/[\u0300-\u036f]/g, "");  // Elimina los signos diacríticos (tildes)
+    };
+
+    const normalizedSearchTerm = normalizeText(searchTerm);
+
     return data
         .map(clase => {
-            // Filtrar libros dentro de cada clase
             const librosFiltrados = clase.libros.filter(libro => {
-                const titulo = libro.titulo.toLowerCase();
-                const editorial = libro.editorial.toLowerCase();
-                const claseNombre = clase.clase_nombre.toLowerCase();
+                // Normalizar todos los campos relevantes
+                const tituloNormalizado = normalizeText(libro.titulo);
+                const editorialNormalizado = normalizeText(libro.editorial);
+                const claseNormalizado = normalizeText(clase.clase_nombre);
+
                 return (
-                    titulo.includes(searchTerm) ||
-                    editorial.includes(searchTerm) ||
-                    claseNombre.includes(searchTerm)
+                    tituloNormalizado.includes(normalizedSearchTerm) ||
+                    editorialNormalizado.includes(normalizedSearchTerm) ||
+                    claseNormalizado.includes(normalizedSearchTerm)
                 );
             });
-            // Conservar la estructura de la clase con los libros filtrados
+
             return { ...clase, libros: librosFiltrados };
         })
-        // Eliminar clases sin libros después del filtrado
-        .filter(clase => clase.libros.length > 0);
+        .filter(clase => clase.libros.length > 0);  // Eliminar clases vacías
 }

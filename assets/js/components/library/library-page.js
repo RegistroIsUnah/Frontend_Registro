@@ -43,7 +43,7 @@ export let libraryView =`
         <!-- Campo de búsqueda -->
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por título o editorial">
+            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por clase, título o editorial">
         </div>
     </div>
 

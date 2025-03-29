@@ -109,12 +109,13 @@ export class SendForm {
         try {
             if (isEditMode) {
                 await BibliotecaFetch.updateLibro(formData);
+                loadLibraryPage();
             } else {
                 await BibliotecaFetch.postRegisterBook(formData);
             }
             loadLibraryPage();
         } catch (error) {
-            alert(`Error: ${error.message}`);
+            alert(`${error.message}`);
         }
 
 
