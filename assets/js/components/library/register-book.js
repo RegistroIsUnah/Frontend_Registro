@@ -86,6 +86,8 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
                     <select name="clase_id" id="clase_id" class="form-select" required>
                         ${classesOptions}
                     </select>
+                    <span class="invalid-feedback"></span>
+
                 </div>
             </div>
         ` : ''}
@@ -117,12 +119,22 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="isbn_libro" class="form-label fw-bold" style="color: #2B3A55;">ISBN</label>
+                <input type="text" name="isbn_libro" id="isbn_libro" maxlength="50" class="form-control" style="border-color: #DEE2E6;" required>
+                <span class="invalid-feedback"></span>
+            </div>
+        </div>
+
         <div class="col-12">
         <div class="mb-3">
             <label for="libro" class="form-label fw-bold" style="color: #2B3A55;">
                 ${libroData ? 'Actualizar PDF (opcional)' : 'Subir libro (PDF)'}
             </label>
             <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control">
+            <span class="invalid-feedback"></span>
+
             ${libroData?.libro_url ? `
                 <div class="mt-2">
                     <small>PDF actual: </small>

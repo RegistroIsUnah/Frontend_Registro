@@ -51,6 +51,8 @@ export class SendForm {
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+
         //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
 
         // Obtener tags seleccionados
@@ -69,12 +71,12 @@ export class SendForm {
         }
 
         // Solo procesar clase_id si existe el campo (no en edición)
-    if (!isEditMode) {
-        const claseId = form.querySelector("[name='clase_id']")?.value;
-        if (claseId) {
-            formData.append("clase_id", parseInt(claseId, 10));
+        if (!isEditMode) {
+            const claseId = form.querySelector("[name='clase_id']")?.value;
+            if (claseId) {
+                formData.append("clase_id", parseInt(claseId, 10));
+            }
         }
-    }
 
 
         // Validación condicional del archivo
@@ -106,7 +108,7 @@ export class SendForm {
         }
 
 
-        try {
+        /*try {
             if (isEditMode) {
                 await BibliotecaFetch.updateLibro(formData);
                 loadLibraryPage();
@@ -116,6 +118,19 @@ export class SendForm {
             loadLibraryPage();
         } catch (error) {
             alert(`${error.message}`);
+        }*/
+
+
+        try {
+            if (isEditMode) {
+                await BibliotecaFetch.updateLibro(formData);
+            } else {
+                await BibliotecaFetch.postRegisterBook(formData);
+
+            }
+            loadLibraryPage();
+        } catch (error) {
+            alert(`Error: ${error.message}`);
         }
 
 

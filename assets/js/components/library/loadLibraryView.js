@@ -110,7 +110,6 @@ export function loadRegisterBookForm(libroData = null) {
                         });
                     }
     
-                   
                     if (libroData.autores && Array.isArray(libroData.autores)) {
                         const autoresContainer = document.getElementById('listaAutores');
                         const autoresHidden = document.getElementById('autoresHidden');

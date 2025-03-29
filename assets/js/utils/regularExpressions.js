@@ -19,4 +19,5 @@ export class RegularExpressions{
     static DATE = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
     static DESCRIPTION = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s\-,;:!?¿¡."'\(\)]{3,200}$/
     static AUTHOR_NAME = /^([a-záéíóúñüÁÉÍÓÚÑÜ\s'-]+)\s+([a-záéíóúñüÁÉÍÓÚÑÜ\s'.-]+)$/;
+    static ISBN = /^[\d\-Xx]+$/;
 }

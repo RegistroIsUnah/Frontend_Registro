@@ -44,6 +44,7 @@ export class DataFormValidations {
             // Validación condicional para edición
             if (isEditMode && (!files || files.length === 0)) return true;
             return PDFValidator.validatePdfFile(files?.[0], 12);
-        }
+        },
+        isbn_libro: value => RegularExpressions.ISBN.test(value)
     };
 }
