@@ -84,9 +84,7 @@ function generateAdminControls(libroId) {
 function generateNewBook(){
     return `
         <div class="text-end mb-3">
-            <button type="button" id="registerButton" class="btn btn-primary" ">
-                <i class="fas fa-plus"></i> Agregar Libro
-            </button>
+            <button type="button" id="registerButton" class="btn btn-primary" ">Agregar Libro</button>
         </div>
         `;
 }

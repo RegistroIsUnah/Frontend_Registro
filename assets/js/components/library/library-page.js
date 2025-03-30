@@ -44,7 +44,8 @@ export let libraryView =`
     <div class="row mb-4">
         <div class="col-md-6 offset-md-3">
             <input type="text" id="searchInput" class="form-control" placeholder="Buscar por clase, título o editorial">
-        </div>
+            <button type="button" id="searchButton" class="btn btn-primary" ">Buscar</button>
+            </div>
     </div>
 
 

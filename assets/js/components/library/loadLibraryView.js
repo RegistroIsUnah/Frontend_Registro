@@ -21,18 +21,14 @@ import { setupAuthorHandling } from "./authorHandling.js";
  * @since 2025/03/16
  * 
  * Función encargada de cargar el formulario de registro de libros a la página de biblioteca.
-
  */
-
 
 // Agrega esto al inicio del archivo, después de los imports
 window.handleEditBook = async (libroId) => {
     try {
         
-        
         // Obtener los datos completos del libro
         const libro = await BibliotecaFetch.getLibroCompleto(libroId);
-        
         
         // Cargar el formulario de registro en modo edición
         loadRegisterBookForm(libro);
@@ -99,6 +95,16 @@ export function loadRegisterBookForm(libroData = null) {
                     form.fecha_publicacion.value = libroData.fecha_publicacion || "";
                     form.descripcion.value = libroData.descripcion || "";
 
+                    const estadoLibroMap = {
+                        1: "ACTIVO",
+                        2: "INACTIVO"
+                    };
+                    
+                    if (libroData.estado_libro_id) {
+                        form.estado.value = estadoLibroMap[libroData.estado_libro_id] || "ACTIVO"; 
+                    }
+
+
                     console.log(libroData.libro_id);
                     
                     // Manejo de tags
@@ -136,29 +142,24 @@ export function loadRegisterBookForm(libroData = null) {
                     // Cambiar el título del formulario
                     const tituloForm = document.querySelector(".container-form h2");
                     if (tituloForm) tituloForm.textContent = "Editar Libro";
+
     
-    
-                    // Configurar botón de habilitación
-                    const enableEditBtn = document.createElement("button");
-                    enableEditBtn.type = "button";
-                    enableEditBtn.id = "enableEdit";
-                    enableEditBtn.className = "btn btn-warning mt-3";
-                    enableEditBtn.innerHTML = '<i class="fas fa-edit"></i> Habilitar edición';
+                    const enableEditBtn = document.getElementById('enableEditBtn');
+                    const submitEditBtn = document.getElementById('submitEditBtn');
                     
-                    enableEditBtn.addEventListener("click", () => {
+                
+                    enableEditBtn.addEventListener('click', () => {
+                        // Habilitar campos
                         form.querySelectorAll("input, select, textarea").forEach(field => {
-                            field.readOnly = false;
+                            field.disabled = false;
+                            field.classList.add("is-valid");
                         });
-                        enableEditBtn.remove();
+                        
+                        // Mostrar botón de confirmación
+                        enableEditBtn.classList.add('d-none');
+                        submitEditBtn.classList.remove('d-none');
                     });
-    
-                    form.appendChild(enableEditBtn);
-    
-                    // Bloquear campos inicialmente
-                    form.querySelectorAll("input, select, textarea").forEach(field => {
-                        field.readOnly = true;
-                        field.classList.add("is-valid");
-                    });
+
                 }
     
                 const form = document.querySelector("form");

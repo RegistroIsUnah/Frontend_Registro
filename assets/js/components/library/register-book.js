@@ -15,7 +15,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
 
 <div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">Registro de Libro</a></h5>
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">${libroData ? `Edición de Libro`: `Registro de Libro`}</a></h5>
 </div>
 
 
@@ -28,7 +28,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="titulo" class="form-label fw-bold" style="color: #2B3A55;">Título del libro</label>
-                <input type="text" name="titulo" id="titulo" maxlength="150" class="form-control" style="border-color: #DEE2E6;" required>
+                <input type="text" name="titulo" id="titulo" maxlength="150" class="form-control" autocomplete="off" style="border-color: #DEE2E6;"${libroData ? 'disabled' : ''} required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
@@ -36,7 +36,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="fecha_publicacion" class="form-label fw-bold" style="color: #2B3A55;">Fecha de publicación</label>
-                <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control" style="border-color: #DEE2E6;" placeholder="Formato: yyyy/mm/dd" required>
+                <input type="date" name="fecha_publicacion" id="fecha_publicacion" class="form-control" style="border-color: #DEE2E6;" placeholder="Formato: yyyy/mm/dd"  ${libroData ? 'disabled' : ''}  required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
@@ -44,7 +44,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
         <div class="col-12">
             <div class="mb-3">
                 <label for="descripcion" class="form-label fw-bold" style="color: #2B3A55;">Descripción</label>
-                <textarea name="descripcion" maxlength="200" id="descripcion" class="form-control" style="height: 100px; border-color: #DEE2E6;" required></textarea>
+                <textarea name="descripcion" maxlength="200" id="descripcion" class="form-control" autocomplete="off" style="height: 100px; border-color: #DEE2E6;"  ${libroData ? 'disabled' : ''}  required></textarea>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
@@ -63,14 +63,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
                 
                 return `
                 <div class="form-check">
-                    <input 
-                        type="checkbox" 
-                        name="tags" 
-                        value="${tag.tag_id}" 
-                        id="tag-${tag.tag_id}" 
-                        class="form-check-input" 
-                        ${isChecked ? 'checked' : ''}
-                    >
+                    <input type="checkbox" name="tags" value="${tag.tag_id}" id="tag-${tag.tag_id}" class="form-check-input" ${isChecked ? 'checked' : ''} ${libroData ? 'disabled' : ''}>
                     <label class="form-check-label" for="tag-${tag.tag_id}">
                         ${tag.tag_nombre}
                     </label>
@@ -99,13 +92,13 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
                 <label for="autores" class="form-label fw-bold" style="color: #2B3A55;">Autores</label>
                 
                 <div class="input-group mb-2">
-                    <input type="text" id="nombre" name="nombre"  class="form-control" placeholder="Nombre">
-                    <input type="text" id="apellido" class="form-control" placeholder="Apellido">
-                    <button type="button" class="btn btn-outline-dark" id="addAuthor">Agregar</button>
+                    <input type="text" id="nombre" name="nombre"  class="form-control" autocomplete="off" placeholder="Nombre" ${libroData ? 'disabled' : ''}>
+                    <input type="text" id="apellido" class="form-control" autocomplete="off" placeholder="Apellido" ${libroData ? 'disabled' : ''}>
+                    <button type="button" class="btn btn-outline-dark" id="addAuthor"${libroData ? 'disabled' : ''}>Agregar</button>
                 </div>
 
                 <div id="listaAutores" class="mt-2 d-flex flex-wrap gap-2"></div>
-                <input type="hidden" name="autores" id="autoresHidden">
+                <input type="hidden" name="autores" id="autoresHidden" autocomplete="off" ${libroData ? 'disabled' : ''}>
                 <span class="invalid-feedback">Debe agregar al menos un autor</span> <!-- Mensaje de error -->
                 </div>
         </div>
@@ -114,25 +107,42 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="editorial" class="form-label fw-bold" style="color: #2B3A55;">Editorial</label>
-                <input type="text" name="editorial" id="editorial" maxlength="50" class="form-control" style="border-color: #DEE2E6;" required>
+                <input type="text" name="editorial" id="editorial" maxlength="50" class="form-control" autocomplete="off" style="border-color: #DEE2E6;" ${libroData ? 'disabled' : ''}  required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
 
+        
+        ${libroData ? `
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="estado" class="form-label fw-bold" style="color: #2B3A55;">Estado del Libro</label>
+                    <select name="estado" id="estado" class="form-select"  ${libroData ? 'disabled' : ''} required>
+                        <option value="ACTIVO" ${libroData.estado_libro_id === 'ACTIVO' ? 'selected' : ''}>Activo</option>
+                        <option value="INACTIVO" ${libroData.estado_libro_id === 'INACTIVO' ? 'selected' : ''}>Inactivo</option>
+                    </select>
+                    <span class="invalid-feedback"></span>
+                </div>
+            </div>
+        ` : ''}
+
+
+        ${!libroData ? `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="isbn_libro" class="form-label fw-bold" style="color: #2B3A55;">ISBN</label>
-                <input type="text" name="isbn_libro" id="isbn_libro" maxlength="50" class="form-control" style="border-color: #DEE2E6;" required>
+                <input type="text" name="isbn_libro" id="isbn_libro" maxlength="50" class="form-control" autocomplete="off" style="border-color: #DEE2E6;" required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
+        ` : ''}
 
         <div class="col-12">
         <div class="mb-3">
             <label for="libro" class="form-label fw-bold" style="color: #2B3A55;">
                 ${libroData ? 'Actualizar PDF (opcional)' : 'Subir libro (PDF)'}
             </label>
-            <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control">
+            <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control" ${!libroData ? 'required' :""} ${libroData ? 'disabled' : ''}>
             <span class="invalid-feedback"></span>
 
             ${libroData?.libro_url ? `
@@ -146,13 +156,15 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
         </div>
     </div>
 
-        <div class="col-12 text-center">
-                    <button 
-                type="submit" 
-                class="btn btn-dark btn-lg px-5 fw-bold">
-                ${libroData ? 'Confirmar cambios' : 'Registrar libro'}
-            </button>
-        </div>
+    <div class="col-12 text-center">
+    ${libroData ? `
+        <button type="button" id="enableEditBtn" class="btn btn-success btn-lg px-5 fw-bold">Habilitar Edición</button>
+        <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold d-none" id="submitEditBtn">Confirmar cambios</button>
+    ` : `
+        <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold">Registrar libro</button>
+    `}
+    </div>
+
     </form>
 </div>
 `;

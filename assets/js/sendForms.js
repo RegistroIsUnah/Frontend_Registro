@@ -42,7 +42,6 @@ export class SendForm {
     };
 
     static validateRegisterBookForm = async (event) => {
-
         event.preventDefault();
         let form = event.target;
         let formData = new FormData();
@@ -51,7 +50,6 @@ export class SendForm {
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
         //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
 
@@ -70,16 +68,18 @@ export class SendForm {
             formData.append("libro", libroInput.files[0]);
         }
 
-        // Solo procesar clase_id si existe el campo (no en edición)
+        // Solo procesar clase_id si existe el campo (no en edición). Esta parte es para los campos que no estan en edicion 
         if (!isEditMode) {
             const claseId = form.querySelector("[name='clase_id']")?.value;
             if (claseId) {
                 formData.append("clase_id", parseInt(claseId, 10));
             }
+
+            formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+
         }
 
-
-        // Validación condicional del archivo
+        // Envio del id oculto y los autores nuevos quitando el autor_id y agregando el estado para que sea editable
         if (isEditMode) {
             const libroId = document.getElementById('libro_id')?.value;
             if (libroId && !formData.has('libro_id')) {
@@ -97,43 +97,30 @@ export class SendForm {
                     console.error("Error procesando autores:", error);
                 }
             }
+
+            const estado = form.querySelector("[name='estado']")?.value;
+            formData.append("estado", estado || "ACTIVO");
         }
 
-        //formData.append("rol", form.querySelector("[name='rol']").value); 
-
-        //BibliotecaFetch.postRegisterBook(formData);
-        if (isEditMode && !formData.has('libro_id')) {
-            const libroId = document.getElementById('libro_id')?.value;
-            if (libroId) formData.append('libro_id', libroId);
-        }
-
-
-        /*try {
-            if (isEditMode) {
-                await BibliotecaFetch.updateLibro(formData);
-                loadLibraryPage();
-            } else {
-                await BibliotecaFetch.postRegisterBook(formData);
-            }
-            loadLibraryPage();
-        } catch (error) {
-            alert(`${error.message}`);
-        }*/
-
+        //Envio de formularios ya sea edicion o registro
 
         try {
+            let response;
             if (isEditMode) {
-                await BibliotecaFetch.updateLibro(formData);
+                response = await BibliotecaFetch.updateLibro(formData);
             } else {
-                await BibliotecaFetch.postRegisterBook(formData);
-
+                response = await BibliotecaFetch.postRegisterBook(formData);
             }
-            loadLibraryPage();
+            // Mostrar mensaje del backend
+            alert(response.mensaje);
+            // Navegar de regreso usando el historial
+            history.pushState({ view: "libraryView" }, "", window.location.href);
+
         } catch (error) {
             alert(`Error: ${error.message}`);
         }
 
-
+        //Para verificar que datos se enviaron
         for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
         }
