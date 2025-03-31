@@ -1,8 +1,6 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
-//import { LibraryFetch } from "./fetchs/libraryFetch.js";
 import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
-import { loadLibraryPage } from "./components/library/loadLibraryView.js";
 
 export class SendForm {
     /**
@@ -50,6 +48,7 @@ export class SendForm {
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+        formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
         //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
 
@@ -74,9 +73,6 @@ export class SendForm {
             if (claseId) {
                 formData.append("clase_id", parseInt(claseId, 10));
             }
-
-            formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-
         }
 
         // Envio del id oculto y los autores nuevos quitando el autor_id y agregando el estado para que sea editable
@@ -108,16 +104,16 @@ export class SendForm {
             let response;
             if (isEditMode) {
                 response = await BibliotecaFetch.updateLibro(formData);
+                alert(response.mensaje);
             } else {
                 response = await BibliotecaFetch.postRegisterBook(formData);
+                alert(response.mensaje);
             }
-            // Mostrar mensaje del backend
-            alert(response.mensaje);
             // Navegar de regreso usando el historial
             history.pushState({ view: "libraryView" }, "", window.location.href);
 
         } catch (error) {
-            alert(`Error: ${error.message}`);
+            alert(`${error}`);
         }
 
         //Para verificar que datos se enviaron

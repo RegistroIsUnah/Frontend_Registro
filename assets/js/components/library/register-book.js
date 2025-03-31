@@ -1,5 +1,5 @@
 /**
- * @author estiven.mejia@unah.hn
+ * @author kency.oseguera@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
  * 
@@ -7,12 +7,12 @@
  * @param {*} classesOptions 
  * @returns 
  *   
- * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos.
+ * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos y reutilizado para edicion.
  * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
  */
+import { ConstValues } from "../../utils/constValues";
+
 export let registerBook = (tagsData, classesOptions, libroData = null) => `
-
-
 
 <div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
     <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">${libroData ? `Edición de Libro`: `Registro de Libro`}</a></h5>
@@ -126,29 +126,28 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
             </div>
         ` : ''}
 
-
-        ${!libroData ? `
         <div class="col-md-6">
             <div class="mb-3">
                 <label for="isbn_libro" class="form-label fw-bold" style="color: #2B3A55;">ISBN</label>
-                <input type="text" name="isbn_libro" id="isbn_libro" maxlength="50" class="form-control" autocomplete="off" style="border-color: #DEE2E6;" required>
+                <input type="text" name="isbn_libro" id="isbn_libro" maxlength="50" class="form-control" autocomplete="off" style="border-color: #DEE2E6;" ${libroData ? 'disabled' : ''} required>
                 <span class="invalid-feedback"></span>
             </div>
         </div>
-        ` : ''}
+        
 
         <div class="col-12">
         <div class="mb-3">
             <label for="libro" class="form-label fw-bold" style="color: #2B3A55;">
                 ${libroData ? 'Actualizar PDF (opcional)' : 'Subir libro (PDF)'}
             </label>
-            <input type="file" name="libro" id="libro" accept="application/pdf" class="form-control" ${!libroData ? 'required' :""} ${libroData ? 'disabled' : ''}>
+            <input type="file" name="libro" id="libro" accept="application/pdf, application/epub+zip, application/vnd.amazon.ebook, 
+            application/x-mobi8-ebook, text/plain, application/rtf, text/rtf" class="form-control" ${!libroData ? 'required' :""} ${libroData ? 'disabled' : ''}>
             <span class="invalid-feedback"></span>
 
             ${libroData?.libro_url ? `
                 <div class="mt-2">
                     <small>PDF actual: </small>
-                    <a href="${libroData.libro_url}" target="_blank" class="btn btn-sm btn-outline-primary">
+                    <a href="${ConstValues.UPLOADS_BASE_URL}${libroData.libro_url}" target="_blank" class="btn btn-sm btn-outline-primary">
                         <i class="fas fa-file-pdf"></i> Ver PDF actual
                     </a>
                 </div>

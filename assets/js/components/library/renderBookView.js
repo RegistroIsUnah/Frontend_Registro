@@ -1,3 +1,4 @@
+import { ConstValues } from "../../utils/constValues";
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.1.1
@@ -43,7 +44,7 @@ function generateBookCard(libro, isDocente) {
     <div class="col-md-4 mb-4">
         <div class="card book-card">
             <div class="card-body">
-                <div onclick="openPDFModal('${libro.libro_url}')">
+                <div onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
                     <h5 class="card-title">${libro.titulo}</h5>
                     <p class="card-subtitle mb-2 text-muted">${libro.editorial}</p>
                     <p class="card-text">${libro.descripcion}</p>
@@ -84,7 +85,7 @@ function generateAdminControls(libroId) {
 function generateNewBook(){
     return `
         <div class="text-end mb-3">
-            <button type="button" id="registerButton" class="btn btn-primary" ">Agregar Libro</button>
+            <button type="button" id="registerButton" class="btn" style="background-color: #12a9c2!important; color: white;">Agregar Libro</button>
         </div>
         `;
 }

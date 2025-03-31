@@ -13,4 +13,6 @@ export class ConstValues{
     //static DOMAIN_NAME = 'http://localhost/Backend_Registro/src'; // Pruebas con servidor php
     //static DOMAIN_NAME = 'http://localhost:5000/src'
 
+    static UPLOADS_BASE_URL = 'http://localhost/Proyecto_IS802/Backend_Registro';
+
 }

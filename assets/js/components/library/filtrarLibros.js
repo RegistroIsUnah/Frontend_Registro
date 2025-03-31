@@ -23,12 +23,10 @@ export function filtrarLibros(searchTerm, data) {
             const librosFiltrados = clase.libros.filter(libro => {
                 // Normalizar todos los campos relevantes
                 const tituloNormalizado = normalizeText(libro.titulo);
-                const editorialNormalizado = normalizeText(libro.editorial);
                 const claseNormalizado = normalizeText(clase.clase_nombre);
 
                 return (
                     tituloNormalizado.includes(normalizedSearchTerm) ||
-                    editorialNormalizado.includes(normalizedSearchTerm) ||
                     claseNormalizado.includes(normalizedSearchTerm)
                 );
             });

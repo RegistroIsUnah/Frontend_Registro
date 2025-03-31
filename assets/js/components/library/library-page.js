@@ -41,13 +41,20 @@ export let libraryView =`
         <h1 class="text-center">Biblioteca Virtual</h1>
 
         <!-- Campo de búsqueda -->
-    <div class="row mb-4">
-        <div class="col-md-6 offset-md-3">
-            <input type="text" id="searchInput" class="form-control" placeholder="Buscar por clase, título o editorial">
-            <button type="button" id="searchButton" class="btn btn-primary" ">Buscar</button>
+    <div class="row justify-content-center mb-4">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="input-group shadow-sm">
+                <input type="search" id="searchInput" class="form-control border-end-0" placeholder="Buscar por clase o titulo del libro">
+                <button type="button" id="searchButton" class="btn btn-primary d-flex align-items-center gap-2"style="background-color: #12a9c2; border-color: #0f8fa5;">
+                    Buscar
+                </button>
+                <!-- Contenedor de sugerencias -->
+        <div id="suggestionsContainer" class="list-group shadow-sm mt-1 d-none position-absolute w-100 z-3""></div>
             </div>
+        </div>
     </div>
 
+<br>
 
         <!-- Contenedor de libros -->
         <div class="row" id="bookContainer">
@@ -57,31 +64,29 @@ export let libraryView =`
         <!-- Contenedor de paginación -->
         <div id="pagination" class="d-flex justify-content-center my-4"></div>
 
-
-
-
     </div>
 
-    <!-- Modal para mostrar el PDF -->
-    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="pdfModalLabel">Libro PDF</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Campo de búsqueda de página -->
-                    <div class="d-flex align-items-center mb-3 justify-content-center">
-                        <label for="pageNumber" class="me-2">Página:</label>
-                        <input type="number" id="pageNumber" min="1" value="1" class="form-control me-2" style="width: 100px;">
-                        <button onclick="goToPage()" class="btn btn-primary">Ir</button>
-                    </div>
-                    <!-- Iframe para mostrar el PDF -->
-                    <iframe id="pdfViewer" src=""></iframe>
-                </div>
+    <div class="modal fade" id="pdfModal" tabindex="-1 ">
+    <div class="modal-dialog modal-xl"> <!-- Tamaño extra grande -->
+        <div class="modal-content">
+        <div class="modal-header bg-light">
+            <h5 class="modal-title fw-bold"  id="pdfModalLabel">Vista previa del libro</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-0"> 
+            <div class="sticky-top p-3 shadow-sm"> <!-- Barra de búsqueda fija -->
+            <div class="input-group">
+                <input type="number" id="pageNumber" class="form-control" min="1" value="1"onkeyup="if(event.key === 'Enter') goToPage()">
+                <button onclick="goToPage()" class="btn btn-outline-secondary" >Ir a página</button>
+            </div>
+            </div>
+
+            <div id="iframeContainer"  style="height: 80vh;">
+            <iframe id="pdfViewer" class="w-100 h-100"></iframe>
             </div>
         </div>
+        </div>
+    </div>
     </div>
 
 

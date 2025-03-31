@@ -1,5 +1,4 @@
 import { registerBook } from "./register-book.js";
-//import { LibraryFetch } from "../../fetchs/libraryFetch.js";
 
 import { SendForm } from "../../sendForms.js";
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
@@ -9,14 +8,14 @@ import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
 
 
 import { BibliotecaFetch } from "../../fetchs/bibliotecaFetch.js";
-import { filtrarLibros } from "./filtrarLibros.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
 import { renderLibros } from "./renderBookView.js";
 import { libraryView } from "./library-page.js";
 import { setupAuthorHandling } from "./authorHandling.js";
+import { setupSearchSuggestions } from "./searchSuggestions.js";
 
 /**
- * @author estiven.mejia@unah.hn
+ * @author @author kency.oseguera@unah.hn
  * @version 0.0.3
  * @since 2025/03/16
  * 
@@ -94,6 +93,7 @@ export function loadRegisterBookForm(libroData = null) {
                     form.editorial.value = libroData.editorial || "";
                     form.fecha_publicacion.value = libroData.fecha_publicacion || "";
                     form.descripcion.value = libroData.descripcion || "";
+                    form.isbn_libro.value = libroData.isbn_libro || "";
 
                     const estadoLibroMap = {
                         1: "ACTIVO",
@@ -103,9 +103,6 @@ export function loadRegisterBookForm(libroData = null) {
                     if (libroData.estado_libro_id) {
                         form.estado.value = estadoLibroMap[libroData.estado_libro_id] || "ACTIVO"; 
                     }
-
-
-                    console.log(libroData.libro_id);
                     
                     // Manejo de tags
                     if (libroData.tags && Array.isArray(libroData.tags)) {
@@ -213,21 +210,6 @@ export function loadLibraryPage() {
         loadLibrosDepartamento(docenteId, rol);
     }
 
-
-// Reemplaza el event listener existente para mejorar performance
-    let searchTimeout;
-    // Filtrado dinámico
-    document.getElementById("searchInput").addEventListener("input", function (event) {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-        const searchTerm = event.target.value.toLowerCase();
-        const filtrarData = filtrarLibros(searchTerm, originalData);
-        const rol = sessionStorage.getItem('rol_activo');
-        const isDocente = rol === 'jefe de departamento' || rol === 'coordinador';
-        renderLibros(filtrarData, isDocente);
-        }, 300); // Espera 300ms después de escribir
-    });
-
 }
 
 window.openPDFModal = openPDFModal;
@@ -258,6 +240,7 @@ async function loadLibrosEstudiante(estudianteId) {
 
         originalData = clasesCompletas;
         renderLibros(clasesCompletas);
+        setupSearchSuggestions(clasesCompletas);
     } catch (error) {
         console.error("Error al cargar libros del estudiante:", error);
     }
@@ -296,6 +279,7 @@ async function loadLibrosDepartamento(docenteId, rol) {
 
         originalData = clasesCompletas;
         renderLibros(clasesCompletas, true); // Renderizar 
+        setupSearchSuggestions(clasesCompletas);
 
         //Boton para agregar nuevo libro
         document.getElementById("registerButton").addEventListener("click", function () {
