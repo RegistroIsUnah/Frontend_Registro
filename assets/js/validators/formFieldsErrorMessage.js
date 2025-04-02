@@ -29,23 +29,34 @@ export class FormFieldsErrorMessage{
 
             return messages[fieldName] || "Campo requerido";
 
-            case "admissionsForm":
+            case "admissionsForm": 
                 messages = {
-                    nombre: "Solo letras y espacios (máx. 4 nombres)",
-                    apellidos: "Ingrese exactamente dos apellidos",
+                    nombre: "Escriba máximo cuatro nombres, sin usar números y con letra capital",
+                    apellidos: "Escriba máximo dos apellidos, sin usar números y con letra capital.",
                     correo: "Correo electrónico inválido",
-                    telefono: "Formato: +504 9999-9999",
-                    identidad: "El DNI no es correcto",
+                    telefono: "Debe ingresar un teléfono celular o residencial.",
+                    documento: "La identificación es incorrecta",
                     certificado: errorFile,
                     dni_file: errorFile,
                     foto_perfil: errorFile
                 };
-            
+            return messages[fieldName] || "Campo requerido";
+ 
+            case "resendAdmissionsForm":
+                messages = {
+                    aspirante_nombre: "Escriba máximo cuatro nombres, sin usar números y con letra capital",
+                    aspirante_apellido: "Escriba máximo dos apellidos, sin usar números y con letra capital.",
+                    // correo: "Correo electrónico inválido",
+                    // telefono: "Debe ingresar un teléfono celular o residencial.",
+                    documento: "La identificación es incorrecta",
+                    
+                    certificado_url: errorFile,
+                    fotodni: errorFile,
+                    foto: errorFile
+                };
             return messages[fieldName] || "Campo requerido";
 
-    
             default:
-
             break;
         }
     }

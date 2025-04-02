@@ -56,7 +56,6 @@
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Inputs más pequeños como Identidad */
 .inputField.small {
   max-width: 250px;
 }
@@ -163,8 +162,8 @@
 }
 
 .btn-danger {
-  background: #ffc107 !important;
-  color: black !important;
+  background: #dc3545 !important;
+  color: white !important;
 }
 
 .btn-primary {

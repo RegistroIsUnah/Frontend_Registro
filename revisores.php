@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="assets/css/landingPage.css">
         <link rel="stylesheet" href="assets/css/revisor.css">
+        <link rel="stylesheet" href="assets/css/footer.css">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,35 +16,10 @@
 
         <title>Revisor</title>
 </head>
-    <body>
-    <section class="headerContent">
-    <!-- Abrimos el header correctamente -->
-    <div class="header">
-        <div class="logoContainer">
-        <img class="logoUNAH" src="assets/img/logoAmarillo.png" alt="Logo UNAH">
-        </div>
-        <h1 class="registro">DIRECCION DEL SISTEMA DE REGISTRO</h1>
-    </div>
-    
-    </div>
-    <div class="navBar">
-        <ul class="nav justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Habilitacion</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Opciones</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Salir</a>
-        </li>
-        </ul>
-    </div>
-    </section>
+    <body class="vista-revisor">
 
+    <?php include 'includes/navbarUNAH.php'; ?>
+  
     <section class="bodyContainer">
     <h2 class="title">VALIDAR ASPIRANTES</h2>
 
@@ -54,8 +30,8 @@
             <label for="nombre" class="inputLabel">Nombre:</label>
             <input type="text" id="nombre" class="inputField" readonly>
 
-            <label for="identidad" class="inputLabel">Identidad:</label>
-            <input type="text" id="identidad" class="inputField small" readonly>
+            <label for="identidad" class="inputLabel">Documento de Identificacion:</label>
+            <input type="text" id="documento" class="inputField small" readonly>
         </div>
     </div>
 
@@ -78,21 +54,48 @@
     </div>
 
     <!-- Opciones -->
-    <div class="optionsContainer">
-        <button class="btn btn-warning"><i class="bi bi-camera"></i> Corregir Fotos</button>
-        <button class="btn btn-success"><i class="bi bi-check-circle"></i> Validar</button>
-        <button class="btn btn-danger"><i class="bi bi-exclamation-triangle"></i> Corregir Datos</button>
-        <button class="btn btn-primary"><i class="bi bi-scissors"></i> Recortar Fotos</button>
-        <button class="btn btn-info"><i class="bi bi-person-plus"></i> Enviar y Cargar Más Aspirantes</button>
+    <div class="optionsContainer d-flex gap-2 flex-wrap">
+        <button id="validarBtn" class="btn btn-success">
+            <i class="bi bi-check-circle"></i> Validar
+        </button>
+
+        <div class="btn-group">
+            <button id="corregirBtn" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-exclamation-triangle"></i> Corregir Datos
+            </button>
+            <ul class="dropdown-menu">
+            <li><a class="dropdown-item"  data-motivo-id="1">Documentación Incompleta</a></li>
+            <li><a class="dropdown-item"  data-motivo-id="2">Falta de Requisitos</a></li>
+            <li><a class="dropdown-item"  data-motivo-id="3">Error en el Formulario</a></li>
+            <li><a class="dropdown-item"  data-motivo-id="4">Falta de Pago</a></li>
+            <li><a class="dropdown-item"  data-motivo-id="5">Otro</a></li>
+            </ul>
+        </div>
+
+        <button id="denegarBtn" class="btn btn-danger">
+            <i class="bi bi-x-circle"></i> Denegar
+        </button>
+
+        <button class="btn btn-info btn-disabled-style" id="enviarYcargar" disabled>
+            <i class="bi bi-person-plus"></i> Enviar y Cargar Más Aspirantes
+        </button>
     </div>
 </section>
+
+
+
+
 
     <?php
     include 'includes/footer.php';
     include 'includes/scripts.php';
     ?>
+    <script type="module">
+        import { getAdmissionsDataRequest } from './assets/js/components/proofreaders/proofReaderContent.js';
+        getAdmissionsDataRequest();
+    </script>
+    <script type="module" src="assets/js/components/proofreaders/aspirantHandlerFetch.js"></script>
+    <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script type="module" src="assets/js/fetchs/admissionFetch.js"></script>
-
     </body>
 </html>

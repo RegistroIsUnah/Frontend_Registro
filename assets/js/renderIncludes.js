@@ -1,8 +1,6 @@
-import { loadAdmissionsForm, loadAdmissionsPage } from './components/admissions/loadAdmissionsView.js'
-
+import { loadAdmissionsForm, loadAdmissionsPage, loadAdmissionApplicationView, loadResendAdmissionsForm } from './components/admissions/loadAdmissionsView.js'
 import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
-
 
 
 /**
@@ -46,6 +44,8 @@ export function renderHead(actualPage) {
             document.getElementsByTagName('title')[0].textContent = "Admisiones UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/footer.css"));
+
             break;
 
         case "calificaciones.php":
@@ -60,7 +60,7 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             break;
 
-        case "landingPage.php":
+        case "index.php":
             document.getElementsByTagName('title')[0].textContent = "Página Principal UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/landingPage.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
@@ -142,19 +142,20 @@ export function renderBodyPage(namePage) {
             switch (actualAdmissionView) {
 
                 case "admissionsForm":
-
                     loadAdmissionsForm();
-                    break;
+                break;
 
-                case "admissionReviewers":
+                case "admissionApplicationView":
+                    loadAdmissionApplicationView();
+                break;
 
-                    console.log("Cargando vista de revisores...");
-                    break;
-
+                case "resendAdmissionsForm":
+                    loadResendAdmissionsForm();
+                break;
+                
                 case "admissionsPage": case null: case "":
-
                     loadAdmissionsPage();
-                    break;
+                break;
 
                 default:
                     console.warn("Vista no reconocida:", actualAdmissionView);

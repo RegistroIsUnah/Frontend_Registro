@@ -15,7 +15,12 @@
   <body>
 
     <?php
-    require_once("./includes/scripts.php");
+      require_once("./includes/navbar.php");
+    ?>
+
+    <?php
+      include 'includes/footer.php';
+      include 'includes/scripts.php';
     ?>
   </body>
 </html>

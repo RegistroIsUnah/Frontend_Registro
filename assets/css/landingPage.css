@@ -1,23 +1,12 @@
 .headerContent {
   background-color: #253A69;
-  margin: 0; 
   padding-bottom: 1vh;
-  margin-top: 0.3vh;
+  margin: 0.3vh 0 1vh 0;
   outline: solid #ffcc00;
-  margin-bottom: 1vh;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between; 
   background-color: #253A69;
-  margin: 0;
-  padding: 0;
-}
-
-.logoUNAH {
-  max-height: 8vh;
 }
 
 .registro {
@@ -26,84 +15,19 @@
   font-weight: bold;
   font-size: x-large;
 }
-
-.menu {
-  position: relative;
-  margin-right: 8.86vw;
-  display: inline-block;
-  background: none; 
+.logoUNAH {
+  max-height: 8vh;
+  height: auto;
+  width: auto;
+  object-fit: contain;
 }
 
-
-.menu input[type="checkbox"] {
-    display: none;
-  }
-  
-  .menu label {
-    display: inline-block;     
-    background-color: none;    
-    color: #fff;
-    padding: 8px;            
-    cursor: pointer;
-    border-radius: 4px;       
-  }
-  
-  .menu label span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    margin: 5px auto; 
-    background-color: #fff;
-    transition: 0.4s;
-  }
-  
-  .menu nav {
-    display: none;        
-    position: absolute;    
-    top: 100%;          
-    left: 0;
-    width: 150px;          
-    background-color: #333; 
-    flex-direction: column; 
-    z-index: 1000;
-  }
-
-  .menu nav a {
-    display: block;
-    padding: 12px 16px;
-    text-decoration: none;
-    color: #fff;
-    border-top: 1px solid #444;
-  }
-  
-  .menu nav a:hover {
-    background-color: #444;
-  }
-  
-  .menu input[type="checkbox"]:checked ~ nav {
-    display: flex;
-  }
-  
-  /* Efecto de “X” en el ícono */
-  .menu input[type="checkbox"]:checked + label span:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
-  .menu input[type="checkbox"]:checked + label span:nth-child(2) {
-    opacity: 0;
-  }
-  .menu input[type="checkbox"]:checked + label span:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-  
-.nav-link
-{
+.nav-link {
   color: white !important;
   transition: 0.3s;
-
 }
-.nav-link:hover
-{
-  
+
+.nav-link:hover {
   color: #253A69 !important;
   background-color: white;
 }
@@ -196,62 +120,3 @@
   background-color: #12a9c2 !important;
 }
 
-
-.footer {
-  background-color: #013775;
-  color: white;
-  padding: 20px 0;
-  margin-top: auto;
-  /* Para que el footer se quede abajo */
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.footer-section {
-  min-width: 200px;
-  margin: 10px 20px;
-}
-
-.footer-section h4 {
-  margin-bottom: 15px;
-  color: #ffb300;
-}
-
-.footer-section p,
-.footer-section ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.footer-section ul li {
-  margin-bottom: 10px;
-}
-
-.footer-section ul li a {
-  color: white;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-section ul li a:hover {
-  color: #ffb300;
-}
-
-.footer-bottom {
-  text-align: center;
-  padding-top: 10px;
-  border-top: 1px solid #ffb300;
-}
-
-.footer-bottom p {
-  margin: 0;
-  font-size: 0.9rem;
-}

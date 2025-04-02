@@ -1,3 +1,5 @@
+import { PDFValidator } from "./pdfValidator.js";
+
 /**
  * @author estiven.mejia@unah.hn
  * @version 0.0.1
@@ -9,7 +11,7 @@
  * Falta agregar que acepte otros tipos de datos.
  */
 export class ValidateImage {
-    static async validateImageFile(file, allowedTypes, maxSize, minWidth, minHeight) {
+    static validateImageFile(file, allowedTypes, maxSize, minWidth, minHeight) {
         return new Promise((resolve, reject) => {
             if (!file) {
                 reject("No se seleccionó un archivo.");
@@ -17,7 +19,12 @@ export class ValidateImage {
             }
 
             if (file.type === "application/pdf") {
-                resolve(true);
+                let response = ""
+                try {
+                    resolve(PDFValidator.validatePdfFile(file, 12));
+                } catch (error) {
+                    reject(error);
+                }
                 return;
             }
 
