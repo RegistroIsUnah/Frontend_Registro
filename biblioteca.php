@@ -15,11 +15,12 @@
   <body>
 
     <?php
-      require_once("./includes/navbar.php");
+      require_once("./includes/navbarBiblioteca.php");
     ?>
 
     <?php
     require_once("./includes/scripts.php");
     ?>
+    
   </body>
 </html>

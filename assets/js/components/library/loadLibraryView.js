@@ -192,7 +192,7 @@ export function loadLibraryPage() {
     const body = document.getElementsByTagName("body")[0];
     const bibliotecaContainer = document.createElement('div');
     bibliotecaContainer.innerHTML = libraryView;
-    body.insertBefore(bibliotecaContainer, body.firstChild);
+    body.insertBefore(bibliotecaContainer, body.lastChild);
 
     // Cargar datos según rol
     if (rol === 'estudiante') {
