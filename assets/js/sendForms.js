@@ -71,17 +71,6 @@ export class SendForm {
         return AdmissionFetch.putadmissionsData(formData);
     };
 
-
-    /**
-     * @author estiven.mejia@unah.hn
-     * @version 0.0.1
-     * @since 2025/03/16
-     * 
-     * @param {*} event 
-     * 
-     * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
-     */
-
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.2
@@ -117,9 +106,9 @@ export class SendForm {
 
 
     /**
-     * @author estiven.mejia@unah.hn
-     * @version 0.0.1
-     * @since 2025/03/16
+     * @author kency.oseguera@unah.hn
+     * @version 0.0.2
+     * @since 2025/03/31
      * 
      * @param {*} event 
      * 
