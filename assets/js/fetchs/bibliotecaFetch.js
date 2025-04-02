@@ -104,13 +104,21 @@ export class BibliotecaFetch {
             method: "POST",
             body: formData,
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.error || 'Error al actualizar el libro');
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 window.location.reload();
                 return data;
             })
             .catch(error => {
                 console.error("Error en la solicitud:", error.message);
+                throw error;
             });
     }
 
@@ -120,14 +128,13 @@ export class BibliotecaFetch {
             body: formData,
         })
             .then(response => {
-                 if (!response.ok) {
-                    // Si la respuesta no es exitosa, parseamos el JSON para obtener el mensaje de error
+                if (!response.ok) {
                     return response.json().then(errorData => {
-                        // Creamos un nuevo error con el mensaje del servidor
                         throw new Error(errorData.error || 'Error al actualizar el libro');
                     });
                 }
-                return response.json();})
+                return response.json();
+            })
             .then(data => {
                 window.location.reload();
                 return data;

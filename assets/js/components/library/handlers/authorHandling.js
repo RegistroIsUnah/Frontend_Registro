@@ -30,13 +30,13 @@ export function setupAuthorHandling() {
         autorItem.className = "autor-item badge bg-light text-dark p-2";
         autorItem.innerHTML = `
             ${nombre} ${apellido}
-            <button type="button" class="ms-2 btn-close btn-sm"></button>
+            <span class="remove-author ">&times;</span>
         `;
 
-        autorItem.querySelector("button").addEventListener("click", () => {
+        /*autorItem.querySelector("button").addEventListener("click", () => {
             lista.removeChild(autorItem);
             actualizarAutoresHidden();
-        });
+        });*/
 
         lista.appendChild(autorItem);
         actualizarAutoresHidden();
@@ -45,7 +45,7 @@ export function setupAuthorHandling() {
 
     // Eliminar autores
     document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('btn-close')) {
+        if (e.target.classList.contains('remove-author')) {
             e.target.closest('.autor-item').remove();
             actualizarAutoresHidden();
         }

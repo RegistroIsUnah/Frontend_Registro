@@ -6,8 +6,7 @@
  * funcion para filtrar los libros
  */
 
-// En filtrarLibros.js
-export function filtrarLibros(searchTerm, data) {
+export function filterBooks(searchTerm, data) {
     // Normaliza texto removiendo acentos y convirtiendo a minúsculas
     const normalizeText = (text = '') => {
         return text

@@ -2,25 +2,21 @@
  * @author kency.oseguera@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
- * 
- * @param {*} tagsOptions 
- * @param {*} classesOptions 
- * @returns 
  *   
  * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos y reutilizado para edicion.
  * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
  */
-import { ConstValues } from "../../utils/constValues";
+import { ConstValues } from "../../../utils/constValues";
 
 export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
 <div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">${libroData ? `Edición de Libro`: `Registro de Libro`}</a></h5>
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a> | <a class="color-text">${libroData ? `Edición de Libro` : `Registro de Libro`}</a></h5>
 </div>
 
 
 <div class="container-form container my-5" >
-    <h2 class="fw-bold mb-4 border-bottom pb-2 text-center" style="color: #2B3A55; border-color: #DEE2E6 !important;">Registrar libro</h2>
+    <h2 class="fw-bold mb-4 border-bottom pb-2 text-center" style="color: #2B3A55; border-color: #DEE2E6 !important;">${libroData ? `Editar Libro` : `Registrar Libro`}</h2>
     <form method="POST" class="row g-4" id="register-book-form"${libroData ? 'data-edit-mode="true"' : ''} >${libroData ? `
         <!-- Campo oculto para el ID del libro -->
         <input type="hidden" name="libro_id" id="libro_id" value="${libroData.libro_id}">
@@ -49,28 +45,39 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
             </div>
         </div>
 
+<div class="col-md-6">
+            <div class="mb-3">
+       <div class="tags-section mb-4">
+  <label for="categorias" class="form-label fw-bold" style="color: #2B3A55; " >Categorías</label>
+  
+  <div class="position-relative">
+    <div class="input-group">
+      <input type="text" id="tagInput" class="form-control"  autocomplete="off" placeholder="Haz clic para ver categorias disponibles" ${libroData ? 'disabled' : ''}>
+      <button class="btn btn-outline-dark" type="button" id="tagAddBtn"${libroData ? 'disabled' : ''}>Agregar</button>
+    </div>
+    
+    <!-- Contenedor de resultados -->
+    <div id="tagResults" class="tag-results"></div>
+  </div>
+  
+  <!-- Tags seleccionados -->
+  <div id="selectedTags" class="selected-tags-container mt-2">
+  ${(libroData?.tags || []).map(tag => {
+    const tagId = tag.tag_id || tag;
+    const tagName = tag.tag_nombre || tag;
 
-       <label for="tags" class="form-label fw-bold" style="color: #2B3A55;">Categorías</label>
-        <div class="tags-container d-flex flex-wrap gap-3">
-            ${tagsData.map(tag => {
-                // Normalizar los tags del libro a array de IDs (como números)
-                const libroTags = Array.isArray(libroData?.tags) 
-                    ? libroData.tags.map(t => Number(t.tag_id || t))
-                    : [];
-                
-                // Verificar si el tag está seleccionado
-                const isChecked = libroTags.includes(Number(tag.tag_id));
-                
-                return `
-                <div class="form-check">
-                    <input type="checkbox" name="tags" value="${tag.tag_id}" id="tag-${tag.tag_id}" class="form-check-input" ${isChecked ? 'checked' : ''} ${libroData ? 'disabled' : ''}>
-                    <label class="form-check-label" for="tag-${tag.tag_id}">
-                        ${tag.tag_nombre}
-                    </label>
-                </div>
-                `;
-            }).join('')}
-        </div>
+    return `
+      <span class="selected-tag badge bg-light text-dark p-2 me-2 mb-2">
+        ${tagName}
+        <input type="hidden" name="tags[]" value="${tagId}" >
+        <span class="remove-tag ${libroData ? 'disabled' : ''}">&times;</span>
+      </span>
+    `;
+}).join('')}
+</div>
+</div>
+</div>
+</div>
 
         ${!libroData ? `  <!-- Solo mostrar campo clase si NO estamos editando -->
             <div class="col-md-6">
@@ -97,9 +104,9 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
                     <button type="button" class="btn btn-outline-dark" id="addAuthor"${libroData ? 'disabled' : ''}>Agregar</button>
                 </div>
 
-                <div id="listaAutores" class="mt-2 d-flex flex-wrap gap-2"></div>
+                <div id="listaAutores" class="mt-2 d-flex flex-wrap gap-2" ></div>
                 <input type="hidden" name="autores" id="autoresHidden" autocomplete="off" ${libroData ? 'disabled' : ''}>
-                <span class="invalid-feedback">Debe agregar al menos un autor</span> <!-- Mensaje de error -->
+                <span class="invalid-feedback">Debe agregar al menos un autor</span>
                 </div>
         </div>
 
@@ -141,7 +148,7 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
                 ${libroData ? 'Actualizar PDF (opcional)' : 'Subir libro (PDF)'}
             </label>
             <input type="file" name="libro" id="libro" accept="application/pdf, application/epub+zip, application/vnd.amazon.ebook, 
-            application/x-mobi8-ebook, text/plain, application/rtf, text/rtf" class="form-control" ${!libroData ? 'required' :""} ${libroData ? 'disabled' : ''}>
+            application/x-mobi8-ebook, text/plain, application/rtf, text/rtf" class="form-control" ${!libroData ? 'required' : ""} ${libroData ? 'disabled' : ''}>
             <span class="invalid-feedback"></span>
 
             ${libroData?.libro_url ? `

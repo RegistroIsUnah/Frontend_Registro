@@ -56,6 +56,8 @@ export let libraryView =`
 
 <br>
 
+ <div id="registerButtonContainer" class="text-end mb-3"></div>
+
         <!-- Contenedor de libros -->
         <div class="row" id="bookContainer">
             <!-- Los libros se cargarán aquí dinámicamente -->

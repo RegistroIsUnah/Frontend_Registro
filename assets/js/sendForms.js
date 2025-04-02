@@ -50,12 +50,12 @@ export class SendForm {
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
-        //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
-
-        // Obtener tags seleccionados
-        const selectedTags = Array.from(form.querySelectorAll('[name="tags"]:checked')).map(checkbox => checkbox.value);
-        formData.append("tags", JSON.stringify(selectedTags));
-
+        const tagInputs = Array.from(form.querySelectorAll('input[name="tags[]"]'));
+        const tags = tagInputs.map(input => input.value);
+        if (tags.length > 0) {
+            formData.append("tags", JSON.stringify(tags));
+        }
+        
         // Autores (array de objetos)
         const autores = JSON.parse(form.autoresHidden.value || "[]");
         formData.append("autores", JSON.stringify(autores));
@@ -117,9 +117,9 @@ export class SendForm {
         }
 
         //Para verificar que datos se enviaron
-        for (const [key, value] of formData.entries()) {
+        /*for (const [key, value] of formData.entries()) {
             console.log(`${key}: ${value}`);
-        }
+        }*/
 
     };
 }
