@@ -1,0 +1,122 @@
+.headerContent {
+  background-color: #253A69;
+  padding-bottom: 1vh;
+  margin: 0.3vh 0 1vh 0;
+  outline: solid #ffcc00;
+}
+
+.header {
+  background-color: #253A69;
+}
+
+.registro {
+  color: #ffcc00;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: x-large;
+}
+.logoUNAH {
+  max-height: 8vh;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+.nav-link {
+  color: white !important;
+  transition: 0.3s;
+}
+
+.nav-link:hover {
+  color: #253A69 !important;
+  background-color: white;
+}
+
+
+.accessDynamicContainer
+{
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: whitesmoke;
+}
+
+.message
+{
+  color: #333;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 2vh;
+}
+
+.btn
+{
+  font-family: "Montserrat", sans-serif !important;
+  background-color: #013775 !important;
+  border-color:  #253A69 !important;
+  padding-left: 4vh !important;
+  padding-right: 4vh !important;
+}
+
+.carousel-item img {
+  width: 100%;  /* La imagen se ajusta al ancho del carrusel */
+  height: 60vh; /* Ajusta la altura de la imagen al 60% de la pantalla */
+  max-height: 50vh; /* Evita que la imagen sea demasiado alta */
+  object-fit: contain; /* Ajusta la imagen sin recortarla */
+  object-position: center; /* Centra la imagen dentro del contenedor */
+}
+
+.dynamicContainers
+{
+  display: flex;
+  width: 100%;
+  height: auto;
+  flex-wrap: wrap;
+}
+
+#dynamics
+{
+  padding: 6vh 0vh 6vh 0vh;
+  color: whitesmoke;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: x-large;
+  margin-bottom: 2vh;
+  flex: 1 1 50%; 
+  min-height: 200px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+.leftDynamicContainer
+{
+  background-color: #12a9c2;
+}
+
+.rightDynamicContainer
+{
+  background-color: #013775;
+}
+#dynamicSpan
+{
+  font-family: Arial, Helvetica, sans-serif !important;
+  font-weight: 300;
+  font-size: small;
+  margin-bottom: 2vh;
+}
+#dynamicLeftButton
+{
+  background-color: #013775 !important;
+}
+#dynamicRightButton
+{
+  background-color: #12a9c2 !important;
+}
+

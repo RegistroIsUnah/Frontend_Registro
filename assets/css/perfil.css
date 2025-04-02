@@ -1,0 +1,169 @@
+.contenido h2 {
+    color: #013775;
+    margin-bottom: 20px;
+}
+
+.perfil-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.perfil-seccion {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 1 1 calc(33.333% - 40px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.perfil-seccion h3 {
+    color: #013775;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    border-bottom: 2px solid #ffb300;
+    padding-bottom: 5px;
+}
+
+.perfil-item {
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.perfil-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.perfil-valor {
+    color: #333;
+    text-align: right;
+}
+
+
+/* Estilos para el botón de subir fotos */
+.btn-subir-fotos {
+    background-color: #013775;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-subir-fotos:hover {
+    background-color: #012a5e;
+}
+
+
+.fotos-seccion {
+  flex: 1 1 100%;
+}
+
+
+/* Estilos para la sección de fotos */
+.fotos-container {
+    text-align: center;
+}
+
+.fotos-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.fotos-preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #013775;
+}
+
+.fotos-mensaje {
+    display: block;
+    margin-top: 10px;
+    color: #555;
+}
+
+/* Estilos para el contenedor de cada foto */
+.foto-item {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+/* Estilos para el ícono de eliminar */
+.eliminar-foto {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #ff4d4d;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.eliminar-foto:hover {
+    background-color: #ff1a1a;
+}
+
+/* Estilos para la tabla de historial académico */
+.historial-container {
+    overflow-x: auto; /* Permite desplazamiento horizontal en pantallas pequeñas */
+}
+
+.historial-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.historial-table th,
+.historial-table td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.historial-table th {
+    background-color: #013775;
+    color: white;
+    font-weight: bold;
+}
+
+.historial-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.historial-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.historial-table td {
+    color: #333;
+}
+
+/* Estilos para las observaciones */
+.historial-table td[data-observacion="Aprobó"] {
+    color: green;
+    font-weight: bold;
+}
+
+.historial-table td[data-observacion="Reprobó"] {
+    color: red;
+    font-weight: bold;
+}
