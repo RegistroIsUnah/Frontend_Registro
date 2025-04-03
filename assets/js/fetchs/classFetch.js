@@ -1,27 +1,63 @@
 import { ConstValues } from "../utils/constValues.js";
 
-class ClassFetch{
+export class ClassFetch{
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/01     
+     * 
+     * @param {*} classId 
+     * 
+     * Esta función obtiene las secciones de una sola clase en el sistema.
+     */
     static getSectionsByClassId(classId){
 
-        fetch(`${ConstValues.DOMAIN_NAME}/get/secciones.php?clase_id=${classId}`)
-        .then(response => {
-            if (!response.ok){
-                throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data);
-        })
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/seccion_detalles.php?clase_id=${classId}`)
+        .then(response => response.json())
+        .then(data => data )
         .catch(error => {
-            console.log("error en la solicitud");
+            console.log("error en la solicitud: "+ error);
         })
     }
 
-    
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/01
+     * 
+     * @param {*} dept_id 
+     * @returns 
+     * 
+     * Esta función devuelve los datos de las clases de un solo departamento por el ID del estudiante.
+     */
+    static getClasesByDeptAndStudentId(dept_id, student_id){
 
-    
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_clases_matriculables.php?departamento_id=${dept_id}&estudiante_id=${student_id}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        })
+    }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/01
+     * 
+     * @param {*} dept_id 
+     * @returns 
+     * 
+     * Esta función devuelve los datos de las clases de un solo departamento
+     */
+    static getClasesByDeptId(dept_id){
 
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/clases_depto.php?dept_id=${dept_id}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        })
+    }
 }

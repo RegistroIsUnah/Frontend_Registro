@@ -34,7 +34,7 @@
     text-align: left;
 }
 
-.secciones-disponibles th {
+.secciones-disponibles thead th {
     background-color: #013775;
     color: white;
 }
@@ -145,4 +145,18 @@
 .clases-matriculadas ul li button:hover {
     background-color: #012a5e;
 }
-
+ 
+.classSectionId, .classSectionId ~ th{
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+  }
+  
+  .classSectionId.selected, .classSectionId.selected ~ th{
+    background-color: #1E90FF;
+    color: white;
+    border-color: #1E90FF;
+  }

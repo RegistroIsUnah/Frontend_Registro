@@ -50,6 +50,9 @@ export function login() {
                 }
 
                 const ruta = window.location.pathname.split('/').pop();
+
+                window.location.href = sessionStorage.getItem("returnPage") && sessionStorage.getItem("returnPage");
+
                 if(ruta == "biblioteca.php"){
 
                     window.location.href = 'biblioteca.php'; 
@@ -59,7 +62,8 @@ export function login() {
                 }
 
                 //Caso jefe o coordinador
-            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
+            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {  
+                              sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
                 const rolActivo = roles.includes('jefe de departamento') 
                     ? 'jefe de departamento' 
                     : 'coordinador';
@@ -74,7 +78,10 @@ export function login() {
                 }else{
                     window.location.href = 'docente.php'; 
                 }
-                
+            }else if (roles.includes("administrador")){
+
+                window.location.href = 'admisiones.php'; 
+
             } else {
                 console.error('Rol no reconocido:', roles);
             }
