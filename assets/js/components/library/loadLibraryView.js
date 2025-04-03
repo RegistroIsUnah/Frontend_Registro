@@ -4,6 +4,9 @@ import { SendForm } from "../../sendForms.js";
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
 import { validateForm } from "../../validators/formValidator.js";
 
+import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
+
+
 import { BibliotecaFetch } from "../../fetchs/bibliotecaFetch.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
 import { renderBooksWithPagination, setOriginalData,renderAddBookButton } from "./views/renderBookView.js";
@@ -20,6 +23,8 @@ import { TagsManager } from "./handlers/setupTagHandling.js";
  * Función encargada de cargar el formulario de registro de libros a la página de biblioteca.
  */
 
+
+// Agrega esto al inicio del archivo, después de los imports
 window.handleEditBook = async (libroId) => {
     try {
 
@@ -192,7 +197,7 @@ export function loadLibraryPage() {
     const body = document.getElementsByTagName("body")[0];
     const bibliotecaContainer = document.createElement('div');
     bibliotecaContainer.innerHTML = libraryView;
-    body.insertBefore(bibliotecaContainer, body.lastChild);
+    body.insertBefore(bibliotecaContainer, body.firstChild);
 
     // Cargar datos según rol
     if (rol === 'estudiante') {

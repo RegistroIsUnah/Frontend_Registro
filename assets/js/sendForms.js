@@ -71,39 +71,6 @@ export class SendForm {
         return AdmissionFetch.putadmissionsData(formData);
     };
 
-    /**
-     * @author estiven.mejia@unah.hn
-     * @version 0.0.2
-     * @since 2025/03/26
-     * 
-     * @param {*} event 
-     * 
-     * Este método toma la información del formulario de reenvío de solicitud de admisión para actualizar en la base de datos los datos que se pedían corregir.
-     */
-    static validateResendAdmissionForm = (form) => {
-        
-        let formData = new FormData();
-
-        formData.append("numSolicitud", form.querySelector("[name='numSolicitud']").value);
-        formData.append("aspirante_nombre", form.querySelector("[name='aspirante_nombre']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        formData.append("aspirante_apellido", form.querySelector("[name='aspirante_apellido']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        
-        let identification = form.querySelector("[name='documento']").value.trim().replace(/\D/g, '');
-        formData.append("documento", identification);
-        formData.append("telefono", form.querySelector("[name='telefono']").value.trim().replace(/\D/g, ''));
-        formData.append("correo", form.querySelector("[name='correo']").value.trim().toLowerCase().replace(/[^a-z0-9@#._-]/g, ''));
-        
-        let foto = form.querySelector("[name='foto']").files[0];
-        let fotodni = form.querySelector("[name='fotodni']").files[0];
-        let certificado = form.querySelector("[name='certificado_url']").files[0];
-
-        foto && formData.append("foto", foto);
-        fotodni && formData.append("fotodni", fotodni);
-        certificado && formData.append("certificado_url", certificado);
-        
-        return AdmissionFetch.putadmissionsData(formData);
-    };
-
 
     /**
      * @author kency.oseguera@unah.hn
