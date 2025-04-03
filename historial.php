@@ -62,38 +62,13 @@ include 'includes/chat.php'; // Incluye el chat
                                     <th>Observaciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>MM110</td>
-                                    <td>Matemáticas I</td>
-                                    <td>1001</td>
-                                    <td>2023</td>
-                                    <td>1</td>
-                                    <td>85</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                <tr>
-                                    <td>FIS101</td>
-                                    <td>Física I</td>
-                                    <td>1002</td>
-                                    <td>2023</td>
-                                    <td>2</td>
-                                    <td>72</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                <tr>
-                                    <td>PRO100</td>
-                                    <td>Programación I</td>
-                                    <td>1003</td>
-                                    <td>2023</td>
-                                    <td>1</td>
-                                    <td>90</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                
+                            <tbody id="tabla-historial-body">
+                                <!-- JS insertará las filas aquí -->
                             </tbody>
                         </table>
                     </div>
+                </div>
+
 
                     <!-- Paginación -->
                     <div class="paginacion">
@@ -113,7 +88,9 @@ include 'includes/chat.php'; // Incluye el chat
 
 
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/components/students/obtainStudentClassHistoryFetch.js"></script>
     <script type="module" src="assets/js/utils/chat.js"></script>
+
 
 </body>
 

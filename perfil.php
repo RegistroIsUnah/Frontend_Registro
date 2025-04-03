@@ -40,21 +40,17 @@ include 'includes/chat.php'; // Incluye el chat
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Número de Cuenta:</span>
-                            <span class="perfil-valor" id="noAccount"></span>
+                            <span class="perfil-valor" id="studentId"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Correo Personal:</span>
-                            <span class="perfil-valor" id="email"></span>
+                            <span class="perfil-valor email"></span>
                         </div>
                     </div>
 
                     <!-- Información académica -->
                     <div class="perfil-seccion">
                         <h3>Información Académica</h3>
-                        <div class="perfil-item">
-                            <span class="perfil-label">Año de Ingreso:</span>
-                            <span class="perfil-valor" id="firstYear"></span>
-                        </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Carrera:</span>
                             <span class="perfil-valor" id="carrerName"></span>
@@ -65,7 +61,7 @@ include 'includes/chat.php'; // Incluye el chat
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Correo Electrónico:</span>
-                            <span class="perfil-valor" id="email"></span>
+                            <span class="perfil-valor email"></span>
                         </div>
                     </div>
 

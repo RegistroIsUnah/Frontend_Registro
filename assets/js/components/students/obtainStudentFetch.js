@@ -34,23 +34,28 @@ export function handleObtainStudent() {
 //Datos que comparten multiples vistas
 function cargarDatosComunes(data) {
     const nombreCompleto = data.informacion_personal.nombre_completo;
-    const email = data.informacion_personal.correo;
     const globalTerm = data.academico.indice_global;
     const lastTerm = data.academico.indice_periodo;
     const carrerName = data.academico.carreras;
 
     const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
     const globalTermInput = document.getElementById("globalTerm");
     const lastTermInput = document.getElementById("lastTerm");
     const carrerInput = document.getElementById("carrerName");
 
   
      if(nameInput) nameInput.innerHTML = nombreCompleto;
-     if(emailInput) emailInput.innerHTML = email;
      if(globalTermInput) globalTermInput.innerHTML = globalTerm;
      if(lastTermInput) lastTermInput.innerHTML = lastTerm;
      if(carrerInput) carrerInput.innerHTML = carrerName;
+
+     const email = data.informacion_personal.correo;
+     const emailElements = document.querySelectorAll('.email');
+     
+     emailElements.forEach(el => {
+       el.innerHTML = email;
+     }); 
+    
   }
 
 //CARGA LA INFORMACION A DESPLEGAR EN TODAS LAS VISTAS DE PANEL.PHP
@@ -78,6 +83,10 @@ function cargarPerfilEstudiante(data) {
   //Vista de Panel.php
   function cargarVistaPanel(data) {
     cargarDatosComunes(data);
+
+    const request = data.academico.solicitudes_pendientes;
+    const requestInput = document.getElementById("solicitudes");
+    if(requestInput) requestInput.innerHTML = request;
   
     const card2 = document.querySelector(".card-2");
     const globalTerm = data.academico.indice_global;
@@ -104,19 +113,29 @@ function cargarPerfilEstudiante(data) {
     if (Array.isArray(fotos) && fotos.length > 0) {
       fotos.forEach((fotoNombre, index) => {
         if (fotoItems[index]) {
-          const fotoUrl = `${ConstValues.DOMAIN_NAME_UPLOAD}/fotos/${fotoNombre}`;
+          const fotoUrl = `${ConstValues.DOMAIN_NAME_UPLOAD}/${fotoNombre}`;
           renderFilePreview(fotoItems[index], fotoUrl, "image");
         }
       });
     }
   }
 
-  function cargarVistaHistorial(data)
-  {
+  function cargarVistaHistorial(data) {
     cargarDatosComunes(data);
+  
     const centro = data.academico.centro;
     const centroInput = document.getElementById("centro");
-    if(centroInput) centroInput.innerHTML = centro;
+    if (centroInput) centroInput.innerHTML = centro;
+  
+    const foto = data.fotos?.[0];
+    const fotoEstudiante = document.querySelector(".foto-estudiante");
+  
+    if (foto && fotoEstudiante) {
+      const fotoUrl = `${ConstValues.DOMAIN_NAME_UPLOAD}/${foto}`;
+      fotoEstudiante.src = fotoUrl;
+      fotoEstudiante.alt = "Foto de perfil";
+    }
+  
   }
 
   function cargarVistaCalificaciones(data)

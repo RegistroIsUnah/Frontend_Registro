@@ -29,9 +29,8 @@
       <h2>Bienvenid@ <span id="name"></h2>
       <div class="contenido">
         <div class="card card-1">
-          <p class="card-title">Estado de Matricula</p>
-          <small>Periodo actual 2025</small>
-          <p class="card-status">Matriculado</p>
+          <p class="card-title">Carrera Matriculada</p>
+          <p class="card-status"><span id="carrerName"></span></p>
         </div>
         <div class="card card-2">
           <p class="card-title">Indice Global</p>
@@ -42,7 +41,7 @@
         <div class="card card-3">
           <p class="card-title">Solicitudes Pendientes</p>
           <small>En proceso</small>
-          <p class="card-status">2 Solicitudes</p>
+          <p class="card-status"><span id="solicitudes"></span></p>
         </div>
         <div class="card card-4">
           <p class="card-title">Porcentaje Aprobado</p>

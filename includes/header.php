@@ -14,7 +14,7 @@
       <div class="usuario" style="width: 200px;">
         <small>Estudiante</small>
         <br>
-        <small id="email"></small>
+        <small class="email"></small>
       </div>
 
       <div class="sesion">
