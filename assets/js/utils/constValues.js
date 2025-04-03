@@ -16,4 +16,6 @@ export class ConstValues{
     //static DOMAIN_NAME = 'http://localhost:5000/src'
     //static DOMAIN_NAME = 'https://registroisunah.xyz/Backend_Registro/src/api';
 
+    static UPLOADS_BASE_URL = 'http://localhost/Proyecto_IS802/Backend_Registro';
+
 }

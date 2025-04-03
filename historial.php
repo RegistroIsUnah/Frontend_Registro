@@ -36,7 +36,7 @@ include 'includes/chat.php'; // Incluye el chat
                         <div class="datos-estudiante">
                             <p><strong>Nombre:</strong> <span id="name"></span> </p>
                             <p><strong>Carrera:</strong> <span id="carrerName"></span> </p>
-                            <p><strong>Número de Cuenta:</strong> 202310010001</p>
+                            <p><strong>Número de Cuenta:</strong> <span id="accountName"></span> </p>
                         </div>
                         <div class="datos-estudiante">
                             <p><strong>Centro:</strong> <span id="centro"></span></p>

@@ -23,6 +23,7 @@ import { FormFieldsErrorMessage } from "./formFieldsErrorMessage.js";
 export function validateForm(formId, validationsForm, actualForm) {
     const form = document.querySelector(`#${formId}`);
     const submitButton = form.querySelector('button[type="submit"], input[type="submit"]');
+    let isEditMode = form.querySelector('[data-edit-mode]') !== null;
 
     function validateInitialFields() {
         if (formId === 'resend-admission-form') {
@@ -60,7 +61,7 @@ export function validateForm(formId, validationsForm, actualForm) {
         if (validator) {
             if (field.type == 'file' || field.accept == 'application/pdf') {
                 try {
-                    isValid = await validator(field.files);
+                    isValid = await validator(field.files, isEditMode);
                 } catch (error) {
                     errorField = error;
                     isValid = false;
@@ -100,10 +101,6 @@ export function validateForm(formId, validationsForm, actualForm) {
         submitButton.disabled = invalidFields > 0;
     }
 
-
-
-
-
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.2
@@ -127,6 +124,13 @@ export function validateForm(formId, validationsForm, actualForm) {
             input.addEventListener('change', validateField);
         }
     });
+
+    // Manejar modo edición
+    if (isEditMode) {
+        form.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', () => toggleSubmitButton());
+        });
+    }
 
     toggleSubmitButton();
 }

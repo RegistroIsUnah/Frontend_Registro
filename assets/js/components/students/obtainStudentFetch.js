@@ -37,17 +37,20 @@ function cargarDatosComunes(data) {
     const globalTerm = data.academico.indice_global;
     const lastTerm = data.academico.indice_periodo;
     const carrerName = data.academico.carreras;
+    const accountName = data.informacion_personal.numero_cuenta;
 
     const nameInput = document.getElementById("name");
     const globalTermInput = document.getElementById("globalTerm");
     const lastTermInput = document.getElementById("lastTerm");
     const carrerInput = document.getElementById("carrerName");
+    const accountNameInput = document.getElementById("accountName");
 
   
      if(nameInput) nameInput.innerHTML = nombreCompleto;
      if(globalTermInput) globalTermInput.innerHTML = globalTerm;
      if(lastTermInput) lastTermInput.innerHTML = lastTerm;
      if(carrerInput) carrerInput.innerHTML = carrerName;
+     if (accountNameInput) accountNameInput.innerHTML = accountName;
 
      const email = data.informacion_personal.correo;
      const emailElements = document.querySelectorAll('.email');

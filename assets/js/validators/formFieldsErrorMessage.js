@@ -23,7 +23,8 @@ export class FormFieldsErrorMessage{
                     clase_id: "Asigne el libro a una clase",
                     autores: "Campo vacío",
                     editorial: "Nombre inválido",
-                    libro: errorFile
+                    libro: errorFile,
+                    isbn_libro: "ISBN no es válido"
                 };
 
             return messages[fieldName] || "Campo requerido";

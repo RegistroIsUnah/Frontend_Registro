@@ -40,7 +40,7 @@ include 'includes/chat.php'; // Incluye el chat
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Número de Cuenta:</span>
-                            <span class="perfil-valor" id="studentId"></span>
+                            <span class="perfil-valor" id="accountName"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Correo Personal:</span>
