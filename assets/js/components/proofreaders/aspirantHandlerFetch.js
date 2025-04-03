@@ -6,7 +6,6 @@
  * @since 2025/03/19
  */
 
-
 import { ConstValues } from "../../utils/constValues.js";
 import { getAdmissionsDataRequest } from "./proofReaderContent.js";
 
@@ -16,10 +15,9 @@ export function aspirantHandler(aspiranteId) {
 
   const validarBtn = document.getElementById("validarBtn");
   const corregirMenu = document.querySelectorAll(".dropdown-menu .dropdown-item");
-  const denegarBtn = document.getElementById("denegarBtn");
   const enviarBtn = document.getElementById("enviarYcargar");
 
-  if (!validarBtn || corregirMenu.length === 0 || !denegarBtn || !enviarBtn) {
+  if (!validarBtn || corregirMenu.length === 0 || !enviarBtn) {
     console.warn("Algunos botones no se encontraron en el DOM.");
     return;
   }
@@ -27,15 +25,13 @@ export function aspirantHandler(aspiranteId) {
   // Limpia eventos anteriores (opcional si haces una sola carga del DOM base)
   validarBtn.onclick = () => {
     accion = "aceptar";
-    console.log(accion);
     motivosSeleccionados = [];
     enviarBtn.disabled = false;
   
     // Limpia la selección visual de los motivos
     corregirMenu.forEach(item => item.classList.remove("active"));
-  
+    corregirBtn.classList.replace("btn-warning", "btn-outline-warning");
     validarBtn.classList.replace("btn-outline-success", "btn-success");
-    denegarBtn.classList.replace("btn-danger", "btn-outline-danger");
   };
 
   corregirMenu.forEach(item => {
@@ -52,11 +48,10 @@ export function aspirantHandler(aspiranteId) {
 
       if (motivosSeleccionados.length > 0) {
         accion = "rechazar";
-        console.log(accion);
         enviarBtn.disabled = false;
 
-        denegarBtn.classList.replace("btn-outline-danger", "btn-danger");
         validarBtn.classList.replace("btn-success", "btn-outline-success");
+        corregirBtn.classList.replace("btn-outline-warning","btn-warning");
       } else {
         enviarBtn.disabled = true;
       }
@@ -99,11 +94,9 @@ export function aspirantHandler(aspiranteId) {
       accion = null;
       motivosSeleccionados = [];
       enviarBtn.disabled = true;
-      denegarBtn.disabled = true;
 
       corregirMenu.forEach(item => item.classList.remove("active"));
       validarBtn.classList.replace("btn-success", "btn-outline-success");
-      denegarBtn.classList.replace("btn-danger", "btn-outline-danger");
 
       // Cargar siguiente aspirante
       getAdmissionsDataRequest();

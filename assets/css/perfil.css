@@ -62,6 +62,11 @@
 }
 
 
+.fotos-seccion {
+  flex: 1 1 100%;
+}
+
+
 /* Estilos para la sección de fotos */
 .fotos-container {
     text-align: center;
@@ -162,4 +167,3 @@
     color: red;
     font-weight: bold;
 }
-

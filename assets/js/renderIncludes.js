@@ -213,24 +213,16 @@ export function renderBodyPage(namePage) {
         case "biblioteca.php":
 
             let actualLibraryView = (history.state == null) ? "libraryView" : history.state.view;
-
-            /*let rol = sessionStorage.getItem("rol_activo");
             
-            if(rol){              
-                loadLibraryPage();
-            }else{
-                loadLoginView();
-            }*/
-
             const rol = sessionStorage.getItem("rol_activo");
 
-            if (!rol) {
+            if (!rol) {                
+                
                 // Redirigir a login si no hay sesión
                 loadLoginView();
                 history.replaceState(null, "biblioteca.php");
                 break;
             }
-
 
             switch (actualLibraryView) {
 

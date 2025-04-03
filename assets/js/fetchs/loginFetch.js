@@ -103,13 +103,14 @@ export function login() {
 //LogOut; funcionamiento: <a id="btnLogout">Salir</a> puede ser un <button> tambien.
 
 /*El DOMContentLoad permite cargar la pagina y detectar si hay un boton con el id btnLogout */
+/*
 document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("btnLogout");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", logout);
     }
   });
-  
+  */
 
 export function logout()
 {
@@ -128,7 +129,6 @@ export function logout()
         .then(data =>{
             console.log("LogOut exitoso:", data.message);
             sessionStorage.clear();
-            console.log("hola");
             window.location.href = "index.php";
         })
         .catch(error => {
@@ -136,3 +136,9 @@ export function logout()
             alert("Ocurrió un error al cerrar sesión.");
     });
 }
+
+document.body.addEventListener("click", (event) => {
+    if (event.target && event.target.id === "btnLogout") {
+      logout();
+    }
+  });

@@ -4,35 +4,19 @@ include 'includes/chat.php'; // Incluye el chat
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/perfil.css">
     <link rel="stylesheet" href="assets/css/plantilla.css">
 </head>
 
 <body>
-    <header class="nav">
-        <div class="nav-izq">
-            <h1 style="margin: 0; font-size: 2rem;">Sistema de Registro</h1>
-        </div>
-
-        <div class="nav-der">
-
-            <div class="chat-icon" onclick="toggleChatPanel()">
-                <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-
-            </div>
-
-            <div class="usuario">
-                <small>Estudiante</small>
-                <br>
-                <small>Usuario@unah.hn</small>
-            </div>
-        </div>
-    </header>
+    <?php
+    include 'includes/header.php'; 
+    ?>
 
     <!-- Contenido principal -->
     <main class="contenedor">
@@ -52,15 +36,15 @@ include 'includes/chat.php'; // Incluye el chat
                         <h3>Datos Generales</h3>
                         <div class="perfil-item">
                             <span class="perfil-label">Nombre:</span>
-                            <span class="perfil-valor">Juan Perez</span>
+                            <span class="perfil-valor" id="name"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Número de Cuenta:</span>
-                            <span class="perfil-valor">202310010001</span>
+                            <span class="perfil-valor" id="accountName"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Correo Personal:</span>
-                            <span class="perfil-valor">juanperez@gmail.com</span>
+                            <span class="perfil-valor email"></span>
                         </div>
                     </div>
 
@@ -68,25 +52,22 @@ include 'includes/chat.php'; // Incluye el chat
                     <div class="perfil-seccion">
                         <h3>Información Académica</h3>
                         <div class="perfil-item">
-                            <span class="perfil-label">Año de Ingreso:</span>
-                            <span class="perfil-valor">2023</span>
-                        </div>
-                        <div class="perfil-item">
                             <span class="perfil-label">Carrera:</span>
-                            <span class="perfil-valor">Ingeniería en Sistemas</span>
+                            <span class="perfil-valor" id="carrerName"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Índice Académico:</span>
-                            <span class="perfil-valor">92.5</span>
+                            <span class="perfil-valor" id="globalTerm"></span>
                         </div>
                         <div class="perfil-item">
                             <span class="perfil-label">Correo Electrónico:</span>
-                            <span class="perfil-valor">usuario@unah.hn</span>
+                            <span class="perfil-valor email"></span>
                         </div>
                     </div>
 
                     <!-- Sección para mostrar fotos -->
-                    <div class="perfil-seccion">
+
+                    <div class="perfil-seccion fotos-seccion">
                         <h3>Fotos</h3>
                         <div class="fotos-container">
                             <!-- Previsualización de fotos -->
@@ -120,50 +101,6 @@ include 'includes/chat.php'; // Incluye el chat
     ?>
 
     <script>
-        function toggleChatPanel() {
-            const chatPanel = document.getElementById('chatPanel');
-            chatPanel.classList.toggle('active');
-        }
-
-        function openTab(tabName) {
-            // Ocultar todas las pestañas
-            document.querySelectorAll('.chat-tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Mostrar la pestaña seleccionada
-            document.getElementById(tabName).classList.add('active');
-
-            // Actualizar botones de pestañas
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
-        }
-
-        function listaContactos() {
-            alert('Aquí se abriría la lista de contactos.');
-        }
-
-        function solicitudContacto() {
-            alert('Aquí se abriría el formulario para enviar solicitudes.');
-        }
-
-        function filtrarChat() {
-            const searchText = document.getElementById('chatSearch').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-
-            chatItems.forEach(chat => {
-                const chatName = chat.querySelector('.chat-info p').textContent.toLowerCase();
-                if (chatName.includes(searchText)) {
-                    chat.style.display = 'flex'; // Mostrar el chat
-                } else {
-                    chat.style.display = 'none'; // Ocultar el chat
-                }
-            });
-        }
-
-
         function handleFileUpload(event) {
             const input = event.target;
             const preview = document.getElementById('fotosPreview');
@@ -204,6 +141,9 @@ include 'includes/chat.php'; // Incluye el chat
     </script>
 
 
+
+    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/utils/chat.js"></script>
 </body>
 
 </html>

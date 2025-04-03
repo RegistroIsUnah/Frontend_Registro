@@ -28,7 +28,7 @@
     <script>
          if(sessionStorage.getItem("roles").includes("revisor"))
             {
-                    document.getElementById("revisorComponent").innerHTML += '<a href="revisores.php"><li> Revisar Aspirantes</li> </a>';  
-            }
+                    document.getElementById("revisorComponent").innerHTML += '<a href="revisores.php"><li id="enviarYcargar"> Revisar Aspirantes</li> </a>';  
+            }        
     </script>
 </section>

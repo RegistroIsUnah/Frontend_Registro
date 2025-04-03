@@ -1,6 +1,6 @@
 /* Contenedor de card */
 .contenido {
-  display: flex;
+  display: flex; 
   flex-wrap: wrap; /* Permite que las tarjetas se ajusten automáticamente */
   gap: 10px; /* Espacio entre las tarjetas */
 }
@@ -49,15 +49,6 @@
   color: #013775; 
 }
 
-.card-2 {
-  background-color: #cffacf; 
-  border: 1px solid #8bc63e;
-
-}
-.card-2 .card-title {
-  color: #8bc63e; 
-}
-
 .card-3 {
   background-color: #f1eaab; 
   border: 1px solid #fcb814;
@@ -74,3 +65,27 @@
   color: #620175; 
 }
 
+/* Card 2 DYNAMICS */
+.card-good {
+  background-color: #cffacf;
+  border: 1px solid #8bc63e;
+}
+.card-good .card-title {
+  color: #8bc63e;
+}
+
+.card-warning {
+  background-color: #f1eaab;
+  border: 1px solid #fcb814;
+}
+.card-warning .card-title {
+  color: #fcb814;
+}
+
+.card-bad {
+  background-color: #f8d7da;
+  border: 1px solid #dc3545;
+}
+.card-bad .card-title {
+  color: #dc3545;
+}
