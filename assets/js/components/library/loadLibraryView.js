@@ -23,8 +23,6 @@ import { TagsManager } from "./handlers/setupTagHandling.js";
  * Función encargada de cargar el formulario de registro de libros a la página de biblioteca.
  */
 
-
-// Agrega esto al inicio del archivo, después de los imports
 window.handleEditBook = async (libroId) => {
     try {
 

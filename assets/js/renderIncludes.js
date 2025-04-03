@@ -203,13 +203,13 @@ export function renderBodyPage(namePage) {
             
             const rol = sessionStorage.getItem("rol_activo");
 
-            if (!rol) {
+            if (!rol) {                
+                
                 // Redirigir a login si no hay sesión
                 loadLoginView();
                 history.replaceState(null, "biblioteca.php");
                 break;
             }
-
 
             switch (actualLibraryView) {
 

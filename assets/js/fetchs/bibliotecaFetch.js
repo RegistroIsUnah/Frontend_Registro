@@ -136,7 +136,7 @@ export class BibliotecaFetch {
                 return response.json();
             })
             .then(data => {
-                window.location.reload();
+                //window.location.reload();
                 return data;
             })
             .catch(error => {

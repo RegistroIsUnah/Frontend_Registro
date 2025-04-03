@@ -1,3 +1,7 @@
+body {
+    background-color: #f5f7f9;
+}
+
 .navbar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #013775;
@@ -189,4 +193,54 @@ h3 {
     pointer-events: none;
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+
+/* Contenedor principal */
+#responseModal.book-message-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Contenido del modal */
+#responseModal.book-message-modal .book-modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    animation: bookModalSlideIn 0.3s ease-out;
+}
+
+/* Icono de éxito/error */
+#responseModal.book-message-modal .book-modal-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+#responseModal.book-message-modal .book-modal-success { color: #28a745; }
+#responseModal.book-message-modal .book-modal-error { color: #dc3545; }
+
+/* Botón de cerrar */
+#responseModal.book-message-modal .book-modal-close {
+    float: right;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #666;
+}
+#responseModal.book-message-modal .book-modal-close:hover {
+    color: #333;
+}
+
+/* Animación única para este modal */
+@keyframes bookModalSlideIn {
+    from { transform: translateY(-100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
