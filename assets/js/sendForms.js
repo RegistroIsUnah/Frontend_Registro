@@ -1,6 +1,7 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
+import { loadLibraryPage } from "./components/library/loadLibraryView.js";
 import { ModalManager } from "./components/library/views/modalBiblioteca.js";
 
 export class SendForm {
@@ -82,7 +83,6 @@ export class SendForm {
      * 
      * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
      */
-
 
     static validateRegisterBookForm = async (event) => {
         event.preventDefault();
@@ -170,7 +170,7 @@ export class SendForm {
 
         } catch (error) {
             //alert(`${error}`);
-            ModalManager.show(error.message || "Error al procesar la solicitud", false);
+            ModalManager.show(error.message || "Error al procesar el libro", false );
         }
 
         //Para verificar que datos se enviaron
