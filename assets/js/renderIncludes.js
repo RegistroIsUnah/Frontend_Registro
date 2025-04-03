@@ -200,15 +200,7 @@ export function renderBodyPage(namePage) {
         case "biblioteca.php":
 
             let actualLibraryView = (history.state == null) ? "libraryView" : history.state.view;
-
-            /*let rol = sessionStorage.getItem("rol_activo");
             
-            if(rol){              
-                loadLibraryPage();
-            }else{
-                loadLoginView();
-            }*/
-
             const rol = sessionStorage.getItem("rol_activo");
 
             if (!rol) {

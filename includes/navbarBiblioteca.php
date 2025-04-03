@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg">
+<nav  id="navbarBiblioteca" class="navbar navbar-expand-lg" id="navbarBiblioteca">
     <div class="container-fluid">
         <!-- Logo y nombre -->
         <a class="navbar-brand" href="#">Biblioteca Virtual</a>
