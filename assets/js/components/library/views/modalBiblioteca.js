@@ -10,18 +10,18 @@ export class ModalManager {
         });
     }
 
-    static show(message, isSuccess = true) {
+    static show(message, isSuccess = true, autoClose = true) {
         const modal = document.getElementById('responseModal');
-        const messageElement = document.getElementById('bookModalMessage');
-        const icon = modal.querySelector('.book-modal-icon');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalIcon = modal.querySelector('.modal-icon');
 
-        messageElement.textContent = message;
-        icon.className = `book-modal-icon fas ${
-            isSuccess ? 'fa-check-circle book-modal-success' : 'fa-times-circle book-modal-error'
-        }`;
-        
+        modalMessage.textContent = message;
+        modalIcon.className = `modal-icon fas ${isSuccess ? 'fa-check-circle success' : 'fa-times-circle error'}`;
         modal.style.display = 'flex';
-        setTimeout(() => this.hide(), 12000);
+
+        if (autoClose) {
+            setTimeout(() => this.hide(), 4000);
+        }
     }
 
     static hide() {
