@@ -1,3 +1,4 @@
+import { ModalManager } from "../../modals/modalSuccess-Error";
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.1.1
@@ -21,7 +22,7 @@ export function setupAuthorHandling() {
         const apellido = document.getElementById("apellido").value.trim();
 
         if (!nombre || !apellido) {
-            alert("Completa nombre y apellido");
+           ModalManager.show("Completa nombre y apellido", false);
             return;
         }
 

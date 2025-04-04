@@ -3,10 +3,6 @@ import { registerBook } from "./views/register-book.js";
 import { SendForm } from "../../sendForms.js";
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
 import { validateForm } from "../../validators/formValidator.js";
-
-import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
-
-
 import { BibliotecaFetch } from "../../fetchs/bibliotecaFetch.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
 import { renderBooksWithPagination, setOriginalData,renderAddBookButton } from "./views/renderBookView.js";
@@ -16,7 +12,7 @@ import { setupSearchSuggestions } from "./filters/searchSuggestions.js";
 import { TagsManager } from "./handlers/setupTagHandling.js";
 
 /**
- * @author @author kency.oseguera@unah.hn
+ * @author kency.oseguera@unah.hn
  * @version 0.0.4
  * @since 2025/03/16
  * 
@@ -71,7 +67,6 @@ export function loadRegisterBookForm(libroData = null) {
                 formularioContainer.className = "container my-5";
                 formularioContainer.id = "divBookRegisterForm";
 
-                // Generar formulario (sin campo clase si es edición)
                 formularioContainer.innerHTML = registerBook(
                     tagsData,
                     libroData ? null : classesData,
@@ -144,7 +139,7 @@ export function loadRegisterBookForm(libroData = null) {
                             field.classList.add("is-valid");
                         });
 
-                        // Habilitar las "X" de eliminación
+                        // Habilitar las "X" de eliminación para tags y autores
                         document.querySelectorAll('.remove-tag.disabled, .remove-author.disabled').forEach(btn => {
                             btn.classList.remove('disabled');
                             btn.style.pointerEvents = 'auto';
@@ -214,7 +209,6 @@ window.goToPage = goToPage;
 
 async function loadLibrosEstudiante(estudianteId) {
     try {
-        // Obtener estructura básica con IDs
         const dataEstudiante = await BibliotecaFetch.getLibrosEstudiante(estudianteId);
 
         // Obtener detalles específicos para estudiante

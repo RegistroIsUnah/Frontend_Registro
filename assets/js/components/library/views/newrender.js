@@ -1,13 +1,17 @@
+
 import { ConstValues } from "../../../utils/constValues";
+
 /**
- * @author kency.oseguera@unah.hn
- * @version 0.1.1
- * @since 2025/03/20
- * 
- * funion para renderizar los libros segun rol ya sea estudiante, jefe o coordinador
+ * Función para renderizar los libros en lista plana con paginación
  */
 
-export function renderLibros(clasesCompletas, isDocente = false) {
+// Configuración de paginación
+const ITEMS_PER_PAGE = 12; // Libros por página
+let currentPage = 1;
+let originalData = []; // Para poder filtrar
+
+// Función principal de renderizado
+export function renderLibros(libros, isDocente = false) {
     const bookContainer = document.getElementById("bookContainer");
     bookContainer.innerHTML = "";
 
@@ -15,14 +19,14 @@ export function renderLibros(clasesCompletas, isDocente = false) {
 
     let container = '';
 
-    if (!clasesCompletas || !Array.isArray(clasesCompletas)) {
+    if (!libros || !Array.isArray(libros)) {
         bookContainer.innerHTML = "<p>No se encontraron libros.</p>";
         return;
     }
     
     container += `
         <div class="row">
-            ${clasesCompletas.map(libro => {
+            ${libros.map(libro => {
                 if (!libro.detalles) {
                     return '<div class="text-danger col-12">Error cargando libro</div>';
                 }
@@ -40,14 +44,21 @@ export function renderLibros(clasesCompletas, isDocente = false) {
     bookContainer.innerHTML = container;
 }
 
+// Función para generar tarjetas de libro individuales
 function generateBookCard(libro, isDocente, claseNombre = '') {
-
     return ` 
     <div class="col-md-4 mb-4">
         <div class="card book-card">
-            <div class="card-body">
-            ${claseNombre ? `<div class="class-name-badge mb-2"><span class="badge bg-primary">${claseNombre}</span></div>` : ''}
-                <div onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
+            <div class="card-body d-flex flex-column">
+                ${claseNombre ? `
+                <div class="class-name-badge mb-2">
+                    <span class="badge bg-primary text-truncate" title="${claseNombre}" >
+                        ${claseNombre}
+                    </span>
+                </div>
+                ` : ''}
+                
+                <div class="flex-grow-1" onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
                     <h5 class="card-title">${libro.titulo}</h5>
                     <p class="card-subtitle mb-2 text-muted">${libro.editorial}</p>
                     <p class="card-text">${libro.descripcion}</p>
@@ -62,55 +73,38 @@ function generateBookCard(libro, isDocente, claseNombre = '') {
                     </ul>
                 </div>
 
-                <div class="tags-section">
+                <div class="tags-section mb-2">
                     ${libro.tags.map(tag => `
-                        <span class="badge bg-secondary me-1">${typeof tag === 'object' ? tag.tag_nombre : tag}</span>
+                        <span class="badge bg-secondary me-1 mb-1">${typeof tag === 'object' ? tag.tag_nombre : tag}</span>
                     `).join('')}
                 </div>
+                
                 ${isDocente ? generateAdminControls(libro.libro_id) : ''}
             </div>
         </div>
     </div>
-`;
+    `;
 }
 
+// Función para generar controles de administrador
 function generateAdminControls(libroId) {
     return `
-        <div class="admin-controls mt-3">
-
-            <button type="button" class="btn btn-success" onclick="handleEditBook(${libroId})">
+        <div class="admin-controls mt-auto pt-2">
+            <button type="button" class="btn btn-success btn-sm" onclick="handleEditBook(${libroId})">
                 Editar
             </button>
         </div>
     `;
 }
 
-export function renderAddBookButton(isDocente) {
-    const container = document.getElementById('registerButtonContainer');
-    if (isDocente) {
-        container.innerHTML = `
-            <button id="registerButton" class="btn" style="background-color: #12a9c2!important; color: white;">
-                Agregar Libro
-            </button>
-        `;
-    } else {
-        container.innerHTML = '';
-    }
-}
-
-//CON PAGINACION 
-const ITEMS_PER_PAGE = 12; // Libros por página
-let currentPage = 1;
-let originalData = []; //para poder filtrar
-
-// Modifica la función renderLibros para incluir paginación
+// Renderizado con paginación
 export function renderBooksWithPagination(clasesCompletas, isDocente = false, resetPagination = false) {
     if (resetPagination) {
         currentPage = 1;
     }
     
-     // Aplanar la estructura de clases y libros
-     const allBooks = clasesCompletas.flatMap(clase => {
+    // Aplanar la estructura de clases y libros
+    const allBooks = clasesCompletas.flatMap(clase => {
         if (typeof clase.clase_id !== 'undefined') {
             // Es una clase normal - agregar nombre de clase a cada libro
             return clase.libros.map(libro => ({
@@ -123,10 +117,12 @@ export function renderBooksWithPagination(clasesCompletas, isDocente = false, re
         return [clase];
     });
     
+    // Calcular paginación
     const totalPages = Math.ceil(allBooks.length / ITEMS_PER_PAGE);
     const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
     const paginatedBooks = allBooks.slice(startIdx, startIdx + ITEMS_PER_PAGE);
     
+    // Renderizar libros paginados
     renderLibros(paginatedBooks, isDocente);
     renderPagination(totalPages, isDocente);
 }
@@ -136,13 +132,13 @@ function renderPagination(totalPages, isDocente) {
     const paginationContainer = document.getElementById('pagination');
     paginationContainer.innerHTML = '';
     
-    if (totalPages <= 1) return; // No mostrar paginación si solo hay una página
+    if (totalPages <= 1) return;
     
     const ul = document.createElement('ul');
     ul.className = 'pagination justify-content-center';
     
     // Botón "Anterior"
-    ul.appendChild(createPaginationItem('Anterior', currentPage > 1, () => {
+    ul.appendChild(createPaginationItem('&laquo; Anterior', currentPage > 1, () => {
         if (currentPage > 1) {
             currentPage--;
             renderBooksWithPagination(originalData, isDocente);
@@ -150,20 +146,43 @@ function renderPagination(totalPages, isDocente) {
     }));
     
     // Números de página
-    for (let i = 1; i <= totalPages; i++) {
+    const startPage = Math.max(1, currentPage - 2);
+    const endPage = Math.min(totalPages, currentPage + 2);
+    
+    if (startPage > 1) {
+        ul.appendChild(createPaginationItem('1', true, () => {
+            currentPage = 1;
+            renderBooksWithPagination(originalData, isDocente);
+        }));
+        if (startPage > 2) {
+            ul.appendChild(createPaginationItem('...', false, null));
+        }
+    }
+    
+    for (let i = startPage; i <= endPage; i++) {
         ul.appendChild(createPaginationItem(i, i !== currentPage, () => {
             currentPage = i;
             renderBooksWithPagination(originalData, isDocente);
         }, i === currentPage));
     }
     
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            ul.appendChild(createPaginationItem('...', false, null));
+        }
+        ul.appendChild(createPaginationItem(totalPages, true, () => {
+            currentPage = totalPages;
+            renderBooksWithPagination(originalData, isDocente);
+        }));
+    }
+    
     // Botón "Siguiente"
-    ul.appendChild(createPaginationItem('Siguiente', currentPage < totalPages, () => {
+    ul.appendChild(createPaginationItem('Siguiente &raquo;', currentPage < totalPages, () => {
         if (currentPage < totalPages) {
             currentPage++;
             renderBooksWithPagination(originalData, isDocente);
         }
-    }, isDocente));
+    }));
     
     paginationContainer.appendChild(ul);
 }
@@ -176,17 +195,33 @@ function createPaginationItem(text, isEnabled, onClick, isActive = false) {
     const a = document.createElement('a');
     a.className = 'page-link';
     a.href = '#';
-    a.textContent = text;
-    a.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (isEnabled) onClick();
-    });
+    a.innerHTML = text;
+    if (isEnabled && onClick) {
+        a.addEventListener('click', (e) => {
+            e.preventDefault();
+            onClick();
+        });
+    }
     
     li.appendChild(a);
     return li;
 }
 
+// Función para establecer datos originales
 export function setOriginalData(data) {
     originalData = data;
 }
 
+// Función para renderizar botón de agregar libro
+export function renderAddBookButton(isDocente) {
+    const container = document.getElementById('registerButtonContainer');
+    if (isDocente) {
+        container.innerHTML = `
+            <button id="registerButton" class="btn" style="background-color: #12a9c2!important; color: white;">
+                Agregar Libro
+            </button>
+        `;
+    } else {
+        container.innerHTML = '';
+    }
+}

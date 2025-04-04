@@ -173,16 +173,6 @@ export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
     </form>
 
-<div id="responseModal" class="book-modal">
-    <div class="modal-content">
-        <span class="modal-close">&times;</span>
-        <div class="modal-body">
-            <i class="modal-icon fas fa-check-circle success"></i>
-            <p id="modalMessage"></p>
-        </div>
-    </div>
-</div>
-
 
 </div>
 `;
