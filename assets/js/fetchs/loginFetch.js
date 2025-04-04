@@ -40,7 +40,6 @@ export function login() {
 
             if (roles.includes('estudiante')) {
                 sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
                 
@@ -59,11 +58,13 @@ export function login() {
                 }
 
                 //Caso jefe o coordinador
-            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
+            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {
+                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
                 const rolActivo = roles.includes('jefe de departamento') 
                     ? 'jefe de departamento' 
                     : 'coordinador';
                 
+                sessionStorage.setItem('nombre', data.user.details.docente.nombre);
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
 
@@ -96,13 +97,13 @@ export function login() {
 //LogOut; funcionamiento: <a id="btnLogout">Salir</a> puede ser un <button> tambien.
 
 /*El DOMContentLoad permite cargar la pagina y detectar si hay un boton con el id btnLogout */
-document.addEventListener("DOMContentLoaded", () => {
+/*document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("btnLogout");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", logout);
     }
   });
-  
+  */
 
 export function logout()
 {
@@ -129,3 +130,10 @@ export function logout()
             alert("Ocurrió un error al cerrar sesión.");
     });
 }
+
+
+document.body.addEventListener("click", (event) => {
+    if (event.target && event.target.id === "btnLogout") {
+      logout();
+    }
+  });

@@ -19,11 +19,11 @@ export let libraryView =`
                     <a class="nav-link dropdown-toggle" href="#" role="button" 
                        data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i> <!-- Icono de perfil (opcional) -->
-                        <span id="username">Usuario</span>
+                        <span id="username">${sessionStorage.getItem('nombre')}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><hr class="dropdown-divider"></li>
-                        <li><button class="dropdown-item text-danger" onclick="logout()">
+                        <li><button class="dropdown-item text-danger" id="btnLogout">
                             <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
                         </button></li>
                     </ul>
