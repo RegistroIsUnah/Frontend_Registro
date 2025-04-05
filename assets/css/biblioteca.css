@@ -13,28 +13,12 @@ body {
     color: white;
 }
 
-.nav-item a {
-    color: #ffb300!important;
-}
-
 .nav-link {
     color: #ffb300!important;
 }
 
 .nav-link:hover{
     color: white!important;
-}
-
-.btn-outline-light {
-    border-color: #fff;
-    /* Borde blanco */
-}
-
-.btn-outline-light:hover {
-    background-color: #fff;
-    /* Fondo blanco al pasar el mouse */
-    color: #000;
-    /* Texto negro al pasar el mouse */
 }
 
 h1 {
@@ -78,20 +62,6 @@ h3 {
 .color-text:hover {
     text-shadow:
         0 0 10px #091c5a
-}
-
-.color-text-navbar {
-    color: white;
-    text-decoration: none;
-    color: inherit;
-    font-size: 18px;
-    transition: text-shadow 0.3s ease;
-
-}
-
-.color-text-navbar:hover {
-    text-shadow:
-        0 0 10px white
 }
 
 .container-form {
@@ -159,14 +129,6 @@ h3 {
     margin-top: 0.5rem;
   }
   
-  /*.selected-tag {
-    display: inline-flex;
-    align-items: center;
-    background-color: #e9ecef;
-    padding: 0.25rem 0.75rem;
-    border-radius: 50rem;
-  }*/
-  
   .selected-tag.new-tag {
     background-color: #e6f7ff;
   }
@@ -181,17 +143,6 @@ h3 {
   .remove-tag:hover, .remove-author:hover {
     color: #dc3545;
   }
-  
-.no-results-message {
-    color: #6c757d;
-    font-style: italic;
-    cursor: default;
-    pointer-events: none;
-}
-
-.no-results-message strong {
-    color: #0d6efd;
-}
 
 .selected-tag.edit-mode {
     background-color: #e9ecef;
@@ -203,3 +154,79 @@ h3 {
     cursor: not-allowed;
 }
 
+/* Estilos del modal PDF */
+#pdfModal .modal-content {
+    min-height: 80vh;
+}
+
+/* Contenedor spinner */
+#pdfLoading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    z-index: 1000;
+    display: flex;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#pdfLoading.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.spinner-container {
+    text-align: center;
+}
+
+.loading-text {
+    color: #0d6efd;
+    font-weight: 500;
+    animation: pulse 1.5s infinite;
+}
+
+/* Contenedor del PDF */
+.pdf-content-container {
+    height: 80vh;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease 0.1s;
+}
+
+.pdf-content-container.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animaciones */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+    border-width: 0.25em;
+    animation: spin 0.8s linear infinite;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    #pdfModal .modal-dialog {
+        margin: 0;
+    }
+    
+    .pdf-content-container {
+        height: 60vh;
+    }
+}

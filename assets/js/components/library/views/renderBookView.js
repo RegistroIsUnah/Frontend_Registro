@@ -33,10 +33,9 @@ export function renderLibros(clasesCompletas, isDocente = false) {
                 }
                 // Si es un libro individual (búsqueda)
                 return generateBookCard(libro, isDocente);
-            }).join('')}
+            }).join('') || '<p class="text-muted">No se encontraron libros</p>'}  
         </div>
-    ` || '<p class="text-muted">No se encontraron libros</p>';
-    
+    `
     bookContainer.innerHTML = container;
 }
 
@@ -48,7 +47,7 @@ function generateBookCard(libro, isDocente, claseNombre = '') {
             <div class="card-body">
             ${claseNombre ? `<div class="class-name-badge mb-2"><span class="badge bg-primary">${claseNombre}</span></div>` : ''}
                 <div onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
-                    <h5 class="card-title">${libro.titulo}</h5>
+                    <h5 class="card-title" >${libro.titulo}</h5><hr>
                     <p class="card-subtitle mb-2 text-muted">${libro.editorial}</p>
                     <p class="card-text">${libro.descripcion}</p>
                 </div>
@@ -98,28 +97,32 @@ export function renderAddBookButton(isDocente) {
     }
 }
 
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/03/20
+ * 
+ * Util para la paginacion de los libros
+ */
+
 //CON PAGINACION 
 const ITEMS_PER_PAGE = 12; // Libros por página
 let currentPage = 1;
 let originalData = []; //para poder filtrar
 
-// Modifica la función renderLibros para incluir paginación
 export function renderBooksWithPagination(clasesCompletas, isDocente = false, resetPagination = false) {
     if (resetPagination) {
         currentPage = 1;
     }
     
-     // Aplanar la estructura de clases y libros
      const allBooks = clasesCompletas.flatMap(clase => {
         if (typeof clase.clase_id !== 'undefined') {
-            // Es una clase normal - agregar nombre de clase a cada libro
             return clase.libros.map(libro => ({
                 ...libro,
                 detalles: libro.detalles || libro,
                 clase_nombre: clase.clase_nombre
             }));
         }
-        // Es un libro individual (resultado de búsqueda)
         return [clase];
     });
     

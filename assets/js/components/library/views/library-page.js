@@ -46,7 +46,7 @@ export let libraryView =`
 </nav>
 
 <div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="biblioteca.php">Biblioteca</a></h5>
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="">Biblioteca</a></h5>
 </div>
 
     <div class="container my-5">
@@ -66,9 +66,9 @@ export let libraryView =`
         </div>
     </div>
 
-<br>
+    <br>
 
- <div id="registerButtonContainer" class="text-end mb-3"></div>
+    <div id="registerButtonContainer" class="text-end mb-3"></div>
 
         <!-- Contenedor de libros -->
         <div class="row" id="bookContainer">
@@ -80,27 +80,33 @@ export let libraryView =`
 
     </div>
 
-    <div class="modal fade" id="pdfModal" tabindex="-1 ">
-    <div class="modal-dialog modal-xl"> <!-- Tamaño extra grande -->
-        <div class="modal-content">
-        <div class="modal-header bg-light">
-            <h5 class="modal-title fw-bold"  id="pdfModalLabel">Vista previa del libro</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body p-0"> 
-            <div class="sticky-top p-3 shadow-sm"> <!-- Barra de búsqueda fija -->
-            <div class="input-group">
-                <input type="number" id="pageNumber" class="form-control" min="1" value="1"onkeyup="if(event.key === 'Enter') goToPage()">
-                <button onclick="goToPage()" class="btn btn-outline-secondary" >Ir a página</button>
-            </div>
-            </div>
+    <div class="modal fade" id="pdfModal" tabindex="-1" aria-labelledby="pdfModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-bold" id="pdfModalLabel">Vista del libro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body p-0 position-relative">
+                <!-- Contenedor centrado con estilos inline -->
+                    <div class="sticky-top p-3 shadow-sm" style="display: flex; justify-content: center; background: #f8f9fa;">
+                        <div class="input-group" style="width: auto; gap: 8px;">
+                            <input type="number" id="pageNumber" class="form-control" min="1" value="1"
+                            style="width: 100px; border-radius: 4px 0 0 4px; border: 1px solid #ced4da;"
+                            aria-label="Número de página">
+                            <button class="btn btn-primary" type="button" onclick="goToPage()"
+                            style="border-radius: 0 4px 4px 0; white-space: nowrap;">Ir a página</button>
+                        </div>
+                    </div>
 
-            <div id="iframeContainer"  style="height: 80vh;">
-            <iframe id="pdfViewer" class="w-100 h-100"></iframe>
+                    <div id="pdfLoading" class="d-flex justify-content-center align-items-center"></div>
+
+                    <div id="pdfContent" class="pdf-content-container">
+                        <iframe id="pdfViewer" class="w-100 h-100" title="Vista del Libro" aria-label="Contenido del libro"></iframe>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </div>
 
 
