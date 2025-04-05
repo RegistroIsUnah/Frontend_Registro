@@ -128,14 +128,10 @@ export class SendForm {
 
             const autoresHidden = document.getElementById('autoresHidden');
             if (autoresHidden) {
-                try {
-                    const autores = JSON.parse(autoresHidden.value);
-                    // Eliminar autor_id si existe (solo para edición)
-                    const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
-                    formData.set('autores', JSON.stringify(autoresLimpios));
-                } catch (error) {
-                    console.error("Error procesando autores:", error);
-                }
+                const autores = JSON.parse(autoresHidden.value);
+                // Eliminar autor_id si existe (solo para edición)
+                const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
+                formData.set('autores', JSON.stringify(autoresLimpios));
             }
 
             const estado = form.querySelector("[name='estado']")?.value;

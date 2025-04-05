@@ -9,11 +9,11 @@ import { ModalManager } from "../../modals/modalSuccess-Error";
 
 export function setupAuthorHandling() {
     const actualizarAutoresHidden = () => {
-        const autores = Array.from(document.querySelectorAll(".autor-item"))
-            .map(item => {
-                const [nombre, apellido] = item.textContent.trim().split(" ");
-                return { nombre, apellido };
-            });
+        const autores = Array.from(document.querySelectorAll(".autor-item")).map(item => {
+            const nombre = item.querySelector(".autor-nombre").textContent.trim();
+            const apellido = item.querySelector(".autor-apellido").textContent.trim();
+            return { nombre, apellido };
+        });
         document.getElementById("autoresHidden").value = JSON.stringify(autores);
     };
 
@@ -30,7 +30,8 @@ export function setupAuthorHandling() {
         const autorItem = document.createElement("div");
         autorItem.className = "autor-item badge bg-light text-dark p-2";
         autorItem.innerHTML = `
-            ${nombre} ${apellido}
+            <span class="autor-nombre">${nombre}</span>
+            <span class="autor-apellido">${apellido}</span>
             <span class="remove-author ">&times;</span>
         `;
 
@@ -41,6 +42,10 @@ export function setupAuthorHandling() {
 
         lista.appendChild(autorItem);
         actualizarAutoresHidden();
+
+        // Limpiar campos
+        document.getElementById("nombre").value = '';
+        document.getElementById("apellido").value = '';
         
     });
 

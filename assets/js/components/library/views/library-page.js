@@ -50,7 +50,7 @@ export let libraryView =`
 </div>
 
     <div class="container my-5">
-        <h1 class="text-center">Biblioteca Virtual</h1>
+        <h1 style="text-align:center!important">Biblioteca Virtual</h1>
 
         <!-- Campo de búsqueda -->
     <div class="row justify-content-center mb-4">

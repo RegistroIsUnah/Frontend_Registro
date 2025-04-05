@@ -118,8 +118,9 @@ export function loadRegisterBookForm(libroData = null) {
                             const autorItem = document.createElement('div');
                             autorItem.className = 'autor-item badge bg-light text-dark p-2 me-2 mb-2';
                             autorItem.innerHTML = `
-                                ${autor.nombre} ${autor.apellido}
-                                    <span class="remove-author ${libroData ? 'disabled' : ''}"  >&times;</span>
+                                <span class="autor-nombre">${autor.nombre}</span>
+                                <span class="autor-apellido">${autor.apellido}</span>
+                                <span class="remove-author ${libroData ? 'disabled' : ''}"  >&times;</span>
                             `;
                             autoresContainer.appendChild(autorItem);
                         });
@@ -165,11 +166,9 @@ export function loadRegisterBookForm(libroData = null) {
 
             }).catch(error => {
                 console.error("Error al obtener datos del formulario:", error);
-                alert("Error al cargar el formulario");
             });
     }).catch(error => {
         console.error("Error en el proceso de carga:", error);
-        alert("Error inicializando el formulario");
     });
 }
 
@@ -196,7 +195,7 @@ export function loadLibraryPage() {
     if (rol === 'estudiante') {
         const estudianteId = sessionStorage.getItem('estudiante_id');
         loadLibrosEstudiante(estudianteId);
-    } else if (rol === 'jefe de departamento' || rol === 'coordinador') {
+    } else if (rol === 'jefe de departamento' || rol === 'coordinador' || rol ==='docente') {
         const docenteId = sessionStorage.getItem('docente_id');
         loadLibrosDepartamento(docenteId, rol);
     }
@@ -245,6 +244,9 @@ async function loadLibrosDepartamento(docenteId, rol) {
 
         } else if (rol === 'coordinador') {
             departamentoId = await BibliotecaFetch.getDeptoCoordinador(docenteId);
+        } else if (rol === 'docente'){
+            const dept_id = sessionStorage.getItem('dept_id')
+            departamentoId = dept_id;
         }
 
         // libros por clase
@@ -268,19 +270,19 @@ async function loadLibrosDepartamento(docenteId, rol) {
         }));
 
         setOriginalData(clasesCompletas);
-        renderBooksWithPagination(clasesCompletas, true);
+        renderBooksWithPagination(clasesCompletas, rol !== 'docente');
         setupSearchSuggestions(clasesCompletas);
 
-        renderAddBookButton(true);
-        document.getElementById("registerButton").addEventListener("click", function () {
-
-            const divLibraryPage = document.getElementById("registerButton");
-            if (divLibraryPage) {
-                history.go(1);
-                loadRegisterBookForm();
-            }
-        });
-
+        if (rol === 'jefe de departamento' || rol === 'coordinador') {
+            renderAddBookButton(true);
+            document.getElementById("registerButton").addEventListener("click", function () {
+                const divLibraryPage = document.getElementById("registerButton");
+                if (divLibraryPage) {
+                    history.go(1);
+                    loadRegisterBookForm();
+                }
+            });
+        }
     } catch (error) {
         console.error("Error al cargar libros del departamento:", error);
     }
