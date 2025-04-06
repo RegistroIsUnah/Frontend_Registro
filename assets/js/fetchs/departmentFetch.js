@@ -1,6 +1,6 @@
 import { ConstValues } from "../utils/constValues.js";
 
-class DepartmentFetch{
+export class DepartmentFetch{
 
     static getClassesSectionsByDepartment(departmentId, year, period){
 
@@ -38,20 +38,29 @@ class DepartmentFetch{
 
     }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/01
+     * 
+     * @returns 
+     * 
+     * Esta función devuelve todos los departamentos del sistema.
+     */
     static getAllDepartments(){
 
-        fetch(`${ConstValues.DOMAIN_NAME}/get/departamentos.php`)
-        .then(response => {
-        if (!response.ok){
-        throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-        }
-        return response.json();
-        })
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/departamentos.php`)
+        .then(response => response.json())
         .then(data => {
-        console.log(data);
+         
+            if(data.error){
+                return "Ha ocurrido un problema: " + data.error;
+            }else{
+                return data;
+            }
         })
         .catch(error => {
-        console.log("error en la solicitud");
+            console.log("error en la solicitud"+ error);
         })
     }
 }

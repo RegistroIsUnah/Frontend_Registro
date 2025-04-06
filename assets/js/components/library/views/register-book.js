@@ -6,7 +6,7 @@
  * Formulario de registro de libros al cual se le carga contenido dinámico para mostrarlo en sus campos y reutilizado para edicion.
  * Este formulario solo se muestra a Jefes de departamento y Coordinadores de carrera.
  */
-import { ConstValues } from "../../../utils/constValues";
+import { ConstValues } from "../../../utils/constValues.js";
 
 export let registerBook = (tagsData, classesOptions, libroData = null) => `
 

@@ -61,7 +61,7 @@
 
         <div class="btn-group">
             <button id="corregirBtn" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-exclamation-triangle"></i> Corregir Datos
+            <i class="bi bi-exclamation-triangle"></i> Denegar Por:
             </button>
             <ul class="dropdown-menu">
             <li><a class="dropdown-item"  data-motivo-id="1">Documentación Incompleta</a></li>
@@ -71,10 +71,6 @@
             <li><a class="dropdown-item"  data-motivo-id="5">Otro</a></li>
             </ul>
         </div>
-
-        <button id="denegarBtn" class="btn btn-danger">
-            <i class="bi bi-x-circle"></i> Denegar
-        </button>
 
         <button class="btn btn-info btn-disabled-style" id="enviarYcargar" disabled>
             <i class="bi bi-person-plus"></i> Enviar y Cargar Más Aspirantes
@@ -91,7 +87,7 @@
     include 'includes/scripts.php';
     ?>
     <script type="module">
-        import { getAdmissionsDataRequest } from './assets/js/components/proofreaders/proofReaderContent.js';
+        import { getAdmissionsDataRequest} from './assets/js/components/proofreaders/proofReaderContent.js';
         getAdmissionsDataRequest();
     </script>
     <script type="module" src="assets/js/components/proofreaders/aspirantHandlerFetch.js"></script>

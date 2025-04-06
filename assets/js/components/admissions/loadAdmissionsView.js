@@ -419,6 +419,7 @@ export function loadAdmissionApplicationView(numSolicitud=""){
             document.body.appendChild(divModal);
             let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
             successModalInstance.show(); 
+            setTimeout(() => divModal.remove(), 2000);
         });
 
     });

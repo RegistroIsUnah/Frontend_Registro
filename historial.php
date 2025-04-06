@@ -9,30 +9,14 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/plantilla.css">
     <link rel="stylesheet" href="assets/css/historial.css">
 </head>
 
-<body>
-    <header class="nav">
-        <div class="nav-izq">
-            <h1>Sistema de Registro</h1>
-        </div>
-
-        <div class="nav-der">
-
-            <div class="chat-icon" onclick="toggleChatPanel()">
-                <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-
-            </div>
-
-            <div class="usuario">
-                <small>Estudiante</small>
-                <br>
-                <small>Usuario@unah.hn</small>
-            </div>
-        </div>
-    </header>
+    <?php
+     include 'includes/header.php'; 
+    ?>
 
     <!-- Contenido principal -->
     <main class="contenedor">
@@ -50,14 +34,14 @@ include 'includes/chat.php'; // Incluye el chat
                     <div class="info-estudiante">
                         <img src="" alt="" class="foto-estudiante">
                         <div class="datos-estudiante">
-                            <p><strong>Nombre:</strong> Juan Perez</p>
-                            <p><strong>Carrera:</strong> Ingeniería en Sistemas</p>
-                            <p><strong>Número de Cuenta:</strong> 202310010001</p>
+                            <p><strong>Nombre:</strong> <span id="name"></span> </p>
+                            <p><strong>Carrera:</strong> <span id="carrerName"></span> </p>
+                            <p><strong>Número de Cuenta:</strong> <span id="accountName"></span> </p>
                         </div>
                         <div class="datos-estudiante">
-                            <p><strong>Centro:</strong> Juan Perez</p>
-                            <p><strong>Indice Global:</strong> 98</p>
-                            <p><strong>Indice Académico:</strong> 90</p>
+                            <p><strong>Centro:</strong> <span id="centro"></span></p>
+                            <p><strong>Indice Global:</strong> <span id="globalTerm"></span> </p>
+                            <p><strong>Indice Académico:</strong> <span id="lastTerm"></span> </p>
                         </div>
                     </div>
                 </div>
@@ -78,38 +62,13 @@ include 'includes/chat.php'; // Incluye el chat
                                     <th>Observaciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>MM110</td>
-                                    <td>Matemáticas I</td>
-                                    <td>1001</td>
-                                    <td>2023</td>
-                                    <td>1</td>
-                                    <td>85</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                <tr>
-                                    <td>FIS101</td>
-                                    <td>Física I</td>
-                                    <td>1002</td>
-                                    <td>2023</td>
-                                    <td>2</td>
-                                    <td>72</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                <tr>
-                                    <td>PRO100</td>
-                                    <td>Programación I</td>
-                                    <td>1003</td>
-                                    <td>2023</td>
-                                    <td>1</td>
-                                    <td>90</td>
-                                    <td data-observacion="Aprobó">Aprobó</td>
-                                </tr>
-                                
+                            <tbody id="tabla-historial-body">
+                                <!-- JS insertará las filas aquí -->
                             </tbody>
                         </table>
                     </div>
+                </div>
+
 
                     <!-- Paginación -->
                     <div class="paginacion">
@@ -127,50 +86,10 @@ include 'includes/chat.php'; // Incluye el chat
     include 'includes/footer.php';
     ?>
 
-    <script>
-        function toggleChatPanel() {
-            const chatPanel = document.getElementById('chatPanel');
-            chatPanel.classList.toggle('active');
-        }
 
-        function openTab(tabName) {
-            // Ocultar todas las pestañas
-            document.querySelectorAll('.chat-tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-
-            // Mostrar la pestaña seleccionada
-            document.getElementById(tabName).classList.add('active');
-
-            // Actualizar botones de pestañas
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
-        }
-
-        function listaContactos() {
-            alert('Aquí se abriría la lista de contactos.');
-        }
-
-        function solicitudContacto() {
-            alert('Aquí se abriría el formulario para enviar solicitudes.');
-        }
-
-        function filtrarChat() {
-            const searchText = document.getElementById('chatSearch').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-
-            chatItems.forEach(chat => {
-                const chatName = chat.querySelector('.chat-info p').textContent.toLowerCase();
-                if (chatName.includes(searchText)) {
-                    chat.style.display = 'flex'; // Mostrar el chat
-                } else {
-                    chat.style.display = 'none'; // Ocultar el chat
-                }
-            });
-        }
-    </script>
+    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/components/students/obtainStudentClassHistoryFetch.js"></script>
+    <script type="module" src="assets/js/utils/chat.js"></script>
 
 
 </body>

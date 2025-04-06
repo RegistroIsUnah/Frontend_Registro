@@ -295,7 +295,6 @@ addEventListener("popstate", (event) => {
     // Caso: Regresar desde el formulario a la vista principal
     if (currentView === "libraryView" && formularioContainer) {
         const confirmarSalida = confirm("¿Estás seguro de que quieres salir del formulario?");
-
         if (confirmarSalida) {
             document.body.removeChild(formularioContainer);
             loadLibraryPage();

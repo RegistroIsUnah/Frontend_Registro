@@ -42,6 +42,7 @@ export function login() {
                 sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
+                sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
                 if(roles.includes('revisor'))
                 {
@@ -49,6 +50,9 @@ export function login() {
                 }
 
                 const ruta = window.location.pathname.split('/').pop();
+
+                window.location.href = sessionStorage.getItem("returnPage") && sessionStorage.getItem("returnPage");
+
                 if(ruta == "biblioteca.php"){
 
                     window.location.href = 'biblioteca.php'; 
@@ -79,7 +83,10 @@ export function login() {
                 }else{
                     window.location.href = 'docente.php'; 
                 }
-                
+            }else if (roles.includes("administrador")){
+
+                window.location.href = 'admisiones.php'; 
+
             } else {
                 console.error('Rol no reconocido:', roles);
             }
@@ -101,7 +108,8 @@ export function login() {
 //LogOut; funcionamiento: <a id="btnLogout">Salir</a> puede ser un <button> tambien.
 
 /*El DOMContentLoad permite cargar la pagina y detectar si hay un boton con el id btnLogout */
-/*document.addEventListener("DOMContentLoaded", () => {
+/*
+document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("btnLogout");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", logout);
@@ -126,7 +134,6 @@ export function logout()
         .then(data =>{
             console.log("LogOut exitoso:", data.message);
             sessionStorage.clear();
-            console.log("hola");
             window.location.href = "index.php";
         })
         .catch(error => {
