@@ -1,5 +1,4 @@
-import { registerBook } from "./register-book.js";
-//import { LibraryFetch } from "../../fetchs/libraryFetch.js";
+import { registerBook } from "./views/register-book.js";
 
 import { SendForm } from "../../sendForms.js";
 import { DataFormValidations } from "../../validators/formFieldsValidations.js";
@@ -7,31 +6,32 @@ import { validateForm } from "../../validators/formValidator.js";
 
 import { tagsBelowInput } from "../../utils/tagsBelowInput.js"
 
+
 import { BibliotecaFetch } from "../../fetchs/bibliotecaFetch.js";
-import { filtrarLibros } from "./filtrarLibros.js";
 import { openPDFModal, goToPage } from "./pdfViewer.js";
-import { renderLibros } from "./renderBookView.js";
-import { libraryView } from "./library-page.js";
-import { setupAuthorHandling } from "./authorHandling.js";
+import { renderBooksWithPagination, setOriginalData,renderAddBookButton } from "./views/renderBookView.js";
+import { libraryView } from "./views/library-page.js";
+import { setupAuthorHandling } from "./handlers/authorHandling.js";
+import { setupSearchSuggestions } from "./filters/searchSuggestions.js";
+import { TagsManager } from "./handlers/setupTagHandling.js";
 
 /**
- * @author estiven.mejia@unah.hn
- * @version 0.0.3
+ * @author @author kency.oseguera@unah.hn
+ * @version 0.0.4
  * @since 2025/03/16
  * 
  * Función encargada de cargar el formulario de registro de libros a la página de biblioteca.
-
  */
 
-// Agrega esto al inicio del archivo, después de los imports
 window.handleEditBook = async (libroId) => {
     try {
+
         // Obtener los datos completos del libro
         const libro = await BibliotecaFetch.getLibroCompleto(libroId);
-        
+
         // Cargar el formulario de registro en modo edición
         loadRegisterBookForm(libro);
-        
+
     } catch (error) {
         console.error("Error al cargar libro para edición:", error);
         alert("No se pudo cargar el libro para editar");
@@ -70,11 +70,11 @@ export function loadRegisterBookForm(libroData = null) {
                 const formularioContainer = document.createElement('div');
                 formularioContainer.className = "container my-5";
                 formularioContainer.id = "divBookRegisterForm";
-                
+
                 // Generar formulario (sin campo clase si es edición)
                 formularioContainer.innerHTML = registerBook(
-                    tagsData, 
-                    libroData ? null : classesData, 
+                    tagsData,
+                    libroData ? null : classesData,
                     libroData
                 );
 
@@ -85,76 +85,88 @@ export function loadRegisterBookForm(libroData = null) {
                 // Configurar autores
                 setupAuthorHandling();
 
+                setTimeout(() => {
+                    new TagsManager({
+                        inputElement: document.getElementById('tagInput'),
+                        addButton: document.getElementById('tagAddBtn'),
+                        resultsContainer: document.getElementById('tagResults'),
+                        selectedContainer: document.getElementById('selectedTags'),
+                        availableTags: tagsData
+                    });
+                }, 5);
+
                 if (libroData) {
                     const form = document.getElementById("register-book-form");
-                
+
                     // Precargar todos los campos
                     form.titulo.value = libroData.titulo || "";
                     form.editorial.value = libroData.editorial || "";
                     form.fecha_publicacion.value = libroData.fecha_publicacion || "";
                     form.descripcion.value = libroData.descripcion || "";
-                    
-                    // Manejo de tags
-                    if (libroData.tags && Array.isArray(libroData.tags)) {
-                        const tagIds = libroData.tags.map(t => typeof t === 'object' ? t.tag_id : t);
-                        tagIds.forEach(tagId => {
-                            const option = document.querySelector(`#tags option[value="${tagId}"]`);
-                            if (option) option.selected = true;
-                        });
+                    form.isbn_libro.value = libroData.isbn_libro || "";
+
+                    const estadoLibroMap = { 1: "ACTIVO", 2: "INACTIVO" };
+
+                    if (libroData.estado_libro_id) {
+                        form.estado.value = estadoLibroMap[libroData.estado_libro_id] || "ACTIVO";
                     }
-    
-                    // Manejo de autores 
+
                     if (libroData.autores && Array.isArray(libroData.autores)) {
-                        const autoresContainer = document.getElementById("listaAutores");
-                        autoresContainer.innerHTML = libroData.autores.map(autor => `
-                            <div class="autor-item badge bg-light text-dark p-2">
+                        const autoresContainer = document.getElementById('listaAutores');
+                        const autoresHidden = document.getElementById('autoresHidden');
+
+                        // Limpiar contenedor primero
+                        autoresContainer.innerHTML = '';
+
+                        // Agregar cada autor al contenedor visual
+                        libroData.autores.forEach(autor => {
+                            const autorItem = document.createElement('div');
+                            autorItem.className = 'autor-item badge bg-light text-dark p-2 me-2 mb-2';
+                            autorItem.innerHTML = `
                                 ${autor.nombre} ${autor.apellido}
-                                <button type="button" class="ms-2 btn-close btn-sm"></button>
-                            </div>
-                        `).join('');
-                        document.getElementById("autoresHidden").value = JSON.stringify(libroData.autores);
-                    }
-                    
-                    
-                    // Cambiar el título del formulario
-                    const tituloForm = document.querySelector(".container-form h2");
-                    if (tituloForm) tituloForm.textContent = "Editar Libro";
-    
-    
-                    // Configurar botón de habilitación
-                    const enableEditBtn = document.createElement("button");
-                    enableEditBtn.type = "button";
-                    enableEditBtn.id = "enableEdit";
-                    enableEditBtn.className = "btn btn-warning mt-3";
-                    enableEditBtn.innerHTML = '<i class="fas fa-edit"></i> Habilitar edición';
-                    
-                    enableEditBtn.addEventListener("click", () => {
-                        form.querySelectorAll("input, select, textarea").forEach(field => {
-                            field.readOnly = false;
-                            field.classList.remove("is-valid");
+                                    <span class="remove-author ${libroData ? 'disabled' : ''}"  >&times;</span>
+                            `;
+                            autoresContainer.appendChild(autorItem);
                         });
-                        enableEditBtn.remove();
-                    });
-    
-                    form.appendChild(enableEditBtn);
-    
-                    // Bloquear campos inicialmente
-                    form.querySelectorAll("input, select, textarea").forEach(field => {
-                        field.readOnly = true;
-                        field.classList.add("is-valid");
+
+                        // Guardar en campo oculto (sin autor_id)
+                        const autoresSimplificados = libroData.autores.map(({ nombre, apellido }) => ({ nombre, apellido }));
+                        autoresHidden.value = JSON.stringify(autoresSimplificados);
+                    }
+
+                    const enableEditBtn = document.getElementById('enableEditBtn');
+                    const submitEditBtn = document.getElementById('submitEditBtn');
+
+                    enableEditBtn.addEventListener('click', () => {
+                        // Habilitar campos
+                        form.querySelectorAll("input, select, textarea, button").forEach(field => {
+                            field.disabled = false;
+                            field.classList.add("is-valid");
+                        });
+
+                        // Habilitar las "X" de eliminación
+                        document.querySelectorAll('.remove-tag.disabled, .remove-author.disabled').forEach(btn => {
+                            btn.classList.remove('disabled');
+                            btn.style.pointerEvents = 'auto';
+                            btn.style.opacity = '1';
+                        });
+
+                        // Mostrar botón de confirmación
+                        enableEditBtn.classList.add('d-none');
+                        submitEditBtn.classList.remove('d-none');
                     });
                 }
-    
+
                 const form = document.querySelector("form");
                 if (form) {
                     validateForm(form.id, DataFormValidations.validationsRegisterBooksForm, "registerBookForm");
                 }
-    
+
                 // Configurar envío
-                    document.getElementById("register-book-form").addEventListener("submit", (e) => {
-                        e.preventDefault();
-                        SendForm.validateRegisterBookForm(e, libroData ? true : false);
-                    });
+                document.getElementById("register-book-form").addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    SendForm.validateRegisterBookForm(e, libroData ? true : false);
+                });
 
             }).catch(error => {
                 console.error("Error al obtener datos del formulario:", error);
@@ -173,8 +185,6 @@ export function loadRegisterBookForm(libroData = null) {
  * 
  * Función encargada de cargar la vista de biblioteca.
  */
-
-let originalData = []; //Para poder filtrar
 
 export function loadLibraryPage() {
 
@@ -195,21 +205,6 @@ export function loadLibraryPage() {
         const docenteId = sessionStorage.getItem('docente_id');
         loadLibrosDepartamento(docenteId, rol);
     }
-
-
-// Reemplaza el event listener existente para mejorar performance
-    let searchTimeout;
-    // Filtrado dinámico
-    document.getElementById("searchInput").addEventListener("input", function (event) {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => {
-        const searchTerm = event.target.value.toLowerCase();
-        const filtrarData = filtrarLibros(searchTerm, originalData);
-        const rol = sessionStorage.getItem('rol_activo');
-        const isDocente = rol === 'jefe de departamento' || rol === 'coordinador';
-        renderLibros(filtrarData, isDocente);
-        }, 300); // Espera 300ms después de escribir
-    });
 
 }
 
@@ -239,8 +234,9 @@ async function loadLibrosEstudiante(estudianteId) {
             )
         }));
 
-        originalData = clasesCompletas;
-        renderLibros(clasesCompletas);
+        setOriginalData(clasesCompletas);
+        renderBooksWithPagination(clasesCompletas);
+        setupSearchSuggestions(clasesCompletas);
     } catch (error) {
         console.error("Error al cargar libros del estudiante:", error);
     }
@@ -277,10 +273,11 @@ async function loadLibrosDepartamento(docenteId, rol) {
             )
         }));
 
-        originalData = clasesCompletas;
-        renderLibros(clasesCompletas, true); // Renderizar 
+        setOriginalData(clasesCompletas);
+        renderBooksWithPagination(clasesCompletas, true);
+        setupSearchSuggestions(clasesCompletas);
 
-        //Boton para agregar nuevo libro
+        renderAddBookButton(true);
         document.getElementById("registerButton").addEventListener("click", function () {
 
             const divLibraryPage = document.getElementById("registerButton");
@@ -290,12 +287,10 @@ async function loadLibrosDepartamento(docenteId, rol) {
             }
         });
 
-
     } catch (error) {
         console.error("Error al cargar libros del departamento:", error);
     }
 }
-
 
 addEventListener("popstate", (event) => {
     const currentView = event.state?.view;
@@ -304,7 +299,6 @@ addEventListener("popstate", (event) => {
     // Caso: Regresar desde el formulario a la vista principal
     if (currentView === "libraryView" && formularioContainer) {
         const confirmarSalida = confirm("¿Estás seguro de que quieres salir del formulario?");
-        
         if (confirmarSalida) {
             document.body.removeChild(formularioContainer);
             loadLibraryPage();
@@ -313,7 +307,6 @@ addEventListener("popstate", (event) => {
             history.pushState({ view: "registerBook" }, "", window.location.href);
         }
     }
-    
 });
 
 

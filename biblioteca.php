@@ -14,12 +14,10 @@
 
   <body>
 
-    <?php
-      require_once("./includes/navbar.php");
-    ?>
 
     <?php
     require_once("./includes/scripts.php");
     ?>
+      <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
   </body>
 </html>

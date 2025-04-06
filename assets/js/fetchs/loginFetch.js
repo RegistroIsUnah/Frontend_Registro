@@ -39,10 +39,11 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
-                sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                //sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
+                //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
+                sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
                 if(roles.includes('revisor'))
                 {
@@ -50,6 +51,9 @@ export function login() {
                 }
 
                 const ruta = window.location.pathname.split('/').pop();
+
+                window.location.href = sessionStorage.getItem("returnPage") && sessionStorage.getItem("returnPage");
+
                 if(ruta == "biblioteca.php"){
 
                     window.location.href = 'biblioteca.php'; 
@@ -59,12 +63,14 @@ export function login() {
                 }
 
                 //Caso jefe o coordinador
-            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
+            }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {  
+                              sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
                 const rolActivo = roles.includes('jefe de departamento') 
                     ? 'jefe de departamento' 
                     : 'coordinador';
                 
-                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);7
+                sessionStorage.setItem('docente_id', data.user.details.user_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
 
                 const ruta = window.location.pathname.split('/').pop();
@@ -74,7 +80,12 @@ export function login() {
                 }else{
                     window.location.href = 'docente.php'; 
                 }
-                
+            }else if (roles.includes("administrador")){
+
+                window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
+
+            }else if(roles.includes("docente")){
+                window.location.href = "index.php";
             } else {
                 console.error('Rol no reconocido:', roles);
             }
@@ -96,13 +107,14 @@ export function login() {
 //LogOut; funcionamiento: <a id="btnLogout">Salir</a> puede ser un <button> tambien.
 
 /*El DOMContentLoad permite cargar la pagina y detectar si hay un boton con el id btnLogout */
+/*
 document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("btnLogout");
     if (logoutBtn) {
       logoutBtn.addEventListener("click", logout);
     }
   });
-  
+  */
 
 export function logout()
 {
@@ -121,7 +133,6 @@ export function logout()
         .then(data =>{
             console.log("LogOut exitoso:", data.message);
             sessionStorage.clear();
-            console.log("hola");
             window.location.href = "index.php";
         })
         .catch(error => {
@@ -129,3 +140,9 @@ export function logout()
             alert("Ocurrió un error al cerrar sesión.");
     });
 }
+
+document.body.addEventListener("click", (event) => {
+    if (event.target && event.target.id === "btnLogout") {
+      logout();
+    }
+  });

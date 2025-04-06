@@ -9,27 +9,16 @@ include 'includes/chat.php'; // Incluye el chat
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solicitudes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/plantilla.css">
     <link rel="stylesheet" href="assets/css/solicitudes.css">
 </head>
 
 <body>
-    <header class="nav">
-        <div class="nav-izq">
-            <h1>Sistema de Registro</h1>
-        </div>
-
-        <div class="nav-der">
-            <div class="chat-icon" onclick="toggleChatPanel()">
-                <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-            </div>
-            <div class="usuario">
-                <small>Estudiante</small>
-                <br>
-                <small>Usuario@unah.hn</small>
-            </div>
-        </div>
-    </header>
+ 
+    <?php
+     include 'includes/header.php'; 
+    ?>
 
     <!-- Contenido principal -->
     <main class="contenedor">
@@ -281,6 +270,9 @@ include 'includes/chat.php'; // Incluye el chat
         }
     </script>
     <script type="module" src="./assets/js/components/requests/proofreaderFetch.js"></script>
+    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/utils/chat.js"></script>
+
 </body>
 
 </html>

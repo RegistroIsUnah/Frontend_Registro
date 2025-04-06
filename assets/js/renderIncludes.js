@@ -1,8 +1,8 @@
 import { loadAdmissionsForm, loadAdmissionsPage, loadAdmissionApplicationView, loadResendAdmissionsForm } from './components/admissions/loadAdmissionsView.js'
 import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
-
-
+import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
+import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -74,8 +74,9 @@ export function renderHead(actualPage) {
         case "matricula.php":
             document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
-            break;
+        break;
 
         case "panel.php":
             document.getElementsByTagName('title')[0].textContent = "Panel de Estudiante";
@@ -100,13 +101,10 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
-
-
             break;
 
         default:
-
-            break;
+        break;
 
     }
 }
@@ -137,29 +135,36 @@ export function renderBodyPage(namePage) {
 
         case "admisiones.php":
 
-            let actualAdmissionView = (history.state == null) ? "admissionsPage" : history.state.view;
-
-            switch (actualAdmissionView) {
-
-                case "admissionsForm":
-                    loadAdmissionsForm();
-                break;
-
-                case "admissionApplicationView":
-                    loadAdmissionApplicationView();
-                break;
-
-                case "resendAdmissionsForm":
-                    loadResendAdmissionsForm();
-                break;
+            if(sessionStorage.getItem("roles") && sessionStorage.getItem("roles").includes("administrador")){
                 
-                case "admissionsPage": case null: case "":
-                    loadAdmissionsPage();
-                break;
+                AdminAdmissionsView.loadAdminAdmissionsView();
+            
+            }else{
 
-                default:
-                    console.warn("Vista no reconocida:", actualAdmissionView);
+                let actualAdmissionView = (history.state == null) ? "admissionsPage" : history.state.view;
+
+                switch (actualAdmissionView) {
+
+                    case "admissionsForm":
+                        loadAdmissionsForm();
                     break;
+
+                    case "admissionApplicationView":
+                        loadAdmissionApplicationView();
+                    break;
+
+                    case "resendAdmissionsForm":
+                        loadResendAdmissionsForm();
+                    break;
+                    
+                    case "admissionsPage": case null: case "":
+                        loadAdmissionsPage();
+                    break;
+
+                    default:
+                        console.warn("Vista no reconocida:", actualAdmissionView);
+                    break;
+                }
             }
 
             break;
@@ -177,13 +182,34 @@ export function renderBodyPage(namePage) {
             break;
 
         case "login.php":
-
             loadLoginView();
-            break;
+        break;
 
         case "matricula.php":
 
-            break;
+            if(!sessionStorage.getItem("roles")){
+
+                sessionStorage.setItem("returnPage", "matricula.php");
+                window.location.href = 'login.php';
+            }else{
+            
+                let roles = sessionStorage.getItem("roles");
+                switch(true){
+
+                    case(roles.includes("estudiante")):
+                        RenderEnrollmentView.renderClassEnrollmentStudentView();
+                    break;
+
+                    case(roles.includes("administrador")):
+                        RenderEnrollmentView.renderEnrollmentAdministratorView();
+                    break
+
+                    default:
+                        window.location.href = 'index.php';
+                    break;
+                }
+            }
+        break;
 
         case "panel.php":
 
@@ -200,24 +226,16 @@ export function renderBodyPage(namePage) {
         case "biblioteca.php":
 
             let actualLibraryView = (history.state == null) ? "libraryView" : history.state.view;
-
-            /*let rol = sessionStorage.getItem("rol_activo");
             
-            if(rol){              
-                loadLibraryPage();
-            }else{
-                loadLoginView();
-            }*/
-
             const rol = sessionStorage.getItem("rol_activo");
 
-            if (!rol) {
+            if (!rol) {                
+                
                 // Redirigir a login si no hay sesión
                 loadLoginView();
                 history.replaceState(null, "biblioteca.php");
                 break;
             }
-
 
             switch (actualLibraryView) {
 

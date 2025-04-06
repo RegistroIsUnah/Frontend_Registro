@@ -1,6 +1,7 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
+import { ModalManager } from "./components/library/views/modalBiblioteca.js";
 
 export class SendForm {
     /**
@@ -73,83 +74,110 @@ export class SendForm {
 
 
     /**
-     * @author estiven.mejia@unah.hn
-     * @version 0.0.1
-     * @since 2025/03/16
+     * @author kency.oseguera@unah.hn
+     * @version 0.0.2
+     * @since 2025/03/31
      * 
      * @param {*} event 
      * 
      * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
      */
 
-    static validateRegisterBookForm = async (event, isEdit = false) => {
 
+    static validateRegisterBookForm = async (event) => {
         event.preventDefault();
         let form = event.target;
         let formData = new FormData();
+        const isEditMode = form.hasAttribute('data-edit-mode');
 
         formData.append("titulo", form.querySelector("[name='titulo']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
         formData.append("fecha_publicacion", form.querySelector("[name='fecha_publicacion']").value.trim().replace(/\//g, '-'));
         formData.append("descripcion", form.querySelector("[name='descripcion']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-        //formData.append("tags", JSON.stringify(Array.from(form.querySelector("[name='tags']").selectedOptions).map(option => option.value)));
+        formData.append("isbn_libro", form.querySelector("[name='isbn_libro']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
 
-        /*const autoresSelect = form.querySelector("[name='autores_lista']");
-        const autores = Array.from(autoresSelect.options).map(option => {
-            const nombreCompleto = option.value.trim();
-            const primerEspacio = nombreCompleto.indexOf(' ');
-            
-            if (primerEspacio === -1) {
-                return { nombre: nombreCompleto, apellido: '' };
-            }
-            
-            const nombre = nombreCompleto.substring(0, primerEspacio);
-            const apellido = nombreCompleto.substring(primerEspacio + 1);
-            
-            return { nombre, apellido };
-        });*/
-
-
-        // Obtener tags seleccionados
-        const selectedTags = Array.from(form.querySelectorAll('[name="tags"]:checked')).map(checkbox => checkbox.value);
-        formData.append("tags", JSON.stringify(selectedTags));
-
+        const tagInputs = Array.from(form.querySelectorAll('input[name="tags[]"]'));
+        const tags = tagInputs.map(input => input.value);
+        if (tags.length > 0) {
+            formData.append("tags", JSON.stringify(tags));
+        }
+        
         // Autores (array de objetos)
         const autores = JSON.parse(form.autoresHidden.value || "[]");
         formData.append("autores", JSON.stringify(autores));
 
-        //formData.append("autores", JSON.stringify(autores));
-
         formData.append("editorial", form.querySelector("[name='editorial']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
-
-        const claseId = form.querySelector("[name='clase_id']").value;
-        if (claseId) {
-            formData.append("clase_id", parseInt(claseId, 10));
-        }
 
         const libroInput = form.querySelector("[name='libro']");
         if (libroInput.files[0]) {
             formData.append("libro", libroInput.files[0]);
         }
 
-        //formData.append("rol", form.querySelector("[name='rol']").value); 
-
-        //BibliotecaFetch.postRegisterBook(formData);
-
-
-        // Determinar si es edición o creación
-    const libroId = formData.get('libro_id');
-    //const isEdit = !!libroId;
-
-    try {
-        if (isEdit) {
-            const response = await BibliotecaFetch.updateLibro(formData);
-            alert("Libro actualizado correctamente");
-        } else {
-            const response = await BibliotecaFetch.postRegisterBook(formData);
+        // Solo procesar clase_id si existe el campo (no en edición). Esta parte es para los campos que no estan en edicion 
+        if (!isEditMode) {
+            const claseId = form.querySelector("[name='clase_id']")?.value;
+            if (claseId) {
+                formData.append("clase_id", parseInt(claseId, 10));
+            }
         }
-    } catch (error) {
-        alert(`Error: ${error.message}`);
-    }
-    }
+
+        // Envio del id oculto y los autores nuevos quitando el autor_id y agregando el estado para que sea editable
+        if (isEditMode) {
+            const libroId = document.getElementById('libro_id')?.value;
+            if (libroId && !formData.has('libro_id')) {
+                formData.append('libro_id', libroId);
+            }
+
+            const autoresHidden = document.getElementById('autoresHidden');
+            if (autoresHidden) {
+                try {
+                    const autores = JSON.parse(autoresHidden.value);
+                    // Eliminar autor_id si existe (solo para edición)
+                    const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
+                    formData.set('autores', JSON.stringify(autoresLimpios));
+                } catch (error) {
+                    console.error("Error procesando autores:", error);
+                }
+            }
+
+            const estado = form.querySelector("[name='estado']")?.value;
+            formData.append("estado", estado || "ACTIVO");
+        }
+
+
+        
+
+        //Envio de formularios ya sea edicion o registro
+
+        try {
+            let response;
+            if (isEditMode) {
+                response = await BibliotecaFetch.updateLibro(formData);
+                //alert(response.mensaje);
+                ModalManager.show(response.mensaje);
+            } else {
+                response = await BibliotecaFetch.postRegisterBook(formData);
+                //alert(response.mensaje);
+                ModalManager.show(response.mensaje);
+            }
+            
+            // Navegar de regreso usando el historial
+            //history.pushState({ view: "libraryView" }, "", window.location.href);
+
+            setTimeout(() => {
+                history.pushState({ view: "libraryView" }, "", window.location.href);
+                window.location.reload();
+            }, 4000);
+
+        } catch (error) {
+            //alert(`${error}`);
+            ModalManager.show(error.message || "Error al procesar la solicitud", false);
+        }
+
+        //Para verificar que datos se enviaron
+        /*for (const [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }*/
+
+    };
 }
 

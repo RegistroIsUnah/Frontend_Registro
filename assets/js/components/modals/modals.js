@@ -9,9 +9,10 @@
  * @param {*} attribute 
  * @returns 
  */
-export let informationModal = (title, body, successButtomTitle="Aceptar", attribute='') => `
+export let informationModal = (title, body, successButtomTitle="Aceptar", attribute='', size="") => `
+
     <div class="modal fade" id="informationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog ${size} modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">${title}</h5>
@@ -21,8 +22,8 @@ export let informationModal = (title, body, successButtomTitle="Aceptar", attrib
                     ${body}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-                    <button ${attribute} id="successButtomModal" type="button" data-bs-dismiss="modal" class="btn btn-primary">${successButtomTitle}</button>
+                    <button type="button" id="closeModal" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
+                    <button ${attribute} disabled id="successButtomModal" type="button" data-bs-dismiss="modal" class="btn btn-primary">${successButtomTitle}</button>
                 </div>
             </div>
         </div>
@@ -37,14 +38,14 @@ export let informationModal = (title, body, successButtomTitle="Aceptar", attrib
  */
 export let sendFormConfirmationModal = (message) => `
 
-<div class="modal fade" id="sendFormConfirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="sendFormConfirmationModal" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-body">
         <h5>${message}</h5>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" id="destroyConfirmationModal" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
         <button id="sendFormButom" type="button" class="btn btn-success">Enviar</button>
       </div>
     </div>
