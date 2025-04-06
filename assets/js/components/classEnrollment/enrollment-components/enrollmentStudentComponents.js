@@ -4,9 +4,8 @@ import { DepartmentFetch } from "../../../fetchs/departmentFetch.js";
 import { ClassFetch } from "../../../fetchs/classFetch.js";
 import { ClassEnrollmentFetch } from "../../../fetchs/classEnrollmentFetch.js";
 
-import { sendFormConfirmationModal } from "../../modals/modals.js";
 import { classesSection, classesList } from "../enrollment-views/enrollment-student-view.js";
-import { informationModal } from "../../modals/modals.js";
+import {sendFormConfirmationModal, informationModal, messageAlert } from "../../modals/modals.js";
 /**
 /**
  * @author estiven.mejia@unah.hn
@@ -114,14 +113,16 @@ export class EnrollmentStudentComponent{
     
         document.getElementById('sendFormButom').addEventListener('click', async (event) => {
 
+            event.preventDefault();
+            let sendEnrollmentData = "";
+            let enrollmentResponse = "";
             if(classHasLab == 1){
 
                 bootstrap.Modal.getInstance(document.getElementById('sendFormConfirmationModal')).hide();  
                 let enrollableClassLabs = await ClassFetch.getEnrollableLabsByClassId(idClassSelected);
-
                 let labsList = Object.values(enrollableClassLabs.laboratorios).map(lab => `
                     <tr>
-                        <th class="labsSectionId"> <a style="color:#012a5e;">Seleccione</a></th> 
+                        <th class="labsSectionId" id="${lab.laboratorio_id}"> <a style="color:#012a5e;">Seleccione</a></th> 
                         <th>${lab.laboratorio_codigo}</th>
                         <th>${lab.hora_inicio} - ${lab.hora_fin}</th>
                         <th>${lab.dias_laboratorio}</th>
@@ -162,24 +163,47 @@ export class EnrollmentStudentComponent{
 
                 let labId = null;
                 document.querySelectorAll('.labsSectionId').forEach(element => {
-                    element.addEventListener('click', (event) => labId = EnrollmentStudentComponent.selectSection("labsSectionId",event))
+                    element.addEventListener('click', (event) => {
+                        labId = EnrollmentStudentComponent.selectSection("labsSectionId",event)
+                        document.getElementById("successButtomModal").disabled = labId == null;
+                    });
                 });
                 document.getElementById("closeModal").addEventListener("click", () => document.getElementById("divModalLabs").remove());
-                document.getElementById("successButtomModal").addEventListener("click", (event) => {
-                    console.log("boton clikeado");
+                document.getElementById("successButtomModal").addEventListener("click", async () => {
+
+                    successModalInstance.hide();                    
+                    sendEnrollmentData = {
+                        estudiante_id: studentId,
+                        seccion_id: sectionId,
+                        tipo_proceso: "MATRICULA",
+                        laboratorio_id: labId
+                    };
+                    enrollmentResponse = await ClassEnrollmentFetch.postClassEnrollmentFetch(sendEnrollmentData);
                 });
-                
+
             }else{
                 
                 confirmationModalInstance.hide();            
-    
-                let sendEnrollmentData = {
+                sendEnrollmentData = {
                     estudiante_id: studentId,
                     seccion_id: sectionId,
                     tipo_proceso: "MATRICULA"
                 };
-    
-                let enrollmentResponse = await ClassEnrollmentFetch.postClassEnrollmentFetch(sendEnrollmentData);
+                enrollmentResponse = await ClassEnrollmentFetch.postClassEnrollmentFetch(sendEnrollmentData);
+            }
+            
+            let modal = enrollmentResponse.error 
+            ? messageAlert("bg-danger", `Ha ocurrido un problema: ${enrollmentResponse.error}`) 
+            : (!enrollmentResponse ? "" : messageAlert("bg-primary", "¡Matricula Exitosa!"));
+            
+            if(modal){
+
+                let divModal = document.createElement("div");                
+                divModal.innerHTML = modal;
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
             }
         });
     
@@ -220,7 +244,7 @@ export class EnrollmentStudentComponent{
         }
     }
 
-        /**
+    /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.1
      * @since 2025/04/05
@@ -286,6 +310,15 @@ export class EnrollmentStudentComponent{
         }
     }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/05
+     * 
+     * @param {*} element 
+     * @param {*} event 
+     * @returns 
+     */
     static selectSection (element ,event) {
 
         const clickedElement = event.currentTarget;

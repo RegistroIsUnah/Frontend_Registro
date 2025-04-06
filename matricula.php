@@ -9,7 +9,11 @@ include 'includes/chat.php'; // Incluye el chat
         require_once("./includes/head.php");
     ?>
 
-    <body>
+    <body class="d-flex flex-column min-vh-100">
+
+        <?php
+        require_once("./includes/navbar.php");
+        ?>
 
         <?php
         include 'includes/footer.php';

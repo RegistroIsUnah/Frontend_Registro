@@ -82,8 +82,10 @@ export function login() {
                 }
             }else if (roles.includes("administrador")){
 
-                window.location.href = 'admisiones.php'; 
+                window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
 
+            }else if(roles.includes("docente")){
+                window.location.href = "index.php";
             } else {
                 console.error('Rol no reconocido:', roles);
             }

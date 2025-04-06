@@ -1,15 +1,31 @@
 import { classEnrollmentStudentView } from "./enrollment-views/enrollment-student-view.js";
 import { EnrollmentStudentComponent } from "./enrollment-components/enrollmentStudentComponents.js";
 import { messageAlert } from "../modals/modals.js";
+import { EnrollmentAdminComponent } from "./enrollment-components/enrollmentAdminComponents.js";
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/05
+ * 
+ * Esta clase renderiza las vistas de matricula referentes a cada usuario.
+ */
 export class RenderEnrollmentView{
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/05
+     * 
+     * Esta función muestra el contenido a la vista de matricula para estudiantes.
+     */
     static async renderClassEnrollmentStudentView () {
 
         let idStudent = sessionStorage.getItem("estudiante_id");
         let div = document.createElement("div");
         div.innerHTML = classEnrollmentStudentView();
-        document.getElementsByTagName("body")[0].insertAdjacentElement("afterbegin", div);
+        document.getElementById("navbar").replaceWith(div);
+        //document.getElementsByTagName("body")[0].insertAdjacentElement("afterbegin", div);
     
         let departmentSelect = await EnrollmentStudentComponent.departmentOptionsComponents();
         document.getElementById("departmentSelect").replaceWith(departmentSelect); 
@@ -65,5 +81,20 @@ export class RenderEnrollmentView{
         await EnrollmentStudentComponent.sectionEnrolledStudentClassesComponent(idStudent);
         await EnrollmentStudentComponent.sectionWaitingStudentClasses(idStudent);
         await EnrollmentStudentComponent.sectionStudentLabs(idStudent);
+    }
+
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/06
+     * 
+     * Esta vista muestra el contenido de la vista de matricula para administradores.
+     */
+    static async renderEnrollmentAdministratorView(){
+
+        EnrollmentAdminComponent.loadMainPage();
+
+        document.getElementById("createAcademicPeriod").addEventListener("click", () => EnrollmentAdminComponent.loadCreateAcademicPeriodModal());
+        document.getElementById("crearEnrollmentProcess").addEventListener("click", () => EnrollmentAdminComponent.loadCreateEnrollmentProcessModal());
     }
 }

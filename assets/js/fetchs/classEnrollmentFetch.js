@@ -1,4 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
+import { messageAlert } from "../components/modals/modals.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -27,8 +28,19 @@ export class ClassEnrollmentFetch{
             },
             body: new URLSearchParams(enrollmentData)
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
+        .then(response => {
+            if(!response.ok){
+                    
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return response.json();
+        })
+        .then(data => data)
         .catch(error => {
             alert("Error en la solicitud: " + error.message);
         });

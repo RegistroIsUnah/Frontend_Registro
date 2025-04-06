@@ -1,3 +1,10 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/05
+ * 
+ * @returns 
+ */
 export let classEnrollmentStudentView = () => `
 
 <header class="nav">
@@ -74,6 +81,16 @@ export let classEnrollmentStudentView = () => `
 </main>
 `;
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/05
+ * 
+ * @param {*} cancelBtn 
+ * @param {*} classText 
+ * @param {*} classList 
+ * @returns 
+ */
 export let classesSection = (cancelBtn, classText, classList) => `
     <div class="clases-matriculadas">
         <div class="clases-matriculadas-header">
@@ -86,6 +103,19 @@ export let classesSection = (cancelBtn, classText, classList) => `
     </div>
 `;
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/05
+ * 
+ * @param {*} codigo 
+ * @param {*} asignatura 
+ * @param {*} seccion 
+ * @param {*} hi 
+ * @param {*} hf 
+ * @param {*} dias 
+ * @returns 
+ */
 export let classesList = (codigo="", asignatura, seccion, hi, hf, dias) => `
     <li>
         <span>${codigo} <strong>${asignatura}</strong>, Sección <strong>${seccion}</strong></span>
@@ -96,65 +126,3 @@ export let classesList = (codigo="", asignatura, seccion, hi, hf, dias) => `
 `;
 
 
-/*
-            <!-- Lista de clases matriculadas -->
-            <div class="clases-matriculadas">
-                <div class="clases-matriculadas-header">
-                    <h4>Asignaturas Matriculadas</h4>
-                    <button id="btnCancelarClases" class="btn-cancelar">Cancelar Asignatura Matriculada</button>
-                </div>
-                <ul id="listaClases">
-                    <li>
-                        <span>MAT110 - Sección 1</span>
-                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
-                        <button style="margin-left: 10px;">Perfil del Docente</button>
-                    </li>
-                    <li>
-                        <span>FIS100 - Sección 2</span>
-                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
-                        <button style="margin-left: 10px;">Perfil del Docente</button>
-                    </li>
-                </ul>
-            </div>
-
-            <hr>
-            
-            <!-- Lista de clases en espera -->
-            <div class="clases-matriculadas">
-                <div class="clases-matriculadas-header">
-                    <h4>Asignaturas en Lista de Espera</h4>
-                    <button id="btnCancelarClases" class="btn-cancelar">Cancelar Asignatura en Lista de espera</button>
-                </div>
-                <ul id="listaClases">
-                    <li>
-                        <span>MAT110 - Sección 1</span>
-                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
-                        <button style="margin-left: 10px;">Perfil del Docente</button>
-                    </li>
-                    <li>
-                        <span>FIS100 - Sección 2</span>
-                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
-                        <button style="margin-left: 10px;">Perfil del Docente</button>
-                    </li>
-                </ul>
-            </div>
-
-            <hr>
-
-            <!-- Labs en espera -->
-            <div class="clases-matriculadas">
-                <div class="clases-matriculadas-header">
-                    <h4>Laboratorios Matriculados</h4>
-                </div>
-                <ul id="listaClases">
-                    <li>
-                        <span>MAT110 - Sección 1</span>
-                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
-                    </li>
-                    <li>
-                        <span>FIS100 - Sección 2</span>
-                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
-                    </li>
-                </ul>
-            </div>
-*/

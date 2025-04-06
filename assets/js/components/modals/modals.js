@@ -23,7 +23,7 @@ export let informationModal = (title, body, successButtomTitle="Aceptar", attrib
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="closeModal" class="btn btn-warning" data-bs-dismiss="modal">Cerrar</button>
-                    <button ${attribute} id="successButtomModal" type="button" data-bs-dismiss="modal" class="btn btn-primary">${successButtomTitle}</button>
+                    <button ${attribute} disabled id="successButtomModal" type="button" data-bs-dismiss="modal" class="btn btn-primary">${successButtomTitle}</button>
                 </div>
             </div>
         </div>

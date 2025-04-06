@@ -101,13 +101,10 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
-
-
             break;
 
         default:
-
-            break;
+        break;
 
     }
 }
@@ -194,8 +191,24 @@ export function renderBodyPage(namePage) {
 
                 sessionStorage.setItem("returnPage", "matricula.php");
                 window.location.href = 'login.php';
+            }else{
+            
+                let roles = sessionStorage.getItem("roles");
+                switch(true){
+
+                    case(roles.includes("estudiante")):
+                        RenderEnrollmentView.renderClassEnrollmentStudentView();
+                    break;
+
+                    case(roles.includes("administrador")):
+                        RenderEnrollmentView.renderEnrollmentAdministratorView();
+                    break
+
+                    default:
+                        window.location.href = 'index.php';
+                    break;
+                }
             }
-            RenderEnrollmentView.renderClassEnrollmentStudentView();
         break;
 
         case "panel.php":

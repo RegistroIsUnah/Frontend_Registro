@@ -7,10 +7,5 @@ export class AdminAdmissionsComponents{
         console.log("hola");
         let div = document.createElement("div");
         div.innerText = "hola que hace";
-
-        
-
     }
-    
-
 }
