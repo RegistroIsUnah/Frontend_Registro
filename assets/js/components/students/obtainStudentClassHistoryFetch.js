@@ -2,7 +2,7 @@ import { ConstValues } from "../../utils/constValues.js";
 
 export function handleObtainStudentHistory() {
     const estudiante_id = sessionStorage.getItem('estudiante_id');
-    const url = `${ConstValues.DOMAIN_NAME}/get/listar_historial_estudiante?estudiante_id=${estudiante_id}`;
+    const url = `${ConstValues.DOMAIN_NAME}/get/listar_historial_estudiante.php?estudiante_id=${estudiante_id}`;
 
     fetch(url, {
         method: "GET",

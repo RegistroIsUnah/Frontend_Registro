@@ -36,8 +36,8 @@ export class ClassEnrollmentFetch{
 
     static getEnrolledStudentClasses(student_id){
 
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/clases_matriculadas.php?estudiante_id=${student_id}`)
-        .then(response => console.log(response.json()))
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_clases_matriculadas.php?estudiante_id=${student_id}`)
+        .then(response => response.json())
         .then(data => data)
         .catch(error => {
             console.log("error en la solicitud: "+ error);
@@ -46,8 +46,8 @@ export class ClassEnrollmentFetch{
 
     static getWaitingStudentClasses(student_id){
 
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/clases_en_espera.php?estudiante_id=${student_id}`)
-        .then(response => console.log(response.json()))
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_clases_lista_espera.php?estudiante_id=${student_id}`)
+        .then(response => response.json())
         .then(data => data)
         .catch(error => {
             console.log("error en la solicitud: "+ error);
@@ -57,7 +57,7 @@ export class ClassEnrollmentFetch{
     static getStudentLabs(student_id){
 
         return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_laboratorios_matriculado.php?estudiante_id=${student_id}`)
-        .then(response => console.log(response.json()))
+        .then(response => response.json())
         .then(data => data)
         .catch(error => {
             console.log("error en la solicitud: "+ error);

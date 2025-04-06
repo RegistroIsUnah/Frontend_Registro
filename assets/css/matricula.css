@@ -146,7 +146,7 @@
     background-color: #012a5e;
 }
  
-.classSectionId, .classSectionId ~ th{
+.classSectionId, .classSectionId ~ th, .labsSectionId, .labsSectionId ~ th{
     background-color: white;
     color: black;
     cursor: pointer;
@@ -155,8 +155,9 @@
     border: 1px solid #ddd;
   }
   
-  .classSectionId.selected, .classSectionId.selected ~ th{
+  .classSectionId.selected, .classSectionId.selected ~ th, .labsSectionId.selected, .labsSectionId.selected ~ th{
     background-color: #1E90FF;
     color: white;
     border-color: #1E90FF;
   }
+

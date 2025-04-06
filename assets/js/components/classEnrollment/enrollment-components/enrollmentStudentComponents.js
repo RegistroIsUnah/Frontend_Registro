@@ -5,7 +5,8 @@ import { ClassFetch } from "../../../fetchs/classFetch.js";
 import { ClassEnrollmentFetch } from "../../../fetchs/classEnrollmentFetch.js";
 
 import { sendFormConfirmationModal } from "../../modals/modals.js";
-
+import { classesSection, classesList } from "../enrollment-views/enrollment-student-view.js";
+import { informationModal } from "../../modals/modals.js";
 /**
 /**
  * @author estiven.mejia@unah.hn
@@ -56,15 +57,9 @@ export class EnrollmentStudentComponent{
 
         select.innerHTML += `<option value=""> -- Seleccionar Asignatura -- </option>`;
         let departmentClasses = await ClassFetch.getClasesByDeptAndStudentId(dept_id, student_id);  //getClasesByDeptId(dept_id);
-
-        console.log(departmentClasses);
-        if(departmentClasses.tiene_laboratorio == 1){
-            
-            //console.log(departmentClasses.);
-        }
-
+        
         departmentClasses.forEach(clase => {
-            select.innerHTML += `<option value="${clase.clase_id}"> ${clase.codigo} - ${clase.nombre} </option>`;
+            select.innerHTML += `<option id="${clase.tiene_laboratorio}" value="${clase.clase_id}"> ${clase.codigo} - ${clase.nombre} </option>`;
         });
         return select;
     }
@@ -84,23 +79,19 @@ export class EnrollmentStudentComponent{
         let tbody = document.createElement("tbody");
         tbody.id = "availableSections";
 
-        let classSections = await ClassFetch.getSectionsByClassId(class_id);
-
-        //console.log(classSections);
-        
+        let classSections = await ClassFetch.getSectionsEnrollableByClassId(class_id);        
         classSections.forEach(section => {
             tbody.innerHTML += `<tr"> 
                                     <th class="classSectionId" id="${section.seccion_id}"> <a style="color:#012a5e;">Seleccione</a></th> 
                                     <th>${(section.hora_inicio).split(':').slice(0, 2).join(':')} - ${(section.hora_fin).split(':').slice(0, 2).join(':')}</th> 
-                                    <th>Días</th> 
+                                    <th>${section.dias_seccion}</th> 
                                     <th>${section.edificio_nombre}</th> 
                                     <th>${section.aula_nombre}</th> 
                                     <th>${section.docente_nombre} ${section.docente_apellido}</th> 
-                                    <th>${section.cupos}</th> 
+                                    <th>${section.cupos_disponibles}</th> 
                                 <tr>`;
         });
-        return tbody;
-        
+        return tbody;        
     }
 
     /**
@@ -112,49 +103,205 @@ export class EnrollmentStudentComponent{
      * 
      * Esta función envía la solicitud de matrícula de un estudiante.
      */
-    static sendEnrollmentStudent(sectionId, studentId) {
+    static sendEnrollmentStudent(sectionId, studentId, classHasLab, idClassSelected, className) {
 
-        let confirmationModal = sendFormConfirmationModal("¿Desea matricular la clase seleccionada?");    
+        let confirmationModal = sendFormConfirmationModal(`¿Desea matricular ${className}`);    
         let divModal = document.createElement("div");
         divModal.innerHTML = confirmationModal;
+        divModal.id = "divConfirmationModal";
         document.body.appendChild(divModal);    
         let confirmationModalInstance = new bootstrap.Modal(document.getElementById('sendFormConfirmationModal'));
     
-        document.getElementById('sendFormButom').addEventListener('click', async () => {
+        document.getElementById('sendFormButom').addEventListener('click', async (event) => {
 
-            confirmationModalInstance.hide();            
+            if(classHasLab == 1){
 
-            let sendEnrollmentData = {
-                estudiante_id: studentId,
-                seccion_id: sectionId,
-                tipo_proceso: "MATRICULA"
-            };
+                bootstrap.Modal.getInstance(document.getElementById('sendFormConfirmationModal')).hide();  
+                let enrollableClassLabs = await ClassFetch.getEnrollableLabsByClassId(idClassSelected);
 
-            let enrollmentResponse = await ClassEnrollmentFetch.postClassEnrollmentFetch(sendEnrollmentData);
+                let labsList = Object.values(enrollableClassLabs.laboratorios).map(lab => `
+                    <tr>
+                        <th class="labsSectionId"> <a style="color:#012a5e;">Seleccione</a></th> 
+                        <th>${lab.laboratorio_codigo}</th>
+                        <th>${lab.hora_inicio} - ${lab.hora_fin}</th>
+                        <th>${lab.dias_laboratorio}</th>
+                        <th>${lab.edificio_nombre}</th>
+                        <th>${lab.aula_nombre}</th>
+                        <th>${lab.cupos_disponibles}</th>
+                    </tr>
+                `).join(" ");
+
+                let modalBody = `<div class="input-group flex-column secciones-disponibles"> 
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Opción</th>
+                                                <th>Sección</th>
+                                                <th>HI - HF</th>
+                                                <th>Días</th>
+                                                <th>Edificio</th>
+                                                <th>Aula</th>
+                                                <th>Cupos</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody id="availableSections">
+                                            ${labsList}
+                                        </tbody>
+                                    </table>
+                                </div>`;
+                let modal = informationModal(`Matricule su laboratorio de ${className}`, modalBody, `Matricular ${className} y su laboratorio`, "", "modal-lg");
+        
+                let divModal = document.createElement("div");
+                divModal.id = "divModalLabs"
+                divModal.innerHTML = modal;
+                document.body.appendChild(divModal);
+        
+                let successModalInstance = new bootstrap.Modal(document.getElementById('informationModal'));
+                successModalInstance.show();
+
+                let labId = null;
+                document.querySelectorAll('.labsSectionId').forEach(element => {
+                    element.addEventListener('click', (event) => labId = EnrollmentStudentComponent.selectSection("labsSectionId",event))
+                });
+                document.getElementById("closeModal").addEventListener("click", () => document.getElementById("divModalLabs").remove());
+                document.getElementById("successButtomModal").addEventListener("click", (event) => {
+                    console.log("boton clikeado");
+                });
+                
+            }else{
+                
+                confirmationModalInstance.hide();            
+    
+                let sendEnrollmentData = {
+                    estudiante_id: studentId,
+                    seccion_id: sectionId,
+                    tipo_proceso: "MATRICULA"
+                };
+    
+                let enrollmentResponse = await ClassEnrollmentFetch.postClassEnrollmentFetch(sendEnrollmentData);
+            }
         });
     
         confirmationModalInstance.show();
-    
-        document.getElementById('sendFormConfirmationModal').addEventListener('hidden.bs.modal', () => {
-            document.body.removeChild(divModal);
-        });
+        document.getElementById("destroyConfirmationModal").addEventListener("click", () => document.getElementById("divConfirmationModal").remove());       
     }    
 
-
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/05
+     * 
+     * @param {*} student_id 
+     * 
+     * Esta función rendeirza una vista con las clases que el estudiante ha matriculado.
+     */
     static async sectionEnrolledStudentClassesComponent(student_id){
 
-        let enrolledClassesData = await ClassEnrollmentFetch.getEnrolledStudentClasses(student_id);
+        let enrolledClassesData = await ClassEnrollmentFetch.getEnrolledStudentClasses(student_id);        
+        let div = document.createElement("div");
+        div.innerHTML = classesSection("cancelEnrolledClass", "Clases Matriculadas", "classesList");
+        div.innerHTML += "<hr>";
+        document.getElementById("contenido").insertAdjacentElement("beforeend", div);
+        
+        let div2 = "";
+        div2 = document.createElement("div");
+        if(enrolledClassesData.error || enrolledClassesData.message == "No se encontraron clases matriculadas"){
 
+            div2.innerHTML = `<h4 class="btn btn-danger" style="color:white">${enrolledClassesData.message}.</h4><hr>`;
+            document.getElementById("classesList").insertAdjacentElement("afterbegin", div2);
+        }else{
+
+            div2.innerHTML = Object.values(enrolledClassesData).map(_class => 
+                classesList(`${_class.codigo} - `, _class.asignatura, _class.seccion, _class.hora_inicio, _class.hora_fin, _class.dias_seccion))
+                .join(" ");
+            document.getElementById("classesList").insertAdjacentElement("afterbegin", div2);
+            document.getElementById("cancelEnrolledClass").hidden = false;
+        }
     }
 
+        /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/05
+     * 
+     * @param {*} student_id 
+     * 
+     * Esta función rendeirza una vista con las clases en espera que el estudiante ha matriculado.
+     */
     static async sectionWaitingStudentClasses(student_id){
 
         let waitingClassesData = await ClassEnrollmentFetch.getWaitingStudentClasses(student_id);
+       //console.log( JSON.stringify(waitingClassesData));
+
+        let div = document.createElement("div");
+        div.innerHTML = classesSection("cancelWaitingClass", "Clases en Lista de Espera", "waitingClassesList");
+        div.innerHTML += "<hr>";        
+        document.getElementById("contenido").insertAdjacentElement("beforeend", div);
+        
+        let div2 = document.createElement("div");
+        if(waitingClassesData.error){
+
+            div2.innerHTML = `<h4 class="btn btn-danger" style="color:white">No tiene clases en lista de espera.</h4><hr>`;
+            document.getElementById("waitingClassesList").insertAdjacentElement("afterbegin", div2);
+        }else{
+
+            div2.innerHTML = Object.values(waitingClassesData).map(_class => 
+                classesList(`${_class.codigo} - `, _class.asignatura, _class.seccion, _class.hora_inicio, _class.hora_fin, _class.dias_seccion))
+                .join(" ");
+            document.getElementById("waitingClassesList").insertAdjacentElement("afterbegin", div2);
+            document.getElementById("cancelWaitingClass").hidden = false;
+        }
     }
 
+        /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/04/05
+     * 
+     * @param {*} student_id 
+     * 
+     * Esta función renderiza una vista con los laboratorios que el estudiante ha matriculado.
+     */
     static async sectionStudentLabs(student_id){
 
         let studentLabsData = await ClassEnrollmentFetch.getStudentLabs(student_id);
+
+        let div = document.createElement("div");
+        document.getElementById("contenido").insertAdjacentElement("beforeend", div);
+        div.innerHTML = classesSection("cancelEnrolledLab", "Laboratorios Matriculados", "labsList");
+
+        let div2 = "";
+        div2 = document.createElement("div");
+        if(studentLabsData.error){
+
+            div2.innerHTML = `<h4 class="btn btn-danger" style="color:white">No tiene laboratorios matriculados.</h4><hr>`;
+            document.getElementById("labsList").insertAdjacentElement("afterbegin", div2);
+        }else{
+            div2.innerHTML = Object.values(studentLabsData.laboratorios).map(lab => 
+                classesList("",`Laboratorio de ${lab.asignatura}`, lab.laboratorio_codigo, lab.hora_fin, lab.hora_fin, lab.dias_laboratorio))
+                .join(" ");
+            document.getElementById("labsList").insertAdjacentElement("afterbegin", div2);
+            document.getElementById("cancelEnrolledLab").hidden = false;
+        }
+    }
+
+    static selectSection (element ,event) {
+
+        const clickedElement = event.currentTarget;
+        const isSelected = clickedElement.classList.contains('selected');
+        let sectionId = "";
+        document.querySelectorAll(`.${element}`).forEach(el => {
+            el.classList.remove('selected');
+        });
+        
+        if (!isSelected) {
+            clickedElement.classList.add('selected');
+            sectionId = clickedElement.id;
+        } else {
+            sectionId = null; 
+        }
+        return sectionId;
     }
 
 }

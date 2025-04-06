@@ -39,10 +39,11 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
-                sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                //sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
+                //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
+                sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
                 if(roles.includes('revisor'))
                 {
@@ -68,7 +69,8 @@ export function login() {
                     ? 'jefe de departamento' 
                     : 'coordinador';
                 
-                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);7
+                sessionStorage.setItem('docente_id', data.user.details.user_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
 
                 const ruta = window.location.pathname.split('/').pop();

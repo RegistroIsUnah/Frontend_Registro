@@ -16,6 +16,12 @@ export class RenderEnrollmentView{
         
         document.getElementById("departmentSelect").addEventListener("change", async (event) => {
             
+            let tr = document.createElement("tr");
+            tr.innerHTML = `<td colspan="7" class="mensaje-tabla my-5 text-center">
+                                Seleccione una clase para ver sus secciones disponibles
+                            </td>`;
+
+            document.getElementById("availableSections") && document.getElementById("availableSections").replaceChildren(tr);
             let idDeptSelected = event.target.options[event.target.selectedIndex].value;  
             document.getElementById("classesSelect").disabled = !idDeptSelected;
 
@@ -24,29 +30,17 @@ export class RenderEnrollmentView{
 
             document.getElementById("classesSelect").addEventListener("change", async (event) => {
                 
-                let idClassSelected = event.target.options[event.target.selectedIndex].value;  
+                let { id: classHasLab, value: idClassSelected, text : className } = event.target.options[event.target.selectedIndex]; 
                 let sectionsClass = await EnrollmentStudentComponent.sectionsTableComponent(idClassSelected);
                 document.getElementById("availableSections").replaceWith(sectionsClass); 
-        
+
+                let sectionId = null;
                 document.querySelectorAll('.classSectionId').forEach(element => {
-                    element.addEventListener('click', (event) => {
-                        const clickedElement = event.currentTarget;
-                        const isSelected = clickedElement.classList.contains('selected');
-                        
-                        document.querySelectorAll('.classSectionId').forEach(el => {
-                            el.classList.remove('selected');
-                        });
-                        
-                        if (!isSelected) {
-                            clickedElement.classList.add('selected');
-                            sectionId = clickedElement.id;
-                        } else {
-                            sectionId = null; 
-                        }
-                    });
-                });
+                    element.addEventListener('click', (event) => sectionId = EnrollmentStudentComponent.selectSection("classSectionId",event))});
                 
                 document.getElementById("btnMatricular").addEventListener("click", (event) => {
+
+                    document.getElementById("sendFormConfirmationModal") && document.getElementById("sendFormConfirmationModal").remove();
                     
                     if (!sectionId) {
 
@@ -63,14 +57,13 @@ export class RenderEnrollmentView{
                         
                         return;
                     }
-                    EnrollmentStudentComponent.sendEnrollmentStudent(sectionId, idStudent);
+                    EnrollmentStudentComponent.sendEnrollmentStudent(sectionId, idStudent, classHasLab, idClassSelected, className.split(" - ")[1].trim());
                 });
-                let sectionId = null;
             });
         });
 
-        //await EnrollmentStudentComponent.sectionEnrolledStudentClassesComponent(idStudent);
-        //await EnrollmentStudentComponent.sectionWaitingStudentClasses(idStudent);
-        //await EnrollmentStudentComponent.sectionStudentLabs(idStudent);
+        await EnrollmentStudentComponent.sectionEnrolledStudentClassesComponent(idStudent);
+        await EnrollmentStudentComponent.sectionWaitingStudentClasses(idStudent);
+        await EnrollmentStudentComponent.sectionStudentLabs(idStudent);
     }
 }

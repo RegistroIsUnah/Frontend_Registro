@@ -15,13 +15,13 @@ export let adminAdmissionsPage = () => `
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-6 col-sm-12 text-center mb-sm-5">
                     <h2 class="message mb-3">Envíe las Notas de los Apirantes</h2>
-                    <button style="background-color:#091c5a;" id="admissionsFormButton" type="button" class="btn btn-primary btn-lg w-50 py-3 glow-on-click">
+                    <button style="background-color:#091c5a;" id="sendApplicantsCalificationsButton" type="button" class="btn btn-primary btn-lg w-50 py-3 glow-on-click">
                         ¡Inscríbase ahora!
                     </button>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 text-center">
                     <h2 class="message mb-3">Registre a los Aspirantes Aprobados</h2>
-                    <button style="background-color:#091c5a;" id="showAdmissionApplicationButton" type="button" class="btn btn-primary btn-lg w-50 py-3 glow-on-click">
+                    <button style="background-color:#091c5a;" id="aprovedApplicantsRegisterButton" type="button" class="btn btn-primary btn-lg w-50 py-3 glow-on-click">
                         Ver estado de mi solicitud
                     </button>
                 </div>

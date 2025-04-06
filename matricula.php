@@ -1,5 +1,3 @@
-
-
 <?php
 include 'includes/chat.php'; // Incluye el chat
 ?>
