@@ -5,6 +5,9 @@
         <nav>
             <a href="panel.php"><small class="menu-title">MENU PRINCIPAL</small></a>
             <ul>
+                <a href="panel.php">
+                    <li>Panel</li>
+                </a>
                 <a href="perfil.php">
                     <li>Perfil</li>
                 </a>

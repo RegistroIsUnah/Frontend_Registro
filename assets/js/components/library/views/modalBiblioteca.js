@@ -29,3 +29,6 @@ export class ModalManager {
         if (modal) modal.style.display = 'none';
     }
 }
+
+// Inicializar al importar el módulo
+ModalManager.initialize();

@@ -39,9 +39,6 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                //sessionStorage.setItem('apellido', data.user.details.estudiante.apellido);
-                //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
                 sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
@@ -82,7 +79,7 @@ export function login() {
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    window.location.href = 'docente.php'; 
+                    window.location.href = 'coordinadores.php'; 
                 }
             }else if (roles.includes("administrador")){
 
