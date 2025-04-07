@@ -64,15 +64,19 @@ export function login() {
 
                 //Caso jefe o coordinador
             }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')) {  
-                              sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
+                sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador');
                 const rolActivo = roles.includes('jefe de departamento') 
                     ? 'jefe de departamento' 
                     : 'coordinador';
                 
+
                 //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);7
                 sessionStorage.setItem('docente_id', data.user.details.user_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
-
+                if(roles.includes('jefe de departamento')){
+                    window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
+                    return;
+                }
                 const ruta = window.location.pathname.split('/').pop();
                 if(ruta == "biblioteca.php"){
 

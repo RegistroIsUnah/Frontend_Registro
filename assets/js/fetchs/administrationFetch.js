@@ -9,9 +9,9 @@ export class AdministrationFetch{
 
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
             },
-            body: new URLSearchParams(enrollmentProcessData)
+            body: JSON.stringify(enrollmentProcessData)
         })
         .then(response => {
             if(!response.ok){
@@ -36,9 +36,9 @@ export class AdministrationFetch{
         return fetch(`${ConstValues.DOMAIN_NAME}/post/crear_periodo.php`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
+                "Content-Type": "application/json"
             },
-            body: new URLSearchParams(academicPeriodData)
+            body: JSON.stringify(academicPeriodData)
         })
         .then(response => {
             if(!response.ok){
@@ -56,5 +56,15 @@ export class AdministrationFetch{
         .catch(error => {
             alert("Error en la solicitud: " + error.message);
         });
+    }
+
+    static getActiveAcademicPeriods(){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_periodos_activos.php`)
+        .then(response =>  response.json())
+        .then(data => data)
+        .catch(error => {
+            alert("Error en la solicitud: " + error.message);
+        });    
     }
 }

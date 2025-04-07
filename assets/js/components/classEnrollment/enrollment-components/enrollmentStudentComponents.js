@@ -151,7 +151,7 @@ export class EnrollmentStudentComponent{
                                         </tbody>
                                     </table>
                                 </div>`;
-                let modal = informationModal(`Matricule su laboratorio de ${className}`, modalBody, `Matricular ${className} y su laboratorio`, "", "modal-lg");
+                let modal = informationModal(`Matricule su laboratorio de ${className}`, modalBody, `Matricular ${className} y su laboratorio`, "disabled", "modal-lg");
         
                 let divModal = document.createElement("div");
                 divModal.id = "divModalLabs"

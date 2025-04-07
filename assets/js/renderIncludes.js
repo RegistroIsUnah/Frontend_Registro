@@ -103,6 +103,12 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
             break;
 
+        case "clases.php":
+            document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+        break;
         default:
         break;
 
@@ -191,6 +197,7 @@ export function renderBodyPage(namePage) {
 
                 sessionStorage.setItem("returnPage", "matricula.php");
                 window.location.href = 'login.php';
+                
             }else{
             
                 let roles = sessionStorage.getItem("roles");
