@@ -3,6 +3,7 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
+import { RenderRequestView } from './components/requests/renderRequestView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -103,6 +104,12 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
 
 
+            break;
+        
+        case "solicitudesCoordinador.php":
+            document.getElementsByTagName('title')[0].textContent = "Solicitudes Coordinador";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
             break;
 
         default:
@@ -207,7 +214,6 @@ export function renderBodyPage(namePage) {
             break;
 
         case "solicitudes.php":
-
             break;
 
         case "biblioteca.php":
@@ -243,6 +249,44 @@ export function renderBodyPage(namePage) {
                     break;
             }
             break;
+        
+            case "solicitudesCoordinador.php":
+                if (!sessionStorage.getItem("roles")) {
+                    sessionStorage.setItem("returnPage", "solicitudesCoordinador.php");
+                    window.location.href = 'login.php';
+                    break;
+                }
+            
+                const solicitudMap = {
+                    cambioCarrera: RenderRequestView.loadAndRenderChangeCareer,
+                    cambioCentro: RenderRequestView.loadAndRenderChangeCenter,
+                    cancelaciones: RenderRequestView.loadAndRenderCancelClass
+                };
+            
+                const tipo = new URLSearchParams(window.location.search).get("tipo");
+            
+                if (tipo) {
+                    const renderFunction = solicitudMap[tipo];
+                    if (renderFunction) {
+                        renderFunction(); // ✅ ejecuta directamente si hay ?tipo
+                    } else {
+                        window.location.href = 'index.php';
+                    }
+                } else {
+                    // 🖱️ Escuchadores solo si aún no hay tipo definido
+                    document.querySelectorAll('.solicitud-card').forEach(card => {
+                        card.addEventListener('click', () => {
+                            const tipo = card.getAttribute('data-url');
+                            if (solicitudMap[tipo]) {
+                                window.location.href = `solicitudesCoordinador.php?tipo=${tipo}`;
+                            } else {
+                                window.location.href = 'index.php';
+                            }
+                        });
+                    });
+                }
+                break;
+            
     }
 
     if (namePage == "admisiones.php") {

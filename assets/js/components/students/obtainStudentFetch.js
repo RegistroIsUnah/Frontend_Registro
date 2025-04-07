@@ -33,33 +33,44 @@ export function handleObtainStudent() {
 
 //Datos que comparten multiples vistas
 function cargarDatosComunes(data) {
-    const nombreCompleto = data.informacion_personal.nombre_completo;
-    const globalTerm = data.academico.indice_global;
-    const lastTerm = data.academico.indice_periodo;
-    const carrerName = data.academico.carreras;
-    const accountName = data.informacion_personal.numero_cuenta;
+  const nombreCompleto = data.informacion_personal.nombre_completo;
+  const globalTerm = data.academico.indice_global;
+  const lastTerm = data.academico.indice_periodo;
+  const carrerName = data.academico.carreras[0]?.nombre || 'Sin carrera';
+  const accountName = data.informacion_personal.numero_cuenta;
+  const centroNombre = data.academico.centro?.nombre || 'Centro desconocido';
+ 
+  const centro_id = data.academico.centro?.centro_id || '';
+  const carrera_id = data.academico.carreras[0]?.carrera_id || '';
 
-    const nameInput = document.getElementById("name");
-    const globalTermInput = document.getElementById("globalTerm");
-    const lastTermInput = document.getElementById("lastTerm");
-    const carrerInput = document.getElementById("carrerName");
-    const accountNameInput = document.getElementById("accountName");
+  const nameInput = document.getElementById("name");
+  const globalTermInput = document.getElementById("globalTerm");
+  const lastTermInput = document.getElementById("lastTerm");
+  const carrerInput = document.getElementById("carrerName");
+  const accountNameInput = document.getElementById("accountName");
+  const centroInput = document.getElementById("centro");
 
-  
-     if(nameInput) nameInput.innerHTML = nombreCompleto;
-     if(globalTermInput) globalTermInput.innerHTML = globalTerm;
-     if(lastTermInput) lastTermInput.innerHTML = lastTerm;
-     if(carrerInput) carrerInput.innerHTML = carrerName;
-     if (accountNameInput) accountNameInput.innerHTML = accountName;
+  if (nameInput) nameInput.innerHTML = nombreCompleto;
+  if (globalTermInput) globalTermInput.innerHTML = globalTerm;
+  if (lastTermInput) lastTermInput.innerHTML = lastTerm;
+  if (carrerInput) carrerInput.innerHTML = carrerName;
+  if (accountNameInput) accountNameInput.innerHTML = accountName;
+  if (centroInput) centroInput.innerHTML = centroNombre;
 
-     const email = data.informacion_personal.correo;
-     const emailElements = document.querySelectorAll('.email');
-     
-     emailElements.forEach(el => {
-       el.innerHTML = email;
-     }); 
-    
-  }
+  const email = data.informacion_personal.correo || '';
+  const emailElements = document.querySelectorAll('.email');    
+  emailElements.forEach(el => {
+      el.innerHTML = email;
+  }); 
+
+  const centroElements = document.querySelectorAll('.centro');    
+  centroElements.forEach(el => {
+      el.innerHTML = centroNombre;
+  }); 
+
+  sessionStorage.setItem("centro_id", centro_id);
+  sessionStorage.setItem("carrera_id", carrera_id);
+}
 
 //CARGA LA INFORMACION A DESPLEGAR EN TODAS LAS VISTAS DE PANEL.PHP
 function cargarPerfilEstudiante(data) {
@@ -125,11 +136,6 @@ function cargarPerfilEstudiante(data) {
 
   function cargarVistaHistorial(data) {
     cargarDatosComunes(data);
-  
-    const centro = data.academico.centro;
-    const centroInput = document.getElementById("centro");
-    if (centroInput) centroInput.innerHTML = centro;
-  
     const foto = data.fotos?.[0];
     const fotoEstudiante = document.querySelector(".foto-estudiante");
   
@@ -159,5 +165,3 @@ function cargarPerfilEstudiante(data) {
 window.addEventListener("DOMContentLoaded", () => {
     handleObtainStudent();
   });
-
- 

@@ -39,7 +39,7 @@ include 'includes/chat.php'; // Incluye el chat
                             <p><strong>Número de Cuenta:</strong> <span id="accountName"></span> </p>
                         </div>
                         <div class="datos-estudiante">
-                            <p><strong>Centro:</strong> <span id="centro"></span></p>
+                            <p><strong>Centro:</strong> <span class="centro"></span></p>
                             <p><strong>Indice Global:</strong> <span id="globalTerm"></span> </p>
                             <p><strong>Indice Académico:</strong> <span id="lastTerm"></span> </p>
                         </div>
