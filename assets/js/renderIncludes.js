@@ -3,6 +3,7 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
+import { RenderClassesViews } from './components/classes/renderClassesViews.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -262,7 +263,37 @@ export function renderBodyPage(namePage) {
                     history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
                     break;
             }
-            break;
+        break;
+
+        case "clases.php":
+            if(!sessionStorage.getItem("roles")){
+
+                sessionStorage.setItem("returnPage", "clases.php");
+                window.location.href = 'login.php';
+                
+            }else{
+            
+                let roles = sessionStorage.getItem("roles");
+                switch(true){
+
+                    case(roles.includes("estudiante")):
+                        RenderClassesViews.renderClassesStudentView();
+                    break;
+
+                    case(roles.includes("jefe de departamento")):
+                        RenderClassesViews.renderClassesDepartmentHeadView();
+                    break;
+
+                    case(roles.includes("coordinador")):
+                        RenderClassesViews.renderClassesCoordinatorView();
+                    break;
+
+                    default:
+                        window.location.href = 'index.php';
+                    break;
+                }
+            }
+        break;
     }
 
     if (namePage == "admisiones.php") {
