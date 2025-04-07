@@ -9,7 +9,7 @@ import { ConstValues } from "../utils/constValues.js";
 export class BibliotecaFetch {
 
     static getLibrosEstudiante(estudianteId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_estudiante?estudiante_id=${estudianteId}&page=1&limit=10`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_estudiante.php?estudiante_id=${estudianteId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
@@ -24,19 +24,19 @@ export class BibliotecaFetch {
     }
 
     static getLibroCompletoEstudiante(libroId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libro?libro_id=${libroId}`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libro.php?libro_id=${libroId}`)
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 return response.json();
             })
             .catch(error => {
-                console.error(`Error obteniendo libro (estudiante) ${libroId}:`, error);
+                console.error(`Error obteniendo libro ${libroId}:`, error);
                 return [];
             });
     }
 
     static getDeptoJefe(docenteId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/departamentos`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/departamentos.php`)
             .then(response => response.json())
             .then(data => {
                 const depto = data.find(dept => dept.jefe_docente_id === docenteId);
@@ -49,7 +49,7 @@ export class BibliotecaFetch {
     }
 
     static getDeptoCoordinador(docenteId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/carreras`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/carreras.php`)
             .then(response => response.json())
             .then(data => {
                 const carrerasArray = Object.values(data);
@@ -63,7 +63,7 @@ export class BibliotecaFetch {
     }
 
     static getLibrosDepto(departamentoId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento?departamentoId=${departamentoId}`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libros_por_departamento.php?departamentoId=${departamentoId}`)
             .then(response => response.json())
             .catch(error => {
                 console.error("Error en la solicitud:", error.message);
@@ -72,7 +72,7 @@ export class BibliotecaFetch {
     }
 
     static getLibroCompleto(libroId) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libro_encargado?libro_id=${libroId}`)
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_libro_encargado.php?libro_id=${libroId}`)
             .then(response => response.json())
             .catch(error => {
                 console.error(`Error obteniendo libro ${libroId}:`, error.message);
@@ -82,8 +82,8 @@ export class BibliotecaFetch {
 
     getRegisterBookDataForm(departamentoId) {
         return Promise.all([
-            fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags`).then(res => res.json()),
-            fetch(`${ConstValues.DOMAIN_NAME}/get/clases_depto?dept_id=${departamentoId}`).then(res => res.json())
+            fetch(`${ConstValues.DOMAIN_NAME}/get/listar_tags.php`).then(res => res.json()),
+            fetch(`${ConstValues.DOMAIN_NAME}/get/clases_depto.php?dept_id=${departamentoId}`).then(res => res.json())
         ])
             .then(([tagsData, classesData]) => {
                 let classesOptions = ['<option value="">-- Seleccione una clase --</option>']
@@ -100,7 +100,7 @@ export class BibliotecaFetch {
 
 
     static postRegisterBook(formData) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro`, {
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_libro.php`, {
             method: "POST",
             body: formData,
         })
@@ -113,7 +113,7 @@ export class BibliotecaFetch {
                 return response.json();
             })
             .then(data => {
-               // window.location.reload();
+                //window.location.reload();
                 return data;
             })
             .catch(error => {
@@ -123,7 +123,7 @@ export class BibliotecaFetch {
     }
 
     static updateLibro(formData) {
-        return fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro`, {
+        return fetch(`${ConstValues.DOMAIN_NAME}/put/modificar_libro.php`, {
             method: "POST",
             body: formData,
         })

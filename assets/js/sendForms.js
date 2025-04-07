@@ -1,7 +1,7 @@
 import { RegularExpressions } from "./utils/regularExpressions.js";
 import { AdmissionFetch } from "./fetchs/admissionFetch.js";
 import { BibliotecaFetch } from "./fetchs/bibliotecaFetch.js";
-import { ModalManager } from "./components/library/views/modalBiblioteca.js";
+import { ModalManager } from "./components/modals/modalSuccess-Error.js";
 
 export class SendForm {
     /**
@@ -83,7 +83,6 @@ export class SendForm {
      * Este método toma la información del formulario de registro de libros y envía su contenido al método encargado de enviar la data al servidor.
      */
 
-
     static validateRegisterBookForm = async (event) => {
         event.preventDefault();
         let form = event.target;
@@ -129,22 +128,15 @@ export class SendForm {
 
             const autoresHidden = document.getElementById('autoresHidden');
             if (autoresHidden) {
-                try {
-                    const autores = JSON.parse(autoresHidden.value);
-                    // Eliminar autor_id si existe (solo para edición)
-                    const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
-                    formData.set('autores', JSON.stringify(autoresLimpios));
-                } catch (error) {
-                    console.error("Error procesando autores:", error);
-                }
+                const autores = JSON.parse(autoresHidden.value);
+                // Eliminar autor_id si existe (solo para edición)
+                const autoresLimpios = autores.map(({ autor_id, ...rest }) => rest);
+                formData.set('autores', JSON.stringify(autoresLimpios));
             }
 
             const estado = form.querySelector("[name='estado']")?.value;
             formData.append("estado", estado || "ACTIVO");
         }
-
-
-        
 
         //Envio de formularios ya sea edicion o registro
 
@@ -152,25 +144,24 @@ export class SendForm {
             let response;
             if (isEditMode) {
                 response = await BibliotecaFetch.updateLibro(formData);
-                //alert(response.mensaje);
-                ModalManager.show(response.mensaje);
+                ModalManager.show(response.mensaje, true,
+                    () => {
+                        history.pushState({ view: "libraryView" }, "", window.location.href);
+                        window.location.reload();
+                    }
+                );
             } else {
                 response = await BibliotecaFetch.postRegisterBook(formData);
-                //alert(response.mensaje);
-                ModalManager.show(response.mensaje);
+                ModalManager.show(response.mensaje, true,
+                    () => {
+                        history.pushState({ view: "libraryView" }, "", window.location.href);
+                        window.location.reload();
+                    }
+                );
             }
-            
-            // Navegar de regreso usando el historial
-            //history.pushState({ view: "libraryView" }, "", window.location.href);
-
-            setTimeout(() => {
-                history.pushState({ view: "libraryView" }, "", window.location.href);
-                window.location.reload();
-            }, 4000);
 
         } catch (error) {
-            //alert(`${error}`);
-            ModalManager.show(error.message || "Error al procesar la solicitud", false);
+            ModalManager.show(error.message, false );
         }
 
         //Para verificar que datos se enviaron

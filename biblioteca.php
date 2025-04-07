@@ -20,4 +20,6 @@
     ?>
       <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
   </body>
+
+  <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
 </html>

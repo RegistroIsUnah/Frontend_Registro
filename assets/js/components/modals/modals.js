@@ -98,3 +98,36 @@ export let messageAlert = (type, message) => `
     <div class="fw-semibold">${message}</div>
 </div>
 `;
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/04
+ * 
+ */
+
+export let alertModal = (message, isSuccess = true) => `
+<div class="modal fade" id="alertModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0" style="border-radius: 10px; overflow: hidden;">
+      <div class="modal-body p-4 text-center" style="padding: 2rem 2rem 1rem;
+                  ${isSuccess ?
+        'background-color: #f1f9f1; border-top: 4px solid #198754; color: #2B3A55;' :
+        'background-color: #fdf1f1; border-top: 4px solid #dc3545; color: #2B3A55;'}">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem; 
+                   ${isSuccess ? 'color: #198754;' : 'color: #dc3545;'}">
+                ${isSuccess ? '✓' : '✗'}
+        </div>
+        <p class="mb-3 fw-bold fs-5">${message}</p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center pb-4 pt-0">
+        <button type="button" class="btn btn-sm px-4 py-2 fw-medium" data-bs-dismiss="modal"
+            style="border-radius: 6px; min-width: 100px;
+            ${isSuccess ? 'background-color: #198754;' : 'background-color: #dc3545;'}
+            color: white; border: none;">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

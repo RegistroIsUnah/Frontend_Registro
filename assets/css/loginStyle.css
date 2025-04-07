@@ -1,3 +1,10 @@
+body.library-login-body {
+    background: 
+        linear-gradient(rgba(0, 30, 100, 0.3), rgba(0, 30, 100, 0.3)),
+        url('../img/Biblioteca.jpg') center/cover fixed;
+    min-height: 100vh;
+    margin: 0;
+}
 
 .carousel
 {
