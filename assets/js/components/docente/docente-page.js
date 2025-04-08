@@ -38,8 +38,10 @@ export let docenteView = `
             
             <div class="table-responsive">
               <table class="table table-striped table-hover">
-                <thead class="table-dark">
+                <thead style="background-color: #013775;color: white;"">
                   <tr>
+                    <th>#</th>
+                    <th>Cuenta</th>
                     <th>Estudiante</th>
                     <th>Calificación</th>
                   </tr>
