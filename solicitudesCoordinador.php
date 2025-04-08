@@ -27,8 +27,8 @@ include 'includes/chat.php'; // Incluye el chat
 
 
         <section class="contenedor2">
-            <div class="contenido">
-            </div>
+            <div id="contenedor-solicitudes"></div>
+            <div id="pagination-requests"></div>
         </section>
     </main>
 

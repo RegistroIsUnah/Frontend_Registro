@@ -27,12 +27,21 @@ include 'includes/chat.php'; // Incluye el chat
 
         <section class="contenedor2">
             <div class="contenido">
-                <h2>Historial Académico</h2>
+                <h2>Buscar Historial Académico</h2>
+
+                <!-- Barra de Busqueda -->
+                <div class="container mt-5">
+                    <div class="searchBar">
+                    <form id="searchForm" class="d-flex">
+                        <input id="searchInput" class="form-control me-2" type="search" placeholder="Buscar por estudiante, No. cuenta o departamento" aria-label="Buscar estudiante">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </form>
+                    </div>
+                </div>
 
                 <!-- Información del estudiante -->
                 <div class="perfil-seccion">
                     <div class="info-estudiante">
-                        <img src="" alt="" class="foto-estudiante">
                         <div class="datos-estudiante">
                             <p><strong>Nombre:</strong> <span id="name"></span> </p>
                             <p><strong>Carrera:</strong> <span id="carrerName"></span> </p>
@@ -57,20 +66,25 @@ include 'includes/chat.php'; // Incluye el chat
                                     <th>Asignatura</th>
                                     <th>Sección</th>
                                     <th>Año</th>
-                                    <th>Periodo</th>
+                                    <th>Período</th>
                                     <th>Calificación</th>
-                                    <th>Observación</th>
+                                    <th>Observaciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="tabla-historial-body"></tbody>
+                            <tbody id="tabla-historial-body">
+                                <!-- JS insertará las filas aquí -->
+                            </tbody>
                         </table>
-                        <div id="pagination-historial"></div>
                     </div>
                 </div>
 
 
                     <!-- Paginación -->
-                    <div id="pagination-requests"></div>
+                    <div class="paginacion">
+                        <a href="#" class="activo">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -82,10 +96,7 @@ include 'includes/chat.php'; // Incluye el chat
     ?>
 
 
-    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
     <script type="module" src="assets/js/components/students/obtainStudentClassHistoryFetch.js"></script>
-    <script type="module" src="assets/js/utils/chat.js"></script>
-
 
 </body>
 
