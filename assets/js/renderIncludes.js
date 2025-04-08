@@ -3,6 +3,7 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
+import { loadDocentePage } from './components/docente/loadDocenteView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -138,6 +139,8 @@ export function renderHead(actualPage) {
 export function renderBodyPage(namePage) {
 
     const body = document.getElementsByTagName("body")[0];
+    const rol = sessionStorage.getItem("rol_activo");
+
 
     switch (namePage) {
 
@@ -223,7 +226,7 @@ export function renderBodyPage(namePage) {
 
             let actualLibraryView = (history.state == null) ? "libraryView" : history.state.view;
             
-            const rol = sessionStorage.getItem("rol_activo");
+            //const rol = sessionStorage.getItem("rol_activo");
 
             if (!rol) {                
                 
@@ -249,6 +252,33 @@ export function renderBodyPage(namePage) {
                     console.warn("Vista no reconocida:", actualLibraryView);
                     loadLibraryPage(); // Vista por defecto
                     history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
+                    break;
+            }
+            break;
+
+            case "docente.php":
+
+            let actualDocenteView = (history.state == null) ? "docenteView" : history.state.view;
+            
+            if (!rol) {                
+                
+                // Redirigir a login si no hay sesión
+                loadLoginView();
+                history.replaceState(null, "docente.php");
+                break;
+            }
+
+            switch (actualDocenteView) {
+
+                case "docenteView":
+
+                    loadDocentePage();
+                    break;
+
+                default:
+                    console.warn("Vista no reconocida:", actualDocenteView);
+                    loadDocentePage(); // Vista por defecto
+                    history.replaceState({ view: "docenteView" }, "", "docente.php");
                     break;
             }
             break;

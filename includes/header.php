@@ -33,12 +33,13 @@
     </div>
 </header>
 <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
-<!--<script>
-  const userRole = sessionStorage.getItem('docente');
+
+<script>
+  const userRole = sessionStorage.getItem('roles');
   
   const usuarioDiv = document.querySelector('.usuario');
   
-  if (userRole === 'docente') { 
+  if (userRole.includes('docente')) { 
     if (usuarioDiv) usuarioDiv.style.display = 'none';
   }
-    </script>-->
+</script>
