@@ -21,7 +21,7 @@ export function loadDocentePage() {
         menuContainer.innerHTML = loadMenu();
     }
 
-    if (rol === 'docente') {
+    if (rol === 'docente' || rol === 'jefe de departamento' || rol === 'coordinador'  ) {
         const docenteId = sessionStorage.getItem('docente_id');
         loadClasesDocente(docenteId);
     }
