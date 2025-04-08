@@ -20,28 +20,34 @@ export function renderLibros(clasesCompletas, isDocente = false) {
         return;
     }
     
-    container += clasesCompletas.map(clase => `
-        
-            <h3 class="class="mt-4">${clase.clase_nombre}</h3><hr>
-            <div class="row">
-                ${clase.libros.map(libro => libro.detalles 
-                    ? generateBookCard(libro.detalles, isDocente)
-                    : '<div class="text-danger">Error cargando libro</div>'
-                ).join('')}
-            </div>
-        
-    `).join('') || '<p class="text-muted">No se encontraron libros</p>';
+    container += `
+        <div class="row">
+            ${clasesCompletas.map(libro => {
+                if (!libro.detalles) {
+                    return '<div class="text-danger col-12">Error cargando libro</div>';
+                }
+                
+                // Si viene de una clase normal
+                if (libro.clase_nombre) {
+                    return generateBookCard(libro.detalles, isDocente, libro.clase_nombre);
+                }
+                // Si es un libro individual (búsqueda)
+                return generateBookCard(libro, isDocente);
+            }).join('') || '<p class="text-muted">No se encontraron libros</p>'}  
+        </div>
+    `
     bookContainer.innerHTML = container;
 }
 
-function generateBookCard(libro, isDocente) {
+function generateBookCard(libro, isDocente, claseNombre = '') {
 
     return ` 
     <div class="col-md-4 mb-4">
         <div class="card book-card">
             <div class="card-body">
+            ${claseNombre ? `<div class="class-name-badge mb-2"><span class="badge bg-primary">${claseNombre}</span></div>` : ''}
                 <div onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
-                    <h5 class="card-title">${libro.titulo}</h5>
+                    <h5 class="card-title" >${libro.titulo}</h5><hr>
                     <p class="card-subtitle mb-2 text-muted">${libro.editorial}</p>
                     <p class="card-text">${libro.descripcion}</p>
                 </div>
@@ -91,55 +97,40 @@ export function renderAddBookButton(isDocente) {
     }
 }
 
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/03/20
+ * 
+ * Util para la paginacion de los libros
+ */
+
 //CON PAGINACION 
-const ITEMS_PER_PAGE = 10; // Libros por página
+const ITEMS_PER_PAGE = 12; // Libros por página
 let currentPage = 1;
 let originalData = []; //para poder filtrar
 
-// Modifica la función renderLibros para incluir paginación
 export function renderBooksWithPagination(clasesCompletas, isDocente = false, resetPagination = false) {
     if (resetPagination) {
         currentPage = 1;
     }
     
-    // Aplanar solo los libros para paginación
-    const allBooks = clasesCompletas.flatMap(clase => 
-        Array.isArray(clase.libros) ? clase.libros : [clase]
-    );
+     const allBooks = clasesCompletas.flatMap(clase => {
+        if (typeof clase.clase_id !== 'undefined') {
+            return clase.libros.map(libro => ({
+                ...libro,
+                detalles: libro.detalles || libro,
+                clase_nombre: clase.clase_nombre
+            }));
+        }
+        return [clase];
+    });
     
     const totalPages = Math.ceil(allBooks.length / ITEMS_PER_PAGE);
     const startIdx = (currentPage - 1) * ITEMS_PER_PAGE;
     const paginatedBooks = allBooks.slice(startIdx, startIdx + ITEMS_PER_PAGE);
     
-    // Reconstruir estructura de clases para los libros paginados
-    const paginatedStructure = [];
-    
-    // Agrupar libros por sus clases originales
-    const librosEnPagina = new Set(paginatedBooks.map(libro => libro.libro_id));
-    
-    clasesCompletas.forEach(clase => {
-        if (typeof clase.clase_id !== 'undefined') {
-            // Es una clase normal
-            const librosFiltrados = clase.libros.filter(libro => 
-                librosEnPagina.has(libro.libro_id)
-            );
-            
-            if (librosFiltrados.length > 0) {
-                paginatedStructure.push({
-                    ...clase,
-                    libros: librosFiltrados
-                });
-            }
-        } else if (librosEnPagina.has(clase.libro_id)) {
-            // Es un libro individual que coincidió por nombre
-            paginatedStructure.push({
-                clase_nombre: `Libro: ${clase.titulo}`,
-                libros: [clase]
-            });
-        }
-    });
-    
-    renderLibros(paginatedStructure, isDocente);
+    renderLibros(paginatedBooks, isDocente);
     renderPagination(totalPages, isDocente);
 }
 
@@ -151,7 +142,7 @@ function renderPagination(totalPages, isDocente) {
     if (totalPages <= 1) return; // No mostrar paginación si solo hay una página
     
     const ul = document.createElement('ul');
-    ul.className = 'pagination';
+    ul.className = 'pagination justify-content-center';
     
     // Botón "Anterior"
     ul.appendChild(createPaginationItem('Anterior', currentPage > 1, () => {
@@ -159,8 +150,7 @@ function renderPagination(totalPages, isDocente) {
             currentPage--;
             renderBooksWithPagination(originalData, isDocente);
         }
-    },isDocente
-    ));
+    }));
     
     // Números de página
     for (let i = 1; i <= totalPages; i++) {
@@ -202,3 +192,4 @@ function createPaginationItem(text, isEnabled, onClick, isActive = false) {
 export function setOriginalData(data) {
     originalData = data;
 }
+

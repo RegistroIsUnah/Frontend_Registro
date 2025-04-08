@@ -1,5 +1,5 @@
 <?php
-include 'includes/chat.php'; // Incluye el chat
+/*include 'includes/chat.php'; // Incluye el chat*/
 ?>
 
 <!DOCTYPE html>
@@ -183,6 +183,9 @@ include 'includes/chat.php'; // Incluye el chat
     <?php
     include 'includes/footer.php';
     ?>
+    <?php
+  require_once("./includes/scripts.php");
+  ?>
 
     <script>
         // Función para abrir un modal específico

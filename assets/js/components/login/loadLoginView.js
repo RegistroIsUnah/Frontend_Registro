@@ -12,5 +12,11 @@ export function loadLoginView(){
     let loginContainer = document.createElement('div');
     loginContainer.innerHTML = loginForm;
     body.appendChild(loginContainer);
+
+    // Agregar clase especial cuando estemos en biblioteca
+    if (window.location.pathname.includes('biblioteca.php')) {
+        body.classList.add('library-login-body');
+    }
+
     login();
 }
