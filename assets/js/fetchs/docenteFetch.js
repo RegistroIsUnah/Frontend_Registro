@@ -45,4 +45,24 @@ export class DocenteFetch {
             });
     }
 
+    static subirVideoIntro(seccionId, videoUrl) {
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/asignar_video_seccion.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ seccionId, videoUrl })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error al subir el video:", error);
+        return { success: false };
+        });
+    }
+
 }
