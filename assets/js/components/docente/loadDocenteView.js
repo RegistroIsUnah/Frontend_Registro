@@ -8,7 +8,7 @@ import { loadAllClasses, renderClassDetail } from "./renderClases.js";
 export function loadDocentePage() {
     history.pushState({ view: "docenteView" }, "", window.location.href);
 
-    const rol = sessionStorage.getItem('rol_activo');
+    const rol = sessionStorage.getItem('roles');
 
     const body = document.getElementsByTagName("body")[0];
     const DocenteContainer = document.createElement('div');
@@ -21,7 +21,7 @@ export function loadDocentePage() {
         menuContainer.innerHTML = loadMenu();
     }
 
-    if (rol === 'docente' || rol === 'jefe de departamento' || rol === 'coordinador'  ) {
+    if (rol.includes("docente")) {
         const docenteId = sessionStorage.getItem('docente_id');
         loadClasesDocente(docenteId);
     }
