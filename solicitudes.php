@@ -1,5 +1,5 @@
 <?php
-include 'includes/chat.php'; // Incluye el chat
+/*include 'includes/chat.php'; // Incluye el chat*/
 ?>
 
 <!DOCTYPE html>
@@ -212,6 +212,9 @@ include 'includes/chat.php'; // Incluye el chat
     <?php
     include 'includes/footer.php';
     ?>
+    <?php
+  require_once("./includes/scripts.php");
+  ?>
 
     <script>
         // Función para abrir un modal específico
@@ -269,9 +272,12 @@ include 'includes/chat.php'; // Incluye el chat
 
         }
     </script>
+
     <script type="module" src="./assets/js/components/requests/proofreaderFetch.js"></script>
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
-    <script type="module" src="assets/js/utils/chat.js"></script>
+    <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
+    <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
+
 
 </body>
 

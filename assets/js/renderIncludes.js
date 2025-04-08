@@ -105,6 +105,15 @@ export function renderHead(actualPage) {
 
             break;
 
+            case "docente.php":
+                document.getElementsByTagName('title')[0].textContent = "Docentes UNAH";
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/docente.css"));
+    
+                break;
+
         default:
 
             break;
