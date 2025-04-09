@@ -117,10 +117,11 @@ export function renderHead(actualPage) {
             break;
 
         case "clases.php":
-            document.getElementsByTagName('title')[0].textContent = "Matrícula UNAH";
+            document.getElementsByTagName('title')[0].textContent = "Carga Académica UNAH";
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
         break;
             case "docente.php":
                 document.getElementsByTagName('title')[0].textContent = "Docentes UNAH";

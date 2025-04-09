@@ -53,7 +53,6 @@
         }
         if(sessionStorage.getItem("roles").includes("jefe de departamento"))
         {
-            document.getElementById("matriculaComponent").innerHTML += '<a href="matricula.php"><li>Matricula</li> </a>';  
             document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href="clases.php"><li>Clases del Departamento</li> </a>';  
         }
         if(sessionStorage.getItem("roles").includes("administrador"))

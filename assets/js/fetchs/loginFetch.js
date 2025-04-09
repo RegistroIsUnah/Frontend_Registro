@@ -30,7 +30,7 @@ export function login() {
         })
         .then(data => {
 
-            console.log(data);
+            console.log(data.user.details);
             
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
@@ -81,6 +81,7 @@ export function login() {
                 //sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
                 if(roles.includes('jefe de departamento')){
+                    //sessionStorage.setItem("deptId", data.user.details.jefe_departamento.dept_id);
                     window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "clases.php";
                     return;
                 }

@@ -41,7 +41,6 @@ export class AdminAdmissionsComponents {
     fileInput.addEventListener('change', () => {
       if (fileInput.files && fileInput.files.length > 0) {
           file = fileInput.files[0];
-          console.log(file);
         if (file.name.toLowerCase().trim().endsWith('.csv')) {
           this.processFile(file, buttonId);
         } else {

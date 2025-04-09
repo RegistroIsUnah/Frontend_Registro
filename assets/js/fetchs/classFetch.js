@@ -21,6 +21,16 @@ export class ClassFetch{
         })
     }
 
+    static getSectionsByClassId(classId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/seccion_detalles.php?clase_id=${classId}`)
+        .then(response => response.json())
+        .then(data => data )
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        })
+    }
+    
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.1
