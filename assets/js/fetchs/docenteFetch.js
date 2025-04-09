@@ -116,5 +116,25 @@ export class DocenteFetch {
     }
     
 
+    static actualizarCalificacion(data) {
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/actualizar_calificacion_estudiante.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error al subir calificaciones:", error);
+            return { success: false };
+        });
+    }
+
 
 }

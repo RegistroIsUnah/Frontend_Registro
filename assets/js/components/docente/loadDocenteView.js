@@ -237,56 +237,61 @@ function handleSaveGrades(){
     document.getElementById('saveGradesBtn').addEventListener('click', async () => {
         const rows = document.querySelectorAll('#studentsTableBody tr');
         const seccionId = storedClases[0]?.seccion?.seccion_id;
-
+      
         for (const row of rows) {
-            const calificacionInput = row.querySelector('.grade-input');
-            const estadoSelect = row.querySelector('.estado-select');
-            const obsInput = row.querySelector('.obs-input');
-
-            const numeroCuenta = calificacionInput.dataset.cuenta;
-            const calificacion = parseFloat(calificacionInput.value);
-            const estadoCursoId = parseInt(estadoSelect.value);
-            const observacion = obsInput.value;
-
-            // Verificación de datos antes de enviar
-            if (!numeroCuenta || isNaN(calificacion) || !estadoCursoId) {
-                ModalManager.show("Por favor complete los campos: calificacion, estado.", false)
-                continue;
-            }
-
-            // Cambiar el estado automáticamente solo si el docente no ha seleccionado uno
-            let estadoSugerido = estadoCursoId; 
-            if (![1, 4, 5].includes(estadoCursoId)) { 
-                if (calificacion >= 65) {
-                    estadoSugerido = 3; // Aprobado
-                } else {
-                    estadoSugerido = 2; // Reprobado
-                }
-            }
-
-            estadoSelect.value = estadoSugerido;
-
-            const data = {
-                numero_cuenta: numeroCuenta,
-                seccion_id: seccionId,
-                calificacion,
-                observacion,
-                estado_curso_id: estadoSugerido
-            };
-
-            try {
-                const result = await DocenteFetch.calificarEstudiante(data);
-                if (result.success) {
-                    console.log(`Guardado exitoso para ${numeroCuenta}`);
-                    ModalManager.show("Calificaciones Guardadas Correctamente")
-                } else {
-                    console.error(`Error al guardar ${numeroCuenta}:`, result);
-                }
-            } catch (err) {
-                console.error(`Fallo para ${numeroCuenta}:`, err);
-            }
+          const calificacionInput = row.querySelector('.grade-input');
+          const estadoSelect = row.querySelector('.estado-select');
+          const obsInput = row.querySelector('.obs-input');
+      
+          const numeroCuenta = calificacionInput.dataset.cuenta;
+          const calificacion = parseFloat(calificacionInput.value);
+          const estadoCursoId = parseInt(estadoSelect.value);
+          const observacion = obsInput.value;
+          const yaExiste = calificacionInput.dataset.existe === "true";
+      
+          if (isNaN(calificacion) || !estadoCursoId) {
+            continue;
         }
-    });
+      
+          // Sugerencia automática del estado si el usuario no eligió alguno manualmente
+          let estadoSugerido = estadoCursoId;
+          if (![1, 4, 5].includes(estadoCursoId)) {
+            estadoSugerido = calificacion >= 65 ? 3 : 2;
+          }
+      
+          estadoSelect.value = estadoSugerido;
+      
+          const data = {
+            numero_cuenta: numeroCuenta,
+            seccion_id: seccionId,
+            calificacion,
+            observacion,
+            estado_curso_id: estadoSugerido
+          };
+      
+          try {
+            let result;
+            if (yaExiste) {
+              result = await DocenteFetch.actualizarCalificacion(data);
+            } else {
+              result = await DocenteFetch.calificarEstudiante(data);
+            }
+      
+            if (result.success) {
+              console.log(`Calificación guardada para ${numeroCuenta}`);
+              calificacionInput.dataset.existe = "true";
+              ModalManager.show("Calificaciones guardadas correctamente", true);
+            } else {
+              console.error(`Error al guardar para ${numeroCuenta}:`, result);
+              ModalManager.show("Error al guardar calificación", false);
+            }
+          } catch (err) {
+            console.error(`Fallo en calificación de ${numeroCuenta}:`, err);
+            ModalManager.show("Error inesperado al guardar calificación", false);
+          }
+        }
+      });
+      
 }
 
 
