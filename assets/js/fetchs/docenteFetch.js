@@ -92,6 +92,28 @@ export class DocenteFetch {
             return { success: false };
         });
     }
+
+
+    static getPerfilDocente(docenteId) {
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/obtener_datos_docente.php?docente_id=${docenteId}`)
+            .then(response => {
+                console.log(response);
+
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                return data;
+            })
+        
+            .catch(error => {
+                console.error("Error en la solicitud:", error);
+                return [];
+            });
+    }
     
 
 

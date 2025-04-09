@@ -1,3 +1,11 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ * 
+ * Funcion para cargar las opciones en el menu
+ */
+
 export const loadMenu = () => {
     const roles = JSON.parse(sessionStorage.getItem("roles")) || [];
     
@@ -20,24 +28,24 @@ const generateMenuItems = (roles) => {
     
     if (roles.includes("estudiante")) {
         items.push(
-            '<a id="perfilComponent"><a href="perfil.php"><li><i class="fas fa-user"></i> Perfil</li></a></a>',
-            '<a id="historialComponent"><a href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a></a>',
-            '<a id="calificacionesComponent"><a href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a></a>',
-            '<a id="matriculaComponent"><a href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
-            '<a id="solicitudesComponent"><a href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a></a>'
+            '<a id="perfilComponent" href="perfil.php"><li><i class="fas fa-user"></i> Perfil</li></a>',
+            '<a id="historialComponent" href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a>',
+            '<a id="calificacionesComponent" href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a>',
+            '<a id="matriculaComponent" href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
+            '<a id="solicitudesComponent" href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a>'
         );
     }
     
     if (roles.includes("revisor")) {
         items.push(
-            '<a id="revisorComponent"><a href="revisores.php"><li id="enviarYcargar"><i class="fas fa-search"></i> Revisar Aspirantes</li></a></a>'
+            '<a id="revisorComponent" href="revisores.php"><li id="enviarYcargar"><i class="fas fa-search"></i> Revisar Aspirantes</li></a>'
         );
     }
     
     if (roles.includes("docente")) {
         items.push(
-            '<a id="verPerfilComponent"><a href="#"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a></a>',
-            '<a id="asignaturasComponent"><a href="docente.php"><li><i class="fas fa-book"></i> Asignaturas</li></a></a>'
+            '<a href="" id="verPerfilComponent"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a>',
+            '<a href="" id="asignaturasComponent"><li><i class="fas fa-book"></i> Asignaturas</li></a>'
         );
     }
 

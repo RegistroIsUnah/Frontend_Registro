@@ -3,7 +3,7 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
-import { loadDocentePage } from './components/docente/loadDocenteView.js';
+import { loadDocentePage, loadPerfilDocenteView } from './components/docente/loadDocenteView.js';
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -249,7 +249,6 @@ export function renderBodyPage(namePage) {
                     break;
 
                 default:
-                    console.warn("Vista no reconocida:", actualLibraryView);
                     loadLibraryPage(); // Vista por defecto
                     history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
                     break;
@@ -263,7 +262,7 @@ export function renderBodyPage(namePage) {
             if (!rol) {                
                 
                 // Redirigir a login si no hay sesión
-                loadLoginView();
+                window.location.href = 'login.php';
                 history.replaceState(null, "docente.php");
                 break;
             }
@@ -275,8 +274,12 @@ export function renderBodyPage(namePage) {
                     loadDocentePage();
                     break;
 
+                case "verPerfilDocenteView": case null: case "":
+
+                    loadPerfilDocenteView();
+                    break;
+
                 default:
-                    console.warn("Vista no reconocida:", actualDocenteView);
                     loadDocentePage(); // Vista por defecto
                     history.replaceState({ view: "docenteView" }, "", "docente.php");
                     break;

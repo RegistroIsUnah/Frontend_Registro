@@ -1,10 +1,12 @@
 import { docenteView } from "./docente-page.js";
-import { loadMenu } from "../../utils/menu.js";
 import { DocenteFetch } from "../../fetchs/docenteFetch.js";
 import { loadAllClasses, renderClassDetail } from "./renderClases.js";
 import { ModalManager } from "../modals/modalSuccess-Error.js";
 import { downloadStudentList } from "./downloadStudentList.js";
 import {RegularExpressions} from "../../utils/regularExpressions.js"
+import { verPerfilDocenteView } from "./perfilDocente-page.js";
+import { renderMenu } from "../../utils/renderMenu.js";
+
 
 /**
  * @author kency.oseguera@unah.hn
@@ -18,27 +20,15 @@ export function loadDocentePage() {
     history.pushState({ view: "docenteView" }, "", window.location.href);
 
     const rol = sessionStorage.getItem('roles');
-
-    const body = document.getElementsByTagName("body")[0];
-    const DocenteContainer = document.createElement('div');
-    DocenteContainer.innerHTML = docenteView;
-
-    body.insertBefore(DocenteContainer, body.firstChildChild);
+    renderInMainContent(docenteView);
+    renderMenu(document.querySelector("#mainContent"));
 
     if (rol.includes("docente")) {
         const docenteId = sessionStorage.getItem('docente_id');
         loadClasesDocente(docenteId);
     }
 
-    //para el menu
-    const menuContainer = DocenteContainer.querySelector('#menuContainer');
-    if (menuContainer) {
-        menuContainer.innerHTML = loadMenu();
-    }
-    if (typeof initMenuToggle === "function") {
-        initMenuToggle();
-    }
-
+    //AQUI COMIENZAN LAS FUNCIONES DE LOS BOTONES
     document.getElementById('uploadVideoBtn').addEventListener('click', () => {
         const modal = document.getElementById('videoModal');
         const bootstrapModal = new bootstrap.Modal(modal);
@@ -77,6 +67,173 @@ export function loadDocentePage() {
         downloadButton.addEventListener('click', downloadStudentList);
     }
 
+    handleSaveGrades();
+
+    document.querySelectorAll('.grade-input').forEach(input => {
+        input.addEventListener('input', (e) => {
+            const row = e.target.closest('tr');
+            const calificacion = parseFloat(e.target.value);
+            const estadoSelect = row.querySelector('.estado-select');
+
+            if (!isNaN(calificacion)) {
+                if (![1, 4, 5].includes(parseInt(estadoSelect.value))) {
+                    let estadoSugerido = calificacion >= 65 ? 3 : 2; // Aprobado o Reprobado
+                    estadoSelect.value = estadoSugerido;
+                }
+            }
+        });
+    });
+
+    document.getElementById('verPerfilComponent')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        loadPerfilDocenteView();  
+    });
+    
+    document.getElementById('asignaturasComponent')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        loadDocentePage();
+    });
+    
+
+}
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * //Funcion para cargar Perfil del docente
+ */
+
+export async function loadPerfilDocenteView() {
+    history.pushState({ view: "verPerfilDocente" }, "", window.location.href);
+
+    const docenteId = sessionStorage.getItem('docente_id');
+
+    try {
+        const response = await DocenteFetch.getPerfilDocente(docenteId);
+
+        if (response?.success) {
+            const docente = response.data;
+            renderInMainContent(verPerfilDocenteView(docente));
+            renderMenu(document.querySelector("#mainContent"));
+
+        } else {
+            console.error("No se pudo cargar la información del docente.");
+        }
+    } catch (err) {
+        console.error("Error al obtener datos del docente:", err);
+    }
+}
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * Función para cargar las clases del docente
+ */
+let storedClases = [];
+
+async function loadClasesDocente(docenteId) {
+    try {
+        const result = await DocenteFetch.getClasesDocente(docenteId);
+        if (result?.success) {
+            storedClases = result.data;
+            loadAllClasses(result.data);
+        } else {
+            console.error("No se pudieron cargar las clases del docente");
+        }
+    } catch (error) {
+        console.error("Error en loadClasesDocente:", error);
+    }
+}
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * Función para cargar los estudiantes de la seccion
+ */
+async function loadEstudiantesClase(clase, seccionId) {
+    try {
+        const result = await DocenteFetch.getEstudiantesClase(seccionId);
+        if (result?.success) {
+            renderClassDetail(clase, result.data);
+            document.getElementById('classesView').style.display = 'none';
+            document.getElementById('classDetailView').style.display = 'block';
+        } else {
+            console.error("No se pudieron cargar los estudiantes.");
+        }
+    } catch (error) {
+        console.error("Error en loadEstudiantesClase:", error);
+    }
+}
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * Función para manejar el evento de subida de video
+ */
+async function handleVideoUpload() {
+    const videoUrlInput = document.getElementById('videoUrl');
+    const videoUrl = videoUrlInput.value.trim();
+
+    if (!videoUrl) {
+        alert('Por favor, ingresa la URL del video.');
+        return;
+    }
+
+    const isYouTube = RegularExpressions.YOUTUBE_URL.test(videoUrl);
+
+    if (!isYouTube) {
+        ModalManager.show("Por favor ingresa un enlace válido de YouTube.", false);
+        return;
+    }
+
+    const seccionId = storedClases[0]?.seccion?.seccion_id;
+
+    try {
+        const result = await DocenteFetch.subirVideoIntro(seccionId, videoUrl);
+
+        if (result?.success) {
+
+            ModalManager.show("Video ingresado Correctamente", true);
+            const closeBtn = document.querySelector('[data-bs-dismiss="modal"]');
+            if (closeBtn) {
+                closeBtn.click();
+            }
+
+            const modalElement = document.getElementById('videoModal');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.hide();
+            videoUrlInput.value = '';
+        } else {
+            ModalManager.show("Error al subir el video", false);
+        }
+    } catch (error) {
+        console.error('Error al subir el video', error);
+        ModalManager.show("Ocurrió un error al intentar subir el video.", false);
+
+    }
+}
+
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * Función para guardar las calificaciones de los estudiantes
+ */
+function handleSaveGrades(){
     document.getElementById('saveGradesBtn').addEventListener('click', async () => {
         const rows = document.querySelectorAll('#studentsTableBody tr');
         const seccionId = storedClases[0]?.seccion?.seccion_id;
@@ -130,133 +287,24 @@ export function loadDocentePage() {
             }
         }
     });
-
-
-    document.querySelectorAll('.grade-input').forEach(input => {
-        input.addEventListener('input', (e) => {
-            const row = e.target.closest('tr');
-            const calificacion = parseFloat(e.target.value);
-            const estadoSelect = row.querySelector('.estado-select');
-
-            if (!isNaN(calificacion)) {
-                if (![1, 4, 5].includes(parseInt(estadoSelect.value))) {
-                    let estadoSugerido = calificacion >= 65 ? 3 : 2; // Aprobado o Reprobado
-                    estadoSelect.value = estadoSugerido;
-                }
-            }
-        });
-    });
-
-}
-
-let storedClases = [];
-
-async function loadClasesDocente(docenteId) {
-    try {
-        const result = await DocenteFetch.getClasesDocente(docenteId);
-        if (result?.success) {
-            storedClases = result.data;
-            loadAllClasses(result.data);
-        } else {
-            console.error("No se pudieron cargar las clases del docente");
-        }
-    } catch (error) {
-        console.error("Error en loadClasesDocente:", error);
-    }
-}
-
-async function loadEstudiantesClase(clase, seccionId) {
-    try {
-        const result = await DocenteFetch.getEstudiantesClase(seccionId);
-        if (result?.success) {
-            renderClassDetail(clase, result.data);
-            document.getElementById('classesView').style.display = 'none';
-            document.getElementById('classDetailView').style.display = 'block';
-        } else {
-            console.error("No se pudieron cargar los estudiantes.");
-        }
-    } catch (error) {
-        console.error("Error en loadEstudiantesClase:", error);
-    }
-}
-
-// Función para manejar el evento de subida de video
-async function handleVideoUpload() {
-    const videoUrlInput = document.getElementById('videoUrl');
-    const videoUrl = videoUrlInput.value.trim();
-
-    if (!videoUrl) {
-        alert('Por favor, ingresa la URL del video.');
-        return;
-    }
-
-    //Para validar rutas
-    const isYouTube = RegularExpressions.YOUTUBE_URL.test(videoUrl);
-
-    if (!isYouTube) {
-        ModalManager.show("Por favor ingresa un enlace válido de YouTube.", false);
-        return;
-    }
-
-    const seccionId = storedClases[0]?.seccion?.seccion_id;
-
-    try {
-        const result = await DocenteFetch.subirVideoIntro(seccionId, videoUrl);
-
-        if (result?.success) {
-
-            ModalManager.show("Video ingresado Correctamente", true);
-
-            const closeBtn = document.querySelector('[data-bs-dismiss="modal"]');
-            if (closeBtn) {
-                closeBtn.click();
-            }
-
-            const modalElement = document.getElementById('videoModal');
-            const modal = new bootstrap.Modal(modalElement);
-            modal.hide();
-            videoUrlInput.value = '';
-
-
-        } else {
-            ModalManager.show("Error al subir el video", false);
-        }
-    } catch (error) {
-        console.error('Error al subir el video', error);
-        ModalManager.show("Ocurrió un error al intentar subir el video.", false);
-
-    }
 }
 
 
-//Funcion para cargar Perfil del docente
-export async function loadPerfilDocenteView() {
-    history.pushState({ view: "perfilDocenteView" }, "", window.location.href);
-
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.2
+ * @since 2025/04/09
+ * 
+ * Crea un nuevo contenedor para no perder el header
+ */
+function renderInMainContent(htmlString) {
     const body = document.getElementsByTagName("body")[0];
-    body.innerHTML = ''; 
-    const container = document.createElement('div');
-
-    const menu = document.createElement('div');
-    menu.id = 'menuContainer';
-    menu.innerHTML = loadMenu();
-    container.appendChild(menu);
-
-    const docenteId = sessionStorage.getItem('docente_id');
-
-    try {
-        const result = await DocenteFetch.getPerfilDocente(docenteId);
-        if (result?.success) {
-            const perfilHTML = verPerfilDocenteView(result.data);
-            container.innerHTML += perfilHTML;
-        } else {
-            container.innerHTML += `<div class="alert alert-danger mt-3">No se pudo cargar la información del docente.</div>`;
-        }
-    } catch (error) {
-        console.error("Error al cargar perfil del docente:", error);
-        container.innerHTML += `<div class="alert alert-danger mt-3">Error al obtener los datos del docente.</div>`;
+    let mainContent = document.getElementById("mainContent");
+    if (!mainContent) {
+        mainContent = document.createElement("div");
+        mainContent.id = "mainContent";
+        body.appendChild(mainContent);
     }
-
-    body.appendChild(container);
+    mainContent.innerHTML = htmlString;
 }
 
