@@ -32,15 +32,11 @@
                 <h2>Realizar Solicitudes</h2>
                 <div class="solicitudes-contenedor">
                     <!-- Tarjetas de solicitud -->
-                    <div class="solicitud-card" onclick="abrirModal('modal-cambio-carrera')">
+                    <div class="solicitud-card" onclick="abrirModal('modal-cambio-carrera'); getCareersByCenter()">
                         <h3>Cambio de Carrera</h3>
                         <p>Solicitar un cambio de carrera académica.</p>
                     </div>
-                    <div class="solicitud-card" onclick="abrirModal('modal-cancelaciones')">
-                        <h3>Cancelaciones Excepcionales</h3>
-                        <p>Solicitar la cancelación de materias.</p>
-                    </div>
-                    <div class="solicitud-card" onclick="abrirModal('modal-cambio-centro')">
+                    <div class="solicitud-card" onclick="abrirModal('modal-cambio-centro'); getCenters()">
                         <h3>Cambio de Centro</h3>
                         <p>Solicitar un cambio de centro universitario.</p>
                     </div>
@@ -48,7 +44,10 @@
                         <h3>Pago de Reposición</h3>
                         <p>Realizar pago de reposición.</p>
                     </div>
-
+                    <div class="solicitud-card" onclick="abrirModal('modal-cancelaciones')">
+                        <h3>Cancelaciones Excepcionales</h3>
+                        <p>Solicitar la cancelación de materias.</p>
+                    </div>
                     <div class="solicitud-card" id="proofreaderOption" onclick="abrirModal('modal-solicitud-revisor')">
                         <h3>Solicitud de Revisor</h3>
                         <p>Realizar una solicitud para revisar a los nuevos aspirantes.</p>
@@ -61,33 +60,84 @@
                     <div class="modal-contenido">
                         <span class="cerrar-modal" onclick="cerrarModal('modal-cambio-carrera')">&times;</span>
                         <div class="cambio-carrera">
-                            <h3>Solicitud de Cambio de Carrera</h3>
-                            <hr style="color: #ffb300;">
-                            <div class="info-estudiante">
-                                <p><strong>Centro de Estudio:</strong> Ciudad Universitaria</p>
-                                <p><strong>Carrera Actual:</strong> Ingeniería en Sistemas</p>
-                                <p><strong>Índice Académico:</strong> 85.5</p>
+                        <h3>Solicitud de Cambio de Carrera</h3>
+                        <hr style="color: #ffb300;">
+                        <div class="info-estudiante">
+                            <p><strong>Centro de Estudio Actual:</strong> <span class="centro"></span></p>
+                            <p><strong>Carrera Actual:</strong> <span id="carrerName"></span></p>
+                            <p><strong>Índice Académico:</strong> <span id="globalTerm"></span></p>
+                        </div>
+                        <br>
+                        <div class="seleccionar-carrera">
+                            <label><strong>Seleccione la carrera a la cual desea hacer el cambio</strong></label>
+
+                            <!-- SELECT con ID para poder accederlo desde JS -->
+                            <select id="select-carreras">
+                            <option value="">Seleccione una carrera</option>
+                            </select>
+
+                        </div>
+                        <br>
+                        <div class="subir-archivo">
+                                <h4>Subir Justificación (PDF):</h4>
+                                <input id="inputPdf_career" type="file" accept=".pdf">
                             </div>
-                            <br>
-                            <div class="seleccionar-carrera">
-                                <label><strong>Seleccione la carrera a la cual desea hacer el cambio</strong></label>
-                                <select>
-                                    <option value="">Seleccione una carrera</option>
-                                    <option value="">Informática Administrativa</option>
-                                    <option value="">Economía</option>
-                                    <option value="">Psicología</option>
-                                </select>
-                            </div>
-                            <div class="razon-cambio">
-                                <label><strong>Razón del Cambio:</strong></label>
-                                <textarea rows="4" placeholder="Explique la razón del cambio de carrera..."></textarea>
-                            </div>
-                            <br>
-                            <button class="btn-enviar">Enviar Solicitud</button>
+                        <br>
+                        <button class="btn-enviar" onclick="handleChangeCareer()">Enviar Solicitud</button>
                         </div>
                     </div>
                 </div>
 
+                <!-- Modal de Cambio de Centro -->
+                <div id="modal-cambio-centro" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal" onclick="cerrarModal('modal-cambio-centro')">&times;</span>
+                        <div class="cambio-centro">
+                        <h3>Cambio de Centro</h3>
+                        <hr style="color: #ffb300;">
+                        <div class="info-estudiante">
+                            <p><strong>Estudiante:</strong> <span id="name"></span></p>
+                            <p><strong>Centro de Estudio Actual:</strong> <span class="centro"></span></p>
+                        </div>
+                        <br>
+
+                        <!-- Selección del Nuevo Centro -->
+                        <div class="seleccionar-centro">
+                            <label><strong>Seleccione el centro al que desea cambiarse:</strong></label>
+                            <select id="select-centros">
+                            <option value="">Seleccione un centro</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="subir-archivo">
+                                <h4>Subir Justificación (PDF):</h4>
+                                <input id="inputPdf_center" type="file" accept=".pdf">
+                            </div>
+                        <br>
+                        <button class="btn-enviar"  onclick="handleChangeCenter()">Enviar Solicitud</button>
+                        </div>
+                    </div>
+                </div>
+
+                   <!-- Modal de Pago de Reposicion -->
+                   <div id="modal-pago-reposicion" class="modal">
+                    <div class="modal-contenido">
+                        <span class="cerrar-modal" onclick="cerrarModal('modal-pago-reposicion')">&times;</span>
+                        <div class="cancelaciones-excepcionales">
+                            <h3>Pago de Reposicion</h3>
+                            <hr style="color: #ffb300;">
+
+                            <!-- Área para subir archivos -->
+                            <div class="subir-archivo">
+                                <h4>Boleta de Reposicion (PDF):</h4>
+                                <input id="inputPdf_reposition" type="file" accept=".pdf">
+                            </div>
+
+                            <br>
+                            <button class="btn-enviar" onclick="repositionRequest()">Enviar Solicitud</button>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Modal de Cancelaciones Excepcionales -->
                 <div id="modal-cancelaciones" class="modal">
@@ -97,93 +147,14 @@
                             <h3>Cancelaciones Excepcionales</h3>
                             <hr style="color: #ffb300;">
 
-                            <!-- Tabla de Clases Actuales -->
-                            <div class="clases-actuales">
-                                <h4>Asignaturas:</h4>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Sel</th>
-                                            <th>Código</th>
-                                            <th>Clase</th>
-                                            <th>Sección</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox" name="clase" value="matematica"></td>
-                                            <td>MAT110</td>
-                                            <td>Matemática I</td>
-                                            <td>1400</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="clase" value="fisica"></td>
-                                            <td>FIS100</td>
-                                            <td>Física I</td>
-                                            <td>1200</td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox" name="clase" value="programacion"></td>
-                                            <td>MM314</td>
-                                            <td>Programación I</td>
-                                            <td>0800</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                 <!-- Opciones de Justificación -->
-            <div class="opciones-justificacion">
-                <h4>Seleccione la justificación:</h4>
-                <select id="justificacion">
-                    <option value="">Seleccione una opción</option>
-                    <option value="">Enfermedad o problema de salud</option>
-                    <option value="">Calamidad Familiar</option>
-                    <option value=""> Separación o muerte del cónyuge, enfermedad grave de padres, hijos o cónyuge</option>
-                    <option value="">Problemas o cambios laborales</option>
-                </select>
-            </div>
-
-
                             <!-- Área para subir archivos -->
                             <div class="subir-archivo">
                                 <h4>Subir Justificación (PDF):</h4>
-                                <input type="file" accept=".pdf">
+                                <input id="inputPdf_cancelClass" type="file" accept=".pdf">
                             </div>
 
                             <br>
-                            <button class="btn-enviar">Enviar Solicitud</button>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- Modal de Cambio de Centro -->
-                <div id="modal-cambio-centro" class="modal">
-                    <div class="modal-contenido">
-                        <span class="cerrar-modal" onclick="cerrarModal('modal-cambio-centro')">&times;</span>
-                        <div class="cambio-centro">
-                            <h3>Cambio de Centro</h3>
-                            <hr style="color: #ffb300;">
-                            <div class="info-estudiante">
-                                <p><strong>Estudiante:</strong> Juan Pérez</p>
-                                <p><strong>Centro Actual:</strong> Ciudad Universitaria</p>
-                            </div>
-                            <br>
-
-                            <!-- Selección del Nuevo Centro -->
-                            <div class="seleccionar-centro">
-                                <label><strong>Seleccione el centro al que desea cambiarse:</strong></label>
-                                <select>
-                                    <option value="">Seleccione un centro</option>
-                                    <option value="">CU</option>
-                                    <option value="">UNAH-TEC Danli Centro Tecnológico de Danlí </option>
-                                    <option value="">CURNO Centro Universitario Regional Nororiental</option>
-                                    <option value="">UNAH-VS Valle de Sula</option>
-                                </select>
-                            </div>
-                            <br>
-                            <button class="btn-enviar">Enviar Solicitud</button>
+                            <button class="btn-enviar" onclick="cancelExceptionalClass()">Enviar Solicitud</button>
                         </div>
                     </div>
                 </div>
@@ -197,7 +168,7 @@
                             <h3>Solicitud para Revisor</h3>
                             <hr style="color: #ffb300;">
                             <div class="info-estudiante">
-                                <p><strong>Estudiante: Juan Lopez</strong></p>
+                                <p><strong>Estudiante: <span id="name"></span></strong></p>
                                 <button class="btn-enviar" id="proofreaderRequest">Enviar Solicitud</button>
                                  <!-- <button class="btn-enviar" onclick="cerrarModal('modal-solicitud-revisor')">Cancelar</button> -->
                             </div>
@@ -232,52 +203,13 @@
                 modal.style.display = 'none';
             }
         }
-
-
-        function toggleChatPanel() {
-            const chatPanel = document.getElementById('chatPanel');
-            chatPanel.classList.toggle('active');
-        }
-
-        function openTab(tabName) {
-            document.querySelectorAll('.chat-tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabName).classList.add('active');
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.classList.remove('active');
-            });
-            document.querySelector(`[onclick="openTab('${tabName}')"]`).classList.add('active');
-        }
-
-        function listaContactos() {
-            alert('Aquí se abriría la lista de contactos.');
-        }
-
-        function solicitudContacto() {
-            alert('Aquí se abriría el formulario para enviar solicitudes.');
-        }
-
-        function filtrarChat() {
-            const searchText = document.getElementById('chatSearch').value.toLowerCase();
-            const chatItems = document.querySelectorAll('.chat-item');
-            chatItems.forEach(chat => {
-                const chatName = chat.querySelector('.chat-info p').textContent.toLowerCase();
-                if (chatName.includes(searchText)) {
-                    chat.style.display = 'flex';
-                } else {
-                    chat.style.display = 'none';
-                }
-            });
-
-        }
     </script>
+    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/components/requests/careerCenterRequest.js"></script>
+    <script type="module" src="assets/js/components/requests/repositionCancelClass.js"></script>
 
     <script type="module" src="./assets/js/components/requests/proofreaderFetch.js"></script>
-    <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
-    <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
-    <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
-
+    <script type="module" src="assets/js/utils/chat.js"></script>
 
 </body>
 

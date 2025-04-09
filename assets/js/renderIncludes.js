@@ -3,7 +3,9 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
+import { RenderRequestView } from './components/requests/renderRequestView.js';
 import { loadDocentePage, loadPerfilDocenteView } from './components/docente/loadDocenteView.js';
+import {loadStudentPage} from './components/students/loadClassView.js'
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -105,6 +107,12 @@ export function renderHead(actualPage) {
 
 
             break;
+        
+        case "solicitudesCoordinador.php":
+            document.getElementsByTagName('title')[0].textContent = "Solicitudes Coordinador";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
+            break;
 
             case "docente.php":
                 document.getElementsByTagName('title')[0].textContent = "Docentes UNAH";
@@ -115,6 +123,13 @@ export function renderHead(actualPage) {
     
                 break;
 
+        case "estudiante.php":
+                document.getElementsByTagName('title')[0].textContent = "Estudiantes UNAH";
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/docente.css"));
+        
         default:
 
             break;
@@ -219,7 +234,6 @@ export function renderBodyPage(namePage) {
             break;
 
         case "solicitudes.php":
-
             break;
 
         case "biblioteca.php":
@@ -254,6 +268,33 @@ export function renderBodyPage(namePage) {
                     break;
             }
             break;
+        
+                    case "solicitudesCoordinador.php":
+            if (!sessionStorage.getItem("roles")) {
+                window.location.href = 'login.php';
+                break;
+            }
+
+            const solicitudMap = {
+                cambioCarrera: RenderRequestView.loadAndRenderChangeCareer,
+                cambioCentro: RenderRequestView.loadAndRenderChangeCenter,
+                cancelaciones: RenderRequestView.loadAndRenderCancelClass
+            };
+
+            const tipo = new URLSearchParams(window.location.search).get("tipo");
+
+            if (tipo) {
+                const renderFunction = solicitudMap[tipo];
+                if (renderFunction) {
+                    renderFunction();
+                } else {
+                    window.location.href = 'index.php';
+                }
+            } else {
+            }
+            break;
+    
+    
 
             case "docente.php":
 
@@ -282,6 +323,33 @@ export function renderBodyPage(namePage) {
                 default:
                     loadDocentePage(); // Vista por defecto
                     history.replaceState({ view: "docenteView" }, "", "docente.php");
+                    break;
+            }
+            break;
+
+            case "estudiante.php":
+
+            let actualEstudianteView = (history.state == null) ? "estudianteView" : history.state.view;
+            
+            if (!rol) {                
+                
+                // Redirigir a login si no hay sesión
+                loadLoginView();
+                history.replaceState(null, "estudiante.php");
+                break;
+            }
+
+            switch (actualEstudianteView) {
+
+                case "estudianteView":
+
+                    loadStudentPage();
+                    break;
+
+                default:
+                    console.warn("Vista no reconocida:", actualEstudianteView);
+                    loadStudentPage(); // Vista por defecto
+                    history.replaceState({ view: "estudianteView" }, "", "estudiante.php");
                     break;
             }
             break;

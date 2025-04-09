@@ -49,7 +49,15 @@ const generateMenuItems = (roles) => {
         );
     }
 
-
+    if (roles.includes("coordinador"))
+    {
+        items.push(
+            '<a id="solicitudesCoordinadorComponent"><a href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a></a>',
+            '<a id="cargaAcademicaCoordinadorComponent"><a href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a></a>',
+            '<a id="historialCoordiandorComponent"><a href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a></a>'
+        );
+    }
+    
     items.push('</ul>');
     return items.join('');
 };

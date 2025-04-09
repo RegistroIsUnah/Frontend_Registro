@@ -55,6 +55,7 @@ export function loadAllClasses(clasesArray) {
     classesGrid.appendChild(classCard);
   });
 }
+//Hasta Aca.
 
 /*!--<small>Periodo: ${periodo}</small><br>*/
 
@@ -112,4 +113,16 @@ export function renderClassDetail(clase, estudiantes) {
     `;
     tbody.appendChild(row);
   });
+}
+
+export function renderClassDetailStudent(clase) {
+  document.getElementById('classNameDetail').textContent = clase.nombre_clase;
+  document.getElementById('classCodeDetail').textContent = clase.codigo_clase;
+  
+  const dias = clase.seccion.dias.nombres_dias.join(', ');
+  const horario = `${dias} ${clase.seccion.hora_inicio} - ${clase.seccion.hora_fin}`;
+  document.getElementById('classScheduleDetail').textContent = horario;
+  
+  // Agrega otros detalles específicos para estudiantes, por ejemplo:
+  document.getElementById('classDescriptionDetail').textContent = clase.descripcion || "";
 }
