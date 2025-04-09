@@ -37,7 +37,7 @@
         if(sessionStorage.getItem("roles").includes("docente"))
         {
             document.getElementById("verPerfilComponent").innerHTML += '<a href=""><li> Ver Perfil</li> </a>';  
-            document.getElementById("asignaturasComponent").innerHTML += '<a href=""><li> Asignaturas</li> </a>';   
+            document.getElementById("asignaturasComponent").innerHTML += '<a href="docente.php"><li> Asignaturas</li> </a>';   
         }
 
          /*if(sessionStorage.getItem("roles").includes("revisor"))

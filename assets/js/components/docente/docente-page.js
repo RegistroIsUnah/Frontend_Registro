@@ -44,6 +44,8 @@ export let docenteView = `
                     <th>Cuenta</th>
                     <th>Estudiante</th>
                     <th>Calificación</th>
+                    <th>Estado</th>
+                    <th>OBS</th>
                   </tr>
                 </thead>
                 <tbody id="studentsTableBody"></tbody>

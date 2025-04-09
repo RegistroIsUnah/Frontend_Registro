@@ -1,5 +1,12 @@
 import { ConstValues } from "../utils/constValues";
 
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.0.4
+ * @since 2025/03/16
+ * 
+ * Clase que contiene métodos para consumir endpoints relacionados con docente.
+ */
 export class DocenteFetch {
 
     static getClasesDocente(docenteId) {
@@ -64,5 +71,28 @@ export class DocenteFetch {
         return { success: false };
         });
     }
+
+
+    static calificarEstudiante(data) {
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_calificacion_estudiante.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error("Error al subir calificaciones:", error);
+            return { success: false };
+        });
+    }
+    
+
 
 }

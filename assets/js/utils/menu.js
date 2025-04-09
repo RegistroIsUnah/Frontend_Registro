@@ -37,10 +37,11 @@ const generateMenuItems = (roles) => {
     if (roles.includes("docente")) {
         items.push(
             '<a id="verPerfilComponent"><a href="#"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a></a>',
-            '<a id="asignaturasComponent"><a href="#" id="asignaturasLink"><li><i class="fas fa-book"></i> Asignaturas</li></a></a>'
+            '<a id="asignaturasComponent"><a href="docente.php"><li><i class="fas fa-book"></i> Asignaturas</li></a></a>'
         );
     }
-    
+
+
     items.push('</ul>');
     return items.join('');
 };
