@@ -17,6 +17,7 @@
                 <a id="solicitudesCoordinadorComponent"></a>
                 <a id="cargaAcademicaCoordinadorComponent"></a>
                 <a id="historialCoordinadorComponent"></a>
+                <a id="docenteComponent"></a>
             </ul>
         </nav>
     </div>
@@ -50,7 +51,16 @@
             document.getElementById("cargaAcademicaCoordinadorComponent").innerHTML += '<a href=""><li> Revisar Carga Academica </li></a>';
             document.getElementById("historialCoordinadorComponent").innerHTML += '<a href="historialCoordinador.php"><li> Revisar Historial</li></a>'; 
         }
-
+        if(sessionStorage.getItem("roles").includes("jefe de departamento"))
+        {
+            document.getElementById("matriculaComponent").innerHTML += '<a href="matricula.php"><li>Matricula</li> </a>';  
+            document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href="clases.php"><li>Clases del Departamento</li> </a>';  
+        }
+        if(sessionStorage.getItem("roles").includes("administrador"))
+        {
+            document.getElementById("matriculaComponent").innerHTML += '<a href="matricula.php"><li>Periodo Académico/Matrícula</li> </a>';  
+            document.getElementById("docenteComponent").innerHTML += '<a href="docente.php"><li>Roles de docentes</li> </a>';  
+        }
          /*if(sessionStorage.getItem("roles").includes("revisor"))
             {
                     document.getElementById("revisorComponent").innerHTML += '<a href="revisores.php"><li id="enviarYcargar"> Revisar Aspirantes</li> </a>';  

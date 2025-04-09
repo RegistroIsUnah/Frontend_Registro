@@ -43,7 +43,8 @@ export class RenderEnrollmentView{
         let idStudent = sessionStorage.getItem("estudiante_id");
         let div = document.createElement("div");
         div.innerHTML = classEnrollmentStudentView();
-        document.getElementById("navbar").replaceWith(div);
+        //document.getElementById("navbar").replaceWith(div);
+        document.getElementById("navbar").insertAdjacentElement("afterend", div);
 
         let departmentSelect = await EnrollmentStudentComponent.departmentOptionsComponents();
         document.getElementById("departmentSelect").replaceWith(departmentSelect); 
@@ -104,11 +105,11 @@ export class RenderEnrollmentView{
         document.addEventListener("click", (event) => {
         
             if (event.target.classList.contains("showProfessorInformationButton")) {
-                EnrollmentStudentComponent.loadProfessorInformationModal(target.id);
+                EnrollmentStudentComponent.loadProfessorInformationModal(event.target.id);
             }
         
             if (event.target.classList.contains("cancelClass")) {
-                EnrollmentStudentComponent.cancelStudentClass(target.id, idStudent);
+                EnrollmentStudentComponent.cancelStudentClass(event.target.id, idStudent);
             }
         });
     }

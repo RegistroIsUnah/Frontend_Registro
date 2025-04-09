@@ -7,8 +7,9 @@
 
     <body class="d-flex flex-column min-vh-100">
 
+
         <?php
-        require_once("./includes/navbar.php");
+            include 'includes/header.php'; 
         ?>
 
         <?php

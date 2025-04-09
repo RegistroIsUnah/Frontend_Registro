@@ -81,6 +81,7 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            
         break;
 
         case "panel.php":

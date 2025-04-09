@@ -30,7 +30,7 @@ export function login() {
         })
         .then(data => {
 
-            //console.log(data);
+            console.log(data);
             
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
@@ -39,7 +39,7 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                console.log(data.user);
+                //console.log(data.user);
 
                 //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
                 //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
@@ -51,6 +51,8 @@ export function login() {
                     sessionStorage.setItem('revisor_id', data.user.details.revisor_id);
                 }
 
+
+
                 const ruta = window.location.pathname.split('/').pop();
 
                 window.location.href = sessionStorage.getItem("returnPage") && sessionStorage.getItem("returnPage");
@@ -59,7 +61,7 @@ export function login() {
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    console.log(data);
+                    //console.log(data);
                     window.location.href = 'panel.php'; 
                 }
 
@@ -79,7 +81,7 @@ export function login() {
                 //sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
                 if(roles.includes('jefe de departamento')){
-                    window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
+                    window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "clases.php";
                     return;
                 }
                 const ruta = window.location.pathname.split('/').pop();
@@ -91,14 +93,14 @@ export function login() {
                 }
             }else if (roles.includes("administrador")){
 
-                window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
+                window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "matricula.php";
 
             }else if(roles.includes("docente")){
                 window.location.href = "index.php";
             } else {
                 console.error('Rol no reconocido:', roles);
             }
-            //window.location.href = 'biblioteca.php'; 
+            
         })
         .catch(error => {
             // Mostrar el mensaje al usuario

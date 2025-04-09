@@ -6,25 +6,7 @@
  * @returns 
  */
 export let classEnrollmentStudentView = () => `
-
-<header class="nav">
-    <div class="nav-izq">
-        <h1>Sistema de Registro</h1>
-    </div>
-
-    <div class="nav-der">
-        <div class="chat-icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-        </div>
-
-        <div class="usuario">
-            <small>Estudiante</small>
-            <br>
-            <small>Usuario@unah.hn</small>
-        </div>
-    </div>
-</header>
-
+   
 <div class="mx-lg-5 mt-5 mx-md-3 mx-sm-3 mx-xs-3">
     <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="panel.php">Panel de Estudiante</a> | <a class="color-text">Matrícula</a></h5>
 </div>
