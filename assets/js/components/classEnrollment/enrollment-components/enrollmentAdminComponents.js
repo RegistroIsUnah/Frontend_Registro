@@ -62,15 +62,13 @@ export class EnrollmentAdminComponent{
             const formData = Object.fromEntries(form.entries());
 
             let numeroPeriodo = formData.numero_periodo;
-            let fechaInicio = new Date(formData.fecha_inicio);
-            let fechaFin = new Date(formData.fecha_fin);
 
             let dataPeriod = {
-                anio: String(fechaInicio.getFullYear()),
+                anio: formData.fecha_inicio.slice(0, 4),
                 numero_periodo: numeroPeriodo,
-                fecha_inicio: `${fechaInicio.getFullYear()}-${String(fechaInicio.getMonth() + 1).padStart(2, '0')}-${String(fechaInicio.getDate()).padStart(2, '0')}`,
-                fecha_fin: `${fechaFin.getFullYear()}-${String(fechaFin.getMonth() + 1).padStart(2, '0')}-${String(fechaFin.getDate()).padStart(2, '0')}`
-            };  
+                fecha_inicio: formData.fecha_inicio,
+                fecha_fin: formData.fecha_fin
+            };
 
             let response = await AdministrationFetch.createAcademicPeriod(dataPeriod);
             let divModal = document.createElement("div");
@@ -155,15 +153,13 @@ export class EnrollmentAdminComponent{
             let form = new FormData(document.getElementById("createEnrollProcessForm"));
             let formData = Object.fromEntries(form.entries());
 
-            let fechaInicio = new Date(formData.fecha_inicio);
-            let fechaFin = new Date(formData.fecha_fin);
-
             let enrollProcessData = {
                 periodo_academico_id: String(formData.numero_periodo),
                 tipo_proceso: String(formData.tipo_proceso),
-                fecha_inicio: `${fechaInicio.getFullYear()}-${String(fechaInicio.getMonth() + 1).padStart(2, '0')}-${String(fechaInicio.getDate()).padStart(2, '0')}`,
-                fecha_fin: `${fechaFin.getFullYear()}-${String(fechaFin.getMonth() + 1).padStart(2, '0')}-${String(fechaFin.getDate()).padStart(2, '0')}`
-            };  
+                fecha_inicio: formData.fecha_inicio, 
+                fecha_fin: formData.fecha_fin
+            };
+            
 
             let responseCreateEnrollProcess = await AdministrationFetch.createEnrollmentProcess(enrollProcessData);
             let divModal = document.createElement("div");
