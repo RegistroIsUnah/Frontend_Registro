@@ -25,6 +25,10 @@ export let classEnrollmentStudentView = () => `
     </div>
 </header>
 
+<div class="mx-lg-5 mt-5 mx-md-3 mx-sm-3 mx-xs-3">
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="panel.php">Panel de Estudiante</a> | <a class="color-text">Matrícula</a></h5>
+</div>
+
 <main class="contenedor">
     <section class="contenedor2">
         <div class="contenido" id="contenido">
@@ -95,7 +99,7 @@ export let classesSection = (cancelBtn, classText, classList) => `
     <div class="clases-matriculadas">
         <div class="clases-matriculadas-header">
             <h4>${classText}</h4>
-            <button id="${cancelBtn}" class="btn-cancelar" hidden>Cancelar ${classText}</button>
+            <button id="${cancelBtn}" class="btn-cancelar cancelClass" hidden>Cancelar ${classText}</button>
         </div>
         <ul id="${classList}">
             
@@ -116,13 +120,51 @@ export let classesSection = (cancelBtn, classText, classList) => `
  * @param {*} dias 
  * @returns 
  */
-export let classesList = (codigo="", asignatura, seccion, hi, hf, dias) => `
+export let classesList = (codigo="", asignatura, seccion, hi, hf, dias, attribute="", idSection) => `
     <li>
         <span>${codigo} <strong>${asignatura}</strong>, Sección <strong>${seccion}</strong></span>
         <small style="color:white" class="btn btn-secondary mx-1">HI: ${(hi).split(':').slice(0, 2).join(':')}, HF: ${(hf).split(':').slice(0, 2).join(':') }</small>  
         <small style="color:white" class="btn btn-secondary">Días: ${dias}</small>
-        <button style="margin-left: 10px;">Perfil del Docente</button>
+        <button ${attribute} id="${idSection}" class="showProfessorInformationButton" style="margin-left: 10px;">Perfil del Docente</button>
     </li>
 `;
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/08
+ * 
+ * @param {*} name 
+ * @param {*} email 
+ * @param {*} dept 
+ * @returns 
+ * 
+ * Tarjeta para mostrar información general del docente.
+ */
+//<button type="button" id="closeUserCard" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+export let userInformationCard = (name, email, dept) => `
 
+        <div class="modal fade perfil-container" id="userInformationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content perfil-seccion">
+                <div class="modal-header">
+                <h3 class="mb-0">Datos Generales del Docente</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="perfil-item">
+                        <span class="perfil-label">Nombre:</span>
+                        <span class="perfil-valor">${name}</span>
+                    </div>
+                    <div class="perfil-item">
+                        <span class="perfil-label">Correo:</span>
+                        <span class="perfil-valor">${email}</span>
+                    </div>
+                    <div class="perfil-item">
+                        <span class="perfil-label">Departamento:</span>
+                        <span class="perfil-valor">${dept}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;

@@ -78,6 +78,8 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
         break;
 
         case "panel.php":
@@ -212,7 +214,7 @@ export function renderBodyPage(namePage) {
                 switch(true){
 
                     case(roles.includes("estudiante")):
-                        RenderEnrollmentView.renderClassEnrollmentStudentView();
+                        RenderEnrollmentView.validateStudentEnrollDay();
                     break;
 
                     case(roles.includes("administrador")):
