@@ -46,36 +46,6 @@
                         </table>
                 </div>
          </section>
-        <!-- Modal de Evaluación -->
-        <div id="evaluacionModal" class="modal">
-            <div class="modal-contenido">
-                <span class="close" onclick="cerrarModeal()">&times;</span>
-                <h3>Evaluación del Docente</h3>
-                <form id="evaluacionForm" onsubmit="evaluacion(event)">
-                    <div class="pregunta">
-                        <p>1. ¿El docente explica claramente los temas?</p>
-                        <select class="combobox" required>
-                            <option value="">Seleccione...</option>
-                            <option value="mal">Mal</option>
-                            <option value="bueno">Bueno</option>
-                            <option value="excelente">Excelente</option>
-                        </select>
-                    </div>
-
-                    <div class="pregunta">
-                        <p>2. ¿El docente está disponible para consultas?</p>
-                        <select class="combobox" required>
-                            <option value="">Seleccione...</option>
-                            <option value="mal">Mal</option>
-                            <option value="bueno">Bueno</option>
-                            <option value="excelente">Excelente</option>
-                        </select>
-                    </div>
-
-                    <button type="submit" class="btn-enviar">Enviar Evaluación</button>
-                </form>
-            </div>
-        </div>
     </main>
 
     <?php
@@ -86,33 +56,9 @@
     require_once("./includes/scripts.php");
     ?>
 
-    <script>
-        let currentClaseId = null;
-
-        function evaluacionModal(claseId) {
-            currentClaseId = claseId;
-            document.getElementById('evaluacionModal').style.display = 'block';
-        }
-
-        function cerrarModeal() {
-            document.getElementById('evaluacionModal').style.display = 'none';
-            document.getElementById('evaluacionForm').reset();
-        }
-
-        function evaluacion(event) {
-            event.preventDefault();
-
-            // Ocultar botón y mostrar nota
-            const fila = document.querySelector(`tr[data-clase-id="${currentClaseId}"]`);
-            fila.querySelector('.btn-evaluar').style.display = 'none';
-            fila.querySelector('.nota').style.display = 'table-cell';
-
-            cerrarModeal();
-        }
-    </script>
-
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
     <script type="module" src="assets/js/components/students/studentGrades.js"></script>
+    <script type="module" src="assets/js/components/students/dynamicEvaluationModal.js"></script>
 
     <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
     <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
