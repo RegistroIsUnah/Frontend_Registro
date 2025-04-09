@@ -1,6 +1,6 @@
 import { classEnrollmentStudentView } from "./enrollment-views/enrollment-student-view.js";
 import { EnrollmentStudentComponent } from "./enrollment-components/enrollmentStudentComponents.js";
-import { messageAlert } from "../modals/modals.js";
+import { messageAlert, alertModal } from "../modals/modals.js";
 import { EnrollmentAdminComponent } from "./enrollment-components/enrollmentAdminComponents.js";
 
 /**
@@ -11,6 +11,25 @@ import { EnrollmentAdminComponent } from "./enrollment-components/enrollmentAdmi
  * Esta clase renderiza las vistas de matricula referentes a cada usuario.
  */
 export class RenderEnrollmentView{
+
+    static async validateStudentEnrollDay() {
+        let idStudent = sessionStorage.getItem("estudiante_id");
+        let dayResponse = await EnrollmentStudentComponent.validateStudentEnrollDay(idStudent);
+
+        if (!dayResponse.puede_matricular) {
+            document.body.innerHTML += alertModal(dayResponse.mensaje, false);
+
+            const modalElement = document.getElementById('alertModal');
+            const modal = new bootstrap.Modal(modalElement);
+            modal.show();
+
+            modalElement.addEventListener('hidden.bs.modal', () => {
+                window.location.href = 'panel.php';
+            });
+        } else {
+            RenderEnrollmentView.renderClassEnrollmentStudentView();
+        }
+    }
 
     /**
      * @author estiven.mejia@unah.hn
@@ -25,8 +44,7 @@ export class RenderEnrollmentView{
         let div = document.createElement("div");
         div.innerHTML = classEnrollmentStudentView();
         document.getElementById("navbar").replaceWith(div);
-        //document.getElementsByTagName("body")[0].insertAdjacentElement("afterbegin", div);
-    
+
         let departmentSelect = await EnrollmentStudentComponent.departmentOptionsComponents();
         document.getElementById("departmentSelect").replaceWith(departmentSelect); 
         
@@ -74,6 +92,7 @@ export class RenderEnrollmentView{
                         return;
                     }
                     EnrollmentStudentComponent.sendEnrollmentStudent(sectionId, idStudent, classHasLab, idClassSelected, className.split(" - ")[1].trim());
+                
                 });
             });
         });
@@ -81,8 +100,19 @@ export class RenderEnrollmentView{
         await EnrollmentStudentComponent.sectionEnrolledStudentClassesComponent(idStudent);
         await EnrollmentStudentComponent.sectionWaitingStudentClasses(idStudent);
         await EnrollmentStudentComponent.sectionStudentLabs(idStudent);
+        
+        document.addEventListener("click", (event) => {
+        
+            if (event.target.classList.contains("showProfessorInformationButton")) {
+                EnrollmentStudentComponent.loadProfessorInformationModal(target.id);
+            }
+        
+            if (event.target.classList.contains("cancelClass")) {
+                EnrollmentStudentComponent.cancelStudentClass(target.id, idStudent);
+            }
+        });
     }
-
+    
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.1
@@ -98,3 +128,4 @@ export class RenderEnrollmentView{
         document.getElementById("crearEnrollmentProcess").addEventListener("click", () => EnrollmentAdminComponent.loadCreateEnrollmentProcessModal());
     }
 }
+

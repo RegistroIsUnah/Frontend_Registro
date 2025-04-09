@@ -12,7 +12,8 @@ export const genericCardView = ({
     items = [],
     tags = [],
     onClick = null,
-    extraHTML = ''
+    extraHTML = '',
+    attribute="disabled"
 }) => `
     <div class="card book-card mb-4">
         <div class="card-body" ${onClick ? `onclick="${onClick}" style="cursor:pointer;"` : ''}>

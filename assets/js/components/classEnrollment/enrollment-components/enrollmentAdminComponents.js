@@ -74,7 +74,7 @@ export class EnrollmentAdminComponent{
 
             let response = await AdministrationFetch.createAcademicPeriod(dataPeriod);
             let divModal = document.createElement("div");
-            divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+            divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", `Ha ocurrido un problema interno de servidor: ${response.error}`);
             document.body.appendChild(divModal);
             let createAcademicPeriodAlertResponse = new bootstrap.Toast(document.getElementById('messageAlert'));
             createAcademicPeriodAlertResponse.show(); 
@@ -167,7 +167,7 @@ export class EnrollmentAdminComponent{
 
             let responseCreateEnrollProcess = await AdministrationFetch.createEnrollmentProcess(enrollProcessData);
             let divModal = document.createElement("div");
-            divModal.innerHTML = !responseCreateEnrollProcess.error ? messageAlert("bg-success", responseCreateEnrollProcess.message) : messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+            divModal.innerHTML = !responseCreateEnrollProcess.error ? messageAlert("bg-success", responseCreateEnrollProcess.message) : messageAlert("bg-danger", `Ha ocurrido un problema interno de servidor: ${response.error}`);
             document.body.appendChild(divModal);
             let createAcademicPeriodAlertResponse = new bootstrap.Toast(document.getElementById('messageAlert'));
             createAcademicPeriodAlertResponse.show(); 

@@ -1,7 +1,3 @@
-<?php
-include 'includes/chat.php'; // Incluye el chat
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 
