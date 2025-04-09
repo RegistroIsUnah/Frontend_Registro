@@ -1,5 +1,6 @@
 <?php
-include 'includes/chat.php'; // Incluye el chat
+/*
+include 'includes/chat.php'; // Incluye el chat*/
 ?>
 
 <!DOCTYPE html>
@@ -100,6 +101,12 @@ include 'includes/chat.php'; // Incluye el chat
     include 'includes/footer.php'; // Incluye el header
     ?>
 
+<?php
+  require_once("./includes/scripts.php");
+  ?>
+    <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
+
+
     <script>
         function handleFileUpload(event) {
             const input = event.target;
@@ -141,9 +148,9 @@ include 'includes/chat.php'; // Incluye el chat
     </script>
 
 
-
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
-    <script type="module" src="assets/js/utils/chat.js"></script>
+    <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
+
 </body>
 
 </html>

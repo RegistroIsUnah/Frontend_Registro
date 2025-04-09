@@ -54,6 +54,14 @@ include 'includes/chat.php'; // Incluye el chat
     include 'includes/scripts.php';
     ?>
 
+    <script>
+    document.querySelectorAll('.solicitud-card').forEach(card => {
+        card.addEventListener('click', () => {
+        const tipo = card.getAttribute('data-url');
+        window.location.href = `solicitudesCoordinador.php?tipo=${tipo}`;
+        });
+    });
+    </script>
 
 </body>
 
