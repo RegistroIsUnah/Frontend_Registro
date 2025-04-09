@@ -48,6 +48,7 @@ export function loadAllClasses(clasesArray) {
       classesGrid.appendChild(classCard);
   });
 }
+//Hasta Aca.
 
 export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;

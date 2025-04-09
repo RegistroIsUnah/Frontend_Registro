@@ -1,5 +1,5 @@
 
-export let docenteView = `
+export let studentClassView = `
     <main class="contenedor">
     <!-- Menú lateral -->
      <section class="main-contenedor" id="menuContainer"></section>
@@ -60,42 +60,4 @@ export let docenteView = `
       </div>
     </section>
   </main>
-//Copiar
-
-  <!-- MODAL DE SUBIR VIDEO -->
-         
-
- <!-- Modal para subir video -->
- <div class="modal fade" id="videoModal" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Subir Video Introductorio</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <form id="videoForm">
-            <div class="mb-3">
-              <label for="videoUrl" class="form-label">URL de YouTube</label>
-              <input type="url" class="form-control" id="videoUrl" 
-                     pattern="https?://(www\.)?(youtube\.com|youtu\.be)/.+" required>
-              <div class="form-text">Ejemplo: https://www.youtube.com/watch?v=ABCD1234</div>
-            </div>
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="submitVideoBtn">Guardar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-`
-
-
-
+  `

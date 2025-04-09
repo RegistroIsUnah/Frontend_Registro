@@ -24,7 +24,8 @@ const generateMenuItems = (roles) => {
             '<a id="historialComponent"><a href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a></a>',
             '<a id="calificacionesComponent"><a href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a></a>',
             '<a id="matriculaComponent"><a href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
-            '<a id="solicitudesComponent"><a href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a></a>'
+            '<a id="solicitudesComponent"><a href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a></a>',
+            '<a id="asignaturasEstudianteComponent"><a href=""><li><i class="fas fa-envelope"></i> Solicitudes</li></a></a>'
         );
     }
     
@@ -38,6 +39,15 @@ const generateMenuItems = (roles) => {
         items.push(
             '<a id="verPerfilComponent"><a href="#"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a></a>',
             '<a id="asignaturasComponent"><a href="#" id="asignaturasLink"><li><i class="fas fa-book"></i> Asignaturas</li></a></a>'
+        );
+    }
+
+    if (roles.includes("coordinador"))
+    {
+        items.push(
+            '<a id="solicitudesCoordinadorComponent"><a href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a></a>',
+            '<a id="cargaAcademicaCoordinadorComponent"><a href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a></a>',
+            '<a id="historialCoordiandorComponent"><a href="historialCoordinador.php"><li><i class="fas fa-book"></i>A</li></a></a>'
         );
     }
     

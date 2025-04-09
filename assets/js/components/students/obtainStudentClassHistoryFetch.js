@@ -3,6 +3,13 @@
 import { ConstValues } from "../../utils/constValues.js";
 import { createPaginationSystem } from "../../utils/pagination.js" 
 
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/08
+ */
+
 /**
  * Función para "aplanar" la data.
  * Como 'data' ya es un array plano, simplemente se retorna.

@@ -3,6 +3,13 @@ import { createPaginationSystem } from "../../utils/pagination.js"
 import { genericCardView } from "./request-views/defaultRequestView.js";
 import { ConstValues } from "../../utils/constValues.js";
 
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/08
+ */
+
+
 // 1. Funciones para "aplanar" y "agrupar" los datos (en este caso, solicitudes). 
 //    Como las solicitudes son ya un array simple, no necesitas agrupar nada.
 function flattenRequests(dataOriginal) {

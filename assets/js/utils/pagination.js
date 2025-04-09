@@ -1,4 +1,10 @@
 // pagination.js
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/08
+ */
+
 
 export function createPaginationSystem({
     itemsPerPage = 10,
