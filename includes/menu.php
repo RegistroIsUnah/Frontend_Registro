@@ -1,7 +1,7 @@
 <!-- Menú lateral -->
 <section class="main-contenedor">
     <div>
-        <h3 class="panel-title">Panel Estudiantil</h3>
+        <h3 class="panel-title">Panel Principal</h3>
         <nav>
             <a id="panelComponent"></a>
             <ul>

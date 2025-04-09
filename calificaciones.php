@@ -27,41 +27,25 @@
         include "includes/menu.php"
         ?>
 
-        <section class="contenedor2">
-            <div class="contenido">
-                <h2>Calificaciones</h2>
-
-                <!-- Tabla de Clases -->
-                <table class="tabla-clases">
-                    <thead>
-                        <tr>
-                            <th>Clase</th>
-                            <th>Docente</th>
-                            <th>Acción</th>
-                            <th>Nota</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="clase-item" data-clase-id="1">
-                            <td>Matemáticas</td>
-                            <td>Juan Perez</td>
-                            <td><button class="btn-evaluar" onclick="evaluacionModal('1')">Evaluar Docente</button>
-                            </td>
-                            <td class="nota" style="display: none;">85</td>
-                        </tr>
-
-                        <tr class="clase-item" data-clase-id="2">
-                            <td>Programación</td>
-                            <td>Maria Lopez</td>
-                            <td><button class="btn-evaluar" onclick="evaluacionModal('2')">Evaluar Docente</button>
-                            </td>
-                            <td class="nota" style="display: none;">90</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
+            <section class="contenedor2">
+                <div class="contenido">
+                    <h2>Calificaciones</h2>
+                        <!-- Ajustamos la tabla para tener 4 columnas -->
+                        <table id="tabla-calificaciones" class="tabla-clases">
+                            <thead>
+                                <tr>
+                                    <th>Clase</th>
+                                    <th>Docente</th>
+                                    <th>Acción</th>
+                                    <th>Nota</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Se llenará dinámicamente por studentGrades.js -->
+                            </tbody>
+                        </table>
+                </div>
+         </section>
         <!-- Modal de Evaluación -->
         <div id="evaluacionModal" class="modal">
             <div class="modal-contenido">
@@ -128,6 +112,8 @@
     </script>
 
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/components/students/studentGrades.js"></script>
+
     <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
     <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
 

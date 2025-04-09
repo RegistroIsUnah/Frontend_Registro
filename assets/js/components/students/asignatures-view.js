@@ -4,7 +4,7 @@ export let studentClassView = `
       <section class="main-contenedor" id="menuContainer"></section>
       <!-- Contenido principal -->
       <section class="contenedor2">
-        <h2>Bienvenid@ ESTUDIANTE <span id="name"></span></h2>
+        <h2>Bienvenid@ Estudiante <span id="name"></span></h2>
         <div class="contenido">
           <!-- Vista de todas las clases -->
           <div id="classesView" class="classes-container">

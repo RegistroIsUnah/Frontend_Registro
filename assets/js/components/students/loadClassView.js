@@ -1,4 +1,12 @@
 // loadStudentPage.js
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
 import { studentClassView } from "./asignatures-view.js";
 import { loadMenu } from "../../utils/menu.js";
 import { renderClassDetail, renderClassDetailStudent } from "../docente/renderClases.js";
