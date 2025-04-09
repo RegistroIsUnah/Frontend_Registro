@@ -30,7 +30,7 @@
             document.getElementById("calificacionesComponent").innerHTML += '<a href="calificaciones.php"><li> Calificaciones</li> </a>';  
             document.getElementById("matriculaComponent").innerHTML += '<a href="matricula.php"><li> Matricula</li> </a>';  
             document.getElementById("solicitudesComponent").innerHTML += '<a href="solicitudes.php"><li> Solicitudes</li> </a>';
-            document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href=""><li> Asginaturas</li> </a>';  
+            document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href="estudiante.php"><li> Asginaturas</li> </a>';  
            
         }
 
