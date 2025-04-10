@@ -1,4 +1,4 @@
-import { ModalManager } from "../../modals/modalSuccess-Error";
+import { ModalManager } from "../../modals/modalSuccess-Error.js";
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.1.1

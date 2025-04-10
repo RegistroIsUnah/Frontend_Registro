@@ -1,4 +1,4 @@
-import { ConstValues } from "../../utils/constValues";
+import { ConstValues } from "../../utils/constValues.js";
 
 export function verPerfilDocenteView(docente) {
     return `
