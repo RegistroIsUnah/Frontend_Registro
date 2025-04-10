@@ -2,6 +2,13 @@ import { csvFormModal } from "../admissions-views/admin-admissions-page.js";
 import { AdmissionFetch } from "../../../fetchs/admissionFetch.js";
 import { messageAlert } from "../../modals/modals.js";
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/05/09
+ * 
+ * @param {*} classId 
+ */
 export class AdminAdmissionsComponents {
 
   static async downloadApprovedApplicantsCsv(){
@@ -56,19 +63,24 @@ export class AdminAdmissionsComponents {
       
       const formData = new FormData(document.getElementById('csvForm'));
       let response = "";
-      
-      if(buttonId == "sendApplicantsCalifications"){
-        formData.append('archivo_csv', file);
-        response = await AdmissionFetch.sendApplicantsCalifications(formData);
-      }else if(buttonId == "sendApprovedApplicantsCalifications") {
-        formData.append('estudiantes_csv', file);
-        response = await AdmissionFetch.sendApprovedAplicantsCalifications(formData);
-      }
-      document.getElementById('csvModal')?.remove();      
-      console.log(response);
       let divModal = document.createElement("div");
-      divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", response.error);
+      
+      switch(buttonId){
 
+        case "sendApplicantsCalifications":
+          formData.append('archivo_csv', file);
+          response = await AdmissionFetch.sendApplicantsCalifications(formData);
+          divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", response.error);
+
+        case "sendApprovedApplicantsCalifications":
+          formData.append('estudiantes_csv', file);
+          response = await AdmissionFetch.sendApprovedAplicantsCalifications(formData);
+          divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", response.error);
+
+        default:break;
+      }
+    
+      document.getElementById('csvModal')?.remove();      
       document.body.appendChild(divModal);
       let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
       successModalInstance.show(); 

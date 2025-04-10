@@ -7,7 +7,7 @@
  */
 export class RegularExpressions{
 
-    static SPECIAL_CHARACTERS = /[<>={}[\]\\;:'"(),`~!$%^&*+?]/g;
+    static SPECIAL_CHARACTERS = /[<>={}[\]\\;:'"()`~!$%^&*+?]/g;
 
     static F_NAME = /^([A-ZÑÁÉÍÓÚÄËÏÖÜ][a-zñáéíóúäëïöü]+\s?){1,4}$/
     static L_NAME = /^([A-ZÑÁÉÍÓÚÄËÏÖÜ][a-zñáéíóúäëïöü]+)(\s[A-ZÑÁÉÍÓÚÄËÏÖÜ][a-zñáéíóúäëïöü]+)?$/;

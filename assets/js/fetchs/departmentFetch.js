@@ -1,4 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
+import { messageAlert } from "../components/modals/modals.js";
 
 export class DepartmentFetch{
 
@@ -62,5 +63,40 @@ export class DepartmentFetch{
         .catch(error => {
             console.log("error en la solicitud"+ error);
         })
+    }
+
+    static getProffesorsByDeptId(deptId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_docentes_departamento.php?dept_id=${deptId}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud"+ error);
+        })
+    }
+
+    static createSection(formData){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/crear_seccion.php`, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if(!response.ok){
+                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return response.json();
+        })
+        .then(data => data)
+        .catch(error => {
+            console.error("Error: ", error);
+        return { success: false };
+        });
     }
 }

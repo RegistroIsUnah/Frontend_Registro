@@ -129,10 +129,7 @@ export class AdmissionFetch{
 
         return fetch(`${ConstValues.DOMAIN_NAME}/post/procesar_aspirantes_aprobados.php`, {
             method: "POST",
-            headers: {
-                'Content-Type': "application/json"
-            },
-            body: JSON.stringify(formData)
+            body: formData
         })
         .then(response => {
             if(!response.ok){

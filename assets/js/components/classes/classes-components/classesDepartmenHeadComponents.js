@@ -1,8 +1,19 @@
 import { classesTarget, createSectionForm } from "../classes-views/classesDepartmentHeadViews.js";
 import { ClassFetch } from "../../../fetchs/classFetch.js";
+import { DepartmentFetch } from "../../../fetchs/departmentFetch.js";
+import { AdministrationFetch } from "../../../fetchs/administrationFetch.js";
+import { CenterFetch } from "../../../fetchs/centerFetch.js";
+import { RegularExpressions } from "../../../utils/regularExpressions.js";
+import { messageAlert } from "../../modals/modals.js";
 
 export class ClassesDepartmentHeadComponents{
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/05/09
+     * 
+     */
     static async loadClassesDepartmentHeadComponent(){
         let deptId = sessionStorage.getItem("deptId");
         let classesData = await ClassFetch.getClasesByDeptId(deptId);
@@ -36,6 +47,13 @@ export class ClassesDepartmentHeadComponents{
         : document.getElementById("navbar").insertAdjacentElement("afterend", div);    
     }
 
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/05/09
+     * 
+     * @param {*} classId 
+     */
     static async loadSectionsClass(classId){
 
         window.addEventListener("beforeunload", () => sessionStorage.setItem("classId", classId));
@@ -54,13 +72,11 @@ export class ClassesDepartmentHeadComponents{
         div.append(div3);
 
         let button = document.createElement("button");
-        button.className = "btn btn-primary mb-4"; 
-        button.id = "createSectionButton";      
-        button.innerHTML = "Crear Sección";      
-        button.type = "button";                    
-        button.setAttribute('data-bs-toggle', 'modal');
-        //button.setAttribute('data-bs-target', '#admissionModal');
-        div.append(button);
+        button.className = "btn btn-primary mb-4";
+        button.id = "createSectionButton";
+        button.innerHTML = "Crear Sección";
+        button.type = "button";
+        div.append(button);        
 
         Object.values(sectionsClassData).forEach(section => {
 
@@ -94,12 +110,85 @@ export class ClassesDepartmentHeadComponents{
         document.getElementById("returnToClassesView")?.addEventListener("click", () => window.addEventListener("beforeunload", () => sessionStorage.removeItem("classId")));
     }
 
-    static async loadCreateSectionForm(classId){
+    /**
+     * @author estiven.mejia@unah.hn
+     * @version 0.0.1
+     * @since 2025/05/09
+     * 
+     * @param {*} classId 
+     * 
+     * Esta función carga el formulario de crear sección y lo envía hacia el endpoint.
+     */
+    static async loadCreateSectionForm(classId) {
 
-        let divModal = document.createElement("div");
-        divModal.id = "divModalCreateAcademicPeriod"
-        divModal.innerHTML = createSectionForm();
-        document.body.appendChild(divModal);
-    }
+        let deptId = sessionStorage.getItem("deptId");
+        let proffessorsData = await DepartmentFetch.getProffesorsByDeptId(deptId);
+        let academicPeriodsData = await AdministrationFetch.getActiveAcademicPeriods();
+        let buildingsData = await CenterFetch.getBuildings();
+        
+        let proffessorOption = ['<option value="" selected>-- Seleccione un Docente --</option>']
+        .concat(proffessorsData.docentes.map(proffessor => 
+            `<option value="${proffessor.docente_id}">${proffessor.nombre} ${proffessor.apellido}</option>`
+        )).join('');
+
+        let academicOption = ['<option value="" selected>-- Seleccione un Periodo --</option>']
+        .concat(Object.values(academicPeriodsData).map(period => 
+            `<option value="${period.periodo_academico_id}">${period.numero_periodo} - ${period.anio}</option>`
+        )).join('');
+
+        let buildingOption = ['<option value="" selected>-- Seleccione un Edificio --</option>']
+        .concat(buildingsData.data.map(building => 
+            `<option value="${building.edificio_id}">${building.nombre_edificio}</option>`
+        )).join('');
+
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = createSectionForm(classId, proffessorOption, academicOption, buildingOption);
+        document.body.appendChild(modalContainer);
+        const modal = new bootstrap.Modal(document.getElementById('createSectionModal'));
+        modal.show();
+        modalContainer.addEventListener('hidden.bs.modal', () => {
+            document.body.removeChild(modalContainer);
+        });
+
+        document.getElementById("edificio_id").addEventListener("change", async (event) => {
+            let selectedOption = event.target.options[event.target.selectedIndex];
+
+            let classroomsData = await CenterFetch.getAulasByBuildingId(selectedOption.value);
+
+            let classroomOption = ['<option value="" selected>-- Seleccione un Aula --</option>']
+            .concat(classroomsData.aulas.map(classroom => 
+                `<option value="${classroom.aula_id}">${classroom.nombre}</option>`
+            )).join('');
     
+            document.getElementById("aula_id").disabled = false;
+            document.getElementById("aula_id").innerHTML = classroomOption;
+            console.log(classroomOption);
+        });
+
+        document.getElementById('create-section-form')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const form = document.querySelector("#create-section-form");
+            let formData = new FormData();
+            formData.append("clase_id", form.querySelector("[name='clase_id']").value.trim().replace(/\D/g, ''));
+            formData.append("docente_id", form.querySelector("[name='docente_id']").value.trim().replace(/\D/g, ''));
+            formData.append("periodo_academico_id", form.querySelector("[name='periodo_academico_id']").value.trim().replace(/\D/g, ''));
+            formData.append("aula_id", form.querySelector("[name='aula_id']").value.trim().replace(/\D/g, ''));
+            formData.append("hora_inicio", form.querySelector("[name='hora_inicio']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+            formData.append("hora_fin", form.querySelector("[name='hora_fin']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+            formData.append("cupos", form.querySelector("[name='cupos']").value.trim().replace(/\D/g, ''));
+            formData.append("dias", form.querySelector("[name='dias']").value.trim().replace(RegularExpressions.SPECIAL_CHARACTERS, ''));
+            
+            let response = await DepartmentFetch.createSection(formData);
+
+            let divModal = document.createElement("div");
+            divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", `${response.error}`);
+            document.body.appendChild(divModal);
+            let createAcademicPeriodAlertResponse = new bootstrap.Toast(document.getElementById('messageAlert'));
+            createAcademicPeriodAlertResponse.show(); 
+            setTimeout(() => divModal.remove(), 4000);
+
+            modal.hide();
+        });
+    }       
 }
