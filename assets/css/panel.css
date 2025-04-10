@@ -1,0 +1,91 @@
+/* Contenedor de card */
+.contenido {
+  display: flex; 
+  flex-wrap: wrap; /* Permite que las tarjetas se ajusten automáticamente */
+  gap: 10px; /* Espacio entre las tarjetas */
+}
+
+.contenedor2{
+  color: #013775;
+  margin-bottom: 20px;
+}
+
+.card {
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 250px; 
+}
+
+.card-title {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.card small {
+  display: block; /* Hace que el small ocupe su propia línea */
+  margin: 0 0 10px 0; 
+  color: gray;
+  font-size: 0.9rem;
+}
+
+.card-status {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Colores para cada card */
+.card-1 {
+  background-color: #d4d4fc; 
+  border: 1px solid #013775;
+
+}
+
+.card-1 .card-title {
+  color: #013775; 
+}
+
+.card-3 {
+  background-color: #f1eaab; 
+  border: 1px solid #fcb814;
+}
+.card-3 .card-title {
+  color: #fcb814; 
+}
+
+.card-4 {
+  background-color: #fbccff; 
+  border: 1px solid #620175;
+}
+.card-4 .card-title {
+  color: #620175; 
+}
+
+/* Card 2 DYNAMICS */
+.card-good {
+  background-color: #cffacf;
+  border: 1px solid #8bc63e;
+}
+.card-good .card-title {
+  color: #8bc63e;
+}
+
+.card-warning {
+  background-color: #f1eaab;
+  border: 1px solid #fcb814;
+}
+.card-warning .card-title {
+  color: #fcb814;
+}
+
+.card-bad {
+  background-color: #f8d7da;
+  border: 1px solid #dc3545;
+}
+.card-bad .card-title {
+  color: #dc3545;
+}

@@ -1,0 +1,55 @@
+/* Estilos para las clases */
+.classes-container {
+    padding: 20px;
+  }
+  
+  .classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .class-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .class-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .class-detail-container {
+    padding: 20px;
+    
+  }
+  
+  .class-meta {
+    color: #6c757d;
+    margin-bottom: 20px;
+  }
+  
+  .class-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .grade-input {
+    max-width: 100px;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .classes-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .class-actions {
+      flex-direction: column;
+    }
+    
+    .class-actions .btn {
+      width: 100%;
+    }
+  }

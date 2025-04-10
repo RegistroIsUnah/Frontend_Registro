@@ -1,0 +1,163 @@
+.matricula{
+    margin-bottom: 20px; 
+    display: flex; 
+    gap: 20px;
+}
+
+.matricula label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.matricula select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+/* Tabla de secciones disponibles */
+.secciones-disponibles table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.secciones-disponibles th,
+.secciones-disponibles td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.secciones-disponibles thead th {
+    background-color: #013775;
+    color: white;
+}
+
+.secciones-disponibles tr {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.secciones-disponibles tr:hover {
+    background-color: #e3e6e9;
+}
+
+.secciones-disponibles tr.seleccionada {
+    background-color: #b1def0;
+    color: black;
+}
+
+/* Botón de matricular */
+.btn-matricular {
+    background-color: #013775;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.btn-matricular:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.btn-matricular:hover:not(:disabled) {
+    background-color: #012a5e;
+}
+
+/* Encabezado de clases matriculadas */
+.clases-matriculadas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.clases-matriculadas-header h4 {
+    margin: 0;
+    /* Elimina el margen predeterminado del h4 */
+}
+
+/* Botón para cancelar clases */
+.btn-cancelar {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+    background-color: #cc0000;
+}
+
+/* Lista de clases matriculadas */
+.clases-matriculadas ul {
+    list-style: none;
+    padding: 0;
+}
+
+.clases-matriculadas ul li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.clases-matriculadas ul li span {
+    flex-grow: 1;
+}
+
+.clases-matriculadas ul li small {
+    display: block;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.clases-matriculadas ul li button {
+    background-color: #013775;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.clases-matriculadas ul li button:hover {
+    background-color: #012a5e;
+}
+ 
+.classSectionId, .classSectionId ~ th, .labsSectionId, .labsSectionId ~ th{
+    background-color: white;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+  }
+  
+  .classSectionId.selected, .classSectionId.selected ~ th, .labsSectionId.selected, .labsSectionId.selected ~ th{
+    background-color: #1E90FF;
+    color: white;
+    border-color: #1E90FF;
+  }
+
