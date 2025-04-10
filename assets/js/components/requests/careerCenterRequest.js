@@ -6,8 +6,8 @@
  */
 
 
-import { ConstValues } from "../../utils/constValues.js";
-import { CenterFetch } from "../../fetchs/centerFetch.js"; 
+import { ConstValues } from "../../utils/constValues";
+import { CenterFetch } from "../../fetchs/centerFetch"; 
 //GET DE CARRERAS POR CENTRO
 window.getCareersByCenter = () => {
     const centerId = sessionStorage.getItem("centro_id");

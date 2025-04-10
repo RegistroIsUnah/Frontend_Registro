@@ -1,3 +1,7 @@
+<?php
+include 'includes/chat.php'; // Incluye el chat
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,12 +9,7 @@
         require_once("./includes/head.php");
     ?>
 
-    <body class="d-flex flex-column min-vh-100">
-
-
-        <?php
-            include 'includes/header.php'; 
-        ?>
+    <body>
 
         <?php
         include 'includes/footer.php';

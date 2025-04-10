@@ -21,16 +21,6 @@ export class ClassFetch{
         })
     }
 
-    static getSectionsByClassId(classId){
-
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/seccion_detalles.php?clase_id=${classId}`)
-        .then(response => response.json())
-        .then(data => data )
-        .catch(error => {
-            console.log("error en la solicitud: "+ error);
-        })
-    }
-    
     /**
      * @author estiven.mejia@unah.hn
      * @version 0.0.1
@@ -88,16 +78,6 @@ export class ClassFetch{
         .then(data => data)
         .catch(error => {
             console.log("error en la solicitud: "+ error);
-        });
-    }
-
-    static getProfessorDataBySectionId(section_id){
-
-        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_docente_por_seccion.php?seccion_id=${section_id}`)
-        .then(response => response.json())
-        .then(data => data)
-        .catch(error => {
-            console.log("error en la solicitud: "+ error);
-        });
+        })
     }
 }

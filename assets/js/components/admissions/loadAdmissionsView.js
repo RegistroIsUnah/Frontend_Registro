@@ -154,7 +154,6 @@ export async function loadAdmissionsForm(){
             document.getElementById("formResponseModalTitle").textContent = "Ha ocurrido un problema...";
             document.getElementById("formResponseModalBody").innerHTML = `<h5 style="color:red;">${formSendedResponse.error}</h5>`;
             document.getElementById("viewFormDataButton").hidden = false;
-            document.getElementById("acceptFormDataButton").disabled = true;
         }
     
         document.getElementById('formResponseModal').addEventListener('hidden.bs.modal', () => {
@@ -242,8 +241,6 @@ export async function loadResendAdmissionsForm(){
             document.getElementById("formResponseModalTitle").textContent = "Ha ocurrido un problema...";
             document.getElementById("formResponseModalBody").innerHTML = `<h5 style="color:red;">${formSendedResponse.error}</h5>`;
             document.getElementById("viewFormDataButton").hidden = false;
-            document.getElementById("acceptFormDataButton").disabled = true;
-
         }
     
         document.getElementById('formResponseModal').addEventListener('hidden.bs.modal', () => {

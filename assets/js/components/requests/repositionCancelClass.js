@@ -5,7 +5,7 @@
  * @since 2025/04/06
  */
 
-import { ConstValues } from "../../utils/constValues.js";
+import { ConstValues } from "../../utils/constValues";
 
 
 export function cancelExceptionalClass() {

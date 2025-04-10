@@ -4,7 +4,7 @@
  * @since 2025/04/04
  */
 
-import {alertModal} from "./modals.js";
+import {alertModal} from "./modals";
 
 export class ModalManager {
     static show(message, isSuccess = true, onCloseCallback = null) {

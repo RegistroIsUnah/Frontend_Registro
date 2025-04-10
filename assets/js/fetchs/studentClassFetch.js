@@ -1,4 +1,4 @@
-import { ConstValues } from "../utils/constValues.js";
+import { ConstValues } from "../utils/constValues";
 
 export class StudentClassFetch {
     static getClasesEstudiante(estudianteId) {
