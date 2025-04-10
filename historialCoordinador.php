@@ -42,31 +42,7 @@ include 'includes/chat.php'; // Incluye el chat
                 <div class="container mt-3" id="resultados">
                     <!-- Aquí se mostrarán los resultados -->
                 </div>
-
-                <!-- Tabla de historial académico -->
-                <div class="perfil-seccion">
-                    <br>
-                    <br>
-                    <h3 style="color: #013775;">Asignaturas Cursadas</h3>
-                    <div class="historial-container">
-                        <table class="historial-table">
-                            <thead>
-                                <tr>
-                                    <th>Código</th>
-                                    <th>Asignatura</th>
-                                    <th>Sección</th>
-                                    <th>Año</th>
-                                    <th>Período</th>
-                                    <th>Calificación</th>
-                                    <th>Observaciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabla-historial-body">
-                                <!-- JS insertará las filas aquí -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                <div id="pagination-calificaciones"></div>
                 </div>
             </div>
         </section>

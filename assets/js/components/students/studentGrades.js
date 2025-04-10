@@ -65,7 +65,6 @@ export function desplegarCalificaciones(estudianteId) {
           evaluarBtn.classList.add("btn-evaluar");
           evaluarBtn.textContent = "Evaluar Docente";
 
-          // ✅ Aquí corregimos: enviamos clase_id y numero_empleado (como docente_id)
           evaluarBtn.addEventListener("click", () => {
             console.log("Abriendo modal con:", item.clase_id, item.docente?.docente_id, item.periodo_academico?.numero_periodo_id);
             window.evaluacionModal(
