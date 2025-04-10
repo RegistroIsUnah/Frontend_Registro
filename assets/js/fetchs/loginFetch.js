@@ -39,10 +39,8 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                console.log(data.user);
-
-                //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
                 sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
@@ -66,35 +64,29 @@ export function login() {
                 //Caso jefe o coordinador
             }else if (roles.includes('jefe de departamento') || roles.includes('coordinador')||roles.includes('docente')) {
                 sessionStorage.setItem('rol_activo', 'jefe de departamento' ||'coordinador'||'docente');
-
                 const rolActivo = roles.includes('jefe de departamento') 
                 ? 'jefe de departamento' 
                 : roles.includes('coordinador') 
                     ? 'coordinador' 
                     : 'docente';
-                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);7
-                sessionStorage.setItem('docente_id', data.user.details.user_id);
-                //sessionStorage.setItem('nombre', data.user.details.docente.nombre);
-                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
-                //sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
+                
+                sessionStorage.setItem('nombre', data.user.details.docente.nombre);
+                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
+                console.log(data.user.details.docente.dept_id);
                 sessionStorage.setItem('rol_activo', rolActivo);
-                if(roles.includes('jefe de departamento')){
-                    window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
-                    return;
-                }
+
                 const ruta = window.location.pathname.split('/').pop();
                 if(ruta == "biblioteca.php"){
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    window.location.href = 'coordinadores.php'; 
+                    window.location.href = 'docente.php'; 
                 }
             }else if (roles.includes("administrador")){
 
-                window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "index.php";
+                window.location.href = 'admisiones.php'; 
 
-            }else if(roles.includes("docente")){
-                window.location.href = "index.php";
             } else {
                 console.error('Rol no reconocido:', roles);
             }

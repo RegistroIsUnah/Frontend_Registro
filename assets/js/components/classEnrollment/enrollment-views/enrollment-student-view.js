@@ -1,35 +1,26 @@
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/04/05
- * 
- * @returns 
- */
 export let classEnrollmentStudentView = () => `
 
 <header class="nav">
-    <div class="nav-izq">
-        <h1>Sistema de Registro</h1>
+    <div class="nav-izq d-flex align-items-center">
+        <button class="menu-toggle btn me-2 d-lg-none" style="background: none; border: none; color: white; font-size: 1.5rem;">
+            ☰
+        </button>
+        <h1 class="m-0" style="font-size: 1.5rem; color: #ffb300" >Sistema de Registro</h1>
     </div>
 
-    <div class="nav-der">
-        <div class="chat-icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-        </div>
-
+    <div class="nav-der d-none d-lg-flex align-items-center ms-auto gap-3">
         <div class="usuario">
-            <small>Estudiante</small>
-            <br>
-            <small>Usuario@unah.hn</small>
+            <small class="d-block">Estudiante</small>
+            <small class="email d-block"></small>
         </div>
+        <button class="btn btn-danger btn-sm" id="btnLogout">
+            Cerrar Sesión
+        </button>
     </div>
 </header>
 
-<div class="mx-lg-5 mt-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="panel.php">Panel de Estudiante</a> | <a class="color-text">Matrícula</a></h5>
-</div>
-
-<main class="contenedor">
+<main class="contenedor" id="mainContent">
+<section class="main-contenedor" id="menuContainer"></section>
     <section class="contenedor2">
         <div class="contenido" id="contenido">
             <h2>Matrícula de Asignaturas</h2>
@@ -85,21 +76,11 @@ export let classEnrollmentStudentView = () => `
 </main>
 `;
 
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/04/05
- * 
- * @param {*} cancelBtn 
- * @param {*} classText 
- * @param {*} classList 
- * @returns 
- */
 export let classesSection = (cancelBtn, classText, classList) => `
     <div class="clases-matriculadas">
         <div class="clases-matriculadas-header">
             <h4>${classText}</h4>
-            <button id="${cancelBtn}" class="btn-cancelar cancelClass" hidden>Cancelar ${classText}</button>
+            <button id="${cancelBtn}" class="btn-cancelar" hidden>Cancelar ${classText}</button>
         </div>
         <ul id="${classList}">
             
@@ -107,64 +88,75 @@ export let classesSection = (cancelBtn, classText, classList) => `
     </div>
 `;
 
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/04/05
- * 
- * @param {*} codigo 
- * @param {*} asignatura 
- * @param {*} seccion 
- * @param {*} hi 
- * @param {*} hf 
- * @param {*} dias 
- * @returns 
- */
-export let classesList = (codigo="", asignatura, seccion, hi, hf, dias, attribute="", idSection) => `
+export let classesList = (codigo="", asignatura, seccion, hi, hf, dias) => `
     <li>
         <span>${codigo} <strong>${asignatura}</strong>, Sección <strong>${seccion}</strong></span>
         <small style="color:white" class="btn btn-secondary mx-1">HI: ${(hi).split(':').slice(0, 2).join(':')}, HF: ${(hf).split(':').slice(0, 2).join(':') }</small>  
         <small style="color:white" class="btn btn-secondary">Días: ${dias}</small>
-        <button ${attribute} id="${idSection}" class="showProfessorInformationButton" style="margin-left: 10px;">Perfil del Docente</button>
+        <button style="margin-left: 10px;">Perfil del Docente</button>
     </li>
 `;
 
-/**
- * @author estiven.mejia@unah.hn
- * @version 0.0.1
- * @since 2025/04/08
- * 
- * @param {*} name 
- * @param {*} email 
- * @param {*} dept 
- * @returns 
- * 
- * Tarjeta para mostrar información general del docente.
- */
-//<button type="button" id="closeUserCard" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-export let userInformationCard = (name, email, dept) => `
 
-        <div class="modal fade perfil-container" id="userInformationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content perfil-seccion">
-                <div class="modal-header">
-                <h3 class="mb-0">Datos Generales del Docente</h3>
+/*
+            <!-- Lista de clases matriculadas -->
+            <div class="clases-matriculadas">
+                <div class="clases-matriculadas-header">
+                    <h4>Asignaturas Matriculadas</h4>
+                    <button id="btnCancelarClases" class="btn-cancelar">Cancelar Asignatura Matriculada</button>
                 </div>
-                <div class="modal-body">
-                    <div class="perfil-item">
-                        <span class="perfil-label">Nombre:</span>
-                        <span class="perfil-valor">${name}</span>
-                    </div>
-                    <div class="perfil-item">
-                        <span class="perfil-label">Correo:</span>
-                        <span class="perfil-valor">${email}</span>
-                    </div>
-                    <div class="perfil-item">
-                        <span class="perfil-label">Departamento:</span>
-                        <span class="perfil-valor">${dept}</span>
-                    </div>
-                </div>
+                <ul id="listaClases">
+                    <li>
+                        <span>MAT110 - Sección 1</span>
+                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
+                        <button style="margin-left: 10px;">Perfil del Docente</button>
+                    </li>
+                    <li>
+                        <span>FIS100 - Sección 2</span>
+                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
+                        <button style="margin-left: 10px;">Perfil del Docente</button>
+                    </li>
+                </ul>
             </div>
-        </div>
-    </div>
-`;
+
+            <hr>
+            
+            <!-- Lista de clases en espera -->
+            <div class="clases-matriculadas">
+                <div class="clases-matriculadas-header">
+                    <h4>Asignaturas en Lista de Espera</h4>
+                    <button id="btnCancelarClases" class="btn-cancelar">Cancelar Asignatura en Lista de espera</button>
+                </div>
+                <ul id="listaClases">
+                    <li>
+                        <span>MAT110 - Sección 1</span>
+                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
+                        <button style="margin-left: 10px;">Perfil del Docente</button>
+                    </li>
+                    <li>
+                        <span>FIS100 - Sección 2</span>
+                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
+                        <button style="margin-left: 10px;">Perfil del Docente</button>
+                    </li>
+                </ul>
+            </div>
+
+            <hr>
+
+            <!-- Labs en espera -->
+            <div class="clases-matriculadas">
+                <div class="clases-matriculadas-header">
+                    <h4>Laboratorios Matriculados</h4>
+                </div>
+                <ul id="listaClases">
+                    <li>
+                        <span>MAT110 - Sección 1</span>
+                        <small>HI: 8:00, HF: 9:00, Docente: Juan Figueroa, Días: Lun,mar,mie,jue,vie</small>
+                    </li>
+                    <li>
+                        <span>FIS100 - Sección 2</span>
+                        <small>HI: 10:00, HF: 11:00, Docente: Ana Lopez, Días: Lun,mar,mie</small>
+                    </li>
+                </ul>
+            </div>
+*/
