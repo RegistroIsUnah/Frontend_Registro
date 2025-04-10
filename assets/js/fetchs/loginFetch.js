@@ -81,7 +81,7 @@ export function login() {
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    window.location.href = 'coordinadores.php'; 
+                    window.location.href = 'docente.php'; 
                 }
             }else if (roles.includes("administrador")){
 

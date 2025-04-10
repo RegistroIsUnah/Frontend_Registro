@@ -1,24 +1,26 @@
 export let classEnrollmentStudentView = () => `
 
 <header class="nav">
-    <div class="nav-izq">
-        <h1>Sistema de Registro</h1>
+    <div class="nav-izq d-flex align-items-center">
+        <button class="menu-toggle btn me-2 d-lg-none" style="background: none; border: none; color: white; font-size: 1.5rem;">
+            ☰
+        </button>
+        <h1 class="m-0" style="font-size: 1.5rem; color: #ffb300" >Sistema de Registro</h1>
     </div>
 
-    <div class="nav-der">
-        <div class="chat-icon">
-            <img src="https://cdn-icons-png.flaticon.com/512/134/134914.png" alt="Chat" width="24">
-        </div>
-
+    <div class="nav-der d-none d-lg-flex align-items-center ms-auto gap-3">
         <div class="usuario">
-            <small>Estudiante</small>
-            <br>
-            <small>Usuario@unah.hn</small>
+            <small class="d-block">Estudiante</small>
+            <small class="email d-block"></small>
         </div>
+        <button class="btn btn-danger btn-sm" id="btnLogout">
+            Cerrar Sesión
+        </button>
     </div>
 </header>
 
-<main class="contenedor">
+<main class="contenedor" id="mainContent">
+<section class="main-contenedor" id="menuContainer"></section>
     <section class="contenedor2">
         <div class="contenido" id="contenido">
             <h2>Matrícula de Asignaturas</h2>

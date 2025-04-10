@@ -1,7 +1,7 @@
 import { classEnrollmentStudentView } from "./enrollment-views/enrollment-student-view.js";
 import { EnrollmentStudentComponent } from "./enrollment-components/enrollmentStudentComponents.js";
 import { messageAlert } from "../modals/modals.js";
-
+import { renderMenu } from "../../utils/renderMenu.js";
 export class RenderEnrollmentView{
 
     static async renderClassEnrollmentStudentView () {
@@ -9,7 +9,10 @@ export class RenderEnrollmentView{
         let idStudent = sessionStorage.getItem("estudiante_id");
         let div = document.createElement("div");
         div.innerHTML = classEnrollmentStudentView();
+
         document.getElementsByTagName("body")[0].insertAdjacentElement("afterbegin", div);
+        renderMenu(document.querySelector("#mainContent"));
+
     
         let departmentSelect = await EnrollmentStudentComponent.departmentOptionsComponents();
         document.getElementById("departmentSelect").replaceWith(departmentSelect); 

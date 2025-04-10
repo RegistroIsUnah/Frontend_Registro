@@ -24,7 +24,7 @@ export const loadMenu = () => {
 const generateMenuItems = (roles) => {
     let items = [];
     
-    items.push('<a id="panelComponent"></a><ul>');
+    items.push('<a id="panelComponent"></i> <small class="menu-title">MENU</small></li></a><ul>');
     
     if (roles.includes("estudiante")) {
         items.push(
@@ -32,7 +32,9 @@ const generateMenuItems = (roles) => {
             '<a id="historialComponent" href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a>',
             '<a id="calificacionesComponent" href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a>',
             '<a id="matriculaComponent" href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
-            '<a id="solicitudesComponent" href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a>'
+            '<a id="solicitudesComponent" href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a>',
+            '<a id="asignaturasEstudianteComponent" href="estudiante.php"><li><i class="fas fa-envelope"></i> Asignaturas</li></a>'
+
         );
     }
     
@@ -52,11 +54,20 @@ const generateMenuItems = (roles) => {
     if (roles.includes("coordinador"))
     {
         items.push(
-            '<a id="solicitudesCoordinadorComponent"><a href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a></a>',
-            '<a id="cargaAcademicaCoordinadorComponent"><a href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a></a>',
-            '<a id="historialCoordiandorComponent"><a href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a></a>'
+            '<a id="solicitudesCoordinadorComponent" href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a>',
+            '<a id="cargaAcademicaCoordinadorComponent" href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
+            '<a id="historialCoordiandorComponent" href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a>'
         );
     }
+
+    if (roles.includes("jefe de departamento"))
+        {
+            items.push(
+                '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases</li></a>',
+                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>',
+                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>'
+            );
+        }
     
     items.push('</ul>');
     return items.join('');

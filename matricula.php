@@ -1,20 +1,26 @@
 <?php
-include 'includes/chat.php'; // Incluye el chat
+/*include 'includes/chat.php'; // Incluye el chat*/
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
 
+<?php
+require_once("./includes/head.php");
+?>
+
+<body>
+
+
+
     <?php
-        require_once("./includes/head.php");
+    include 'includes/footer.php';
+    include 'includes/scripts.php';
     ?>
 
-    <body>
+<script type="module" src="assets/js/fetchs/loginFetch.js"></script>
 
-        <?php
-        include 'includes/footer.php';
-        include 'includes/scripts.php';
-        ?>
-    </body>
+</body>
 
 </html>
