@@ -81,6 +81,25 @@ export class CenterFetch{
 
     }
 
+    static getBuildings(){
 
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_edificios.php`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud"+ error);
+        })
+    }
+
+    static getAulasByBuildingId(buildingId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/aulas_edificio.php?edificio_id=${buildingId}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud"+ error);
+        })
+        
+    }
 
 }
