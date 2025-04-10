@@ -67,10 +67,10 @@ export function desplegarCalificaciones(estudianteId) {
 
           // ✅ Aquí corregimos: enviamos clase_id y numero_empleado (como docente_id)
           evaluarBtn.addEventListener("click", () => {
-            console.log("Abriendo modal con:", item.clase_id, item.docente?.id, item.periodo_academico?.numero_periodo_id);
+            console.log("Abriendo modal con:", item.clase_id, item.docente?.docente_id, item.periodo_academico?.numero_periodo_id);
             window.evaluacionModal(
               item.clase_id,
-              item.docente?.id ?? null,
+              item.docente?.docente_id ?? null,
               item.periodo_academico?.numero_periodo_id ?? null
             );
           });

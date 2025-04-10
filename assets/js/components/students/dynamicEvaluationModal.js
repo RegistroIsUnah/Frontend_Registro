@@ -41,6 +41,42 @@ import { ConstValues } from "../../utils/constValues";
         {
           id: 2,
           texto: "¿El docente está disponible para consultas?"
+        },
+        {
+          id: 2,
+          texto: "¿El docente está disponible para consultas?"
+        },
+        {
+          id: 3,
+          texto: "¿El docente utiliza ejemplos prácticos para facilitar el aprendizaje?"
+        },
+        {
+          id: 4,
+          texto: "¿El docente motiva a participar en clase?"
+        },
+        {
+          id: 5,
+          texto: "¿El docente evalúa de manera justa y objetiva?"
+        },
+        {
+          id: 6,
+          texto: "¿El docente cumple con los horarios establecidos?"
+        },
+        {
+          id: 7,
+          texto: "¿El material de apoyo proporcionado es útil y adecuado?"
+        },
+        {
+          id: 8,
+          texto: "¿La retroalimentación que brinda el docente es clara y constructiva?"
+        },
+        {
+          id: 9,
+          texto: "¿El docente fomenta un ambiente de respeto en el aula?"
+        },
+        {
+          id: 10,
+          texto: "¿Está satisfecho con el desempeño general del docente?"
         }
       ];
   
