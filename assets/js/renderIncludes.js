@@ -6,6 +6,7 @@ import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissions
 import { RenderClassesViews } from './components/classes/renderClassesViews.js';
 import { RenderRequestView } from './components/requests/renderRequestView.js';
 import { loadDocentePage } from './components/docente/loadDocenteView.js';
+import {loadStudentPage} from './components/students/loadClassView.js'
 /**
  * 
  * @author estiven.mejia@unah.hn
@@ -129,6 +130,13 @@ export function renderHead(actualPage) {
     
                 break;
 
+        case "estudiante.php":
+                document.getElementsByTagName('title')[0].textContent = "Estudiantes UNAH";
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+                document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/docente.css"));
+        
         default:
         break;
 
@@ -368,6 +376,33 @@ export function renderBodyPage(namePage) {
                     console.warn("Vista no reconocida:", actualDocenteView);
                     loadDocentePage(); // Vista por defecto
                     history.replaceState({ view: "docenteView" }, "", "docente.php");
+                    break;
+            }
+            break;
+
+            case "estudiante.php":
+
+            let actualEstudianteView = (history.state == null) ? "estudianteView" : history.state.view;
+            
+            if (!rol) {                
+                
+                // Redirigir a login si no hay sesión
+                loadLoginView();
+                history.replaceState(null, "estudiante.php");
+                break;
+            }
+
+            switch (actualEstudianteView) {
+
+                case "estudianteView":
+
+                    loadStudentPage();
+                    break;
+
+                default:
+                    console.warn("Vista no reconocida:", actualEstudianteView);
+                    loadStudentPage(); // Vista por defecto
+                    history.replaceState({ view: "estudianteView" }, "", "estudiante.php");
                     break;
             }
             break;

@@ -1,7 +1,7 @@
 <!-- Menú lateral -->
 <section class="main-contenedor">
     <div>
-        <h3 class="panel-title">Panel Estudiantil</h3>
+        <h3 class="panel-title">Panel Principal</h3>
         <nav>
             <a id="panelComponent"></a>
             <ul>
@@ -30,7 +30,7 @@
             document.getElementById("calificacionesComponent").innerHTML += '<a href="calificaciones.php"><li> Calificaciones</li> </a>';  
             document.getElementById("matriculaComponent").innerHTML += '<a href="matricula.php"><li> Matricula</li> </a>';  
             document.getElementById("solicitudesComponent").innerHTML += '<a href="solicitudes.php"><li> Solicitudes</li> </a>';
-            document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href=""><li> Asginaturas</li> </a>';  
+            document.getElementById("asignaturasEstudianteComponent").innerHTML += '<a href="estudiante.php"><li> Asginaturas</li> </a>';  
            
         }
 

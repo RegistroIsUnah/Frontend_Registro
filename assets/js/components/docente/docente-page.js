@@ -6,7 +6,7 @@ export let docenteView = `
 
     <!-- Contenido principal -->
     <section class="contenedor2">
-      <h2>Bienvenid@ <span id="name"></h2>
+      <h2>Bienvenid@<span id="name"></h2>
       <div class="contenido">
 
       <!-- INICIO DE LAS DOS VISTAS -->
