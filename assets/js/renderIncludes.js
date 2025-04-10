@@ -3,6 +3,7 @@ import { loadLoginView } from './components/login/loadLoginView.js';
 import { loadLibraryPage, loadRegisterBookForm } from './components/library/loadLibraryView.js';
 import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollmentViews.js';
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
+import { RenderClassesViews } from './components/classes/renderClassesViews.js';
 import { RenderRequestView } from './components/requests/renderRequestView.js';
 import { loadDocentePage, loadPerfilDocenteView } from './components/docente/loadDocenteView.js';
 import {loadStudentPage} from './components/students/loadClassView.js'
@@ -79,6 +80,9 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/perfil.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+            
         break;
 
         case "panel.php":
@@ -104,8 +108,6 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
-
-
             break;
         
         case "solicitudesCoordinador.php":
@@ -114,6 +116,13 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/solicitudes.css"));
             break;
 
+        case "clases.php":
+            document.getElementsByTagName('title')[0].textContent = "Carga Académica UNAH";
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/matricula.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
+        break;
             case "docente.php":
                 document.getElementsByTagName('title')[0].textContent = "Docentes UNAH";
                 document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
@@ -131,8 +140,7 @@ export function renderHead(actualPage) {
                 document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/docente.css"));
         
         default:
-
-            break;
+        break;
 
     }
 }
@@ -221,8 +229,25 @@ export function renderBodyPage(namePage) {
 
                 sessionStorage.setItem("returnPage", "matricula.php");
                 window.location.href = 'login.php';
+                
+            }else{
+            
+                let roles = sessionStorage.getItem("roles");
+                switch(true){
+
+                    case(roles.includes("estudiante")):
+                        RenderEnrollmentView.validateStudentEnrollDay();
+                    break;
+
+                    case(roles.includes("administrador")):
+                        RenderEnrollmentView.renderEnrollmentAdministratorView();
+                    break
+
+                    default:
+                        window.location.href = 'index.php';
+                    break;
+                }
             }
-            RenderEnrollmentView.renderClassEnrollmentStudentView();
         break;
 
         case "panel.php":
@@ -267,26 +292,59 @@ export function renderBodyPage(namePage) {
                     history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
                     break;
             }
-            break;
-        
-                    case "solicitudesCoordinador.php":
+
+        break;
+
+        case "clases.php":
+            if(!sessionStorage.getItem("roles")){
+
+                sessionStorage.setItem("returnPage", "clases.php");
+                window.location.href = 'login.php';
+                
+            }else{
+            
+                let roles = sessionStorage.getItem("roles");
+                switch(true){
+
+                    case(roles.includes("estudiante")):
+                        RenderClassesViews.renderClassesStudentView();
+                    break;
+
+                    case(roles.includes("jefe de departamento")):
+                        RenderClassesViews.renderClassesDepartmentHeadView();
+                    break;
+
+                    case(roles.includes("coordinador")):
+                        RenderClassesViews.renderClassesCoordinatorView();
+                    break;
+
+                    default:
+                        window.location.href = 'index.php';
+                    break;
+                }
+            }
+        break;
+
+    
+        case "solicitudesCoordinador.php":
             if (!sessionStorage.getItem("roles")) {
+                sessionStorage.setItem("returnPage", "solicitudesCoordinador.php");
                 window.location.href = 'login.php';
                 break;
             }
-
+        
             const solicitudMap = {
                 cambioCarrera: RenderRequestView.loadAndRenderChangeCareer,
                 cambioCentro: RenderRequestView.loadAndRenderChangeCenter,
                 cancelaciones: RenderRequestView.loadAndRenderCancelClass
             };
-
+        
             const tipo = new URLSearchParams(window.location.search).get("tipo");
-
+        
             if (tipo) {
                 const renderFunction = solicitudMap[tipo];
                 if (renderFunction) {
-                    renderFunction();
+                    renderFunction(); // ✅ ejecuta directamente si hay ?tipo
                 } else {
                     window.location.href = 'index.php';
                 }

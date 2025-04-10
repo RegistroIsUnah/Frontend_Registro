@@ -1,4 +1,4 @@
-import { ConstValues } from "../utils/constValues";
+import { ConstValues } from "../utils/constValues.js";
 
 /**
  * @author kency.oseguera@unah.hn
