@@ -63,4 +63,15 @@ export class DepartmentFetch{
             console.log("error en la solicitud"+ error);
         })
     }
+
+    static getProffesorsByDeptId(deptId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_docentes_departamento.php?dept_id=${deptId}`)
+        .then(response => response.json())
+        .then(data => data)
+        .catch(error => {
+            console.log("error en la solicitud"+ error);
+        })
+    }
+
 }

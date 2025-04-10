@@ -15,48 +15,86 @@ export let classesTarget = (title, body, classDataArray, attribute="") => `
 `;
 
 export let createSectionForm = () => `
-
-    <!-- Modal -->
-    <div class="modal fade" id="admissionModal" tabindex="-1" aria-labelledby="admissionModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-4" style="font-weight: bold;" id="admissionModalLabel">Inscripción para el Examen de Admisión</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <form id="applicants-admission-form" method="POST">
-            <div class="container-form container">
-                <hr>
-                <br>
+    <div class="modal fade" id="createSectionModal" tabindex="-1" aria-labelledby="admissionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered"> <!-- Agregada clase modal-dialog-centered -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-4" style="font-weight: bold;">Crear Sección</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="create-section-form">
+                            
+                        <input type="number" id="clase_id" name="clase_id" hidden>
                 
-                <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" required placeholder="Ingrese sus nombres">
-                    <span class="invalid-feedback"></span>
-                </div>
-                <div class="col-md-6">
-                    <label for="apellidos" class="form-label">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" name="apellidos" required placeholder="Ingrese sus apellidos">
-                    <span class="invalid-feedback"></span>
-                </div>
-                </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="docente_id" class="form-label">Docente</label>
+                                <select class="form-select" id="docente_id" name="docente_id" required disabled>
+                                </select>
+                                    <span class="invalid-feedback"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="periodo_academico_id" class="form-label">Periodo Académico</label>
+                                <select class="form-select" id="periodo_academico_id" name="periodo_academico_id" required disabled>
+                                </select>
+                                    <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
 
-                <!-- Resto de tus campos del formulario... -->
-                <!-- Mantén la misma estructura para todos los campos -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="aula_id" class="form-label">Aula</label>
+                                <select class="form-select" id="aula_id" name="aula_id" required disabled>
+                                </select>
+                                    <span class="invalid-feedback"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="hora_inicio" class="form-label">Hora de inicio</label>
+                                <input type="text" class="form-control" id="hora_inicio" name="hora_inicio" required placeholder="HH:MM:SS (Formato 24H)">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="hora_fin" class="form-label">Hora de fin</label>
+                                <input type="text" class="form-control" id="hora_fin" name="hora_fin" required placeholder="HH:MM:SS (Formato 24H)">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
 
-                <div class="row mb-3">
-                <div class="col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary">Confirmar</button>
-                    <button type="button" class="btn btn-secondary ms-2" data-bs-dismiss="modal">Cancelar</button>
-                </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="cupos" class="form-label">Cupos</label>
+                                <input type="number" class="form-control" id="cupos" name="cupos" required placeholder="Ingrese una cantidad">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dias" class="form-label">Días</label>
+                                <input type="text" class="form-control" id="dias" name="dias" required placeholder="Lunes, Martes, Miércoles...">
+                                <span class="invalid-feedback"></span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12 text-center">
+                                <button type="button" class="btn btn-danger ms-2" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            </form>
-        </div>
         </div>
     </div>
-    </div>
-
 `;
+/*
+{
+    *   "clase_id": 1,
+    *   "docente_id": 2,
+    *   "periodo_academico_id": 3,
+    *   "aula_id": 4,
+    *   "hora_inicio": "08:00:00",
+    *   "hora_fin": "10:00:00",
+    *   "cupos": 30,
+    *   "dias": "Lunes,Miércoles"
+    * }
+    **/

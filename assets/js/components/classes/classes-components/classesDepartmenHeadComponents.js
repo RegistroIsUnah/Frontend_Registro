@@ -1,5 +1,8 @@
 import { classesTarget, createSectionForm } from "../classes-views/classesDepartmentHeadViews.js";
 import { ClassFetch } from "../../../fetchs/classFetch.js";
+import { DepartmentFetch } from "../../../fetchs/departmentFetch.js";
+import { AdministrationFetch } from "../../../fetchs/administrationFetch.js";
+import { CenterFetch } from "../../../fetchs/centerFetch.js";
 
 export class ClassesDepartmentHeadComponents{
 
@@ -54,13 +57,11 @@ export class ClassesDepartmentHeadComponents{
         div.append(div3);
 
         let button = document.createElement("button");
-        button.className = "btn btn-primary mb-4"; 
-        button.id = "createSectionButton";      
-        button.innerHTML = "Crear Sección";      
-        button.type = "button";                    
-        button.setAttribute('data-bs-toggle', 'modal');
-        //button.setAttribute('data-bs-target', '#admissionModal');
-        div.append(button);
+        button.className = "btn btn-primary mb-4";
+        button.id = "createSectionButton";
+        button.innerHTML = "Crear Sección";
+        button.type = "button";
+        div.append(button);        
 
         Object.values(sectionsClassData).forEach(section => {
 
@@ -94,12 +95,31 @@ export class ClassesDepartmentHeadComponents{
         document.getElementById("returnToClassesView")?.addEventListener("click", () => window.addEventListener("beforeunload", () => sessionStorage.removeItem("classId")));
     }
 
-    static async loadCreateSectionForm(classId){
+    static async loadCreateSectionForm(classId) {
 
-        let divModal = document.createElement("div");
-        divModal.id = "divModalCreateAcademicPeriod"
-        divModal.innerHTML = createSectionForm();
-        document.body.appendChild(divModal);
-    }
-    
+        const modalContainer = document.createElement('div');
+        modalContainer.innerHTML = createSectionForm();
+        document.body.appendChild(modalContainer);
+        const modal = new bootstrap.Modal(document.getElementById('createSectionModal'));
+        modal.show();
+        modalContainer.addEventListener('hidden.bs.modal', () => {
+            document.body.removeChild(modalContainer);
+        });
+
+        let deptId = sessionStorage.getItem("deptId");
+        let proffessorsData = await DepartmentFetch.getProffesorsByDeptId(deptId);
+        let academicPeriodsData = await AdministrationFetch.getActiveAcademicPeriods();
+        let buildingsData = await CenterFetch.getBuildings();
+        //let classroomsData = await CenterFetch.getAulasByBuildingId();
+        
+        console.log(proffessorsData);
+        console.log(academicPeriodsData);
+        console.log(buildingsData);
+
+        document.getElementById('create-section-form')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            console.log('Formulario enviado para classId:', classId);
+            modal.hide();
+        });
+    }       
 }
