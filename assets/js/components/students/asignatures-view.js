@@ -1,3 +1,11 @@
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
 export let studentClassView = `
     <main class="contenedor">
       <!-- Menú lateral -->

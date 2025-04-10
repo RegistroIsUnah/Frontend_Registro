@@ -1,5 +1,13 @@
 import { ConstValues } from "../utils/constValues.js";
 
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
 class RegistrationClassFetch{
 
     static getRegistrableClasses(departamentId, studentId){

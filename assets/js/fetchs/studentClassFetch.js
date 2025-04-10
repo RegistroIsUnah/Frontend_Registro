@@ -1,5 +1,13 @@
 import { ConstValues } from "../utils/constValues.js";
 
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
 export class StudentClassFetch {
     static getClasesEstudiante(estudianteId) {
         const url = `${ConstValues.DOMAIN_NAME}/get/clases_estudiante_act.php?estudianteId=${estudianteId}`;
