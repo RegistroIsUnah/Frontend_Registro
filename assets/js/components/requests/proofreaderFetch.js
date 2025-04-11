@@ -1,4 +1,10 @@
 
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/20
+ */
+
 import { ConstValues } from "../../utils/constValues.js";
 
 /**

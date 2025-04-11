@@ -43,6 +43,9 @@ export function login() {
 
                 //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
                 //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
+                sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
+                
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
                 sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
@@ -79,9 +82,15 @@ export function login() {
                 //sessionStorage.setItem('nombre', data.user.details.docente.nombre);
                 //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
                 //sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
+                
+                sessionStorage.setItem('nombre', data.user.details.docente.nombre);
+                sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
+                sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
+                console.log(data.user.details.docente.dept_id);
+                sessionStorage.setItem('rol_activo', rolActivo);
+
                 sessionStorage.setItem('rol_activo', rolActivo);
                 if(roles.includes('jefe de departamento')){
-                    //sessionStorage.setItem("deptId", data.user.details.jefe_departamento.dept_id);
                     window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "clases.php";
                     return;
                 }

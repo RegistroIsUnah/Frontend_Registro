@@ -96,9 +96,17 @@ export class EnrollmentStudentComponent{
         let tbody = document.createElement("tbody");
         tbody.id = "availableSections";
 
-        let classSections = await ClassFetch.getSectionsEnrollableByClassId(class_id);        
-        classSections.forEach(section => {
-            tbody.innerHTML += `<tr"> 
+        let classSections = await ClassFetch.getSectionsEnrollableByClassId(class_id);  
+        classSections.message == "No se encontraron secciones para esta clase." 
+        ? tbody.innerHTML = `
+                            <tr>
+                                <td colspan="7" class="mensaje-tabla my-5 text-center">
+                                    ${classSections.message}
+                                </td>
+                            </tr>
+                            `
+        : tbody.innerHTML = classSections.map(section => 
+                                `<tr"> 
                                     <th class="classSectionId" id="${section.seccion_id}"> <a style="color:#012a5e;">Seleccione</a></th> 
                                     <th>${(section.hora_inicio).split(':').slice(0, 2).join(':')} - ${(section.hora_fin).split(':').slice(0, 2).join(':')}</th> 
                                     <th>${section.dias_seccion}</th> 
@@ -106,8 +114,8 @@ export class EnrollmentStudentComponent{
                                     <th>${section.aula_nombre}</th> 
                                     <th>${section.docente_nombre} ${section.docente_apellido}</th> 
                                     <th>${section.cupos_disponibles}</th> 
-                                <tr>`;
-        });
+                                <tr>`
+        ).join("");
         return tbody;        
     }
 

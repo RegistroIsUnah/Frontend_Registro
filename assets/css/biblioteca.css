@@ -231,7 +231,6 @@ h3 {
         height: 60vh;
     }
 }
-=======
 .navbar {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background-color: #013775;
@@ -283,4 +282,3 @@ h3{
 .page-search {
     margin-bottom: 10px;
 }
->>>>>>> 05f9bb6 (Modularizando, vista de estudiante, agregando boton de hamburguesa)

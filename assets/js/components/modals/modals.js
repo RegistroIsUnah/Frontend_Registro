@@ -114,7 +114,8 @@ export let alertModal = (message, isSuccess = true) => `
       'background-color: #f1f9f1; border-top: 4px solid #198754; color: #2B3A55;' :
       'background-color: #fdf1f1; border-top: 4px solid #dc3545; color: #2B3A55;'}">
       <div class="modal-body p-4 text-center" style="padding: 2rem 2rem 1rem;">
-        <div style="font-size: 2.5rem; margin-bottom: 1rem; ">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem; 
+                   ${isSuccess ? 'color: #198754;' : 'color: #dc3545;'}">
         </div>
         <p class="mb-3 fw-bold fs-5">${message}</p>
       </div>
