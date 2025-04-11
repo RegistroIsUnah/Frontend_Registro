@@ -67,7 +67,7 @@ export class ClassesDepartmentHeadComponents{
 
         let div3 = document.createElement("div");
         div3.className = "mx-lg-4 my-4 mb-5 mx-md-3 mx-sm-3 mx-xs-3";
-        div3.innerHTML = `<h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="panel.php">Panel</a> 
+        div3.innerHTML = `<h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="docente.php">Panel</a> 
         | <a class="color-text" id="returnToClassesView" href="clases.php">Clases</a> |  <a class="color-text">Secciones</a> </h5>`;
         div.append(div3);
 
