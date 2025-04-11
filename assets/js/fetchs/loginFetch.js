@@ -82,10 +82,7 @@ export function login() {
                 sessionStorage.setItem('rol_activo', rolActivo);
 
                 sessionStorage.setItem('rol_activo', rolActivo);
-                if(roles.includes('jefe de departamento')){
-                    window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "clases.php";
-                    return;
-                }
+                
                 const ruta = window.location.pathname.split('/').pop();
                 if(ruta == "biblioteca.php"){
 
