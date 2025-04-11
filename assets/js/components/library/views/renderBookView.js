@@ -40,10 +40,11 @@ export function renderLibros(clasesCompletas, isDocente = false) {
 }
 
 function generateBookCard(libro, isDocente, claseNombre = '') {
-
+    const libroEstado = libro.estado_libro_id === 2 ? 'libro-inactivo' : '';
+    const autoresTexto = libro.autores.map(autor => `${autor.nombre} ${autor.apellido}`).join(', ');
     return ` 
     <div class="col-md-4 mb-4">
-        <div class="card book-card">
+        <div class="card book-card ${libroEstado}">
             <div class="card-body">
             ${claseNombre ? `<div class="class-name-badge mb-2"><span class="badge bg-primary">${claseNombre}</span></div>` : ''}
                 <div onclick="openPDFModal('${ConstValues.UPLOADS_BASE_URL}${libro.libro_url}')">
@@ -54,11 +55,7 @@ function generateBookCard(libro, isDocente, claseNombre = '') {
                 
                 <div class="autor-section mt-3">
                     <h6>Autor(es):</h6>
-                    <ul class="list-unstyled">
-                        ${libro.autores.map(autor => `
-                            <li>${autor.nombre} ${autor.apellido}</li>
-                        `).join('')}
-                    </ul>
+                    <p>${autoresTexto}</p> <!-- Mostrar los autores separados por comas -->
                 </div>
 
                 <div class="tags-section">
@@ -66,6 +63,7 @@ function generateBookCard(libro, isDocente, claseNombre = '') {
                         <span class="badge bg-secondary me-1">${typeof tag === 'object' ? tag.tag_nombre : tag}</span>
                     `).join('')}
                 </div>
+                ${libro.estado_libro_id === 2 ? '<small class="estado-inactivo">Estado: Inactivo</small>' : ''}
                 ${isDocente ? generateAdminControls(libro.libro_id) : ''}
             </div>
         </div>

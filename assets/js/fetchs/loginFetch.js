@@ -30,7 +30,7 @@ export function login() {
         })
         .then(data => {
 
-            console.log(data.user.details);
+            //console.log(data);
             
             const roles = data.user.roles.map(role => role.toLowerCase().trim()); // Normalizar los roles
 
@@ -39,13 +39,8 @@ export function login() {
             sessionStorage.setItem("userId",data.user.id);
 
             if (roles.includes('estudiante')) {
-                //console.log(data.user);
-
-                //sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
-                //sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
                 sessionStorage.setItem('nombre', data.user.details.estudiante.nombre);
                 sessionStorage.setItem('estudiante_id', data.user.details.estudiante.estudiante_id);
-                
                 sessionStorage.setItem('rol_activo', 'estudiante'); 
                 sessionStorage.setItem("estudiante_id", data.user.details.user_id);
                 
@@ -65,6 +60,7 @@ export function login() {
                     window.location.href = 'biblioteca.php'; 
                 }else{
                     //console.log(data);
+
                     window.location.href = 'panel.php'; 
                 }
 
@@ -77,11 +73,7 @@ export function login() {
                 : roles.includes('coordinador') 
                     ? 'coordinador' 
                     : 'docente';
-                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);7
                 sessionStorage.setItem('docente_id', data.user.details.user_id);
-                //sessionStorage.setItem('nombre', data.user.details.docente.nombre);
-                //sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
-                //sessionStorage.setItem('dept_id', data.user.details.docente.dept_id);
                 
                 sessionStorage.setItem('nombre', data.user.details.docente.nombre);
                 sessionStorage.setItem('docente_id', data.user.details.docente.docente_id);
@@ -99,18 +91,16 @@ export function login() {
 
                     window.location.href = 'biblioteca.php'; 
                 }else{
-                    window.location.href = 'coordinadores.php'; 
+                    window.location.href = 'docente.php'; 
                 }
             }else if (roles.includes("administrador")){
 
                 window.location.href = sessionStorage.getItem("returnPage") ? sessionStorage.getItem("returnPage") : "matricula.php";
 
-            }else if(roles.includes("docente")){
-                window.location.href = "index.php";
             } else {
                 console.error('Rol no reconocido:', roles);
             }
-            
+            //window.location.href = 'biblioteca.php'; 
         })
         .catch(error => {
             // Mostrar el mensaje al usuario

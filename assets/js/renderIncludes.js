@@ -5,7 +5,7 @@ import { RenderEnrollmentView } from './components/classEnrollment/renderEnrollm
 import { AdminAdmissionsView } from './components/admissions/loadAdminAdmissionsView.js';
 import { RenderClassesViews } from './components/classes/renderClassesViews.js';
 import { RenderRequestView } from './components/requests/renderRequestView.js';
-import { loadDocentePage } from './components/docente/loadDocenteView.js';
+import { loadDocentePage, loadPerfilDocenteView } from './components/docente/loadDocenteView.js';
 import {loadStudentPage} from './components/students/loadClassView.js'
 /**
  * 
@@ -108,6 +108,8 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/biblioteca.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/loginStyle.css"));
+
+
             break;
         
         case "solicitudesCoordinador.php":
@@ -140,7 +142,8 @@ export function renderHead(actualPage) {
                 document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/docente.css"));
         
         default:
-        break;
+
+            break;
 
     }
 }
@@ -288,7 +291,6 @@ export function renderBodyPage(namePage) {
                     break;
 
                 default:
-                    console.warn("Vista no reconocida:", actualLibraryView);
                     loadLibraryPage(); // Vista por defecto
                     history.replaceState({ view: "libraryView" }, "", "biblioteca.php");
                     break;
@@ -324,28 +326,28 @@ export function renderBodyPage(namePage) {
                     break;
                 }
             }
-        break;
 
-    
-        case "solicitudesCoordinador.php":
+        
+            break;
+        
+                    case "solicitudesCoordinador.php":
             if (!sessionStorage.getItem("roles")) {
-                sessionStorage.setItem("returnPage", "solicitudesCoordinador.php");
                 window.location.href = 'login.php';
                 break;
             }
-        
+
             const solicitudMap = {
                 cambioCarrera: RenderRequestView.loadAndRenderChangeCareer,
                 cambioCentro: RenderRequestView.loadAndRenderChangeCenter,
                 cancelaciones: RenderRequestView.loadAndRenderCancelClass
             };
-        
+
             const tipo = new URLSearchParams(window.location.search).get("tipo");
-        
+
             if (tipo) {
                 const renderFunction = solicitudMap[tipo];
                 if (renderFunction) {
-                    renderFunction(); // ✅ ejecuta directamente si hay ?tipo
+                    renderFunction();
                 } else {
                     window.location.href = 'index.php';
                 }
@@ -362,7 +364,7 @@ export function renderBodyPage(namePage) {
             if (!rol) {                
                 
                 // Redirigir a login si no hay sesión
-                loadLoginView();
+                window.location.href = 'login.php';
                 history.replaceState(null, "docente.php");
                 break;
             }
@@ -374,8 +376,12 @@ export function renderBodyPage(namePage) {
                     loadDocentePage();
                     break;
 
+                case "verPerfilDocenteView": case null: case "":
+
+                    loadPerfilDocenteView();
+                    break;
+
                 default:
-                    console.warn("Vista no reconocida:", actualDocenteView);
                     loadDocentePage(); // Vista por defecto
                     history.replaceState({ view: "docenteView" }, "", "docente.php");
                     break;

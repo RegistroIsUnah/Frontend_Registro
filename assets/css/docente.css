@@ -16,7 +16,6 @@
   
   .class-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
   
   .class-detail-container {
@@ -53,3 +52,9 @@
       width: 100%;
     }
   }
+
+  .perfil-docente-container {
+    background-color: #d7e5f3;
+    border-radius: 8px;
+    padding: 30px;
+}

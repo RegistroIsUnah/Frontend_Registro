@@ -1,3 +1,11 @@
+
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
 export let studentClassView = `
     <main class="contenedor">
       <!-- Menú lateral -->
@@ -8,7 +16,7 @@ export let studentClassView = `
         <div class="contenido">
           <!-- Vista de todas las clases -->
           <div id="classesView" class="classes-container">
-            <h3>Mis Clases Asignadas</h3>
+            <h3>Clases Matriculadas</h3>
             <div class="classes-grid" id="classesGrid"></div>
           </div>
           <!-- Vista detalle de una clase -->

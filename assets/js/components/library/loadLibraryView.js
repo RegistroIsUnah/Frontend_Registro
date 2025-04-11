@@ -11,14 +11,12 @@ import { setupAuthorHandling } from "./handlers/authorHandling.js";
 import { setupSearchSuggestions } from "./filters/searchSuggestions.js";
 import { TagsManager } from "./handlers/setupTagHandling.js";
 
-
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.0.4
  * @since 2025/03/16
  * 
  * Función encargada de cargar el formulario de registro de libros a la página de biblioteca.
-
  */
 
 window.handleEditBook = async (libroId) => {

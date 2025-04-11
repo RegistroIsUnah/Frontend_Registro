@@ -11,7 +11,7 @@ import { ConstValues } from "../../../utils/constValues.js";
 export let registerBook = (tagsData, classesOptions, libroData = null) => `
 
 <div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="">Biblioteca</a> | <aclass="color-text">${libroData ? `Edición de Libro` : `Registro de Libro`}</a></h5>
+    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text">Biblioteca</a> | <aclass="color-text">${libroData ? `Edición de Libro` : `Registro de Libro`}</a></h5>
 </div>
 
 

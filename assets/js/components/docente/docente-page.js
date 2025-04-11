@@ -6,7 +6,6 @@ export let docenteView = `
 
     <!-- Contenido principal -->
     <section class="contenedor2">
-      <h2>Bienvenid@<span id="name"></h2>
       <div class="contenido">
 
       <!-- INICIO DE LAS DOS VISTAS -->
@@ -44,6 +43,8 @@ export let docenteView = `
                     <th>Cuenta</th>
                     <th>Estudiante</th>
                     <th>Calificación</th>
+                    <th>Estado</th>
+                    <th>OBS</th>
                   </tr>
                 </thead>
                 <tbody id="studentsTableBody"></tbody>
