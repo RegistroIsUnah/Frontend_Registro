@@ -7,11 +7,11 @@
  */
 export let adminAdmissionsPage = () => `
 
-<div class="mx-lg-5 my-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="">Admisiones</a></h5>
-</div>
 
-        <div class="container mb-5 flex-grow-1" style="max-width: 95%"> 
+<main class="contenedor" id="mainContent">
+
+    <section class="main-contenedor" id="menuContainer"></section>
+        <div class="container my-5 " style="max-width: 95%"> 
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-6 col-sm-12 text-center mb-sm-5">
                     <h2 class="message mb-3">Envíe las Notas de los Apirantes</h2>
@@ -33,7 +33,7 @@ export let adminAdmissionsPage = () => `
                 </div>
             </div>
         </div>
-
+</main>
 `;
 
 

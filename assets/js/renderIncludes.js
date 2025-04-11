@@ -49,7 +49,7 @@ export function renderHead(actualPage) {
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/admisiones.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/validateForms.css"));
             document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/footer.css"));
-
+            document.getElementsByTagName("head")[0].appendChild(linkLabel("./assets/css/plantilla.css"));
             break;
 
         case "calificaciones.php":

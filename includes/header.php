@@ -1,4 +1,4 @@
-<header class="nav d-flex align-items-center px-3" style="background-color: #013775; color: white; height: 60px;">
+<header class="nav d-flex align-items-center px-3" id="navbar" style="background-color: #013775; color: white; height: 60px;">
     <div class="nav-izq d-flex align-items-center">
         <button class="menu-toggle btn me-2 d-lg-none" style="background: none; border: none; color: white; font-size: 1.5rem;">
             ☰
@@ -39,7 +39,7 @@
   
   const usuarioDiv = document.querySelector('.usuario');
   
-  if (userRole.includes('docente')) { 
+  if (userRole.includes('docente') || userRole.includes('administrador')) { 
     if (usuarioDiv) usuarioDiv.style.display = 'none';
   }
 </script>

@@ -2,6 +2,7 @@ import { classEnrollmentStudentView } from "./enrollment-views/enrollment-studen
 import { EnrollmentStudentComponent } from "./enrollment-components/enrollmentStudentComponents.js";
 import { messageAlert, alertModal } from "../modals/modals.js";
 import { EnrollmentAdminComponent } from "./enrollment-components/enrollmentAdminComponents.js";
+import { renderMenu } from "../../utils/renderMenu.js";
 
 /**
  * @author estiven.mejia@unah.hn
@@ -45,6 +46,7 @@ export class RenderEnrollmentView{
         div.innerHTML = classEnrollmentStudentView();
         //document.getElementById("navbar").replaceWith(div);
         document.getElementById("navbar").insertAdjacentElement("afterend", div);
+        renderMenu(document.querySelector("#mainContent"));
 
         let departmentSelect = await EnrollmentStudentComponent.departmentOptionsComponents();
         document.getElementById("departmentSelect").replaceWith(departmentSelect); 

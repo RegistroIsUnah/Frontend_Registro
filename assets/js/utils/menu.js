@@ -60,6 +60,15 @@ const generateMenuItems = (roles) => {
         );
     }
 
+    if (roles.includes("administrador"))
+        {
+            items.push(
+                '<a id="cargaAcademicaCoordinadorComponent" href="admisiones.php"><li><i class="fas fa-book"></i>Proceso de Aspirantes</li></a>',
+                '<a id="historialCoordiandorComponent" href="matricula.php"><li><i class="fas fa-book"></i>Procesos Académicos</li></a>'
+            );
+        }
+
+
     if (roles.includes("jefe de departamento"))
         {
             items.push(

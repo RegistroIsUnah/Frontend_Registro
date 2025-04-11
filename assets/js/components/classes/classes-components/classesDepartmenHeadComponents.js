@@ -6,6 +6,7 @@ import { CenterFetch } from "../../../fetchs/centerFetch.js";
 import { RegularExpressions } from "../../../utils/regularExpressions.js";
 import { messageAlert } from "../../modals/modals.js";
 import { RenderClassesViews } from "../renderClassesViews.js";
+import { renderMenu } from "../../../utils/renderMenu.js";
 
 export class ClassesDepartmentHeadComponents{
 
@@ -41,6 +42,7 @@ export class ClassesDepartmentHeadComponents{
                 </div>
             `
             div2.insertAdjacentHTML("beforeend", classesTarget(classesData[i].nombre, body, [classesData[i].clase_id, "showSectionsClass", "Ver secciones"], "hidden"));
+            
         }
         div.append(div2);
         document.getElementById("sectionsList")
