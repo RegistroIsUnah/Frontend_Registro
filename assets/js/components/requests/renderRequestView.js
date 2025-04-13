@@ -3,6 +3,7 @@ import { createPaginationSystem } from "../../utils/pagination.js"
 import { genericCardView } from "./request-views/defaultRequestView.js";
 import { ConstValues } from "../../utils/constValues.js";
 import { requestModalView } from "./request-views/requestModalView.js";
+import {bootstrapAlert} from "../../utils/alerts.js"
 
 /**
  * @author danielpalacios@unah.hn
@@ -121,7 +122,13 @@ export class RenderRequestView {
     }
 }
 
+
+
+
+
 window.revisarSolicitud = function (solicitud) {
+
+    //MOSTAR LA SOLICITUD
     requestModalView.render();
 
     console.log(solicitud);
@@ -132,27 +139,147 @@ window.revisarSolicitud = function (solicitud) {
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
 
-    // Ya no se hace fetch. Solo se usa la info que ya tenías.
+    // Renderizado básico de la información en el modal
     modalBody.innerHTML = `
-    <p><strong>Nombre:</strong> ${solicitud.nombre} ${solicitud.apellido}</p>
-    <p><strong>Tipo:</strong> ${solicitud.tipo_solicitud.replace("_", " ")}</p>
-    <p><strong>Estado:</strong> ${solicitud.estado}</p>
-    <p><strong>Fecha de solicitud:</strong> ${solicitud.fecha_solicitud}</p>
-    <p><strong>Descripción:</strong> ${solicitud.descripcion || "N/A"}</p>
-    ${solicitud.archivo_pdf
-        ? `<hr>
-           <p><strong>Archivo adjunto:</strong></p>
-           <iframe src="${ConstValues.DOMAIN_NAME_UPLOAD}/solicitudes_exceptcionales/${solicitud.archivo_pdf}" 
-                   width="100%" height="400px" style="border:1px solid #ccc;"></iframe>`
-        : "<p><strong>Archivo:</strong> No disponible</p>"
-    }
-`;
+        <p><strong>Nombre:</strong> ${solicitud.nombre} ${solicitud.apellido}</p>
+        <p><strong>Tipo:</strong> ${solicitud.tipo_solicitud.replace("_", " ")}</p>
+        <p><strong>Estado:</strong> ${solicitud.estado}</p>
+        <p><strong>Fecha de solicitud:</strong> ${solicitud.fecha_solicitud}</p>
+        <p><strong>Descripción:</strong> ${solicitud.descripcion || "N/A"}</p>
+        ${
+          solicitud.archivo_pdf
+            ? `
+              <hr>
+              <p><strong>Archivo adjunto:</strong></p>
+              <iframe src="${ConstValues.DOMAIN_NAME_UPLOAD}/solicitudes_exceptcionales/${solicitud.archivo_pdf}" 
+                      width="100%" height="400px" style="border:1px solid #ccc;"></iframe>
+            `
+            : "<p><strong>Archivo:</strong> No disponible</p>"
+        }
+    `;
+
+    //REALIZAR LA SOLICITUD
+
+    const waitForElement = (selector, timeout = 5000) => {
+        return new Promise((resolve, reject) => {
+            const start = Date.now();
+            const interval = setInterval(() => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    clearInterval(interval);
+                    resolve(element);
+                } else if (Date.now() - start > timeout) {
+                    clearInterval(interval);
+                    reject(new Error(`Elemento '${selector}' no encontrado después de ${timeout}ms`));
+                }
+            }, 50);
+        });
+    };
+
+    const waitForElements = (selector, timeout = 5000) => {
+        return new Promise((resolve, reject) => {
+            const start = Date.now();
+            const interval = setInterval(() => {
+                const elements = document.querySelectorAll(selector);
+                if (elements.length > 0) {
+                    clearInterval(interval);
+                    resolve(elements);
+                } else if (Date.now() - start > timeout) {
+                    clearInterval(interval);
+                    reject(new Error(`Elementos '${selector}' no encontrados después de ${timeout}ms`));
+                }
+            }, 50);
+        });
+    };
+
+    (async () => {
+        await Promise.all([
+            waitForElement("#btn-aprobar"),
+            waitForElement("#btn-rechazar"),
+            waitForElements(".dropdown-item"),
+            waitForElement("#btn-enviar")
+        ]);
+
+        let motivosSeleccionados = [];
+        let decision = null;
+
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const motivoId = parseInt(e.target.dataset.motivoId);
+
+                if (motivosSeleccionados.includes(motivoId)) {
+                    motivosSeleccionados = motivosSeleccionados.filter(id => id !== motivoId);
+                    e.target.classList.remove("active");
+                } else {
+                    motivosSeleccionados.push(motivoId);
+                    e.target.classList.add("active");
+                }
+            });
+        });
+
+        document.getElementById("btn-aprobar").onclick = () => {
+            decision = "APROBADA";
+        };
+
+        document.getElementById("btn-rechazar").onclick = () => {
+            decision = "DENEGADA";
+        };
 
 
-    // Asignar eventos con los datos ya disponibles
-    document.getElementById("btn-aprobar").onclick = () =>
-        procesarSolicitud(solicitud.solicitud_id, "APROBADA", solicitud.tipo_solicitud);
+        document.getElementById("btn-enviar").onclick = () => {
+            if (!decision) {
+                bootstrapAlert("Debes elegir primero 'Aprobar' o 'Rechazar' antes de enviar","warning",3000);
+                return;
+            }
 
-    document.getElementById("btn-rechazar").onclick = () =>
-        procesarSolicitud(solicitud.solicitud_id, "DENEGADA", solicitud.tipo_solicitud);
+            if (decision === "DENEGADA" && motivosSeleccionados.length === 0) {
+                bootstrapAlert("Debe seleccionar al menos un motivo para denegar la solicitud","warning",3000);
+                return;
+            }
+
+            procesarSolicitud(
+                solicitud.solicitud_id,
+                decision, // "APROBADA" o "DENEGADA"
+                solicitud.tipo_solicitud_id,
+                motivosSeleccionados
+            );
+        };
+
+        async function procesarSolicitud(solicitudId, estado, tipo_solicitud_id, motivos = []) {
+            if (estado === "DENEGADA") {
+                try {
+                    const respuestas = await Promise.all(
+                        motivos.map(motivoId =>
+                            fetch(`${ConstValues.DOMAIN_NAME}/post/rechazar_solicitud.php`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ solicitud_id: solicitudId, motivo_id: motivoId.toString() })
+                            }).then(response => response.json())
+                        )
+                    );
+
+                    console.log("Respuestas del servidor:", respuestas);
+                    bootstrapAlert("Solicitud denegada correctamente","success",3000);
+                } catch (error) {
+                    console.error("Error al denegar la solicitud:", error);
+                    bootstrapAlert("Error al procesar la solicitud. Inténtalo de nuevo","danger",3000);
+                }
+            } else if (estado === "APROBADA") {
+                try {
+                    const respuesta = await fetch(`${ConstValues.DOMAIN_NAME}/post/aceptar_solicitud.php`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ solicitud_id: solicitudId })
+                    }).then(response => response.json());
+
+                    console.log("Respuesta del servidor:", respuesta);
+                    bootstrapAlert("Solicitud aceptada correctamente","success",3000);
+                } catch (error) {
+                    console.error("Error al aprobar la solicitud:", error);
+                    bootstrapAlert("Error al procesar la solicitud. Inténtalo de nuevo","danger",3000);
+                }
+            }
+        }
+    })();
 };

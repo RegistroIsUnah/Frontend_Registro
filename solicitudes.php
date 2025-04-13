@@ -175,7 +175,7 @@
                         </div>
                     </div>
                 </div>
-
+                <div id="alertas" style="position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 9999;"></div>
             </div>
         </section>
     </main>

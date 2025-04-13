@@ -8,6 +8,8 @@
 
 import { ConstValues } from "../../utils/constValues.js";
 import { CenterFetch } from "../../fetchs/centerFetch.js"; 
+import { bootstrapAlert } from "../../utils/alerts.js";
+
 //GET DE CARRERAS POR CENTRO
 window.getCareersByCenter = () => {
     const centerId = sessionStorage.getItem("centro_id");
@@ -90,13 +92,14 @@ export function handleChangeCareer() {
     .then(response => response.json())
     .then(data => {
       console.log("Respuesta del servidor:", data);
-      if (data.success) {
-        alert("Solicitud de cambio de carrera enviada con éxito.");
-        // Aquí tu lógica extra
+      if(data.message.includes("Solicitud creada correctamente"))
+      {
+        bootstrapAlert("Solicitud de cambio de carrera enviada con éxito","success",3000);
       }
     })
     .catch(error => {
       console.error("Error en la solicitud:", error);
+      bootstrapAlert("Error en la solicitud","danger",3000);
     });
 }
 
@@ -128,13 +131,14 @@ export function handleChangeCenter() {
     .then(response => response.json())
     .then(data => {
       console.log("Respuesta del servidor:", data);
-      if (data.success) {
-        alert("Solicitud de cambio de carrera enviada con éxito.");
-        // Aquí tu lógica extra
-      }
+      if(data.message.includes("Solicitud creada correctamente"))
+        {
+          bootstrapAlert("Solicitud de cambio de carrera enviada con éxito","success",3000);
+        }
     })
     .catch(error => {
       console.error("Error en la solicitud:", error);
+      bootstrapAlert("Error en la solicitud","danger",3000);
     });
 }
 

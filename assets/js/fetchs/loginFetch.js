@@ -1,4 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
+import { bootstrapAlert } from "../utils/alerts.js";
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.1.2
@@ -140,6 +141,7 @@ export function logout()
         })
         .then(data =>{
             console.log("LogOut exitoso:", data.message);
+
             sessionStorage.clear();
             window.location.href = "index.php";
         })

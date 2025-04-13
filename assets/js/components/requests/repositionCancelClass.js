@@ -6,6 +6,7 @@
  */
 
 import { ConstValues } from "../../utils/constValues.js";
+import { bootstrapAlert } from "../../utils/alerts.js";
 
 
 export function cancelExceptionalClass() {
@@ -27,12 +28,14 @@ export function cancelExceptionalClass() {
     .then(response => response.json())
     .then(data => {
       console.log("Respuesta del servidor:", data);
-      if (data.success) {
-        alert("Solicitud de cambio de carrera enviada con éxito.");
-      }
+      if(data.message.includes("Solicitud creada correctamente"))
+            {
+              bootstrapAlert("Solicitud de cancelacion de clases excepcional enviada con éxito","success",3000);
+            }
     })
     .catch(error => {
       console.error("Error en la solicitud:", error);
+      bootstrapAlert("Error en la solicitud","danger",3000);
     });
 }
 
@@ -54,13 +57,14 @@ export function repositionRequest() {
   })
     .then(response => response.json())
     .then(data => {
-      console.log("Respuesta del servidor:", data);
-      if (data.success) {
-        alert("Solicitud de cambio de carrera enviada con éxito.");
-      }
+      if(data.message.includes("Solicitud creada correctamente"))
+            {
+              bootstrapAlert("Solicitud de reposicion enviada con éxito","success",3000);
+            }
     })
     .catch(error => {
       console.error("Error en la solicitud:", error);
+      bootstrapAlert("Error en la solicitud","danger",3000);
     });
 }
 

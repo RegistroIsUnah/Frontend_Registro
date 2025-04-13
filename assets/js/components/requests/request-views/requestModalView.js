@@ -23,7 +23,19 @@ export const requestModalView = {
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="btn-aprobar">Aprobar</button>
-                        <button type="button" class="btn btn-danger" id="btn-rechazar">Rechazar</button>
+                        <div class="btn-group">
+                            <button id="btn-rechazar" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-exclamation-triangle"></i> Rechazar por:
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" data-motivo-id="1">Falta copia de la cedula</a></li>
+                                <li><a class="dropdown-item" data-motivo-id="2">Falta de Requisitos</a></li>
+                                <li><a class="dropdown-item" data-motivo-id="3">Error en el Formulario</a></li>
+                                <li><a class="dropdown-item" data-motivo-id="4">Falta de Pago de Matricula</a></li>
+                                <li><a class="dropdown-item" data-motivo-id="5">Otro</a></li>
+                            </ul>
+                        </div>
+                        <button type="button" class="btn btn-info" id="btn-enviar">Enviar</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -31,5 +43,6 @@ export const requestModalView = {
         </div>`;
 
         document.body.insertAdjacentHTML("beforeend", modalHTML);
+        
     }
 };
