@@ -19,6 +19,7 @@ export class ClassEnrollmentFetch{
      */
     static postClassEnrollmentFetch(enrollmentData){
 
+
         return fetch(`${ConstValues.DOMAIN_NAME}/post/matricular_estudiante.php`, {
             method: "POST",
             headers: {

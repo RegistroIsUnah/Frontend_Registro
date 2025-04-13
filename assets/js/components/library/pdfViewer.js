@@ -13,6 +13,19 @@ export const openPDFModal = (pdfUrl) => {
     const pageInput = document.getElementById("pageNumber");
     const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
 
+
+    document.getElementById("pdfViewer").addEventListener('contextmenu', (e) => {
+        e.preventDefault(); // Bloquea el menú contextual
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        // Bloquear teclas de acceso rápido como Ctrl+S, Ctrl+P, etc.
+        if ((e.ctrlKey && e.key === 's') || (e.ctrlKey && e.key === 'p')) {
+            e.preventDefault();
+        }
+    });
+
+
     const loading = () => {
         loadingSpinner.innerHTML = `
             <div class="spinner-container">

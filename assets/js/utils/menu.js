@@ -1,3 +1,11 @@
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.1
+ * @since 2025/03/10
+ * 
+ * Funcion para cargar las opciones en el menu
+ */
+
 export const loadMenu = () => {
     const roles = JSON.parse(sessionStorage.getItem("roles")) || [];
     
@@ -16,40 +24,59 @@ export const loadMenu = () => {
 const generateMenuItems = (roles) => {
     let items = [];
     
-    items.push('<a id="panelComponent"></a><ul>');
+    items.push('<a id="panelComponent"></i> <small class="menu-title">MENU</small></li></a><ul>');
     
     if (roles.includes("estudiante")) {
         items.push(
-            '<a id="perfilComponent"><a href="perfil.php"><li><i class="fas fa-user"></i> Perfil</li></a></a>',
-            '<a id="historialComponent"><a href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a></a>',
-            '<a id="calificacionesComponent"><a href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a></a>',
-            '<a id="matriculaComponent"><a href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
-            '<a id="solicitudesComponent"><a href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a></a>',
-            '<a id="asignaturasEstudianteComponent"><a href="estudiante.php"><li><i class="fas fa-envelope"></i> Asignaturas</li></a></a>'
+            '<a id="perfilComponent" href="perfil.php"><li><i class="fas fa-user"></i> Perfil</li></a>',
+            '<a id="historialComponent" href="historial.php"><li><i class="fas fa-history"></i> Historial Académico</li></a>',
+            '<a id="calificacionesComponent" href="calificaciones.php"><li><i class="fas fa-star"></i> Calificaciones</li></a>',
+            '<a id="matriculaComponent" href="matricula.php"><li><i class="fas fa-edit"></i> Matrícula</li></a></a>',
+            '<a id="solicitudesComponent" href="solicitudes.php"><li><i class="fas fa-envelope"></i> Solicitudes</li></a>',
+            '<a id="asignaturasEstudianteComponent" href="estudiante.php"><li><i class="fas fa-envelope"></i> Asignaturas</li></a>'
+
         );
     }
     
     if (roles.includes("revisor")) {
         items.push(
-            '<a id="revisorComponent"><a href="revisores.php"><li id="enviarYcargar"><i class="fas fa-search"></i> Revisar Aspirantes</li></a></a>'
+            '<a id="revisorComponent" href="revisores.php"><li id="enviarYcargar"><i class="fas fa-search"></i> Revisar Aspirantes</li></a>'
         );
     }
     
     if (roles.includes("docente")) {
         items.push(
-            '<a id="verPerfilComponent"><a href="#"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a></a>',
-            '<a id="asignaturasComponent"><a href="#" id="asignaturasLink"><li><i class="fas fa-book"></i> Asignaturas</li></a></a>'
+            '<a href="" id="verPerfilComponent"><li><i class="fas fa-id-card"></i> Ver Perfil</li></a>',
+            '<a href="" id="asignaturasComponent"><li><i class="fas fa-book"></i> Asignaturas</li></a>'
         );
     }
 
     if (roles.includes("coordinador"))
     {
         items.push(
-            '<a id="solicitudesCoordinadorComponent"><a href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a></a>',
-            '<a id="cargaAcademicaCoordinadorComponent"><a href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a></a>',
-            '<a id="historialCoordiandorComponent"><a href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a></a>'
+            '<a id="solicitudesCoordinadorComponent" href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a>',
+            '<a id="cargaAcademicaCoordinadorComponent" href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
+            '<a id="historialCoordiandorComponent" href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a>'
         );
     }
+
+    if (roles.includes("administrador"))
+        {
+            items.push(
+                '<a id="cargaAcademicaCoordinadorComponent" href="admisiones.php"><li><i class="fas fa-book"></i>Proceso de Aspirantes</li></a>',
+                '<a id="historialCoordiandorComponent" href="matricula.php"><li><i class="fas fa-book"></i>Procesos Académicos</li></a>'
+            );
+        }
+
+
+    if (roles.includes("jefe de departamento"))
+        {
+            items.push(
+                '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases</li></a>',
+                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>',
+                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>'
+            );
+        }
     
     items.push('</ul>');
     return items.join('');

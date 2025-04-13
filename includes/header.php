@@ -3,7 +3,7 @@
         <button class="menu-toggle btn me-2 d-lg-none" style="background: none; border: none; color: white; font-size: 1.5rem;">
             ☰
         </button>
-        <a href="index.php"><h1 class="m-0" style="font-size: 1.5rem; color: #ffb300" >Sistema de Registro</h1></a> 
+        <h1 class="m-0" style="font-size: 1.5rem; color: #ffb300" >Sistema de Registro</h1>
     </div>
 
     <div class="nav-der d-none d-lg-flex align-items-center ms-auto gap-3">
@@ -39,7 +39,7 @@
   
   const usuarioDiv = document.querySelector('.usuario');
   
-  if (userRole.includes('docente')) { 
+  if (userRole.includes('docente') || userRole.includes('administrador')) { 
     if (usuarioDiv) usuarioDiv.style.display = 'none';
   }
 </script>

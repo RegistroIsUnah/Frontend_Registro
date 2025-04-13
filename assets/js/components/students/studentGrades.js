@@ -1,11 +1,19 @@
 import { StudentClassFetch } from "../../fetchs/studentClassFetch.js";
 
-// Variable para saber cuál clase se está evaluando en el modal
+/**
+ * @author danielpalacios@unah.hn
+ * @version 0.0.1
+ * @since 2025/04/09
+ */
+
+
+
 let currentClaseId = null;
 
-// Estas funciones deben estar en el scope o script global para que el modal funcione
-window.evaluacionModal = function(claseId) {
+window.evaluacionModal = function(claseId, docenteId, periodoId) {
   currentClaseId = claseId;
+  window.currentDocenteId = docenteId;
+  window.currentPeriodoId = periodoId;
   document.getElementById('evaluacionModal').style.display = 'block';
 };
 
@@ -16,12 +24,10 @@ window.cerrarModeal = function() {
 
 window.evaluacion = function(event) {
   event.preventDefault();
-  
-  // Ocultar botón y mostrar nota
+
   const fila = document.querySelector(`tr[data-clase-id="${currentClaseId}"]`);
   if (fila) {
     fila.querySelector('.btn-evaluar').style.display = 'none';
-    // Mostramos la celda de nota y añadimos el texto que prefieras
     const notaCell = fila.querySelector('.nota');
     notaCell.textContent = "Docente Evaluado"; 
     notaCell.style.display = 'table-cell';
@@ -30,15 +36,12 @@ window.evaluacion = function(event) {
   cerrarModeal();
 };
 
-// Función principal para desplegar las calificaciones
 export function desplegarCalificaciones(estudianteId) {
   const tbody = document.querySelector("#tabla-calificaciones tbody");
   tbody.innerHTML = "";
 
   StudentClassFetch.getClasesEstudiante(estudianteId)
     .then((response) => {
-      // Si tu JSON es { success: true, data: [...] }
-      // extraes el arreglo así
       const clases = response.data || [];
       
       if (clases.length === 0) {
@@ -50,19 +53,14 @@ export function desplegarCalificaciones(estudianteId) {
         tbody.appendChild(row);
       } else {
         clases.forEach((item) => {
-          // Creamos una fila <tr> con un data-attribute para identificar la clase
           const row = document.createElement("tr");
           row.dataset.claseId = item.clase_id;
 
-          // 1. Celda: Clase
           const claseCell = document.createElement("td");
-          // Ajusta según la propiedad real (ej. item.nombre_clase o item.clase)
           claseCell.textContent = item.nombre_clase || "Sin nombre";
           row.appendChild(claseCell);
 
-          // 2. Celda: Docente
           const docenteCell = document.createElement("td");
-          // Si 'docente' es un objeto con nombre y apellido
           if (item.docente && typeof item.docente === 'object') {
             docenteCell.textContent = (item.docente.nombre || "") + " " + (item.docente.apellido || "");
           } else {
@@ -70,26 +68,29 @@ export function desplegarCalificaciones(estudianteId) {
           }
           row.appendChild(docenteCell);
 
-          // 3. Celda: Acción -> Botón "Evaluar Docente"
           const accionCell = document.createElement("td");
           const evaluarBtn = document.createElement("button");
           evaluarBtn.classList.add("btn-evaluar");
           evaluarBtn.textContent = "Evaluar Docente";
 
-          // Al hacer clic, abrimos el modal y guardamos el ID de la clase
-          evaluarBtn.addEventListener("click", () => window.evaluacionModal(item.clase_id));
+          evaluarBtn.addEventListener("click", () => {
+            console.log("Abriendo modal con:", item.clase_id, item.docente?.docente_id, item.periodo_academico?.numero_periodo_id);
+            window.evaluacionModal(
+              item.clase_id,
+              item.docente?.docente_id ?? null,
+              item.periodo_academico?.numero_periodo_id ?? null
+            );
+          });
+
           accionCell.appendChild(evaluarBtn);
           row.appendChild(accionCell);
 
-          // 4. Celda: Nota (por defecto oculta)
           const notaCell = document.createElement("td");
           notaCell.classList.add("nota");
-          notaCell.style.display = "none"; // Oculta inicialmente
-          // Puedes poner un texto por defecto o dejarlo vacío
+          notaCell.style.display = "none"; 
           notaCell.textContent = "";
           row.appendChild(notaCell);
 
-          // Agregamos la fila a la tabla
           tbody.appendChild(row);
         });
       }
@@ -99,12 +100,11 @@ export function desplegarCalificaciones(estudianteId) {
       const row = document.createElement("tr");
       const cell = document.createElement("td");
       cell.colSpan = 4;
-      cell.textContent = "Error al cargar la información.";
+      cell.textContent = "Error al cargar datos.";
       row.appendChild(cell);
       tbody.appendChild(row);
     });
 }
 
-// Llamada a la función con el ID del estudiante
 const idEstudiante = sessionStorage.getItem("estudiante_id");
 desplegarCalificaciones(idEstudiante);

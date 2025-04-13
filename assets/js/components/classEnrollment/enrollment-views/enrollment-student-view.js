@@ -7,11 +7,8 @@
  */
 export let classEnrollmentStudentView = () => `
    
-<div class="mx-lg-5 mt-5 mx-md-3 mx-sm-3 mx-xs-3">
-    <h5><a class="color-text" href="index.php">Inicio</a> | <a class="color-text" href="panel.php">Panel de Estudiante</a> | <a class="color-text">Matrícula</a></h5>
-</div>
-
-<main class="contenedor">
+<main class="contenedor" id="mainContent">
+    <section class="main-contenedor" id="menuContainer"></section>
     <section class="contenedor2">
         <div class="contenido" id="contenido">
             <h2>Matrícula de Asignaturas</h2>

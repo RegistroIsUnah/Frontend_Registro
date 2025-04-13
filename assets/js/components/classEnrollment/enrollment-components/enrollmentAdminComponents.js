@@ -1,6 +1,7 @@
 import { adminEnrollmentPage } from "../enrollment-views/enrollment-admin-view.js";
 import { informationModal, messageAlert } from "../../modals/modals.js";
 import { AdministrationFetch } from "../../../fetchs/administrationFetch.js";
+import { renderMenu } from "../../../utils/renderMenu.js";
 
 export class EnrollmentAdminComponent{
 
@@ -9,6 +10,8 @@ export class EnrollmentAdminComponent{
         let div = document.createElement("div");
         div.innerHTML = adminEnrollmentPage();
         document.getElementById("navbar").insertAdjacentElement("afterend", div);
+        renderMenu(document.querySelector("#mainContent"));
+        
     }
 
     static loadCreateAcademicPeriodModal(){

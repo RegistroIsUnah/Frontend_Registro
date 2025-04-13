@@ -29,5 +29,8 @@ export class RegularExpressions{
     static DESCRIPTION = /^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ\s\-,;:!?¿¡."'\(\)]{3,200}$/
     static AUTHOR_NAME = /^([a-záéíóúñüÁÉÍÓÚÑÜ\s'-]+)\s+([a-záéíóúñüÁÉÍÓÚÑÜ\s'.-]+)$/;
     static ISBN = /^[\d\-Xx]+$/;
+
+    static YOUTUBE_URL = /^(https?:\/\/)?(www\.)?(youtube\.com\/watch\?v=|youtu\.be\/)[\w\-]{11}/;
+    static DRIVE_URL = /^(https?:\/\/)?(drive\.google\.com\/file\/d\/[\w-]+\/view)/;
 }
 

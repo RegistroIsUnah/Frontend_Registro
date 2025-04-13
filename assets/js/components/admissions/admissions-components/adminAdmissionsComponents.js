@@ -61,24 +61,32 @@ export class AdminAdmissionsComponents {
       e.preventDefault();          
       document.getElementById(buttonId).disabled = true;
       
-      const formData = new FormData(document.getElementById('csvForm'));
+      //const formData = new FormData(document.getElementById('csvForm'));
       let response = "";
       let divModal = document.createElement("div");
       
-      switch(buttonId){
-
+      switch(buttonId) {
         case "sendApplicantsCalifications":
-          formData.append('archivo_csv', file);
-          response = await AdmissionFetch.sendApplicantsCalifications(formData);
-          divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", response.error);
-
+            const formDataCalificaciones = new FormData(); 
+            formDataCalificaciones.append('archivo_csv', file);
+            response = await AdmissionFetch.sendApplicantsCalifications(formDataCalificaciones);
+            divModal.innerHTML = !response.error 
+                ? messageAlert("bg-success", response.message) 
+                : messageAlert("bg-danger", response.error);
+            break;
+    
         case "sendApprovedApplicantsCalifications":
-          formData.append('estudiantes_csv', file);
-          response = await AdmissionFetch.sendApprovedAplicantsCalifications(formData);
-          divModal.innerHTML = !response.error ? messageAlert("bg-success", response.message) : messageAlert("bg-danger", response.error);
-
-        default:break;
-      }
+            const formDataAprobados = new FormData(); 
+            formDataAprobados.append('estudiantes_csv', file);
+            response = await AdmissionFetch.sendApprovedAplicantsCalifications(formDataAprobados);
+            divModal.innerHTML = !response.error 
+                ? messageAlert("bg-success", response.message) 
+                : messageAlert("bg-danger", response.error);
+            break;
+    
+        default: 
+            break;
+    }
     
       document.getElementById('csvModal')?.remove();      
       document.body.appendChild(divModal);

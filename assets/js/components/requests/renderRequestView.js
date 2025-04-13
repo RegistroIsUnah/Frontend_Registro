@@ -2,6 +2,7 @@
 import { createPaginationSystem } from "../../utils/pagination.js" 
 import { genericCardView } from "./request-views/defaultRequestView.js";
 import { ConstValues } from "../../utils/constValues.js";
+import { requestModalView } from "./request-views/requestModalView.js";
 
 /**
  * @author danielpalacios@unah.hn
@@ -106,7 +107,7 @@ export class RenderRequestView {
                 tags: [solicitud.estado],
                 extraHTML: `
                     <button 
-                        onclick="revisarSolicitud(${solicitud.solicitud_id})"
+                        onclick='revisarSolicitud(${JSON.stringify(solicitud).replace(/'/g, "\\'")})'
                         class="btn btn-primary mt-2"
                     >
                         Revisar
@@ -119,3 +120,39 @@ export class RenderRequestView {
         contenedor.appendChild(row);
     }
 }
+
+window.revisarSolicitud = function (solicitud) {
+    requestModalView.render();
+
+    console.log(solicitud);
+    const modalElement = document.getElementById("modalRevisionSolicitud");
+    const modalBody = document.getElementById("modal-body-detalle");
+
+    modalBody.innerHTML = "Cargando...";
+    const modal = new bootstrap.Modal(modalElement);
+    modal.show();
+
+    // Ya no se hace fetch. Solo se usa la info que ya tenías.
+    modalBody.innerHTML = `
+    <p><strong>Nombre:</strong> ${solicitud.nombre} ${solicitud.apellido}</p>
+    <p><strong>Tipo:</strong> ${solicitud.tipo_solicitud.replace("_", " ")}</p>
+    <p><strong>Estado:</strong> ${solicitud.estado}</p>
+    <p><strong>Fecha de solicitud:</strong> ${solicitud.fecha_solicitud}</p>
+    <p><strong>Descripción:</strong> ${solicitud.descripcion || "N/A"}</p>
+    ${solicitud.archivo_pdf
+        ? `<hr>
+           <p><strong>Archivo adjunto:</strong></p>
+           <iframe src="${ConstValues.DOMAIN_NAME_UPLOAD}/solicitudes_exceptcionales/${solicitud.archivo_pdf}" 
+                   width="100%" height="400px" style="border:1px solid #ccc;"></iframe>`
+        : "<p><strong>Archivo:</strong> No disponible</p>"
+    }
+`;
+
+
+    // Asignar eventos con los datos ya disponibles
+    document.getElementById("btn-aprobar").onclick = () =>
+        procesarSolicitud(solicitud.solicitud_id, "APROBADA", solicitud.tipo_solicitud);
+
+    document.getElementById("btn-rechazar").onclick = () =>
+        procesarSolicitud(solicitud.solicitud_id, "DENEGADA", solicitud.tipo_solicitud);
+};
