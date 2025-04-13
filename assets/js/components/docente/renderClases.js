@@ -100,7 +100,7 @@ export function renderClassDetail(clase, estudiantes) {
         >
       </td>
       <td>
-        <button type="button" class="guardar-btn btn btn-success">Registrar</button>
+        <button type="button" class="guardar-btn btn" style="background-color: #12a9c2; color:white;">Calificar</button>
       </td>
     `;
     tbody.appendChild(row);

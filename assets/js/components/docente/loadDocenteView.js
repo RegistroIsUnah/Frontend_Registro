@@ -86,17 +86,15 @@ export function loadDocentePage() {
  * @version 0.0.2
  * @since 2025/04/09
  * 
- * //Funcion para cargar Perfil del docente
+ * Funcion para cargar Perfil del docente
  */
 
 export async function loadPerfilDocenteView() {
     history.pushState({ view: "verPerfilDocente" }, "", window.location.href);
-
     const docenteId = sessionStorage.getItem('docente_id');
 
     try {
         const response = await DocenteFetch.getPerfilDocente(docenteId);
-
         if (response?.success) {
             const docente = response.data;
             renderInMainContent(verPerfilDocenteView(docente));
@@ -177,7 +175,6 @@ async function handleVideoUpload() {
     }
 
     const isYouTube = RegularExpressions.YOUTUBE_URL.test(videoUrl);
-
     if (!isYouTube) {
         ModalManager.show("Por favor ingresa un enlace válido de YouTube.", false);
         return;
@@ -259,11 +256,10 @@ function notasIndividuales() {
                 if (result?.success) {
                     ModalManager.show("Calificación registrada correctamente.", true);
                 } else {
-                    ModalManager.show("Ocurrió un error al registrar la calificación.", false);
+                    ModalManager.show("Ya existe una calificación registrada para este estudiante.", false);
                 }
             } catch (error) {
                 console.error("Error al registrar calificación:", error);
-                ModalManager.show("Error al intentar registrar.", false);
             }
         });
     });
