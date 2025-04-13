@@ -117,6 +117,7 @@ export class DocenteFetch {
     
 
     static actualizarCalificacion(data) {
+        console.log(data);
         return fetch(`${ConstValues.DOMAIN_NAME}/post/actualizar_calificacion_estudiante.php`, {
             method: 'POST',
             headers: {

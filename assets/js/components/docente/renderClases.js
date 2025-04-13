@@ -55,9 +55,6 @@ export function loadAllClasses(clasesArray) {
     classesGrid.appendChild(classCard);
   });
 }
-//Hasta Aca.
-
-/*!--<small>Periodo: ${periodo}</small><br>*/
 
 export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;
@@ -72,11 +69,6 @@ export function renderClassDetail(clase, estudiantes) {
   tbody.innerHTML = '';
 
   estudiantes.forEach((est, index) => {
-    const calificacion = est.calificacion ?? '';
-    const estadoCursoId = est.estado_curso_id ?? '';
-    const observacion = est.observacion ?? '';
-    const existe = est.calificacion != null ? "true" : "false";
-
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${index + 1}</td>
@@ -88,32 +80,34 @@ export function renderClassDetail(clase, estudiantes) {
           class="form-control grade-input" 
           min="0" max="100" 
           data-cuenta="${est.numero_cuenta}"
-          data-existe="${existe}"
-          value="${calificacion}"
         >
       </td>
       <td>
         <select class="form-select estado-select">
           <option value="">---</option>
-          <option value="1" ${estadoCursoId == 1 ? 'selected' : ''}>Abandonada</option>
-          <option value="2" ${estadoCursoId == 2 ? 'selected' : ''}>Reprobada</option>
-          <option value="3" ${estadoCursoId == 3 ? 'selected' : ''}>Aprobada</option>
-          <option value="4" ${estadoCursoId == 4 ? 'selected' : ''}>Cancelada</option>
-          <option value="5" ${estadoCursoId == 5 ? 'selected' : ''}>Pendiente</option>
+          <option value="1">Abandonada</option>
+          <option value="2">Reprobada</option>
+          <option value="3">Aprobada</option>
+          <option value="4">Cancelada</option>
+          <option value="5">Pendiente</option>
         </select>
       </td>
       <td>
         <input 
           type="text" 
           class="form-control obs-input" 
-          placeholder="Observación" 
-          value="${observacion}"
+          placeholder="Observación"
         >
+      </td>
+      <td>
+        <button type="button" class="guardar-btn btn btn-success">Registrar</button>
       </td>
     `;
     tbody.appendChild(row);
   });
 }
+
+
 
 export function renderClassDetailStudent(clase) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;

@@ -11,10 +11,10 @@
   include 'includes/header.php'; 
   ?>
 
-
+<div id="mainContent"></div>
   
     <?php
-        /*include 'includes/footer.php';*/
+        include 'includes/footer.php';
         include 'includes/scripts.php';
         ?>
  

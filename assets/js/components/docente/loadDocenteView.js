@@ -67,23 +67,6 @@ export function loadDocentePage() {
         downloadButton.addEventListener('click', downloadStudentList);
     }
 
-    handleSaveGrades();
-
-    document.querySelectorAll('.grade-input').forEach(input => {
-        input.addEventListener('input', (e) => {
-            const row = e.target.closest('tr');
-            const calificacion = parseFloat(e.target.value);
-            const estadoSelect = row.querySelector('.estado-select');
-
-            if (!isNaN(calificacion)) {
-                if (![1, 4, 5].includes(parseInt(estadoSelect.value))) {
-                    let estadoSugerido = calificacion >= 65 ? 3 : 2; // Aprobado o Reprobado
-                    estadoSelect.value = estadoSugerido;
-                }
-            }
-        });
-    });
-
     document.getElementById('verPerfilComponent')?.addEventListener('click', (e) => {
         e.preventDefault();
         loadPerfilDocenteView();  
@@ -166,6 +149,8 @@ async function loadEstudiantesClase(clase, seccionId) {
             renderClassDetail(clase, result.data);
             document.getElementById('classesView').style.display = 'none';
             document.getElementById('classDetailView').style.display = 'block';
+            notasIndividuales();
+
         } else {
             console.error("No se pudieron cargar los estudiantes.");
         }
@@ -204,7 +189,6 @@ async function handleVideoUpload() {
         const result = await DocenteFetch.subirVideoIntro(seccionId, videoUrl);
 
         if (result?.success) {
-
             ModalManager.show("Video ingresado Correctamente", true);
             const closeBtn = document.querySelector('[data-bs-dismiss="modal"]');
             if (closeBtn) {
@@ -233,66 +217,58 @@ async function handleVideoUpload() {
  * 
  * Función para guardar las calificaciones de los estudiantes
  */
-function handleSaveGrades(){
-    document.getElementById('saveGradesBtn').addEventListener('click', async () => {
-        const rows = document.querySelectorAll('#studentsTableBody tr');
-        const seccionId = storedClases[0]?.seccion?.seccion_id;
-      
-        for (const row of rows) {
-          const calificacionInput = row.querySelector('.grade-input');
-          const estadoSelect = row.querySelector('.estado-select');
-          const obsInput = row.querySelector('.obs-input');
-      
-          const numeroCuenta = calificacionInput.dataset.cuenta;
-          const calificacion = parseFloat(calificacionInput.value);
-          const estadoCursoId = parseInt(estadoSelect.value);
-          const observacion = obsInput.value;
-          const yaExiste = calificacionInput.dataset.existe === "true";
-      
-          if (isNaN(calificacion) || !estadoCursoId) {
-            continue;
-        }
-      
-          // Sugerencia automática del estado si el usuario no eligió alguno manualmente
-          let estadoSugerido = estadoCursoId;
-          if (![1, 4, 5].includes(estadoCursoId)) {
-            estadoSugerido = calificacion >= 65 ? 3 : 2;
-          }
-      
-          estadoSelect.value = estadoSugerido;
-      
-          const data = {
-            numero_cuenta: numeroCuenta,
-            seccion_id: seccionId,
-            calificacion,
-            observacion,
-            estado_curso_id: estadoSugerido
-          };
-      
-          try {
-            let result;
-            if (yaExiste) {
-              result = await DocenteFetch.actualizarCalificacion(data);
-            } else {
-              result = await DocenteFetch.calificarEstudiante(data);
+
+function notasIndividuales() {
+    const botonesGuardar = document.querySelectorAll('.guardar-btn');
+
+    botonesGuardar.forEach(boton => {
+        boton.addEventListener('click', async () => {
+            const row = boton.closest('tr');
+            const calificacionInput = row.querySelector('.grade-input');
+            const estadoSelect = row.querySelector('.estado-select');
+            const obsInput = row.querySelector('.obs-input');
+
+            const numeroCuenta = calificacionInput.dataset.cuenta;
+            const calificacion = parseFloat(calificacionInput.value);
+            let estadoCursoId = parseInt(estadoSelect.value);
+            const observacion = obsInput.value;
+            const seccionId = storedClases[0]?.seccion?.seccion_id;
+
+            if (isNaN(calificacion)) {
+                ModalManager.show("La calificación ingresada no es válida.", false);
+                return;
             }
-      
-            if (result.success) {
-              console.log(`Calificación guardada para ${numeroCuenta}`);
-              calificacionInput.dataset.existe = "true";
-              ModalManager.show("Calificaciones guardadas correctamente", true);
-            } else {
-              console.error(`Error al guardar para ${numeroCuenta}:`, result);
-              ModalManager.show("Error al guardar calificación", false);
+
+            // Si la calificación es mayor o igual a 65, se marca como aprobado
+            if (![1, 4, 5].includes(estadoCursoId)) {
+                estadoCursoId = calificacion >= 65 ? 3 : 2; // Aprobado si calificación >= 65, sino reprobado
+                estadoSelect.value = estadoCursoId;
             }
-          } catch (err) {
-            console.error(`Fallo en calificación de ${numeroCuenta}:`, err);
-            ModalManager.show("Error inesperado al guardar calificación", false);
-          }
-        }
-      });
-      
+
+            const data = {
+                numero_cuenta: numeroCuenta,
+                seccion_id: seccionId,
+                calificacion,
+                observacion,
+                estado_curso_id: estadoCursoId
+            };
+
+            try {
+                const result = await DocenteFetch.calificarEstudiante(data);
+
+                if (result?.success) {
+                    ModalManager.show("Calificación registrada correctamente.", true);
+                } else {
+                    ModalManager.show("Ocurrió un error al registrar la calificación.", false);
+                }
+            } catch (error) {
+                console.error("Error al registrar calificación:", error);
+                ModalManager.show("Error al intentar registrar.", false);
+            }
+        });
+    });
 }
+
 
 
 /**
@@ -302,14 +278,13 @@ function handleSaveGrades(){
  * 
  * Crea un nuevo contenedor para no perder el header
  */
+
 function renderInMainContent(htmlString) {
-    const body = document.getElementsByTagName("body")[0];
-    let mainContent = document.getElementById("mainContent");
-    if (!mainContent) {
-        mainContent = document.createElement("div");
-        mainContent.id = "mainContent";
-        body.appendChild(mainContent);
+    const mainContent = document.getElementById("mainContent");
+    if (mainContent) {
+        mainContent.innerHTML = htmlString;
+    } else {
+        console.error("No se encontró el contenedor #mainContent en el DOM.");
     }
-    mainContent.innerHTML = htmlString;
 }
 

@@ -45,15 +45,14 @@ export let docenteView = `
                     <th>Calificación</th>
                     <th>Estado</th>
                     <th>OBS</th>
+                    <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody id="studentsTableBody"></tbody>
               </table>
             </div>
             
-            <button class="btn btn-warning mt-3" id="saveGradesBtn">
-              Guardar Calificaciones
-            </button>
+         
           </div>
         </div>
 
@@ -61,7 +60,7 @@ export let docenteView = `
       </div>
     </section>
   </main>
-//Copiar
+
 
   <!-- MODAL DE SUBIR VIDEO -->
          
