@@ -7,6 +7,7 @@ import { RegularExpressions } from "../../../utils/regularExpressions.js";
 import { messageAlert } from "../../modals/modals.js";
 import { RenderClassesViews } from "../renderClassesViews.js";
 import { renderMenu } from "../../../utils/renderMenu.js";
+import { informationModal } from "../../modals/modals.js";
 
 export class ClassesDepartmentHeadComponents{
 
@@ -84,14 +85,19 @@ export class ClassesDepartmentHeadComponents{
 
             Object.values(sectionsClassData).forEach(section => {
 
+                let motivo = "", attribute = "";
                 let { seccion_id, hora_inicio, hora_fin, estado_seccion_id, 
                     estado_seccion, video_url, motivo_cancelacion, cupos, 
                     docente_nombre, docente_apellido, aula_nombre, edificio_nombre } = section;
 
-                let motivo = estado_seccion == "ACTIVA" ? "" : `Motivo de cancelación: <strong>${motivo_cancelacion}</strong></br>`;
+                if(estado_seccion != "ACTIVA"){
+
+                    motivo =  `Motivo de cancelación: <strong>${motivo_cancelacion}</strong></br>`;
+                    attribute = "hidden";
+                }
                 let body = `
                 <div class="my-lg-3 my-md-2 my-sm-2">
-                    HI - HF: <strong>${hora_inicio} - ${hora_fin}</strong></br>
+                    HI - HF: <strong id="horas">${hora_inicio} - ${hora_fin}</strong></br>
                     Docente: <strong>${docente_nombre} ${docente_apellido}</strong></br>
                     Cupos: <strong> ${cupos}</strong></br>
                     Aula: <strong>${aula_nombre}</strong></br>
@@ -101,7 +107,7 @@ export class ClassesDepartmentHeadComponents{
                 </div>
                 `;
                 div2.insertAdjacentHTML("beforeend",
-                classesTarget(`Sección ${hora_inicio.split(':').slice(0, 2).join('')}`, body, [seccion_id, "showSectionData", "Editar sección"]));
+                classesTarget(`Sección ${hora_inicio.split(':').slice(0, 2).join('')}`, body, [seccion_id, "showSectionData", "Editar sección"], attribute));
 
             });
         
@@ -164,7 +170,7 @@ export class ClassesDepartmentHeadComponents{
         )).join('');
 
         const modalContainer = document.createElement('div');
-        modalContainer.innerHTML = createSectionForm(classId, proffessorOption, academicOption, buildingOption);
+        modalContainer.innerHTML = createSectionForm(classId, proffessorOption, academicOption, buildingOption, "Crear Sección");
         document.body.appendChild(modalContainer);
         const modal = new bootstrap.Modal(document.getElementById('createSectionModal'));
         modal.show();
@@ -234,5 +240,140 @@ export class ClassesDepartmentHeadComponents{
             createAcademicPeriodAlertResponse.show(); 
             setTimeout(() => divModal.remove(), 4000);
         });
-    }       
+    }     
+    
+    static async editSection(sectionId, classId){
+
+        const existingModals = ["divModalEditSection", "divModalCancelSection", "informationModal"];
+        existingModals.forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.remove();
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) bsModal.dispose();
+            }
+        });
+
+        let deptId = sessionStorage.getItem("dept_id");
+        let proffessorsData = await DepartmentFetch.getProffesorsByDeptId(deptId);
+
+        console.log(proffessorsData);
+        
+        let proffessorOption = ['<option value="" selected>-- Seleccione un Docente --</option>']
+        .concat(proffessorsData.docentes.map(proffessor => 
+            `<option value="${proffessor.docente_id}">${proffessor.nombre} ${proffessor.apellido}</option>`
+        )).join('');
+
+        let modalBody = `<div class="input-group flex-column"> 
+                            <h5>Docente</h5> 
+                            <div class="mb-3 d-flex align-items-center">
+                                <select class="form-select" id="docente_id" name="docente_id" required>
+                                    ${proffessorOption}
+                                </select>                           
+                             </div>
+
+                            <h5 class="mb-3">Cupos</h5> 
+                            <div class="d-flex align-items-center mb-3">
+                                <input id="cupos_seccion" name="cupos_seccion" class="form-control me-2" type="number">
+                            </div>
+
+                            <h5>Estado</h5> 
+                            <div class="mb-3 d-flex align-items-center">
+                                <select class="form-select" id="estado" name="estado" required>
+                                    <option value="" selected>-- Seleccione --</option>
+                                    <option value="ACTIVA"> ACTIVADA </option>    
+                                    <option value="CANCELADA"> CANCELADA </option>                                
+                                </select>                           
+                             </div>
+                        </div>`;
+
+        let divModal = document.createElement("div");
+        divModal.id = "divModalEditSection";
+        divModal.innerHTML = informationModal("Editar sección", modalBody, "Enviar datos de edición", "", "modal-md");
+        document.body.appendChild(divModal);
+
+        let successModalInstance = new bootstrap.Modal(document.getElementById('informationModal'));
+        successModalInstance.show();
+
+        document.getElementById('successButtomModal')?.addEventListener('click', async (e) => {
+
+            let editDataSection = {
+                seccion_id: sectionId,
+                docente_id: document.getElementById("docente_id").value,
+                cupos: document.getElementById("cupos_seccion").value,
+                estado: document.getElementById("estado").value,
+
+            };
+            //console.log(editDataSection);
+
+            let response = await DepartmentFetch.editSection(editDataSection);
+            let modal = response.message == "Sección modificada exitosamente" ? 
+            messageAlert("bg-primary", "La sección ha sido modificada. Por favor, refresque la página.") : messageAlert("bg-danger", response.error);
+    
+            let divModal = document.createElement("div");
+            divModal.innerHTML = modal;
+            document.body.appendChild(divModal);
+            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+            successModalInstance.show(); 
+            setTimeout(() => divModal.remove(), 2000);  
+
+        });
+    }
+
+    static async cancelSection(sectionId, classId){
+
+        const existingModals = ["divModalEditSection", "divModalCancelSection", "informationModal"];
+        existingModals.forEach(id => {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.remove();
+                const bsModal = bootstrap.Modal.getInstance(modal);
+                if (bsModal) bsModal.dispose();
+            }
+        });
+
+        let modalBody = `<div class="input-group flex-column"> 
+                            <h5 class="mb-2 text-center">Ingrese el motivo de cancelación:</h5> 
+                            <div class="d-flex align-items-center">
+                                <textarea id="motivo_rechazo" name="motivo_rechazo" class="form-control me-2" type="text" mexlength="50"></textarea>
+                            </div>
+                        </div>`;
+
+        let divModal = document.createElement("div");
+        divModal.id = "divModalCancelSection";
+        divModal.innerHTML = informationModal("Cancelar sección", modalBody, "Cancelar sección", "disabled", "modal-lg");
+        document.body.appendChild(divModal);
+
+        let successModalInstance = new bootstrap.Modal(document.getElementById('informationModal'));
+        successModalInstance.show();
+
+        document.getElementById("motivo_rechazo").addEventListener("input", (event) => {
+            document.getElementById("successButtomModal").disabled = event.target.value.length < 6;
+        });
+
+        document.getElementById("successButtomModal").addEventListener("click", async (event) => {
+
+            let form = document.querySelector("#informationModal");
+            let json = {
+                clase_id: classId,
+                seccion_id: sectionId,
+                estado: "CANCELADA",
+                motivo_cancelacion: form.querySelector("[name='motivo_rechazo']").value
+            };
+
+            let response = await DepartmentFetch.editSection(json);
+
+            let modal = response.message == "Sección modificada exitosamente" ? 
+            messageAlert("bg-primary", "La sección ha sido cancelada. Por favor, refresque la página.") : messageAlert("bg-danger", response.error);
+    
+            let divModal = document.createElement("div");
+            divModal.innerHTML = modal;
+            document.body.appendChild(divModal);
+            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+            successModalInstance.show(); 
+            setTimeout(() => divModal.remove(), 2000);  
+
+        });
+    }
+
 }

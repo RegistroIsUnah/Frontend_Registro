@@ -40,6 +40,10 @@ export class AdminAdmissionsComponents {
       this.setupFileValidation(buttonId);
     }, 100);
   }
+
+  
+
+
   
   static setupFileValidation(buttonId) {
     const fileInput = document.getElementById('csvFile');

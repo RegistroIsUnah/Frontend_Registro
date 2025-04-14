@@ -7,19 +7,19 @@ export let classesTarget = (title, body, classDataArray, attribute="") => `
             ${body}
         </div>
         <div class="card-footer">            
-            <button id="${classDataArray[0]}" class="deleteSection btn btn-danger mb-2" ${attribute}>Inhabilitar sección</button>
+            <button id="${classDataArray[0]}" class="deleteSection btn btn-danger mb-2" ${attribute}>Cancelar sección</button>
             <button id="${classDataArray[0]}" class=" ${classDataArray[1]} btn btn-primary mb-2">${classDataArray[2]}</button>
         </div>
     </div>
 </div>
 `;
 
-export let createSectionForm = (classId ,proffessorOption, academicOption, buildingOption) => `
+export let createSectionForm = (classId ,proffessorOption, academicOption, buildingOption, title) => `
     <div class="modal fade" id="createSectionModal" tabindex="-1" aria-labelledby="admissionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered"> <!-- Agregada clase modal-dialog-centered -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-4" style="font-weight: bold;">Crear Sección</h1>
+                    <h1 class="modal-title fs-4" style="font-weight: bold;">${title}</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
