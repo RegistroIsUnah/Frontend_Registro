@@ -19,12 +19,17 @@ export class ModalManager {
         container.innerHTML = alertModal(message, isSuccess);
         
         const modalElement = document.getElementById('alertModal');
-        const modalInstance = new bootstrap.Modal(modalElement);
-        modalInstance.show();
-        
-        modalElement.addEventListener('hidden.bs.modal', () => {
-            if (onCloseCallback) onCloseCallback();
-            modalInstance.dispose();
-        });
+        setTimeout(() => {
+            const modalInstance = new bootstrap.Modal(modalElement);
+            modalInstance.show();
+
+            modalElement.addEventListener('hidden.bs.modal', () => {
+                // Evita errores de foco
+                document.activeElement?.blur();
+
+                if (onCloseCallback) onCloseCallback();
+                modalInstance.dispose();
+            });
+        }, 10); // Espera 10ms para evitar conflicto con aria-hidden
     }
 }
