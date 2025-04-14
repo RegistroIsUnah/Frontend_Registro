@@ -233,6 +233,58 @@ h3 {
         height: 60vh;
     }
 }
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #013775;
+}
+
+.navbar-brand {
+    font-weight: bold; /* Texto en negrita */
+    color: white;
+}
+
+.nav-item a{
+    color: white;
+}
+
+.btn-outline-light {
+    border-color: #fff; /* Borde blanco */
+}
+
+.btn-outline-light:hover {
+    background-color: #fff; /* Fondo blanco al pasar el mouse */
+    color: #000; /* Texto negro al pasar el mouse */
+}
+
+h1{
+    color: #12a9c2;
+}
+
+h3{
+    color: #013775!important;
+}
+
+.book-card {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal iframe {
+    width: 100%;
+    height: 500px;
+    border: none;
+    
+}
+
+.page-search {
+    margin-bottom: 10px;
+}
+
 
 .libro-inactivo {
     background-color: #e2e3e5;
@@ -246,5 +298,4 @@ h3 {
     font-size: 0.9rem;
     margin-top: 0.5rem;
   }
-  
 
