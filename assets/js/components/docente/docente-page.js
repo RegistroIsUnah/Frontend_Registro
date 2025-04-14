@@ -50,6 +50,9 @@ export let docenteView = `
                 </thead>
                 <tbody id="studentsTableBody"></tbody>
               </table>
+
+              <div id="pagination" class="mt-3"></div>
+
             </div>
             
          

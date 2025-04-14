@@ -7,7 +7,6 @@ import {RegularExpressions} from "../../utils/regularExpressions.js"
 import { verPerfilDocenteView } from "./perfilDocente-page.js";
 import { renderMenu } from "../../utils/renderMenu.js";
 
-
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.0.2
@@ -147,7 +146,7 @@ async function loadEstudiantesClase(clase, seccionId) {
             renderClassDetail(clase, result.data);
             document.getElementById('classesView').style.display = 'none';
             document.getElementById('classDetailView').style.display = 'block';
-            notasIndividuales();
+            //notasIndividuales();
 
         } else {
             console.error("No se pudieron cargar los estudiantes.");
@@ -215,7 +214,7 @@ async function handleVideoUpload() {
  * Función para guardar las calificaciones de los estudiantes
  */
 
-function notasIndividuales() {
+export function notasIndividuales() {
     const botonesGuardar = document.querySelectorAll('.guardar-btn');
 
     botonesGuardar.forEach(boton => {
@@ -229,7 +228,8 @@ function notasIndividuales() {
             const calificacion = parseFloat(calificacionInput.value);
             let estadoCursoId = parseInt(estadoSelect.value);
             const observacion = obsInput.value;
-            const seccionId = storedClases[0]?.seccion?.seccion_id;
+            //const seccionId = storedClases[0]?.seccion?.seccion_id;
+            const seccionId = boton.dataset.seccionId;
 
             if (isNaN(calificacion)) {
                 ModalManager.show("La calificación ingresada no es válida.", false);

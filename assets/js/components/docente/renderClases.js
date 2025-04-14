@@ -6,6 +6,9 @@
  * Función encargada de cargar estructura de las clases y detalles.
  */
 
+import { createPaginationSystem } from "../../utils/pagination";
+import { notasIndividuales } from "./loadDocenteView";
+
 export function loadAllClasses(clasesArray) {
   const classesGrid = document.getElementById('classesGrid');
   classesGrid.innerHTML = '';
@@ -56,6 +59,8 @@ export function loadAllClasses(clasesArray) {
   });
 }
 
+let pagination;
+
 export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;
   document.getElementById('classCodeDetail').textContent = clase.codigo_clase;
@@ -65,6 +70,21 @@ export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classScheduleDetail').textContent = horario;
   document.getElementById('studentsCountDetail').textContent = estudiantes.length;
 
+  if (!pagination) {
+    pagination = createPaginationSystem({
+      itemsPerPage: 12,
+      containerId: 'pagination',
+      flattenFn: (data) => data,
+      groupFn: (original, currentItems) => currentItems,
+      renderFn:  (currentItems) => renderStudentRows(currentItems, clase)
+    });
+  }
+
+  pagination.setData(estudiantes);
+  pagination.renderPage();
+}
+
+function renderStudentRows(estudiantes, clase) {
   const tbody = document.getElementById('studentsTableBody');
   tbody.innerHTML = '';
 
@@ -75,12 +95,7 @@ export function renderClassDetail(clase, estudiantes) {
       <td>${est.numero_cuenta}</td>
       <td>${est.nombre} ${est.apellido}</td>
       <td>
-        <input 
-          type="number" 
-          class="form-control grade-input" 
-          min="0" max="100" 
-          data-cuenta="${est.numero_cuenta}"
-        >
+        <input type="number" class="form-control grade-input" min="0" max="100" data-cuenta="${est.numero_cuenta}">
       </td>
       <td>
         <select class="form-select estado-select">
@@ -93,21 +108,17 @@ export function renderClassDetail(clase, estudiantes) {
         </select>
       </td>
       <td>
-        <input 
-          type="text" 
-          class="form-control obs-input" 
-          placeholder="Observación"
-        >
+        <input type="text" class="form-control obs-input" placeholder="Observación">
       </td>
       <td>
-        <button type="button" class="guardar-btn btn" style="background-color: #12a9c2; color:white;">Calificar</button>
+      <button type="button" class="guardar-btn btn"  style="background-color: #12a9c2; color:white;" data-seccion-id="${clase.seccion.seccion_id}"> Calificar </button>
       </td>
     `;
     tbody.appendChild(row);
   });
+
+  notasIndividuales();
 }
-
-
 
 export function renderClassDetailStudent(clase) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;

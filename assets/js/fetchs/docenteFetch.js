@@ -74,6 +74,7 @@ export class DocenteFetch {
 
 
     static calificarEstudiante(data) {
+        //console.log(data);
         return fetch(`${ConstValues.DOMAIN_NAME}/post/registrar_calificacion_estudiante.php`, {
             method: 'POST',
             headers: {
