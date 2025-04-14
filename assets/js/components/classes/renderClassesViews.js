@@ -14,5 +14,22 @@ export class RenderClassesViews{
                 });
             });
         }
+
+        document.querySelectorAll(".showSectionData").forEach(button => {
+            button.addEventListener("click", async (event) => {
+
+                //console.log((event.target.parentElement).parentElement);
+                await ClassesDepartmentHeadComponents.editSection(event.target.id, sessionStorage.getItem("classId"));
+            });
+        });
+
+        document.querySelectorAll(".deleteSection").forEach(button => {
+            button.addEventListener("click", async (event) => {
+
+                console.log(event.target.id);
+                await ClassesDepartmentHeadComponents.cancelSection(event.target.id, sessionStorage.getItem("classId"));
+            });
+        })
+
     }
 }

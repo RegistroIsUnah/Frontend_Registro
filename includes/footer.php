@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer py-3 mt-auto">
     <div class="footer-content">
         <div class="footer-section">
             <h4>Contacto</h4>
