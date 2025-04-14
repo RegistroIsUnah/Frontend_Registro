@@ -99,4 +99,33 @@ export class DepartmentFetch{
         return { success: false };
         });
     }
+
+    static editSection(formData){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/modificar_seccion.php`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if(!response.ok){
+                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return response.json();
+        })
+        .then(data => data)
+        .catch(error => {
+            console.error("Error: ", error);
+        return { success: false };
+        });
+    }
+
 }
