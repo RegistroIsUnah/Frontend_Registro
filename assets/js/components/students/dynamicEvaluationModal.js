@@ -1,6 +1,5 @@
 import { ConstValues } from "../../utils/constValues.js";
-
-
+import { nota } from "../../fetchs/studentClassFetch.js";
 /**
  * @author danielpalacios@unah.hn
  * @version 0.0.1
@@ -206,14 +205,21 @@ import { ConstValues } from "../../utils/constValues.js";
           const fila = document.querySelector(`tr[data-clase-id="${currentClaseId}"]`);
           if (fila) {
             const btnEvaluar = fila.querySelector(".btn-evaluar");
-            if (btnEvaluar) btnEvaluar.style.display = "none";
+            if (btnEvaluar)
+            {
+              const texto = document.createElement("span");
+              texto.textContent = "Docente Evaluado";
+              texto.classList.add("texto-evaluado");
+              btnEvaluar.replaceWith(texto);
+            }
             const notaCell = fila.querySelector(".nota");
             if (notaCell) {
-              notaCell.textContent = "Evaluación Enviada";
+              notaCell.textContent = `${nota}`;
               notaCell.style.display = "table-cell";
             }
           }
           cerrarModal();
+          console.log("hola");
         })
         .catch((error) => {
           console.error("Error al enviar evaluación:", error);
