@@ -29,43 +29,27 @@ include 'includes/chat.php'; // Incluye el chat
 
 
         <section class="contenedor2">
-            <div class="container mt-5">
-            <div class="input-group">
-          <label for="busqueda" class="visually-hidden">Buscar</label>
-          <input
-            id="busqueda"
-            type="text"
-            class="form-control"
-            placeholder="Buscar por número de cuenta"
-          />
-          <button
-            id="btn-buscar"
-            type="button"
-            class="btn btn-outline-primary"
-          >
-            Buscar
-          </button>
-          <button
-            type="button"
-            class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" id="dropdown-estado">
-            <li><h6 class="dropdown-header">Filtrar Por:</h6></li>
-            <li><hr class="dropdown-divider" /></li>
-            <li><a class="dropdown-item" data-estado="PENDIENTE">Pendientes</a></li>
-            <li><a class="dropdown-item" data-estado="APROBADA">Aprobadas</a></li>
-            <li><a class="dropdown-item" data-estado="DENEGADA">Denegadas</a></li>
-          </ul>
-        </div>
-                <br>
-                <br>
+                <div class="input-group">
+                    <input id="input-num-cuenta" type="text" class="form-control" placeholder="Buscar por No. Cuenta"> <button id="btn-buscar" type="button" class="btn btn-outline-primary">Buscar</button>
+                    <button 
+                    type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                    <span class="visually-hidden">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" id="dropdown-estados">
+                        <h6 class="dropdown-header">Filtrar Por:</h6>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" data-estado="PENDIENTE">Pendientes</a></li>
+                        <li><a class="dropdown-item" data-estado="APROBADA">Aprobadas</a></li>
+                        <li><a class="dropdown-item" data-estado="DENEGADA">Denegadas</a></li>
+                    </ul>
+                </div>
+                <br><br>
             <div id="contenedor-solicitudes"></div>
             <div id="pagination-requests"></div>
-            <div id="alertas" style="position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 9999;"></div>
+            <div 
+              id="alertas" 
+              style="position: fixed; top: 1rem; left: 50%; transform: translateX(-50%); z-index: 9999;"
+            ></div>
         </section>
     </main>
 
