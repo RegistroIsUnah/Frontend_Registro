@@ -127,7 +127,7 @@ function cargarPerfilEstudiante(data) {
     if (Array.isArray(fotos) && fotos.length > 0) {
       fotos.forEach((fotoNombre, index) => {
         if (fotoItems[index]) {
-          const fotoUrl = `${ConstValues.DOMAIN_NAME_UPLOAD}/${fotoNombre}`;
+          const fotoUrl = `${ConstValues.UPLOADS_URL_FOTOS}/${fotoNombre}`;
           renderFilePreview(fotoItems[index], fotoUrl, "image");
         }
       });
@@ -165,3 +165,84 @@ function cargarPerfilEstudiante(data) {
 window.addEventListener("DOMContentLoaded", () => {
     handleObtainStudent();
   });
+
+
+//Comienzo para subir fotos
+
+/**
+ * @author kency.oseguera@unah.hn
+ * @version 0.1.4
+ * @since 2025/04/17
+ * 
+ * Funciones relacionadas con las fotos del estudiante.
+ */
+
+import { EstudianteFetch } from "../../fetchs/studentFetch.js";
+import { bootstrapAlert } from "../../utils/alerts.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+  handleObtainStudent();
+  setupSubirFotoHandler();
+});
+
+function setupSubirFotoHandler() {
+  const btnSubirFoto = document.querySelector(".btn-subir-fotos");
+  if (!btnSubirFoto) return;
+
+  const inputFile = document.createElement("input");
+  inputFile.type = "file";
+  inputFile.accept = "image/*";
+  inputFile.multiple = true; // Permite seleccionar varias imágenes a la vez
+  inputFile.style.display = "none";
+  document.body.appendChild(inputFile);
+
+  btnSubirFoto.addEventListener("click", () => {
+      const fotosActuales = document.querySelectorAll(".fotos-preview .foto-item img[src*='http']");
+      if (fotosActuales.length >= 3) {
+          bootstrapAlert("Ya has subido el máximo de 3 fotos.", "danger", 3000)
+          return;
+      }
+      inputFile.click();
+  });
+
+  inputFile.addEventListener("change", () => {
+      const files = inputFile.files;
+      if (!files.length) return;
+
+      const fotosActuales = document.querySelectorAll(".fotos-preview .foto-item img[src*='http']");
+      const fotosDisponibles = 3 - fotosActuales.length;
+
+      if (files.length > fotosDisponibles) {
+          bootstrapAlert(`Solo puedes subir ${fotosDisponibles} foto(s) más.`, "danger", 3000);
+          return;
+      }
+
+      const estudiante_id = sessionStorage.getItem("estudiante_id");
+
+      // Subir las fotos seleccionadas solo si no se excede el límite
+      Array.from(files).forEach((file) => {
+          const formData = new FormData();
+          formData.append("foto", file);
+          formData.append("estudiante_id", estudiante_id);
+
+          EstudianteFetch.postSubirFoto(formData)
+              .then((response) => {
+                  if (response.success) {
+                      bootstrapAlert("Foto subida exitosamente.", "success", 3000);
+                      handleObtainStudent(); // Recargar datos
+                  } else {
+                    bootstrapAlert("No se pudo subir la foto.", "danger", 3000);
+                  }
+              })
+              .catch((error) => {
+                bootstrapAlert(`Error al subir la foto: "${error.message}`, "danger", 3000);
+              })
+              .finally(() => {
+                  inputFile.value = "";
+              });
+      });
+  });
+}
+
+
+
