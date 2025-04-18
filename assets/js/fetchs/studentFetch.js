@@ -31,4 +31,28 @@ export class EstudianteFetch {
     }
 
 
+    static postEliminarFoto(formData) {
+        return fetch(`${ConstValues.DOMAIN_NAME}/delete/eliminar_foto_estudiante.php`, {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error(errorData.error || 'Error al eliminar la foto');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data;
+        })
+        .catch(error => {
+            console.error("Error al eliminar la foto:", error.message);
+            throw error;
+        });
+    }
+    
+
+
 }

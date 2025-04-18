@@ -101,6 +101,7 @@ include 'includes/chat.php'; // Incluye el chat*/
 
 
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
+    <script type="module" src="assets/js/components/students/photosStudent.js"></script>
     <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
 
 </body>
