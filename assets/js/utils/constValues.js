@@ -11,7 +11,6 @@ export class ConstValues{
     static DOMAIN_NAME = 'http://localhost/Proyecto_IS802/Backend_Registro/src/api';
     static DOMAIN_NAME_UPLOAD = 'http://localhost/Proyecto_IS802/Backend_Registro/uploads';
     static UPLOADS_BASE_URL = 'http://localhost/Proyecto_IS802/Backend_Registro';
-    static UPLOADS_URL_FOTOS = 'http://localhost/Proyecto_IS802/Backend_Registro/';
     static CSV_ROUTE = "http://localhost/Proyecto_IS802/Backend_Registro";
     
     /*

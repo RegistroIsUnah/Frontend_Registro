@@ -130,7 +130,7 @@ function cargarVistaPerfil(data) {
   if (Array.isArray(fotos) && fotos.length > 0) {
     fotos.forEach((foto, index) => {
       if (fotoItems[index]) {
-        const fotoUrl = `${ConstValues.UPLOADS_URL_FOTOS}${foto.ruta}`;
+        const fotoUrl = `${ConstValues.UPLOADS_BASE_URL}/${foto.ruta}`;
         renderFilePreview(fotoItems[index], fotoUrl, "image");
 
         // Crear botón para eliminar
@@ -154,7 +154,7 @@ function cargarVistaHistorial(data) {
   const fotoEstudiante = document.querySelector(".foto-estudiante");
 
   if (foto && fotoEstudiante && foto.ruta) {
-    const fotoUrl = `${ConstValues.UPLOADS_URL_FOTOS}${foto.ruta}`;
+    const fotoUrl = `${ConstValues.UPLOADS_BASE_URL}/${foto.ruta}`;
     fotoEstudiante.src = fotoUrl;
     fotoEstudiante.alt = foto.nombre || "Foto de perfil";
   } else if (fotoEstudiante) {
