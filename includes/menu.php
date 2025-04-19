@@ -47,6 +47,7 @@
         }
         if(sessionStorage.getItem("roles").includes("coordinador"))
         {
+            document.getElementById("panelComponent").innerHTML += '<a href=""><small class="menu-title">MENU</small></a>';  
             document.getElementById("solicitudesCoordinadorComponent").innerHTML += '<a href="coordinadores.php"><li> Solicitudes</li></a>';  
             document.getElementById("cargaAcademicaCoordinadorComponent").innerHTML += '<a href=""><li> Revisar Carga Academica </li></a>';
             document.getElementById("historialCoordinadorComponent").innerHTML += '<a href="historialCoordinador.php"><li> Revisar Historial</li></a>'; 
@@ -68,4 +69,5 @@
                     document.getElementById("revisorComponent").innerHTML += '<a href="revisores.php"><li id="enviarYcargar"> Revisar Aspirantes</li> </a>';  
             }     */   
     </script>
+
 </section>

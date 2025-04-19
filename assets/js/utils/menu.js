@@ -1,5 +1,5 @@
 /**
- * @author estiven.mejia@unah.hn
+ * @author kency.oseguera@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
  * 
@@ -72,9 +72,8 @@ const generateMenuItems = (roles) => {
     if (roles.includes("jefe de departamento"))
         {
             items.push(
-                '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>'
+                '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases y Secciones</li></a>'
+                
             );
         }
     

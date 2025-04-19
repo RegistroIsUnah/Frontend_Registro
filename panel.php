@@ -24,7 +24,7 @@
     ?>
 
     <!-- Contenido principal -->
-    <section class="contenedor2">
+    <section class="contenedor2 ">
       <h2>Bienvenid@ <span id="name"></h2>
       <div class="contenido">
         <div class="card card-1">
@@ -42,7 +42,7 @@
           <small>En proceso</small>
           <p class="card-status"><span id="solicitudes"></span></p>
         </div>
-
+       
       </div>
     </section>
   </main>
@@ -50,10 +50,9 @@
   
   <?php
   include 'includes/footer.php';
+  include 'includes/scripts.php';
   ?>
-  <?php
-  require_once("./includes/scripts.php");
-  ?>
+ 
   
   <?php
   /*
