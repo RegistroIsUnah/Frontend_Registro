@@ -49,8 +49,9 @@
         {
             document.getElementById("panelComponent").innerHTML += '<a href=""><small class="menu-title">MENU</small></a>';  
             document.getElementById("solicitudesCoordinadorComponent").innerHTML += '<a href="coordinadores.php"><li> Solicitudes</li></a>';  
-            document.getElementById("cargaAcademicaCoordinadorComponent").innerHTML += '<a href=""><li> Revisar Carga Academica </li></a>';
+            document.getElementById("cargaAcademicaCoordinadorComponent").innerHTML += '<a href="cargaCoordinador.php"><li> Revisar Carga Academica </li></a>';
             document.getElementById("historialCoordinadorComponent").innerHTML += '<a href="historialCoordinador.php"><li> Revisar Historial</li></a>'; 
+
         }
         /*
         if(sessionStorage.getItem("roles").includes("jefe de departamento"))
