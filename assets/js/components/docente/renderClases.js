@@ -6,8 +6,8 @@
  * Función encargada de cargar estructura de las clases y detalles.
  */
 
-import { createPaginationSystem } from "../../utils/pagination";
-import { notasIndividuales } from "./loadDocenteView";
+import { createPaginationSystem } from "../../utils/pagination.js";
+import { notasIndividuales } from "./loadDocenteView.js";
 
 export function loadAllClasses(clasesArray) {
   const classesGrid = document.getElementById('classesGrid');

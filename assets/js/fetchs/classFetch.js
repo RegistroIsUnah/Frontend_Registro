@@ -1,4 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
+import { messageAlert } from "../components/modals/modals.js";
 
 export class ClassFetch{
 
@@ -98,6 +99,139 @@ export class ClassFetch{
         .then(data => data)
         .catch(error => {
             console.log("error en la solicitud: "+ error);
+        });
+    }
+
+    static getStudentsListBySectionId(sectionId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/lista_estudiantes_seccion.php?seccion_id=${sectionId}`)
+        .then(response => {
+
+            if(!response.ok){
+                                
+                            let divModal = document.createElement("div");
+                            divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                            document.body.appendChild(divModal);
+                            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                            successModalInstance.show(); 
+                            setTimeout(() => divModal.remove(), 3500);
+                        }
+                        return response.json();
+        })
+        .then(data => {
+            
+            if(data.error){
+                                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", data.error);
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return data;  
+        })
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        });
+    }
+
+    static getProffesorCalificationsBySectionId(sectionId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/evaluacion_seccion_docente.php?seccion_id=${sectionId}`)
+        .then(response => {
+
+            if(!response.ok){
+                                
+                            let divModal = document.createElement("div");
+                            divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                            document.body.appendChild(divModal);
+                            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                            successModalInstance.show(); 
+                            setTimeout(() => divModal.remove(), 3500);
+                        }
+                        return response.json();
+        })
+        .then(data => {
+
+            if(!data.data[0]){
+                                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "No hay evaluaciones para docente en esta sección.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return data;        })
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        });
+    }
+
+    static getProffesorsByDeptId(deptId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_docentes_departamento.php?dept_id=${deptId}`)
+        .then(response => {
+
+            if(!response.ok){
+                                
+                            let divModal = document.createElement("div");
+                            divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                            document.body.appendChild(divModal);
+                            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                            successModalInstance.show(); 
+                            setTimeout(() => divModal.remove(), 3500);
+                        }
+                        return response.json();
+        })
+        .then(data => data )
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        });
+    }
+
+    static getStudentsByDeptId(deptId){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/estudiantes_por_departamento.php?departamento_id=${deptId}`)
+        .then(response => {
+
+            if(!response.ok){
+                                
+                            let divModal = document.createElement("div");
+                            divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema interno de servidor.");
+                            document.body.appendChild(divModal);
+                            let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                            successModalInstance.show(); 
+                            setTimeout(() => divModal.remove(), 3500);
+                        }
+                        return response.json();
+        })
+        .then(data => data )
+        .catch(error => {
+            console.log("error en la solicitud: "+ error);
+        });
+    }
+
+    static getStudentHistory(studentId){
+    
+        return fetch(`${ConstValues.DOMAIN_NAME}/get/listar_historial_estudiante.php?estudiante_id=${studentId}`)
+        .then(response => {
+
+            if(!response.ok){
+                                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "No se ha encontrado el historial de este estudiante.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 2500);
+            }
+            return response.json();
+        })
+        .then(data => data)
+        .catch(error => {
+            console.error("Error obteniendo el historial académico:", error);
         });
     }
 }

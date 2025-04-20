@@ -68,13 +68,12 @@ const generateMenuItems = (roles) => {
             );
         }
 
-
     if (roles.includes("jefe de departamento"))
         {
             items.push(
                 '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>'
+                '<a href="docentesDepartamento.php?tipo=docente"><li><i class="fas fa-book"></i>Docentes de Departamento</li></a>',
+                '<a href="docentesDepartamento.php?tipo=estudiante"><li><i class="fas fa-book"></i>Estudiantes de Departamento</li></a>'
             );
         }
     

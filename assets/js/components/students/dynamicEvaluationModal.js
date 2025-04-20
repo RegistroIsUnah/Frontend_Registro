@@ -52,10 +52,6 @@ import { ConstValues } from "../../utils/constValues.js";
           texto: "¿El docente está disponible para consultas?"
         },
         {
-          id: 2,
-          texto: "¿El docente está disponible para consultas?"
-        },
-        {
           id: 3,
           texto: "¿El docente utiliza ejemplos prácticos para facilitar el aprendizaje?"
         },

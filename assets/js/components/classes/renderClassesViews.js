@@ -1,6 +1,31 @@
 import { ClassesDepartmentHeadComponents } from "./classes-components/classesDepartmenHeadComponents.js";
 
+/**
+ * @author estiven.mejia@unah.hn
+ * @version 0.0.5
+ * @since 2025/04/10
+ * 
+ */
 export class RenderClassesViews{
+    
+    static async renderDepartmentProffessorsView(){
+       await ClassesDepartmentHeadComponents.loadDepartmentProffessorsTable();
+       document.querySelectorAll(".cambiarContraDocente").forEach(element => {
+        element.addEventListener("click", async (event) => {
+
+            await ClassesDepartmentHeadComponents.sendMailToResetPassword(event.target.id);
+        });
+    });
+    }
+
+    static async renderDepartmentStudentsView(){
+        await ClassesDepartmentHeadComponents.loadDepartmentStudentsTable();
+        document.querySelectorAll(".historialAcademicoEstudiante").forEach(element => {
+            element.addEventListener("click", async (event) => {
+                await ClassesDepartmentHeadComponents.loadHistoryStudent(event.target.id);
+            });
+        });
+    }
 
     static async renderClassesDepartmentHeadView(){
 
@@ -29,7 +54,23 @@ export class RenderClassesViews{
                 console.log(event.target.id);
                 await ClassesDepartmentHeadComponents.cancelSection(event.target.id, sessionStorage.getItem("classId"));
             });
-        })
+        });
 
+        document.querySelectorAll(".getStudentsListBySectionId").forEach(button => {
+            button.addEventListener("click", async (event) => {
+                await ClassesDepartmentHeadComponents.showStudensListBySectionId(event.target.id); 
+            });
+        });
+
+        document.querySelectorAll(".getProffesorCalificationsBySectionId").forEach(button => {
+            button.addEventListener("click", async (event) => {
+                await ClassesDepartmentHeadComponents.showProffesorCalificationsBySectionId(event.target.id); 
+            });
+        });
+
+        document.getElementById("docentesDepartamentoComponent")?.addEventListener("click", (e) => {
+            e.preventDefault(); 
+            console.log("se ha presionado");
+          });
     }
 }

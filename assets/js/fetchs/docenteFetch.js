@@ -1,4 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
+import { messageAlert } from "../components/modals/modals.js";
 
 /**
  * @author kency.oseguera@unah.hn
@@ -136,6 +137,59 @@ export class DocenteFetch {
             console.error("Error al subir calificaciones:", error);
             return { success: false };
         });
+    }
+
+    static sendEmailResetPassword(mail){
+
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/request_password_reset.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(mail)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => data)
+        .catch(error => {
+            console.error(error);
+            return { success: false };
+        });
+    }
+
+    static changeProffesorPassword(values){
+
+        
+        return fetch(`${ConstValues.DOMAIN_NAME}/post/confirm_password_reset.php`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(values)
+        })
+        .then(response => {
+
+            if(!response.ok){
+                                
+                let divModal = document.createElement("div");
+                divModal.innerHTML = messageAlert("bg-danger", "Ha ocurrido un problema.");
+                document.body.appendChild(divModal);
+                let successModalInstance = new bootstrap.Toast(document.getElementById('messageAlert'));
+                successModalInstance.show(); 
+                setTimeout(() => divModal.remove(), 3500);
+            }
+            return response.json();
+        })
+        .then(data => data)
+        .catch(error => {
+            console.error(error);
+            return { success: false };
+        });
+
     }
 
 

@@ -16,6 +16,7 @@ import { renderMenu } from "../../utils/renderMenu.js";
  */
 
 export function loadDocentePage() {
+
     history.pushState({ view: "docenteView" }, "", window.location.href);
 
     const rol = sessionStorage.getItem('roles');
@@ -88,6 +89,8 @@ export function loadDocentePage() {
  */
 
 export async function loadPerfilDocenteView() {
+
+    
     history.pushState({ view: "verPerfilDocente" }, "", window.location.href);
     const docenteId = sessionStorage.getItem('docente_id');
 
@@ -129,7 +132,6 @@ async function loadClasesDocente(docenteId) {
         console.error("Error en loadClasesDocente:", error);
     }
 }
-
 
 /**
  * @author kency.oseguera@unah.hn
