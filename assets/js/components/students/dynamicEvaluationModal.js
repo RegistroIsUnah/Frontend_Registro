@@ -1,6 +1,5 @@
 import { ConstValues } from "../../utils/constValues.js";
-
-
+import { nota } from "../../fetchs/studentClassFetch.js";
 /**
  * @author danielpalacios@unah.hn
  * @version 0.0.1
@@ -14,6 +13,7 @@ import { ConstValues } from "../../utils/constValues.js";
     let currentClaseId = null;
     window.currentDocenteId = null;
     window.currentPeriodoId = null; 
+    
 
     /**
      * Crea y agrega dinámicamente el HTML del modal de evaluación en el body.
@@ -49,20 +49,21 @@ import { ConstValues } from "../../utils/constValues.js";
         },
         {
           id: 2,
-          texto: "¿El docente está disponible para consultas?"
+          texto: "¿El docente está disponible para resolver dudas?"
         },
         {
           id: 3,
-          texto: "¿El docente utiliza ejemplos prácticos para facilitar el aprendizaje?"
+          texto: "¿El material de clase es adecuado?"
         },
         {
           id: 4,
-          texto: "¿El docente motiva a participar en clase?"
+          texto: "¿El docente fomenta la participación?"
         },
         {
           id: 5,
-          texto: "¿El docente evalúa de manera justa y objetiva?"
-        },
+          texto: "¿El docente cumple con los horarios?"
+        }
+        /*,
         {
           id: 6,
           texto: "¿El docente cumple con los horarios establecidos?"
@@ -83,6 +84,7 @@ import { ConstValues } from "../../utils/constValues.js";
           id: 10,
           texto: "¿Está satisfecho con el desempeño general del docente?"
         }
+          */
       ];
   
       preguntas.forEach((pregunta) => {
@@ -166,6 +168,7 @@ import { ConstValues } from "../../utils/constValues.js";
       });
   
       const dataBody = {
+        estudiante_id : Number(sessionStorage.getItem("estudiante_id")),
         docente_id: window.currentDocenteId, 
         periodo_id: window.currentPeriodoId,
         respuestas: respuestas
@@ -202,14 +205,21 @@ import { ConstValues } from "../../utils/constValues.js";
           const fila = document.querySelector(`tr[data-clase-id="${currentClaseId}"]`);
           if (fila) {
             const btnEvaluar = fila.querySelector(".btn-evaluar");
-            if (btnEvaluar) btnEvaluar.style.display = "none";
+            if (btnEvaluar)
+            {
+              const texto = document.createElement("span");
+              texto.textContent = "Docente Evaluado";
+              texto.classList.add("texto-evaluado");
+              btnEvaluar.replaceWith(texto);
+            }
             const notaCell = fila.querySelector(".nota");
             if (notaCell) {
-              notaCell.textContent = "Evaluación Enviada";
+              notaCell.textContent = `${nota}`;
               notaCell.style.display = "table-cell";
             }
           }
           cerrarModal();
+          console.log("hola");
         })
         .catch((error) => {
           console.error("Error al enviar evaluación:", error);
