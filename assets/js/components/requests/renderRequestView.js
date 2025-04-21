@@ -1,147 +1,123 @@
 // RenderRequestView.js
-import { createPaginationSystem } from "../../utils/pagination.js" 
+import { createPaginationSystem } from "../../utils/pagination.js";
 import { genericCardView } from "./request-views/defaultRequestView.js";
 import { ConstValues } from "../../utils/constValues.js";
 import { requestModalView } from "./request-views/requestModalView.js";
-import {bootstrapAlert} from "../../utils/alerts.js"
+import { bootstrapAlert } from "../../utils/alerts.js";
 
 /**
  * @author danielpalacios@unah.hn
- * @version 0.0.1
- * @since 2025/04/08
+ * @version 1.0.0
+ * @since 2025/04/20
  */
 
-
-// 1. Funciones para "aplanar" y "agrupar" los datos (en este caso, solicitudes). 
-//    Como las solicitudes son ya un array simple, no necesitas agrupar nada.
+// -----------------------------------------------------------------------------
+// Utilidades de paginación
+// -----------------------------------------------------------------------------
 function flattenRequests(dataOriginal) {
-    return dataOriginal; 
+  return dataOriginal;            // los datos ya vienen planos
 }
-function groupRequests(originalData, itemsOnPage) {
-    return itemsOnPage; 
+function groupRequests(_, itemsOnPage) {
+  return itemsOnPage;             // no hay agrupación
 }
 
-// 2. Crear la instancia de paginación con tus funciones y configuración.
-const requestsPagination = createPaginationSystem({
-    itemsPerPage: 9,                 
-    containerId: "pagination-requests", 
-    flattenFn: flattenRequests,
-    groupFn: groupRequests,
-    renderFn: (dataToRender) => {
 
-        RenderRequestView.renderCards(dataToRender);
-    },
-});
-
+// -----------------------------------------------------------------------------
+// Variables de estado (accesibles para el filtrado local)
+// -----------------------------------------------------------------------------
+let solicitudesGlobalesDelTipo = [];   // dataset completo del tipo cargado
+let selectedEstado             = null; // valor del dropdown (“PENDIENTE”, etc.)
+let requestsPagination;
+// -----------------------------------------------------------------------------
+// Clase de vista
+// -----------------------------------------------------------------------------
 export class RenderRequestView {
-    
-    static loadAndRenderChangeCareer() {
-        RenderRequestView.fetchAndRender("CAMBIO_CARRERA", RenderRequestView.renderRequestChangeCareerView);
-    }
-    static loadAndRenderChangeCenter() {
-        RenderRequestView.fetchAndRender("CAMBIO_CENTRO", RenderRequestView.renderRequestChangeCenterView);
-    }
-    static loadAndRenderCancelClass() {
-        RenderRequestView.fetchAndRender("CANCELACION_EXCEPCIONAL", RenderRequestView.renderRequestCancelClassView);
-    }
 
-    /**
-     * Hace fetch de las solicitudes según un tipo y llama la función de render correspondiente.
-     * @param {string} tipo - Tipo de solicitud, p.ej "CAMBIO_CARRERA", "CAMBIO_CENTRO", etc.
-     * @param {function} renderFn - Función que recibe las solicitudes y las pinta.
-     */
-    static fetchAndRender(tipo, renderFn) {
-        const url = `${ConstValues.DOMAIN_NAME}/get/solicitudes_por_tipo.php?tipo_solicitud=${tipo}`;
-        fetch(url)
-            .then(res => res.json())
-            .then(response => {
-                // Extraer arreglo de solicitudes
-                const solicitudes = response.data
-                    ? response.data
-                    : (Array.isArray(response) ? response : [response]);
+  // ---------- Loaders públicos ------------------------------------------------
+  static loadAndRenderChangeCareer () { RenderRequestView.fetchAndRender("CAMBIO_CARRERA"); }
+  static loadAndRenderChangeCenter () { RenderRequestView.fetchAndRender("CAMBIO_CENTRO"); }
+  static loadAndRenderCancelClass  () { RenderRequestView.fetchAndRender("CANCELACION_EXCEPCIONAL"); }
 
-                renderFn(solicitudes);
-            })
-            .catch(err => {
-                console.error("Error al obtener solicitudes:", err);
-            });
-    }
+  // ---------- Petición al backend + seteo del paginador -----------------------
+  static fetchAndRender (tipo) {
+    const url = `${ConstValues.DOMAIN_NAME}/get/solicitudes_por_tipo.php?tipo_solicitud=${tipo}`;
 
-    // Los métodos específicos solo setean la data al paginador y dibujan la primera página
-    static renderRequestChangeCareerView(solicitudes) {
-        requestsPagination.setData(solicitudes, true);
+    fetch(url)
+      .then(r => r.json())
+      .then(r => {
+        const solicitudes = r.data
+          ? r.data
+          : (Array.isArray(r) ? r : [r]);
+
+        solicitudesGlobalesDelTipo = solicitudes;   // guardar dataset crudo
+        selectedEstado             = null;          // reiniciar filtros
+        document.getElementById("input-num-cuenta").value = "";
+
+        requestsPagination.setData(solicitudesGlobalesDelTipo, true);
         requestsPagination.renderPage();
-    }
-    static renderRequestChangeCenterView(solicitudes) {
-        requestsPagination.setData(solicitudes, true);
-        requestsPagination.renderPage();
-    }
-    static renderRequestCancelClassView(solicitudes) {
-        requestsPagination.setData(solicitudes, true);
-        requestsPagination.renderPage();
-    }
+      })
+      .catch(err => console.error("Error al obtener solicitudes:", err));
+  }
 
-    /**
-     * Recibe un arreglo de solicitudes (ya filtrado/paginado) y genera las tarjetas.
-     * @param {Array} solicitudes
-     */
-    static renderCards(solicitudes) {
-        const contenedor = document.getElementById("contenedor-solicitudes");
-        if (!contenedor) {
-            console.error("No se encontró el elemento con id='contenedor-solicitudes'");
-            return;
-        }
-        contenedor.innerHTML = "";
+  // ---------- Render tarjetas en el grid --------------------------------------
+  static renderCards (solicitudes) {
+    const cont = document.getElementById("contenedor-solicitudes");
+    if (!cont) { console.error("No existe #contenedor-solicitudes"); return; }
 
-        const row = document.createElement("div");
-        row.className = "row row-cols-1 row-cols-md-3 g-4";
+    cont.innerHTML = "";
+    const row = document.createElement("div");
+    row.className = "row row-cols-1 row-cols-md-3 g-4";
 
-        solicitudes.forEach(solicitud => {
-            const col = document.createElement("div");
-            col.className = "col";
+    solicitudes.forEach(sol => {
+      const col = document.createElement("div");
+      col.className = "col";
 
-            // Insertar tarjetas
-            col.innerHTML = genericCardView({
-                title: `Aspirante: ${solicitud.nombre} ${solicitud.apellido}`,
-                subtitle: `Tipo de solicitud: ${solicitud.tipo_solicitud.replace("_", " ")}`,
-                description: `Fecha: ${solicitud.fecha_solicitud}`,
-                tags: [solicitud.estado],
-                extraHTML: `
-                    <button 
-                        onclick='revisarSolicitud(${JSON.stringify(solicitud).replace(/'/g, "\\'")})'
-                        class="btn btn-primary mt-2"
-                    >
-                        Revisar
-                    </button>
-                `
-            });
+      col.innerHTML = genericCardView({
+        title      : `Aspirante: ${sol.nombre} ${sol.apellido} <br> ${sol.numero_cuenta}`,
+        subtitle   : `Tipo de solicitud: ${sol.tipo_solicitud.replace("_", " ")}`,
+        description: `Fecha: ${sol.fecha_solicitud}`,
+        tags       : [sol.estado],
+        extraHTML  : `
+          <button 
+            onclick='revisarSolicitud(${JSON.stringify(sol).replace(/'/g, "\\'")})'
+            class="btn btn-primary mt-2"
+          >
+            Revisar
+          </button>
+        `
+      });
 
-            row.appendChild(col);
-        });
-        contenedor.appendChild(row);
-    }
+      row.appendChild(col);
+    });
+
+    cont.appendChild(row);
+  }
 }
 
+ requestsPagination = createPaginationSystem({
+    itemsPerPage : 9,
+    containerId  : "pagination-requests",
+    flattenFn    : flattenRequests,
+    groupFn      : groupRequests,
+    renderFn     : RenderRequestView.renderCards,
+  });
+  
 
-
-
-
+// -----------------------------------------------------------------------------
+// Revisión de solicitud (sin cambios respecto a tu versión original)
+// -----------------------------------------------------------------------------
 window.revisarSolicitud = function (solicitud) {
-
-    //MOSTAR LA SOLICITUD
     requestModalView.render();
-
-    console.log(solicitud);
+  
     const modalElement = document.getElementById("modalRevisionSolicitud");
-    const modalBody = document.getElementById("modal-body-detalle");
-
+    const modalBody    = document.getElementById("modal-body-detalle");
+  
     modalBody.innerHTML = "Cargando...";
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
-
-    // Renderizado básico de la información en el modal
+    new bootstrap.Modal(modalElement).show();
+  
     modalBody.innerHTML = `
         <p><strong>Nombre:</strong> ${solicitud.nombre} ${solicitud.apellido}</p>
+        <p><strong>No.Cuenta:</strong> ${solicitud.numero_cuenta}</p>
         <p><strong>Tipo:</strong> ${solicitud.tipo_solicitud.replace("_", " ")}</p>
         <p><strong>Estado:</strong> ${solicitud.estado}</p>
         <p><strong>Fecha de solicitud:</strong> ${solicitud.fecha_solicitud}</p>
@@ -157,129 +133,127 @@ window.revisarSolicitud = function (solicitud) {
             : "<p><strong>Archivo:</strong> No disponible</p>"
         }
     `;
-
-    //REALIZAR LA SOLICITUD
-
-    const waitForElement = (selector, timeout = 5000) => {
-        return new Promise((resolve, reject) => {
-            const start = Date.now();
-            const interval = setInterval(() => {
-                const element = document.querySelector(selector);
-                if (element) {
-                    clearInterval(interval);
-                    resolve(element);
-                } else if (Date.now() - start > timeout) {
-                    clearInterval(interval);
-                    reject(new Error(`Elemento '${selector}' no encontrado después de ${timeout}ms`));
-                }
-            }, 50);
-        });
-    };
-
-    const waitForElements = (selector, timeout = 5000) => {
-        return new Promise((resolve, reject) => {
-            const start = Date.now();
-            const interval = setInterval(() => {
-                const elements = document.querySelectorAll(selector);
-                if (elements.length > 0) {
-                    clearInterval(interval);
-                    resolve(elements);
-                } else if (Date.now() - start > timeout) {
-                    clearInterval(interval);
-                    reject(new Error(`Elementos '${selector}' no encontrados después de ${timeout}ms`));
-                }
-            }, 50);
-        });
-    };
-
+  
+    /* ------------- 🔽  BLOQUE QUE FALTABA 🔽 ------------- */
+    const waitForElement  = (sel, t = 5000) => new Promise((ok, bad) => {
+      const ini = Date.now(), int = setInterval(() => {
+        const el = document.querySelector(sel);
+        if (el) return clearInterval(int), ok(el);
+        if (Date.now() - ini > t) clearInterval(int), bad(`No se encontró ${sel}`);
+      }, 50);
+    });
+    const waitForElements = (sel, t = 5000) => new Promise((ok, bad) => {
+      const ini = Date.now(), int = setInterval(() => {
+        const els = document.querySelectorAll(sel);
+        if (els.length) return clearInterval(int), ok(els);
+        if (Date.now() - ini > t) clearInterval(int), bad(`No se encontró ${sel}`);
+      }, 50);
+    });
+  
     (async () => {
-        await Promise.all([
-            waitForElement("#btn-aprobar"),
-            waitForElement("#btn-rechazar"),
-            waitForElements(".dropdown-item"),
-            waitForElement("#btn-enviar")
-        ]);
-
-        let motivosSeleccionados = [];
-        let decision = null;
-
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const motivoId = parseInt(e.target.dataset.motivoId);
-
-                if (motivosSeleccionados.includes(motivoId)) {
-                    motivosSeleccionados = motivosSeleccionados.filter(id => id !== motivoId);
-                    e.target.classList.remove("active");
-                } else {
-                    motivosSeleccionados.push(motivoId);
-                    e.target.classList.add("active");
-                }
-            });
+      // ‑‑ esperar a que el HTML del modal ya tenga los botones y el dropdown
+      const [btnAprobar, btnRechazar, dropdownItems, btnEnviar] = await Promise.all([
+        waitForElement("#btn-aprobar"),
+        waitForElement("#btn-rechazar"),
+        waitForElements(".dropdown-item"),
+        waitForElement("#btn-enviar")
+      ]);
+  
+      let motivosSeleccionados = [];
+      let decision             = null;
+  
+      dropdownItems.forEach(item => {
+        item.addEventListener("click", e => {
+          e.stopPropagation();
+          const motivoId = parseInt(e.target.dataset.motivoId, 10);
+          if (motivosSeleccionados.includes(motivoId)) {
+            motivosSeleccionados = motivosSeleccionados.filter(id => id !== motivoId);
+            e.target.classList.remove("active");
+          } else {
+            motivosSeleccionados.push(motivoId);
+            e.target.classList.add("active");
+          }
         });
-
-        document.getElementById("btn-aprobar").onclick = () => {
-            decision = "APROBADA";
-        };
-
-        document.getElementById("btn-rechazar").onclick = () => {
-            decision = "DENEGADA";
-        };
-
-
-        document.getElementById("btn-enviar").onclick = () => {
-            if (!decision) {
-                bootstrapAlert("Debes elegir primero 'Aprobar' o 'Rechazar' antes de enviar","warning",3000);
-                return;
-            }
-
-            if (decision === "DENEGADA" && motivosSeleccionados.length === 0) {
-                bootstrapAlert("Debe seleccionar al menos un motivo para denegar la solicitud","warning",3000);
-                return;
-            }
-
-            procesarSolicitud(
-                solicitud.solicitud_id,
-                decision, // "APROBADA" o "DENEGADA"
-                solicitud.tipo_solicitud_id,
-                motivosSeleccionados
-            );
-        };
-
-        async function procesarSolicitud(solicitudId, estado, tipo_solicitud_id, motivos = []) {
-            if (estado === "DENEGADA") {
-                try {
-                    const respuestas = await Promise.all(
-                        motivos.map(motivoId =>
-                            fetch(`${ConstValues.DOMAIN_NAME}/post/rechazar_solicitud.php`, {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ solicitud_id: solicitudId, motivo_id: motivoId.toString() })
-                            }).then(response => response.json())
-                        )
-                    );
-
-                    console.log("Respuestas del servidor:", respuestas);
-                    bootstrapAlert("Solicitud denegada correctamente","success",3000);
-                } catch (error) {
-                    console.error("Error al denegar la solicitud:", error);
-                    bootstrapAlert("Error al procesar la solicitud. Inténtalo de nuevo","danger",3000);
-                }
-            } else if (estado === "APROBADA") {
-                try {
-                    const respuesta = await fetch(`${ConstValues.DOMAIN_NAME}/post/aceptar_solicitud.php`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ solicitud_id: solicitudId })
-                    }).then(response => response.json());
-
-                    console.log("Respuesta del servidor:", respuesta);
-                    bootstrapAlert("Solicitud aceptada correctamente","success",3000);
-                } catch (error) {
-                    console.error("Error al aprobar la solicitud:", error);
-                    bootstrapAlert("Error al procesar la solicitud. Inténtalo de nuevo","danger",3000);
-                }
-            }
+      });
+  
+      btnAprobar.onclick = () => { decision = "APROBADA";            };
+      btnRechazar.onclick = () => { decision = "DENEGADA";           };
+      btnEnviar.onclick   = () => {
+        if (!decision) {
+          bootstrapAlert("Debes elegir 'Aprobar' o 'Rechazar' antes de enviar", "warning", 3000);
+          return;
         }
+        if (decision === "DENEGADA" && motivosSeleccionados.length === 0) {
+          bootstrapAlert("Selecciona al menos un motivo para denegar", "warning", 3000);
+          return;
+        }
+        procesarSolicitud(
+          solicitud.solicitud_id,
+          decision,
+          solicitud.tipo_solicitud_id,
+          motivosSeleccionados
+        );
+      };
+  
+      async function procesarSolicitud(id, estado, tipoId, motivos = []) {
+        try {
+          if (estado === "DENEGADA") {
+            await Promise.all(motivos.map(motivoId =>
+              fetch(`${ConstValues.DOMAIN_NAME}/post/rechazar_solicitud.php`, {
+                method : "POST",
+                headers: { "Content-Type": "application/json" },
+                body   : JSON.stringify({ solicitud_id: id, motivo_id: motivoId.toString() })
+              }).then(r => r.json())
+            ));
+            bootstrapAlert("Solicitud denegada correctamente", "success", 3000);
+          } else {
+            await fetch(`${ConstValues.DOMAIN_NAME}/post/aceptar_solicitud.php`, {
+              method : "POST",
+              headers: { "Content-Type": "application/json" },
+              body   : JSON.stringify({ solicitud_id: id })
+            }).then(r => r.json());
+            bootstrapAlert("Solicitud aceptada correctamente", "success", 3000);
+          }
+        } catch (err) {
+          console.error("Error procesando solicitud:", err);
+          bootstrapAlert("Hubo un error, inténtalo de nuevo", "danger", 3000);
+        }
+      }
     })();
-};
+    /* ------------- 🔼  FIN DEL BLOQUE FALTANTE 🔼 ------------- */
+  };
+  
+
+// -----------------------------------------------------------------------------
+// FILTRADO Y BÚSQUEDA EN EL FRONTEND
+// -----------------------------------------------------------------------------
+function filtrarSolicitudesFrontEnd () {
+  const numeroCuenta = document.getElementById("input-num-cuenta").value.trim();
+
+  const filtradas = solicitudesGlobalesDelTipo.filter(sol => {
+    const okEstado  = !selectedEstado || sol.estado === selectedEstado;
+    const okCuenta  = !numeroCuenta  || sol.numero_cuenta === numeroCuenta;
+    return okEstado && okCuenta;
+  });
+
+  requestsPagination.setData(filtradas, true);
+  requestsPagination.renderPage();
+}
+
+// -----------------------------------------------------------------------------
+// Listeners DOM (se enganchan una sola vez)
+// -----------------------------------------------------------------------------
+document.addEventListener("DOMContentLoaded", () => {
+
+  // botón de búsqueda por No. de cuenta
+  const btnBuscar = document.getElementById("btn-buscar");
+  if (btnBuscar) btnBuscar.addEventListener("click", filtrarSolicitudesFrontEnd);
+
+  // ítems del dropdown de estado
+  document
+    .querySelectorAll("#dropdown-estados .dropdown-item")
+    .forEach(item => item.addEventListener("click", e => {
+      selectedEstado = e.target.getAttribute("data-estado");
+      filtrarSolicitudesFrontEnd();
+    }));
+});
