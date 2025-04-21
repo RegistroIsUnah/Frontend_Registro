@@ -80,9 +80,9 @@
 }
 
 .fotos-preview img {
-    width: 100px!important;
-    height: 100px!important;
-    object-fit: cover!important;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
     border-radius: 10px;
     border: 2px solid #013775;
 }
@@ -99,7 +99,6 @@
     display: inline-block;
     margin-right: 10px;
 }
-
 
 /* Estilos para el ícono de eliminar */
 .eliminar-foto {

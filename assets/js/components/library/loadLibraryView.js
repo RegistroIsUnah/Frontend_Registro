@@ -90,13 +90,6 @@ export function loadRegisterBookForm(libroData = null) {
                     });
                 }, 5);
 
-                document.addEventListener('click', function (e) {
-                    if (e.target.id === 'goBackBtn') {
-                        loadLibraryPage(); 
-                    }
-                });
-                
-
                 if (libroData) {
                     const form = document.getElementById("register-book-form");
 
@@ -194,11 +187,9 @@ export function loadLibraryPage() {
     const rol = sessionStorage.getItem('rol_activo');
 
     const body = document.getElementsByTagName("body")[0];
-    body.innerHTML = "";
     const bibliotecaContainer = document.createElement('div');
     bibliotecaContainer.innerHTML = libraryView;
-    //body.insertBefore(bibliotecaContainer, body.firstChild);
-    body.appendChild(bibliotecaContainer);
+    body.insertBefore(bibliotecaContainer, body.firstChild);
 
     // Cargar datos según rol
     if (rol === 'estudiante') {

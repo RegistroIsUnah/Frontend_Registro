@@ -18,9 +18,6 @@ include 'includes/chat.php'; // Incluye el chat*/
     <?php
     include 'includes/header.php'; 
     ?>
-    
-    <div id="alertas" class="position-fixed top-0 start-50 translate-middle-x mt-3" style="z-index: 1050;"></div>
-
 
     <!-- Contenido principal -->
     <main class="contenedor">
@@ -76,11 +73,21 @@ include 'includes/chat.php'; // Incluye el chat*/
                         <div class="fotos-container">
                             <!-- Previsualización de fotos -->
                             <div class="fotos-preview">
-                                <div class="foto-item"></div>
-                                <div class="foto-item"></div>
-                                <div class="foto-item"></div>
+
+                                <div class="foto-item">
+                                    <img src="" alt="Foto 1">
+                                    <span class="eliminar-foto">&times;</span>
+                                </div>
+
+                                <div class="foto-item">
+                                    <img src="" alt="Foto 2">
+                                    <span class="eliminar-foto">&times;</span>
+                                </div>
                             </div>
+
+
                             <button class="btn-subir-fotos">Subir Foto</button>
+
 
                             <small class="fotos-mensaje">Máximo 3 fotos permitidas.</small>
                         </div>
@@ -100,8 +107,48 @@ include 'includes/chat.php'; // Incluye el chat*/
     <script type="module" src="assets/js/fetchs/loginFetch.js"></script>
 
 
+    <script>
+        function handleFileUpload(event) {
+            const input = event.target;
+            const preview = document.getElementById('fotosPreview');
+            const mensaje = document.getElementById('fotosMensaje');
+
+            // Limpiar previsualización anterior
+            preview.innerHTML = '';
+
+            // Verificar el número de archivos seleccionados
+            if (input.files.length > 3) {
+                mensaje.textContent = '¡Máximo 3 fotos permitidas!';
+                mensaje.style.color = 'red';
+                input.value = ''; // Limpiar el input
+                return;
+            } else {
+                mensaje.textContent = 'Máximo 3 fotos permitidas.';
+                mensaje.style.color = '#555';
+            }
+
+            // Mostrar las fotos seleccionadas
+            if (input.files.length > 0) {
+                preview.innerHTML = ''; // Limpiar el mensaje de "No hay fotos"
+                Array.from(input.files).forEach((file, index) => {
+                    if (index < 3) { // Solo mostrar las primeras 3 fotos
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            preview.appendChild(img);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            } else {
+                preview.innerHTML = '<p>No hay fotos seleccionadas.</p>';
+            }
+        }
+    </script>
+
+
     <script type="module" src="assets/js/components/students/obtainStudentFetch.js"></script>
-    <script type="module" src="assets/js/components/students/photosStudent.js"></script>
     <!--<script type="module" src="assets/js/utils/chat.js"></script>-->
 
 </body>

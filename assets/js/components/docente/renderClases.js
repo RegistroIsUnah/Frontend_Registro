@@ -120,7 +120,6 @@ function renderStudentRows(estudiantes, clase) {
   notasIndividuales();
 }
 
-
 export function renderClassDetailStudent(clase) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;
   document.getElementById('classCodeDetail').textContent = clase.codigo_clase;
@@ -128,36 +127,7 @@ export function renderClassDetailStudent(clase) {
   const dias = clase.seccion.dias.nombres_dias.join(', ');
   const horario = `${dias} ${clase.seccion.hora_inicio} - ${clase.seccion.hora_fin}`;
   document.getElementById('classScheduleDetail').textContent = horario;
-
+  
+  // Agrega otros detalles específicos para estudiantes, por ejemplo:
   document.getElementById('classDescriptionDetail').textContent = clase.descripcion || "";
-
-  // Mostrar el video si existe
-  const videoContainer = document.getElementById('videoContainer');
-  if (clase.seccion.video_url) {
-    const videoId = extractYouTubeId(clase.seccion.video_url);
-    if (videoId) {
-      videoContainer.innerHTML = `
-        <div class="ratio ratio-16x9">
-          <iframe
-            src="https://www.youtube.com/embed/${videoId}"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
-        </div>
-      `;
-    } else {
-      videoContainer.innerHTML = `<p>No se pudo cargar el video.</p>`;
-    }
-  } else {
-    videoContainer.innerHTML = `<p>Esta clase no tiene video introductorio.</p>`;
-  }
 }
-
-
-function extractYouTubeId(url) {
-  const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/;
-  const match = url.match(regex);
-  return match ? match[1] : null;
-}
-
-

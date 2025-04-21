@@ -1,5 +1,5 @@
 import { ConstValues } from "../utils/constValues.js";
-export let nota = null;
+
 
 /**
  * @author danielpalacios@unah.hn
@@ -21,8 +21,6 @@ export class StudentClassFetch {
             })
             .then(data => {
                 console.log(data);
-                //CONSUMIR DATA.NOTAS
-                nota = Math.floor(Math.random() * 10);
                 return data;
             })
             .catch(error => {

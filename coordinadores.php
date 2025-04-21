@@ -1,5 +1,5 @@
 <?php
-//include 'includes/chat.php'; // Incluye el chat
+include 'includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>

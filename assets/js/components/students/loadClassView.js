@@ -47,18 +47,6 @@ export function loadStudentPage() {
             }
         }
     });
-
-    // Manejo del botón "Volver"
-    document.addEventListener('click', (e) => {
-        if (e.target && e.target.id === 'backButton') {
-            document.getElementById('classDetailView').style.display = 'none';
-            document.getElementById('classesView').style.display = 'block';
-        const videoContainer = document.getElementById('videoContainer');
-        if (videoContainer) {
-            videoContainer.innerHTML = ''; // Borra el iframe y detiene el video
-        }
-        }
-    });
 }
 
 let storedClases = [];

@@ -80,7 +80,7 @@ export let docenteView = `
           <form id="videoForm">
             <div class="mb-3">
               <label for="videoUrl" class="form-label">URL de YouTube</label>
-              <input type="url" class="form-control" autocomplete="off" id="videoUrl" 
+              <input type="url" class="form-control" id="videoUrl" 
                      pattern="https?://(www\.)?(youtube\.com|youtu\.be)/.+" required>
               <div class="form-text">Ejemplo: https://www.youtube.com/watch?v=ABCD1234</div>
             </div>

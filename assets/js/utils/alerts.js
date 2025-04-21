@@ -21,9 +21,6 @@ export function bootstrapAlert(mensaje, tipo = 'success', duracion = 3000) {
       return;
     }
   
-    //Limpia alertas anteriores antes de mostrar una nueva
-    contenedorAlertas.innerHTML = ""; 
-
     // Agregamos la alerta al contenedor
     contenedorAlertas.appendChild(alertaDiv);
   

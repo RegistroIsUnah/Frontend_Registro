@@ -1,5 +1,5 @@
 <?php
-//include 'includes/chat.php'; // Incluye el chat
+include 'includes/chat.php'; // Incluye el chat
 ?>
 
 <!DOCTYPE html>
@@ -51,10 +51,7 @@
 
     <?php
     include 'includes/footer.php';
-    include 'includes/scripts.php';
     ?>
-
-
     <script type="module">
         import { searchStudent } from './assets/js/fetchs/obtainStudentFetch.js';
         searchStudent();

@@ -1,5 +1,5 @@
 /**
- * @author kency.oseguera@unah.hn
+ * @author estiven.mejia@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
  * 
@@ -55,7 +55,7 @@ const generateMenuItems = (roles) => {
     {
         items.push(
             '<a id="solicitudesCoordinadorComponent" href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a>',
-            '<a id="cargaAcademicaCoordinadorComponent" href="cargaCoordinador.php"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
+            '<a id="cargaAcademicaCoordinadorComponent" href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
             '<a id="historialCoordiandorComponent" href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a>'
         );
     }

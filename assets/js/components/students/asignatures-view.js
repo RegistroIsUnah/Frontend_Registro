@@ -30,8 +30,6 @@ export let studentClassView = `
               </div>
               <!-- Aquí se pueden agregar más detalles relevantes para el estudiante -->
               <p id="classDescriptionDetail"></p>
-              <div id="videoContainer" class="mt-4"></div>
-
               <!-- Eliminamos o comentamos acciones exclusivas para docentes -->
               <!--
               <div class="class-actions mt-3 mb-4">
