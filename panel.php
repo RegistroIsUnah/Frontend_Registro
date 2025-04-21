@@ -42,12 +42,6 @@
           <small>En proceso</small>
           <p class="card-status"><span id="solicitudes"></span></p>
         </div>
-        <div class="card card-4">
-          <p class="card-title">Porcentaje Aprobado</p>
-          <small>Información</small>
-          <p class="card-status">85% completo
-          </p>
-        </div>
 
       </div>
     </section>
