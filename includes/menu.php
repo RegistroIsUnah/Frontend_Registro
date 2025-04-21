@@ -18,6 +18,8 @@
                 <a id="cargaAcademicaCoordinadorComponent"></a>
                 <a id="historialCoordinadorComponent"></a>
                 <a id="docenteComponent"></a>
+                <a id="procesoAspiranteComponent"></a>
+                <a id="procesoAcademicoComponent"></a>
             </ul>
         </nav>
     </div>

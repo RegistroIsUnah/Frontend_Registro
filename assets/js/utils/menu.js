@@ -55,7 +55,7 @@ const generateMenuItems = (roles) => {
     {
         items.push(
             '<a id="solicitudesCoordinadorComponent" href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a>',
-            '<a id="cargaAcademicaCoordinadorComponent" href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
+            '<a id="cargaAcademicaCoordinadorComponent" href="cargaCoordinador.php"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
             '<a id="historialCoordiandorComponent" href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a>'
         );
     }
@@ -63,8 +63,8 @@ const generateMenuItems = (roles) => {
     if (roles.includes("administrador"))
         {
             items.push(
-                '<a id="cargaAcademicaCoordinadorComponent" href="admisiones.php"><li><i class="fas fa-book"></i>Proceso de Aspirantes</li></a>',
-                '<a id="historialCoordiandorComponent" href="matricula.php"><li><i class="fas fa-book"></i>Procesos Académicos</li></a>'
+                '<a id="procesoAspiranteComponent" href="admisiones.php"><li><i class="fas fa-book"></i>Proceso de Aspirantes</li></a>',
+                '<a id="procesoAcademicoComponent" href="matricula.php"><li><i class="fas fa-book"></i>Procesos Académicos</li></a>'
             );
         }
 
