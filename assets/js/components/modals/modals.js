@@ -99,7 +99,6 @@ export let messageAlert = (type, message) => `
 </div>
 `;
 
-
 /**
  * @author kency.oseguera@unah.hn
  * @version 0.0.1

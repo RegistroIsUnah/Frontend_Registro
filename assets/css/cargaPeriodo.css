@@ -1,0 +1,58 @@
+.contenido h2 {
+    color: #013775;
+    margin-bottom: 20px;
+}
+
+.filtros-carga {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+#btn-cargar {
+    margin-top: 28px;
+}
+
+.table {
+    font-size: 0.95rem;
+}
+
+.table thead th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.encabezado-carga th {
+    background-color: #013775 !important;
+    color: white !important;
+}
+
+.table tbody td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .filtros-carga .form-label {
+        font-size: 0.9rem;
+    }
+
+    .filtros-carga .form-control,
+    .filtros-carga .form-select,
+    .filtros-carga .btn {
+        font-size: 0.9rem;
+    }
+
+    #btn-cargar {
+        margin-top: 0;
+    }
+
+    .table thead {
+        font-size: 0.85rem;
+    }
+
+    .table tbody {
+        font-size: 0.85rem;
+    }
+}

@@ -6,6 +6,9 @@
  * Función encargada de cargar estructura de las clases y detalles.
  */
 
+import { createPaginationSystem } from "../../utils/pagination.js";
+import { notasIndividuales } from "./loadDocenteView.js";
+
 export function loadAllClasses(clasesArray) {
   const classesGrid = document.getElementById('classesGrid');
   classesGrid.innerHTML = '';
@@ -55,9 +58,8 @@ export function loadAllClasses(clasesArray) {
     classesGrid.appendChild(classCard);
   });
 }
-//Hasta Aca.
 
-/*!--<small>Periodo: ${periodo}</small><br>*/
+let pagination;
 
 export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;
@@ -68,52 +70,56 @@ export function renderClassDetail(clase, estudiantes) {
   document.getElementById('classScheduleDetail').textContent = horario;
   document.getElementById('studentsCountDetail').textContent = estudiantes.length;
 
+  if (!pagination) {
+    pagination = createPaginationSystem({
+      itemsPerPage: 12,
+      containerId: 'pagination',
+      flattenFn: (data) => data,
+      groupFn: (original, currentItems) => currentItems,
+      renderFn:  (currentItems) => renderStudentRows(currentItems, clase)
+    });
+  }
+
+  pagination.setData(estudiantes);
+  pagination.renderPage();
+}
+
+function renderStudentRows(estudiantes, clase) {
   const tbody = document.getElementById('studentsTableBody');
   tbody.innerHTML = '';
 
   estudiantes.forEach((est, index) => {
-    const calificacion = est.calificacion ?? '';
-    const estadoCursoId = est.estado_curso_id ?? '';
-    const observacion = est.observacion ?? '';
-    const existe = est.calificacion != null ? "true" : "false";
-
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${index + 1}</td>
       <td>${est.numero_cuenta}</td>
       <td>${est.nombre} ${est.apellido}</td>
       <td>
-        <input 
-          type="number" 
-          class="form-control grade-input" 
-          min="0" max="100" 
-          data-cuenta="${est.numero_cuenta}"
-          data-existe="${existe}"
-          value="${calificacion}"
-        >
+        <input type="number" class="form-control grade-input" min="0" max="100" data-cuenta="${est.numero_cuenta}">
       </td>
       <td>
         <select class="form-select estado-select">
           <option value="">---</option>
-          <option value="1" ${estadoCursoId == 1 ? 'selected' : ''}>Abandonada</option>
-          <option value="2" ${estadoCursoId == 2 ? 'selected' : ''}>Reprobada</option>
-          <option value="3" ${estadoCursoId == 3 ? 'selected' : ''}>Aprobada</option>
-          <option value="4" ${estadoCursoId == 4 ? 'selected' : ''}>Cancelada</option>
-          <option value="5" ${estadoCursoId == 5 ? 'selected' : ''}>Pendiente</option>
+          <option value="1">Abandonada</option>
+          <option value="2">Reprobada</option>
+          <option value="3">Aprobada</option>
+          <option value="4">Cancelada</option>
+          <option value="5">Pendiente</option>
         </select>
       </td>
       <td>
-        <input 
-          type="text" 
-          class="form-control obs-input" 
-          placeholder="Observación" 
-          value="${observacion}"
-        >
+        <input type="text" class="form-control obs-input" placeholder="Observación">
+      </td>
+      <td>
+      <button type="button" class="guardar-btn btn"  style="background-color: #12a9c2; color:white;" data-seccion-id="${clase.seccion.seccion_id}"> Calificar </button>
       </td>
     `;
     tbody.appendChild(row);
   });
+
+  notasIndividuales();
 }
+
 
 export function renderClassDetailStudent(clase) {
   document.getElementById('classNameDetail').textContent = clase.nombre_clase;
@@ -122,7 +128,36 @@ export function renderClassDetailStudent(clase) {
   const dias = clase.seccion.dias.nombres_dias.join(', ');
   const horario = `${dias} ${clase.seccion.hora_inicio} - ${clase.seccion.hora_fin}`;
   document.getElementById('classScheduleDetail').textContent = horario;
-  
-  // Agrega otros detalles específicos para estudiantes, por ejemplo:
+
   document.getElementById('classDescriptionDetail').textContent = clase.descripcion || "";
+
+  // Mostrar el video si existe
+  const videoContainer = document.getElementById('videoContainer');
+  if (clase.seccion.video_url) {
+    const videoId = extractYouTubeId(clase.seccion.video_url);
+    if (videoId) {
+      videoContainer.innerHTML = `
+        <div class="ratio ratio-16x9">
+          <iframe
+            src="https://www.youtube.com/embed/${videoId}"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
+        </div>
+      `;
+    } else {
+      videoContainer.innerHTML = `<p>No se pudo cargar el video.</p>`;
+    }
+  } else {
+    videoContainer.innerHTML = `<p>Esta clase no tiene video introductorio.</p>`;
+  }
 }
+
+
+function extractYouTubeId(url) {
+  const regex = /(?:youtube\.com\/.*v=|youtu\.be\/)([^&]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
+

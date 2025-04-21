@@ -1,5 +1,5 @@
 /**
- * @author estiven.mejia@unah.hn
+ * @author kency.oseguera@unah.hn
  * @version 0.0.1
  * @since 2025/03/10
  * 
@@ -55,7 +55,7 @@ const generateMenuItems = (roles) => {
     {
         items.push(
             '<a id="solicitudesCoordinadorComponent" href="coordinadores.php"><li><i class="fas fa-id-card"></i>Solicitudes</li></a>',
-            '<a id="cargaAcademicaCoordinadorComponent" href="#"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
+            '<a id="cargaAcademicaCoordinadorComponent" href="cargaCoordinador.php"><li><i class="fas fa-book"></i>Revisar Carga Academica</li></a>',
             '<a id="historialCoordiandorComponent" href="historialCoordinador.php"><li><i class="fas fa-book"></i>Revisar Historial</li></a>'
         );
     }
@@ -68,13 +68,12 @@ const generateMenuItems = (roles) => {
             );
         }
 
-
     if (roles.includes("jefe de departamento"))
         {
             items.push(
                 '<a id="clasesJefeComponent" href="clases.php"><li><i class="fas fa-id-card"></i>Clases</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>',
-                '<a id="" href=""><li><i class="fas fa-book"></i>OTRO ITEM</li></a>'
+                '<a href="docentesDepartamento.php?tipo=docente"><li><i class="fas fa-book"></i>Docentes de Departamento</li></a>',
+                '<a href="docentesDepartamento.php?tipo=estudiante"><li><i class="fas fa-book"></i>Estudiantes de Departamento</li></a>'
             );
         }
     
