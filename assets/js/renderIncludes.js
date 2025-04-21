@@ -224,6 +224,12 @@ export function renderBodyPage(namePage) {
 
         case "login.php":
             loadLoginView();
+            let roles = sessionStorage.getItem("roles");
+            if (roles.includes("estudiante"))
+            {
+                forgotPass = document.getElementById("forgotPassword");
+                forgotPass.hidden = false;
+            }
         break;
 
         case "matricula.php":

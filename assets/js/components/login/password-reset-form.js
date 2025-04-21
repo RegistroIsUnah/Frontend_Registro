@@ -1,4 +1,4 @@
-export let loginForm =
+export let passwordResetForm =
     `
     <div class="modal fade show" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="false" style="display:block;">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -16,13 +16,9 @@ export let loginForm =
                     <label for="username">Usuario</label>
                     <input type="text" class="form-control" id="username" name="username" aria-describedby="userHelp" placeholder="Ingrese su usuario">
                 </div>
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" class="form-control" id="password" placeholder="Contraseña">
-                </div>
                 <div class="modal-footer">
-                    <span href="#" class="btn btn-danger" id="forgotPassword">Olvide mi contrasena</span>
-                    <button type="submit" class="btn btn-primary">Acceder</button>
+                    <span href="#" class="btn btn-danger" id="forgotPassword">Regresar</span>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
                 </form>
                 <div class="mensaje">
