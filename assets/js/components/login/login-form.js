@@ -21,7 +21,7 @@ export let loginForm =
                     <input type="password" class="form-control" id="password" placeholder="Contraseña">
                 </div>
                 <div class="modal-footer">
-                    <span href="#" class="btn btn-danger" id="forgotPassword">Olvide mi contrasena</span>
+                   <a href="studentResetPassword.php" class="btn btn-danger">Olvidé mi contraseña</a>
                     <button type="submit" class="btn btn-primary">Acceder</button>
                 </div>
                 </form>
@@ -37,6 +37,8 @@ export let loginForm =
     </div>
 
 `;
+
+
 
 export let resetPassword = () =>
     `
